@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.uv-cache/
+raw-data/
+tau2-bench/
+*.pem
+*.key
+~$*
+.DS_Store
+Thumbs.db

@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "id": "IS5542-A01",
+  "course": "IS5542",
+  "title": "客服 Agent 与模拟评测",
+  "assignment_type": "group",
+  "board_scope": "active",
+  "group": "Group 24",
+  "my_role": "技术开发，与另一位技术成员协作",
+  "summary": "已有团队会议、外卖模拟考场方案、运行环境和超时分布统计；本地记录明确尚无 Agent 核心代码、模型调用或评测结果。场景转向待群内确认。",
+  "stage": "方案确认与工程准备",
+  "updated_at": "2026-11-07T13:58:46+08:00",
+  "reviewed_at": "2026-11-07",
+  "progress_as_of": "2026-10-31",
+  "task_scope_complete": false,
+  "next_action": {
+    "title": "确认团队是否采用外卖场景并更新技术分工，再打通最小可运行链路和首批 3 个剧本",
+    "owner": "本人",
+    "basis": "proposed"
+  },
+  "blockers": [
+    "最新制作记录为 10 月 31 日，需补本周进展",
+    "团队原选电商；本人外卖方案尚待团队确认",
+    "app/README.md 仍描述旧零售方案，与最新讨论不一致",
+    "提交入口、准确时刻和正式视频时长要求待确认"
+  ],
+  "tasks": [
+    {
+      "id": "meeting",
+      "title": "会议记录与初步分工",
+      "status": "done",
+      "owner": null,
+      "note": "不设总领；本人负责技术开发。",
+      "evidence": [
+        "meeting"
+      ]
+    },
+    {
+      "id": "environment",
+      "title": "环境准备与数据分布统计",
+      "status": "done",
+      "owner": null,
+      "note": "本地任务说明记载已通过环境检查，不等于 Agent 可运行。",
+      "evidence": [
+        "brief"
+      ]
+    },
+    {
+      "id": "scope",
+      "title": "外卖场景与评测方案的团队确认",
+      "status": "unknown",
+      "owner": null,
+      "note": "本人已选择，群内决定仍待核。",
+      "evidence": [
+        "meeting"
+      ]
+    },
+    {
+      "id": "agent",
+      "title": "领域工具与 Agent 最小可运行链路",
+      "status": "todo",
+      "owner": "技术组",
+      "note": "10 月 31 日记录尚未实现；本周状态需更新。",
+      "evidence": [
+        "app"
+      ]
+    },
+    {
+      "id": "pilot",
+      "title": "3 个剧本试跑与成本记录",
+      "status": "todo",
+      "owner": "技术组",
+      "note": "",
+      "evidence": [
+        "brief"
+      ]
+    },
+    {
+      "id": "evaluation",
+      "title": "基线比较与系统评测",
+      "status": "todo",
+      "owner": "技术 / 测试组",
+      "note": "",
+      "evidence": [
+        "brief"
+      ]
+    },
+    {
+      "id": "slides",
+      "title": "Slides 与 Demo 叙事",
+      "status": "unknown",
+      "owner": null,
+      "note": "",
+      "evidence": []
+    },
+    {
+      "id": "recording",
+      "title": "全组录像及最终检查",
+      "status": "unknown",
+      "owner": null,
+      "note": "",
+      "evidence": []
+    }
+  ],
+  "milestones": [
+    {
+      "id": "project",
+      "title": "录像与 Slides",
+      "due": "2026-11-28",
+      "precision": "date",
+      "kind": "submission",
+      "status": "unknown",
+      "channel": "提交入口待公布",
+      "evidence": [
+        "deadline-chat"
+      ]
+    }
+  ],
+  "submission": {
+    "status": "unknown",
+    "note": "本轮未核实；有 submission 文件夹不代表已经提交。",
+    "evidence": []
+  },
+  "sources": [
+    {
+      "id": "brief",
+      "kind": "local",
+      "label": "现有任务说明（仅登记入口）",
+      "locator": "notes/任务说明.md",
+      "observed_at": "2026-11-07",
+      "sha256": null
+    },
+    {
+      "id": "deadline-chat",
+      "kind": "web",
+      "label": "整理各课程作业截止时间表（已登录 Canvas 核对）",
+      "locator": "https://canvas.cityu.edu.hk/courses/71410/discussion_topics/632216",
+      "observed_at": "2026-11-07",
+      "sha256": null
+    },
+    {
+      "id": "meeting",
+      "kind": "local",
+      "label": "团队会议与决策",
+      "locator": "notes/团队会议与决策.md",
+      "observed_at": "2026-11-07",
+      "sha256": null
+    },
+    {
+      "id": "app",
+      "kind": "local",
+      "label": "当前 app 状态说明",
+      "locator": "work/app/README.md",
+      "observed_at": "2026-11-07",
+      "sha256": null
+    },
+    {
+      "id": "announcement",
+      "kind": "web",
+      "label": "Canvas 项目公告（沿用已核会话）",
+      "locator": "https://canvas.cityu.edu.hk/courses/71410/discussion_topics/632216",
+      "observed_at": "2026-11-07",
+      "sha256": null
+    }
+  ]
+}

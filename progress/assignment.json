@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "id": "IS5542-A01",
+  "course": "IS5542",
+  "title": "客服 Agent 与模拟评测",
+  "assignment_type": "group",
+  "board_scope": "active",
+  "group": "Group 24",
+  "my_role": "技术开发。拟把主要实现和部署交给有免费 Token 的技术组员",
+  "summary": "外卖方向已定，11 月 6 日组员已交商业调研与 Demo 设计。11 月 8 日本人确认沿用原有角色，有免费 Token 的技术组员可承接主要实现和前后端部署。代码交接、试跑与上线状态待核。 业务调研组员推荐 Dify，开发组员计划试用；本人倾向 LangChain／LangGraph，框架与模型待核。",
+  "stage": "商业调研已交 · 主要开发待交接",
+  "updated_at": "2026-11-08T00:13:47+08:00",
+  "reviewed_at": "2026-11-08",
+  "progress_as_of": "2026-11-06",
+  "task_scope_complete": false,
+  "next_action": {
+    "title": "交接外卖流程与验收用例，约定代码位置；用同一案例核查候选框架的订单查询和人工审批",
+    "owner": "本人／拟主做实现的技术组员",
+    "basis": "proposed"
+  },
+  "blockers": [
+    "主要开发任务待交接。代码位置、可用模型与额度、首轮运行记录及上线地址待核",
+    "模拟补偿阈值、恰好 30 分钟的口径、券额和政策负责人待对齐",
+    "提交入口、当天准确时刻、视频上限、rubric 与互评表状态待核",
+    "Dify 与 LangChain／LangGraph 尚在比较，试用结果及可用模型未核"
+  ],
+  "tasks": [
+    {
+      "id": "meeting",
+      "title": "会议记录与初步分工",
+      "status": "done",
+      "owner": null,
+      "note": "不设总领。11/08 本人确认原开发、测试、调研等角色继续沿用。",
+      "evidence": [
+        "meeting",
+        "owner-team-handoff"
+      ]
+    },
+    {
+      "id": "environment",
+      "title": "环境准备与数据分布统计",
+      "status": "done",
+      "owner": null,
+      "note": "10/31 环境和美团统计已完成；11/07 在既有固定版本环境重跑 tau2 check-data，通过的是数据目录检查。",
+      "evidence": [
+        "brief",
+        "handoff"
+      ]
+    },
+    {
+      "id": "scope",
+      "title": "确认外卖为项目主场景",
+      "status": "done",
+      "owner": null,
+      "note": "11/07 本人确认方向已定。报告沿此外卖场景续作，政策和评测细节另行确定。",
+      "evidence": [
+        "owner-direction",
+        "meeting"
+      ]
+    },
+    {
+      "id": "research",
+      "title": "商业调研与 Demo 设计稿",
+      "status": "done",
+      "owner": "业务调研成员",
+      "note": "11/06 组员交文档，核读正文、表格、9 张证据图与 8 条建议情形。",
+      "evidence": [
+        "team-report",
+        "handoff"
+      ]
+    },
+    {
+      "id": "agent",
+      "title": "领域工具与 Agent 最小可运行链路",
+      "status": "todo",
+      "owner": "技术组（拟由有免费 Token 的成员主做）",
+      "note": "11/07 本地尚无外卖 Agent 或运行证据。11/08 本人拟将主要实现和部署交接给有免费 Token 的成员，代码和实际运行状态待核。 Dify 待试用，LangChain／LangGraph 是本人偏好，主实现待定。",
+      "evidence": [
+        "app",
+        "handoff",
+        "owner-team-handoff",
+        "framework-discussion"
+      ]
+    },
+    {
+      "id": "pilot",
+      "title": "3 个剧本试跑与成本记录",
+      "status": "todo",
+      "owner": "技术组",
+      "note": "已拟 3 组开发验收案例，尚无试跑或成本记录。",
+      "evidence": [
+        "handoff"
+      ]
+    },
+    {
+      "id": "evaluation",
+      "title": "基线比较与系统评测",
+      "status": "todo",
+      "owner": "技术 / 测试组",
+      "note": "B/C 同模型、同政策、同任务做正式技术对照；人工 As-Is 只作为另外的业务参照。尚未正式评测。",
+      "evidence": [
+        "brief",
+        "handoff"
+      ]
+    },
+    {
+      "id": "slides",
+      "title": "Slides 与 Demo 叙事",
+      "status": "unknown",
+      "owner": null,
+      "note": "",
+      "evidence": []
+    },
+    {
+      "id": "recording",
+      "title": "全组录像及最终检查",
+      "status": "unknown",
+      "owner": null,
+      "note": "",
+      "evidence": []
+    }
+  ],
+  "milestones": [
+    {
+      "id": "project",
+      "title": "录像与 Slides",
+      "due": "2026-11-28",
+      "precision": "date",
+      "kind": "submission",
+      "status": "unknown",
+      "channel": "提交入口待公布",
+      "evidence": [
+        "deadline-chat"
+      ]
+    }
+  ],
+  "submission": {
+    "status": "unknown",
+    "note": "沿用待核。本轮核查调研稿与本地工程，没有重新核对 Canvas 提交回执。",
+    "evidence": []
+  },
+  "sources": [
+    {
+      "id": "brief",
+      "kind": "local",
+      "label": "A01 当前任务说明",
+      "locator": "notes/任务说明.md",
+      "observed_at": "2026-11-08",
+      "sha256": "5c60324652dfdde020048317929cc0185593e036076c0b5d95c7c3dfc5a1820e"
+    },
+    {
+      "id": "deadline-chat",
+      "kind": "web",
+      "label": "整理各课程作业截止时间表（已登录 Canvas 核对）",
+      "locator": "https://canvas.cityu.edu.hk/courses/71410/discussion_topics/632216",
+      "observed_at": "2026-11-07",
+      "sha256": null
+    },
+    {
+      "id": "meeting",
+      "kind": "local",
+      "label": "团队会议历史与本人方向确认",
+      "locator": "notes/团队会议与决策.md",
+      "observed_at": "2026-11-08",
+      "sha256": "32f5b852db166f74a69714f8ac3a6748252b402a68204c585b90486c6b53b726"
+    },
+    {
+      "id": "app",
+      "kind": "local",
+      "label": "外卖 app 本地环境与状态说明",
+      "locator": "work/app/README.md",
+      "observed_at": "2026-11-07",
+      "sha256": "a33766abb5fcf92a18d6208c0c46c71b5e2e434b01ec287328f585300f3a7d24"
+    },
+    {
+      "id": "announcement",
+      "kind": "web",
+      "label": "Canvas 项目公告（沿用已核会话）",
+      "locator": "https://canvas.cityu.edu.hk/courses/71410/discussion_topics/632216",
+      "observed_at": "2026-11-07",
+      "sha256": null
+    },
+    {
+      "id": "owner-direction",
+      "kind": "team_note",
+      "label": "本人于 11/07 确认外卖方案已定",
+      "locator": "notes/supervision-report.md",
+      "observed_at": "2026-11-07",
+      "sha256": null
+    },
+    {
+      "id": "team-report",
+      "kind": "local",
+      "label": "11/06 组员商业调研与 Demo 设计原件",
+      "locator": "work/team-private/FoodDelivery_Agent_Report.docx",
+      "observed_at": "2026-11-07",
+      "sha256": "5cefb330ad2eeedae82ff8741f538a6d336126147a028808c127984fedd281da"
+    },
+    {
+      "id": "handoff",
+      "kind": "local",
+      "label": "组员续作核查与开发交接（脱敏）",
+      "locator": "notes/supervision-report.md",
+      "observed_at": "2026-11-08",
+      "sha256": "7f0f69831a6197a4aa139dd424b8d09806777bcb384fd66cb55ac89efa725e78"
+    },
+    {
+      "id": "owner-team-handoff",
+      "kind": "team_note",
+      "label": "11/08 本人确认原角色沿用及开发部署交接方向",
+      "locator": "notes/supervision-report.md",
+      "observed_at": "2026-11-08",
+      "sha256": null
+    },
+    {
+      "id": "framework-discussion",
+      "kind": "team_note",
+      "label": "11/08 本人补充框架讨论与群聊（Dify 试用计划）",
+      "locator": "notes/supervision-report.md",
+      "observed_at": "2026-11-08",
+      "sha256": null
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "assignment_id": "IS5542-A01",
+  "status": "waiting_user",
+  "updated_at": "2026-11-08T00:13:46+08:00",
+  "summary": "外卖和原分工已定，主要实现与部署拟交接。Dify 待试用，本人倾向 LangChain／LangGraph 并希望实作。主框架未定，补偿档位仍待决定。",
+  "report_path": "notes/supervision-report.md",
+  "decisions": [
+    {
+      "id": "IS5542-D01",
+      "question": "第一版模拟补偿政策采用哪种档位？",
+      "recommendation": "建议采用单档：已送达且超过 30 分钟，拟 ¥10 券，须人工批准。与组员 Demo 相符，能先验证待审与批准状态。",
+      "options": [
+        "单档，超过 30 分钟，拟 ¥10 券",
+        "单档，满 30 分钟，拟 ¥10 券",
+        "20/30 分钟两档，先补齐各档金额与边界"
+      ],
+      "status": "pending",
+      "answer": null,
+      "answer_source": null
+    },
+    {
+      "id": "IS5542-D02",
+      "question": "转向外卖后是否调整分工，主要开发与部署拟如何交接？",
+      "recommendation": "沿用原角色，由有免费 Token 的技术组员承接主要实现和部署，本人在技术组协作。",
+      "options": [],
+      "status": "decided",
+      "answer": "原分工继续沿用。组内有免费 Token 的成员可负责可上线前后端，拟交接大部分开发任务。实际交接与上线状态待核。",
+      "answer_source": "2026-11-08 技术组成员确认，见团队会议与决策"
+    }
+  ]
+}

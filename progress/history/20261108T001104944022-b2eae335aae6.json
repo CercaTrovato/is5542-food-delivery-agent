@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "id": "IS5542-A01",
+  "course": "IS5542",
+  "title": "客服 Agent 与模拟评测",
+  "assignment_type": "group",
+  "board_scope": "active",
+  "group": "Group 24",
+  "my_role": "技术开发，与另一位技术成员协作",
+  "summary": "外卖客服方向已由本人确认。11 月 6 日组员交付商业调研与 Demo 设计（9 张界面图、8 条业务测试情形）。已核 τ-bench 数据目录可用。现有工程没有外卖领域、Agent 调用或评测结果，待最小链路和三组试跑。",
+  "stage": "商业调研与 Demo 设计已核 · 开发准备",
+  "updated_at": "2026-11-07T14:38:14+08:00",
+  "reviewed_at": "2026-11-07",
+  "progress_as_of": "2026-11-06",
+  "task_scope_complete": false,
+  "next_action": {
+    "title": "核对技术成员手中的代码，先打通模拟订单查询、规则判断、审批与状态回显，再跑 3 组开发用例",
+    "owner": "本人／技术组",
+    "basis": "proposed"
+  },
+  "blockers": [
+    "技术组现有代码位置、接口分工与首轮可复现运行记录待交接",
+    "模拟补偿阈值、恰好 30 分钟的口径、券额和政策负责人待对齐",
+    "提交入口、当天准确时刻、视频上限、rubric 与互评表状态待核"
+  ],
+  "tasks": [
+    {
+      "id": "meeting",
+      "title": "会议记录与初步分工",
+      "status": "done",
+      "owner": null,
+      "note": "不设总领；本人负责技术开发。",
+      "evidence": [
+        "meeting"
+      ]
+    },
+    {
+      "id": "environment",
+      "title": "环境准备与数据分布统计",
+      "status": "done",
+      "owner": null,
+      "note": "10/31 环境和美团统计已完成；11/07 在既有固定版本环境重跑 tau2 check-data，通过的是数据目录检查。",
+      "evidence": [
+        "brief",
+        "handoff"
+      ]
+    },
+    {
+      "id": "scope",
+      "title": "确认外卖为项目主场景",
+      "status": "done",
+      "owner": null,
+      "note": "11/07 本人确认方向已定。报告沿此外卖场景续作，政策和评测细节另行确定。",
+      "evidence": [
+        "owner-direction",
+        "meeting"
+      ]
+    },
+    {
+      "id": "research",
+      "title": "商业调研与 Demo 设计稿",
+      "status": "done",
+      "owner": "业务调研成员",
+      "note": "11/06 组员交文档，核读正文、表格、9 张证据图与 8 条建议情形。",
+      "evidence": [
+        "team-report",
+        "handoff"
+      ]
+    },
+    {
+      "id": "agent",
+      "title": "领域工具与 Agent 最小可运行链路",
+      "status": "todo",
+      "owner": "技术组",
+      "note": "11/07 核对本地项目与固定版本框架，外卖领域、Agent 代码及模型调用无可验证证据。向另一位技术成员对齐代码位置。",
+      "evidence": [
+        "app",
+        "handoff"
+      ]
+    },
+    {
+      "id": "pilot",
+      "title": "3 个剧本试跑与成本记录",
+      "status": "todo",
+      "owner": "技术组",
+      "note": "已拟 3 组开发验收案例，尚无试跑或成本记录。",
+      "evidence": [
+        "handoff"
+      ]
+    },
+    {
+      "id": "evaluation",
+      "title": "基线比较与系统评测",
+      "status": "todo",
+      "owner": "技术 / 测试组",
+      "note": "B/C 同模型、同政策、同任务做正式技术对照；人工 As-Is 只作为另外的业务参照。尚未正式评测。",
+      "evidence": [
+        "brief",
+        "handoff"
+      ]
+    },
+    {
+      "id": "slides",
+      "title": "Slides 与 Demo 叙事",
+      "status": "unknown",
+      "owner": null,
+      "note": "",
+      "evidence": []
+    },
+    {
+      "id": "recording",
+      "title": "全组录像及最终检查",
+      "status": "unknown",
+      "owner": null,
+      "note": "",
+      "evidence": []
+    }
+  ],
+  "milestones": [
+    {
+      "id": "project",
+      "title": "录像与 Slides",
+      "due": "2026-11-28",
+      "precision": "date",
+      "kind": "submission",
+      "status": "unknown",
+      "channel": "提交入口待公布",
+      "evidence": [
+        "deadline-chat"
+      ]
+    }
+  ],
+  "submission": {
+    "status": "unknown",
+    "note": "沿用待核。本轮核查调研稿与本地工程，没有重新核对 Canvas 提交回执。",
+    "evidence": []
+  },
+  "sources": [
+    {
+      "id": "brief",
+      "kind": "local",
+      "label": "A01 当前任务说明",
+      "locator": "notes/任务说明.md",
+      "observed_at": "2026-11-07",
+      "sha256": null
+    },
+    {
+      "id": "deadline-chat",
+      "kind": "web",
+      "label": "整理各课程作业截止时间表（已登录 Canvas 核对）",
+      "locator": "https://canvas.cityu.edu.hk/courses/71410/discussion_topics/632216",
+      "observed_at": "2026-11-07",
+      "sha256": null
+    },
+    {
+      "id": "meeting",
+      "kind": "local",
+      "label": "团队会议历史与本人方向确认",
+      "locator": "notes/团队会议与决策.md",
+      "observed_at": "2026-11-07",
+      "sha256": null
+    },
+    {
+      "id": "app",
+      "kind": "local",
+      "label": "外卖 app 本地环境与状态说明",
+      "locator": "work/app/README.md",
+      "observed_at": "2026-11-07",
+      "sha256": null
+    },
+    {
+      "id": "announcement",
+      "kind": "web",
+      "label": "Canvas 项目公告（沿用已核会话）",
+      "locator": "https://canvas.cityu.edu.hk/courses/71410/discussion_topics/632216",
+      "observed_at": "2026-11-07",
+      "sha256": null
+    },
+    {
+      "id": "owner-direction",
+      "kind": "team_note",
+      "label": "本人于 11/07 确认外卖方案已定",
+      "locator": "notes/supervision-report.md",
+      "observed_at": "2026-11-07",
+      "sha256": null
+    },
+    {
+      "id": "team-report",
+      "kind": "local",
+      "label": "11/06 组员商业调研与 Demo 设计原件",
+      "locator": "work/team-private/FoodDelivery_Agent_Report.docx",
+      "observed_at": "2026-11-07",
+      "sha256": "5cefb330ad2eeedae82ff8741f538a6d336126147a028808c127984fedd281da"
+    },
+    {
+      "id": "handoff",
+      "kind": "local",
+      "label": "组员续作核查与开发交接（脱敏）",
+      "locator": "notes/supervision-report.md",
+      "observed_at": "2026-11-07",
+      "sha256": null
+    }
+  ]
+}
