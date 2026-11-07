@@ -1,0 +1,12 @@
+{
+  "dependencies": [
+    "langgraph==1.2.19",
+    "langchain==1.4.9",
+    "langchain-openai==1.7.4"
+  ],
+  "graphs": {
+    "ord001": "./ord001_graph.py:studio_graph",
+    "ord001_lookup": "./ord001_langchain.py:build_studio_lookup",
+    "ord001_compensation": "./ord001_compensation.py:build_studio_compensation"
+  }
+}
