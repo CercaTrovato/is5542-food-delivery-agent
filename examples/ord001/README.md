@@ -2,6 +2,8 @@
 
 这个原型给 IS5542 Group 24 提供一份可重跑的流程。团队首版采用 LangChain／LangGraph，补偿政策待确认。示例中的规则仅用于对照验收。已送达且超过 30 分钟时，程序拟 ¥10 券，交人工审批。
 
+项目当前安排和团队交件见 [当前方案与进度](../../notes/current-plan.md)。
+
 ## 启动 Studio
 
 在仓库根目录打开 PowerShell。需要 Git、uv 和 Python 3.12，首次运行时 uv 会准备依赖。
