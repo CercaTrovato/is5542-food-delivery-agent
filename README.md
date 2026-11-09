@@ -4,18 +4,16 @@ Group 24 的私有协作仓库。项目做已送达订单的延误补偿咨询�
 
 ## 首轮实名分工
 
-组员打开对应任务卡即可开始。成员称呼与角色沿用 [10 月 26 日会议原件](work/team-private/2026-10-26-会议纪录摘要.pdf)，11 月 8 日本人确认原角色沿用。表里的细任务、交件和日期为首轮建议，日期按香港时间安排。
+以下姓名或组内称呼及角色来自 11 月 9 日小组提供的现行分工。点自己的名字打开任务卡。表里的细任务、交件和日期为首轮建议，日期按香港时间。
 
-| 成员 | 角色依据与确认状态 | 首轮具体任务 | 交件与接收人 | 建议期限 |
+| 成员 | 已确认角色 | 首轮具体任务 | 交件与接收人 | 建议期限 |
 |---|---|---|---|---|
-| [霜](notes/team/shuang.md) | 业务调研 | 从现有报告整理一页模拟补偿政策草案，列出规则来源、待定字段和用户文案。 | `work/spec/compensation-policy.md` → 李宗谦、75% 和高铠宏 | 11 月 11 日 |
-| [75%](notes/team/tech-baseline.md) | 技术开发与 baseline | 重跑参考原型，约定查单和审批状态字段，给出同案基线 B 的运行口径。 | `work/eval/baseline-b.md`，如有可运行代码可附分支 → 李宗谦、高铠宏 | 11 月 11 日 |
-| [李宗谦](notes/team/li-zongqian.md) | 技术开发与模型资源 | 交一个可重跑的 LangChain／LangGraph 首版分支和启动说明，再推进网页和部署。 | 首版代码分支及启动说明 → 75%、高铠宏、arthhjm | 11 月 12 日 |
-| [高铠宏](notes/team/gao-kaihong.md) | 测试验证 | 用技术组首版验证 P01–P03，记录预期、实际结果和可复现缺陷。 | `work/eval/pilot-results.md` → 李宗谦、75%、arthhjm | 11 月 13 日 |
-| [arthhjm](notes/team/arthhjm.md) | 原件记载测试验证与协调，细分待确认 | 建一张首轮验收与交接表，核对每项依赖、接收人和缺口。 | `work/eval/acceptance-matrix.md` → 高铠宏、林敬凯和技术组 | 11 月 11 日 |
-| [林敬凯](notes/team/lin-jingkai.md) | 原件记载调研与测试，细分待确认 | 把报告中的缺订单号和订单归属冲突整理成可供测试组复用的 P03 场景草案。 | `work/eval/p03-scenario.md` → 高铠宏、arthhjm、李宗谦 | 11 月 11 日 |
-
-**待确认的分界。** 会议原件对 arthhjm 与林敬凯之间的调研／测试分担写法有差异。两人可先按各自卡片整理验收矩阵和 P03 场景，谁执行哪组测试待双方对齐。组聊中 Jacky 发出调研报告，现有资料尚未把 Jacky 与会议称呼直接对应。
+| [李宗谦](notes/team/li-zongqian.md) | 开发侧 | 交可重跑的 LangChain／LangGraph 首版分支和启动说明。 | 首版代码分支与启动说明 → 李宾雄、gaga老师、A | 11 月 12 日 |
+| [李宾雄](notes/team/li-binxiong.md) | 工程／baseline 侧 | 对齐订单、工单和审批字段，给出可复现的基线 B。 | `work/eval/baseline-b.md` 或基线分支 → 李宗谦、gaga老师、A | 11 月 11 日 |
+| [Jacky](notes/team/jacky-research.md) | 业务调研侧 | 把业务报告整理成首版补偿政策草案和需求说明。 | `work/spec/compensation-policy.md` → 李宗谦、李宾雄、gaga老师、A | 11 月 11 日 |
+| [林](notes/team/lin-research.md) | 业务调研 | 整理竞品证据和用户场景，给政策与用例提供可追溯输入。 | `work/spec/competitor-evidence.md` → Jacky、gaga老师、A | 11 月 11 日 |
+| [gaga老师](notes/team/gaga-test.md) | 测试侧 | 验收 P01 主链路，记录待审、批准和驳回是否正确。 | `work/eval/p01-functional.md` → 李宗谦、李宾雄、A | 11 月 13 日 |
+| [A](notes/team/a-test.md) | 测试侧 | 验收 P02／P03 的阈值边界、缺单和订单归属失败。 | `work/eval/p02-p03-edge-cases.md` → 李宗谦、李宾雄、gaga老师 | 11 月 13 日 |
 
 首版采用 **LangChain／LangGraph**。补偿政策待确认，开发先用可替换的演示参数跑通流程。首轮日期用于排协作，课程交付日期见下方。
 
