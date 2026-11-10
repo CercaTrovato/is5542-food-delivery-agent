@@ -1,0 +1,62 @@
+{
+  "checked_at": "2026-11-10T16:21:15+08:00",
+  "base": "http://127.0.0.1:8027",
+  "model": "openai:deepseek-flash",
+  "mode": "real provider via local HTTP",
+  "results": [
+    {
+      "case": "身份问候直接回应，不机械索要订单号",
+      "status": "passed"
+    },
+    {
+      "case": "多轮对话保留上下文",
+      "status": "passed"
+    },
+    {
+      "case": "只查订单不触发补偿确认",
+      "status": "passed",
+      "late_seconds": 1801
+    },
+    {
+      "case": "当前步骤",
+      "status": "failed",
+      "error": "AssertionError: "
+    }
+  ],
+  "turns": [
+    {
+      "user": "你好，请问您是？",
+      "assistant": "你好，我是配送关怀的 AI 客服，可以帮你查询订单配送进度、了解延误补偿条件，以及查看补偿申请的处理进度。你想查哪方面呢？",
+      "outcome": "not_selected",
+      "latency_ms": 1333
+    },
+    {
+      "user": "请叫我小林。我先了解一下，你可以帮我做什么？现在不要查订单。",
+      "assistant": "好的小林，我先不查订单。我能帮你做三件事：查询订单的配送进度和送达时间、说明延误补偿的条件、查看补偿申请的处理进度。需要时告诉我订单号就行。",
+      "outcome": "not_selected",
+      "latency_ms": 1105
+    },
+    {
+      "user": "我刚刚请你怎么称呼我？",
+      "assistant": "你让我叫你小林。",
+      "outcome": "not_selected",
+      "latency_ms": 834
+    },
+    {
+      "user": "请只查询 ORD005 的送达时间和晚到多久，不要申请补偿。",
+      "assistant": "ORD005 预计 18:00，实际 18:30:01，晚到 30 分钟 1 秒。",
+      "outcome": "order_queried",
+      "latency_ms": 1046
+    },
+    {
+      "user": "那这笔订单可以申请延误补偿吗？",
+      "assistant": "按刚才的查询，ORD005 晚到 30 分钟 1 秒，超过 30 分钟的门槛，符合演示补偿券的申请条件，金额为 10 元。需要你在页面上确认后才会提交，由商家审核决定是否通过。要现在去确认申请吗？",
+      "outcome": "not_selected",
+      "latency_ms": 1580
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 1
+  }
+}

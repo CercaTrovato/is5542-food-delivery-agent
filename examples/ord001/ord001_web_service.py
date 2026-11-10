@@ -7,7 +7,10 @@ import threading
 import time
 from collections import defaultdict, deque
 from dataclasses import asdict
+from pathlib import Path
+from urllib.parse import urlsplit
 
+from openai import APIConnectionError, APIStatusError
 from langchain.chat_models import init_chat_model
 from langchain_core.messages import AIMessage, HumanMessage
 from langgraph.checkpoint.memory import InMemorySaver
@@ -30,10 +33,29 @@ class ServiceError(Exception):
         self.status, self.code, self.message = status, code, message
 
 
-def default_model():
+def default_model(config_path=None):
+    config_path = config_path or os.getenv("ORD001_MODEL_CONFIG")
+    if config_path:
+        config = json.loads(Path(config_path).expanduser().read_text(encoding="utf-8"))
+        if not isinstance(config, dict) or any(
+            not isinstance(config.get(key), str) or not config[key].strip()
+            for key in ("model", "base_url", "api_key")
+        ):
+            raise ValueError("模型配置须包含 model、base_url、api_key 三个非空文本字段。")
+        base = urlsplit(config["base_url"])
+        if base.scheme != "https" or not base.hostname or base.username or base.password or base.query or base.fragment:
+            raise ValueError("模型 base_url 必须是 HTTPS 服务地址，不能包含凭据、查询参数或片段。")
+        options = {
+            "model_provider": "openai", "model": config["model"].strip(),
+            "base_url": config["base_url"].rstrip("/"), "api_key": config["api_key"].strip(),
+            "temperature": 0.4, "max_tokens": 800, "timeout": 30, "max_retries": 0,
+        }
+        if base.hostname == "api.deepseek.com":
+            options["extra_body"] = {"thinking": {"type": "disabled"}}
+        return init_chat_model(**options), f"openai:{options['model']}"
     model_id = os.getenv("ORD001_CHAT_MODEL")
     if model_id:
-        return init_chat_model(model_id), model_id
+        return init_chat_model(model_id, timeout=30, max_retries=0), model_id
     return ScriptedOrderModel(), "ord001-scripted-model"
 
 
@@ -82,9 +104,10 @@ def customer_copy(ticket: dict) -> dict:
 class DemoService:
     """Customer turns, confirmations and reviews. Identity always comes from the caller's server session."""
 
-    def __init__(self, *, model=None, model_label=None, data=None, policy=None, db_path=":memory:"):
+    def __init__(self, *, model=None, model_label=None, model_config_path=None,
+                 data=None, policy=None, db_path=":memory:"):
         if model is None:
-            model, model_label = default_model()
+            model, model_label = default_model(model_config_path)
         self.model = model
         self.model_label = model_label or getattr(model, "_llm_type", type(model).__name__)
         self.data = data or DemoData()
@@ -106,6 +129,7 @@ class DemoService:
             "data_version": self.data.version,
             "service_date": self.data.service_date,
             "model": self.model_label,
+            "model_mode": "scripted" if isinstance(self.model, ScriptedOrderModel) else "live",
             "customers": list(self.data.customers.values()),
             "reviewers": list(self.data.reviewers.values()),
         }
@@ -155,7 +179,22 @@ class DemoService:
         before = len((snapshot.values or {}).get("messages", []))
         waiting = first_request(snapshot.interrupts, "confirm_submission")
         started = time.perf_counter()
-        result = self.customer_graph.invoke(payload, config, context=CustomerContext(customer_id))
+        try:
+            result = self.customer_graph.invoke(payload, config, context=CustomerContext(customer_id))
+        except APIStatusError as exc:
+            self._record(event="model_error", outcome="provider_error", http_status=exc.status_code)
+            if exc.status_code in (401, 403):
+                message = "客服暂时无法连接，请稍后重试。管理员需检查模型服务配置。"
+            elif exc.status_code == 402:
+                message = "客服暂时无法连接，请稍后重试。管理员需检查模型账户余额。"
+            elif exc.status_code == 429:
+                message = "客服当前繁忙，请稍后再试。你的输入已保留。"
+            else:
+                message = "客服服务暂时不可用，请稍后重试。你的输入已保留。"
+            raise ServiceError(503, "model_unavailable", message) from None
+        except APIConnectionError:
+            self._record(event="model_error", outcome="connection_error")
+            raise ServiceError(503, "model_unavailable", "客服连接超时或中断，请重试。你的输入已保留。") from None
         latency_ms = round((time.perf_counter() - started) * 1000)
         new_messages = result.get("messages", [])[before:]
         ticket = self.store.get(result["ticket_id"]) if result.get("ticket_id") else None

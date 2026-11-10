@@ -280,6 +280,7 @@ def main():
     parser.add_argument("--port", type=int, default=8024)
     parser.add_argument("--db", default=":memory:", help="工单 SQLite 文件。默认只放内存，重启即清空")
     parser.add_argument("--log-file", help="把每轮运行记录按 JSON 行追加到这个文件")
+    parser.add_argument("--model-config", help="本机私有模型 JSON 配置路径；不要把含密钥的文件放进仓库")
     args = parser.parse_args()
 
     import uvicorn
@@ -289,7 +290,7 @@ def main():
     run_log.setLevel(logging.INFO)
     if args.log_file:
         run_log.addHandler(logging.FileHandler(args.log_file, encoding="utf-8"))
-    service = DemoService(db_path=args.db)
+    service = DemoService(db_path=args.db, model_config_path=args.model_config)
     policy = service.policy
     local = args.host in LOCAL_HOSTS
     base = f"http://{args.host}:{args.port}"

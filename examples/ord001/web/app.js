@@ -135,6 +135,7 @@ function renderMeta(info) {
   $("policy-details").replaceChildren(...factRows([
     ["规则版本", policy.version], ["申请条件", `已送达且${rule}`],
     ["建议补偿", `¥${policy.coupon_yuan} 模拟券，人工审核后发放`],
+    ["对话模式", info.model_mode === "live" ? "在线模型" : "固定脚本"],
     ["模型", info.model], ["订单版本", info.data_version], ["模拟日期", info.service_date],
   ]));
   if ($("guide-policy")) $("guide-policy").textContent = `已送达，${rule}可申请`;

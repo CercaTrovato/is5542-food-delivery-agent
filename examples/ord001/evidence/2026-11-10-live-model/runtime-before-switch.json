@@ -1,0 +1,34 @@
+{
+  "tickets": [
+    {
+      "ticket_id": "T0001",
+      "customer_id": "U001",
+      "order_id": "ORD001",
+      "policy_version": "demo-v1",
+      "expected_at": "18:00",
+      "delivered_at": "18:50",
+      "late_seconds": 3000,
+      "proposed_coupon_yuan": 10,
+      "status": "pending",
+      "coupon_issued_yuan": null,
+      "created_at": "2026-11-10T15:49:43+08:00",
+      "decided_at": null,
+      "reviewer_id": null,
+      "review_note": null,
+      "information_request": null,
+      "customer_information": null,
+      "information_requested_at": null,
+      "information_submitted_at": null
+    }
+  ],
+  "events": [
+    {
+      "event_id": 17,
+      "ticket_id": "T0001",
+      "at": "2026-11-10T15:49:43+08:00",
+      "actor": "customer:U001",
+      "action": "submitted",
+      "note": null
+    }
+  ]
+}

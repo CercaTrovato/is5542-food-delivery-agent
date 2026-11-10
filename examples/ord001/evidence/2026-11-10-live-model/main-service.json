@@ -1,0 +1,10 @@
+{
+  "base": "http://127.0.0.1:8024",
+  "model": "openai:deepseek-flash",
+  "model_mode": "live",
+  "actual_greeting": "你好，我是配送关怀客服，可以帮你查询订单配送进度、了解延误补偿条件，以及查看补偿申请的处理进度。有需要查的订单，把订单号告诉我就行。",
+  "latency_ms": 1544,
+  "runtime_records_preserved": true,
+  "ticket_count": 1,
+  "event_count": 1
+}

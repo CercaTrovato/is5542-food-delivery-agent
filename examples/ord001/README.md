@@ -127,13 +127,67 @@ uv run --no-project --python 3.12 examples/ord001/ord001_followup_check.py --jso
 
 脚本失败时退出码为 1，成功为 0。它仅接受 `--json` 输出路径，不使用 `--base-url`。本轮 [补资料专项 6 组结果](evidence/2026-11-10-product/followup-results.json)、[基础接口 12 项结果](evidence/2026-11-10-product/api-inprocess.md) 和 [真实端口 12 项结果](evidence/2026-11-10-product/api-live.md) 均为开发验证，组员复核另行记录。
 
+### 接入真实模型
+
+不传模型配置时仍使用固定脚本，便于离线复跑。传入 `--model-config` 后，对话会实际调用配置的 OpenAI 兼容 API；DeepSeek 官方接入已使用 `deepseek-flash` 实测。模型负责理解问题、承接上下文和选择查单用途；订单事实、申请资格、确认、审批及券额继续由服务端控制。只查询配送事实不打开申请确认卡。
+
+实际密钥保存在仓库外，勿放进网页、Git、截图或交付包。配置模板为 [model-config.example.json](model-config.example.json)。Mac 从仓库根目录执行一次：
+
+~~~bash
+mkdir -p "$HOME/.config/ord001"
+chmod 700 "$HOME/.config/ord001"
+cp -n examples/ord001/model-config.example.json "$HOME/.config/ord001/model.json"
+chmod 600 "$HOME/.config/ord001/model.json"
+open -e "$HOME/.config/ord001/model.json"
+~~~
+
+在本机编辑器填写自己的密钥，完整配置结构：
+
+~~~json
+{
+  "model": "deepseek-flash",
+  "base_url": "https://api.deepseek.com",
+  "api_key": "填写自己的 API 密钥"
+}
+~~~
+
+保存后启动：
+
+~~~bash
+export UV_PYTHON_INSTALL_DIR="$HOME/.uv/python"
+export LANGSMITH_TRACING=false
+export LANGCHAIN_TRACING_V2=false
+uv run --no-project --python 3.12 examples/ord001/ord001_web.py \
+  --host 127.0.0.1 --port 8024 --db "$PWD/ord001-demo.sqlite3" \
+  --model-config "$HOME/.config/ord001/model.json"
+~~~
+
+也可用环境变量 `ORD001_MODEL_CONFIG` 指定私有配置路径。接口超时、限流、凭据无效或余额不足时返回明确错误，前端保留输入；不会自动切回脚本冒充真实模型。DeepSeek 使用非思考模式，服务端请求超时 30 秒。健康接口中的 `model_mode` 应为 `live`，模型为 `openai:deepseek-flash`；页面「演示」说明显示在线模型，不显示密钥或私有路径。
+
+真实调用会产生提供商费用。复跑模型流程需使用独立端口、空模拟库，并使用同一私有模型配置启动该服务。下述检查会创建和审批模拟申请，**不会清空数据**，不要对正在手动演示的端口运行：
+
+~~~bash
+python3 -I examples/ord001/ord001_live_check.py \
+  --base-url http://127.0.0.1:8027 --json /tmp/ord001-live-api.json
+~~~
+
+无网络的模型错误与保密检查：
+
+~~~bash
+export UV_PYTHON_INSTALL_DIR="$HOME/.uv/python"
+uv run --no-project --python 3.12 examples/ord001/ord001_model_check.py \
+  --json /tmp/ord001-model-errors.json
+~~~
+
+接入实测和当前边界见 [真实模型接入记录](../../notes/team/ord001-live-model-2026-11-10.md)。此前固定脚本的证据仍保留在原目录，不作为真实模型证据。
+
 ### 本轮范围与文件
 
 - 顾客确认和人工审批均使用 LangGraph interrupt / resume。身份与订单归属由服务端校验，工单由 SQLite 保存，同一订单和规则版本最多一张。
 - 商家可批准、拒绝或要求补充资料。要求补充时必须填写说明，工单进入 `needs_info`；仅订单本人可以补充，同一工单回到 `pending` 后再审。每轮提问与补充保留历史，补资料不改订单时间、规则版本和建议券额，批准前不发券。订单本身缺少送达事实时仍不能直接提交申请。
 - 原 Studio 图仍用 ord001_graph.py 中只接收 HH:MM、硬编码 >30 分钟／¥10 的旧判断。新网页调用共享 ord001_policy.py，支持秒级边界和规则配置；本轮 30:01 结果来自网页图，Studio 对照只覆盖 50 分钟和 30／31 分钟，两套图尚未统一规则模块。
 - 上述启动命令用仓库根目录的 `ord001-demo.sqlite3` 保存工单、补资料记录与事件，重启后可重新登录查看并继续处理。直接启动脚本但省略 `--db` 时，工单默认保存在内存；浏览器登录、聊天和图检查点始终不跨重启保留。运行库不纳入 Git 或交付 ZIP。可选 `--log-file /绝对路径/runs.jsonl` 追加运行记录。
-- 模拟登录没有密码，仅用于本机演示。正式团队模型、正式规则、线上身份认证与部署待后续对齐。本轮没有开展正式 B/C 模型对照。
+- 模拟登录没有密码，仅用于本机演示。个人演示可通过私有配置接入真实模型；团队统一模型、正式规则、线上身份认证与部署仍待对齐。本轮没有开展正式 B/C 模型对照。
 - 入口：[ord001_web.py](ord001_web.py)；图：[ord001_web_graphs.py](ord001_web_graphs.py)；服务：[ord001_web_service.py](ord001_web_service.py)；工单：[ord001_web_store.py](ord001_web_store.py)；基础验收：[ord001_web_check.py](ord001_web_check.py)；补资料专项：[ord001_followup_check.py](ord001_followup_check.py)。
 
 按 **Ctrl+C** 停止网页服务。原 Studio 运行方式如下，端口仍为 2024。
