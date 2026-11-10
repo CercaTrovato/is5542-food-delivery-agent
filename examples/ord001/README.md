@@ -181,13 +181,43 @@ uv run --no-project --python 3.12 examples/ord001/ord001_model_check.py \
 
 接入实测和当前边界见 [真实模型接入记录](../../notes/team/ord001-live-model-2026-11-10.md)。此前固定脚本的证据仍保留在原目录，不作为真实模型证据。
 
+### 组内共享：Surge 固定入口
+
+- 顾客入口：<https://ord001-group24.surge.sh/>；商家入口：<https://ord001-group24.surge.sh/review>。
+- 两个入口会跳转到带小组口令的 HTTPS 演示页面。口令由演示负责人单独提供，仓库不保存口令。进入后仍选择模拟身份 U001 / U002 / R001。
+- Surge 托管固定入口。真实网页和 Python / LangGraph / DeepSeek 后端在演示电脑上运行，通过临时 Cloudflare 通道访问。电脑关机、睡眠或服务停止后，后端无法访问；通道重启更换地址时须重新发布 Surge 入口。
+- 组员通过后端共用演示负责人配置的模型；无须获得其 API 密钥。订单与券继续使用模拟数据，模型请求会消耗负责人的提供商额度。
+- 新增独立入口 [ord001_share.py](ord001_share.py)，只监听本机 8028，转发到原 8024；原服务、数据库和 Studio 2024 无须更改。
+- 共享会话八小时有效，口令尝试每分钟最多 30 次；全组聊天请求每分钟最多 20 次、最多同时两条，超限明确返回 429。请求体最多 16 KiB。
+- 共享入口检查公开 Host 与同源 Origin、使用 Secure / HttpOnly / SameSite Cookie，并禁止清空整个模拟库。小组口令只保护组内演示，模拟身份选择不能替代正式顾客或商家账号系统。
+
+维护时，先确保原 8024 真实模型服务已经启动，且没有另一个 8028 共享入口。当前通道对应的网关启动命令如下（通道重启后需把 `--public-host` 改为新的主机名）：
+
+~~~bash
+export UV_PYTHON_INSTALL_DIR="$HOME/.uv/python"
+uv run --no-project --python 3.12 examples/ord001/ord001_share.py \
+  --public-host studios-diamonds-qualifying-affects.trycloudflare.com \
+  --password-file "$HOME/.config/ord001/share-password.txt" \
+  --upstream http://127.0.0.1:8024 --port 8028
+~~~
+
+共享层检查在独立模拟服务内运行，不调用真实模型、不重置当前演示库：
+
+~~~bash
+export UV_PYTHON_INSTALL_DIR="$HOME/.uv/python"
+uv run --no-project --python 3.12 examples/ord001/ord001_share_check.py \
+  --json /tmp/ord001-share-check.json
+~~~
+
+公网浏览器检查 [ui-check/share.cjs](ui-check/share.cjs) 从私有文件读取访问口令，不把口令写进日志。它会实际调用一次真实模型、读取当前工单，并验证共享入口拒绝清空数据；不会新增或审批工单。启动和实测记录见 [共享上线记录](../../notes/team/ord001-share-2026-11-10.md)。
+
 ### 本轮范围与文件
 
 - 顾客确认和人工审批均使用 LangGraph interrupt / resume。身份与订单归属由服务端校验，工单由 SQLite 保存，同一订单和规则版本最多一张。
 - 商家可批准、拒绝或要求补充资料。要求补充时必须填写说明，工单进入 `needs_info`；仅订单本人可以补充，同一工单回到 `pending` 后再审。每轮提问与补充保留历史，补资料不改订单时间、规则版本和建议券额，批准前不发券。订单本身缺少送达事实时仍不能直接提交申请。
 - 原 Studio 图仍用 ord001_graph.py 中只接收 HH:MM、硬编码 >30 分钟／¥10 的旧判断。新网页调用共享 ord001_policy.py，支持秒级边界和规则配置；本轮 30:01 结果来自网页图，Studio 对照只覆盖 50 分钟和 30／31 分钟，两套图尚未统一规则模块。
 - 上述启动命令用仓库根目录的 `ord001-demo.sqlite3` 保存工单、补资料记录与事件，重启后可重新登录查看并继续处理。直接启动脚本但省略 `--db` 时，工单默认保存在内存；浏览器登录、聊天和图检查点始终不跨重启保留。运行库不纳入 Git 或交付 ZIP。可选 `--log-file /绝对路径/runs.jsonl` 追加运行记录。
-- 模拟登录没有密码，仅用于本机演示。个人演示可通过私有配置接入真实模型；团队统一模型、正式规则、线上身份认证与部署仍待对齐。本轮没有开展正式 B/C 模型对照。
+- 模拟身份选择本身没有密码；公网共享必须通过上述小组口令网关。个人配置可接入真实模型，本轮已提供依赖本机后端的 Surge 共享入口；团队统一模型、正式规则、生产账号体系和独立云部署仍待对齐。本轮没有开展正式 B/C 模型对照。
 - 入口：[ord001_web.py](ord001_web.py)；图：[ord001_web_graphs.py](ord001_web_graphs.py)；服务：[ord001_web_service.py](ord001_web_service.py)；工单：[ord001_web_store.py](ord001_web_store.py)；基础验收：[ord001_web_check.py](ord001_web_check.py)；补资料专项：[ord001_followup_check.py](ord001_followup_check.py)。
 
 按 **Ctrl+C** 停止网页服务。原 Studio 运行方式如下，端口仍为 2024。

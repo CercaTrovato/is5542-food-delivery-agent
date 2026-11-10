@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>配送关怀</title>
+<style>
+:root{color-scheme:light;--bg:#f6f5fa;--ink:#252436;--muted:#777389;--card:#ffffffc9;--border:#ffffff;--field:#f3f1f9;--accent:#7560e8;--accent-hover:#6650da;--accent-ink:#fff;--pink:#f6c5dc;--blue:#c5e5ff;--yellow:#ffe9aa;--shadow:#51417b14;--error:#bc405a;--bag:#cfc5fb;--strap:#9d87e3;--line:#524071}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#171623;--ink:#f1edf9;--muted:#aaa4bb;--card:#262332d9;--border:#ffffff15;--field:#1c1a29;--accent:#b6a3ff;--accent-hover:#c6b7ff;--accent-ink:#231c39;--pink:#593148;--blue:#284559;--yellow:#554727;--shadow:#00000030;--error:#ff9fb5;--bag:#bca8f5;--strap:#8e74d0;--line:#483263}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#171623;--ink:#f1edf9;--muted:#aaa4bb;--card:#262332d9;--border:#ffffff15;--field:#1c1a29;--accent:#b6a3ff;--accent-hover:#c6b7ff;--accent-ink:#231c39;--pink:#593148;--blue:#284559;--yellow:#554727;--shadow:#00000030;--error:#ff9fb5;--bag:#bca8f5;--strap:#8e74d0;--line:#483263}
+*{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;padding-block:48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));background:radial-gradient(ellipse at 10% 20%,var(--pink),transparent 45%),radial-gradient(ellipse at 95% 70%,var(--blue),transparent 48%),radial-gradient(ellipse at 65% 5%,var(--yellow),transparent 42%),var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif}
+main{width:100%;max-width:420px;padding:40px 32px 28px;border-radius:32px;background:var(--card);border:1px solid var(--border);box-shadow:0 24px 80px var(--shadow);backdrop-filter:blur(24px);display:grid;gap:26px;text-align:center}svg{width:112px;height:118px;display:block;margin:auto;filter:drop-shadow(0 12px 18px var(--shadow))}h1{font-size:28px;font-weight:650;letter-spacing:-1px;margin:0;text-wrap:balance}p{margin:9px 0 0;font-size:14px;color:var(--muted);line-height:1.6}form{display:grid;gap:12px;text-align:left}label{font-size:13px;font-weight:600}input,button{font:inherit;font-size:16px;min-height:52px;width:100%;border-radius:16px}input{padding:14px 16px;background:var(--field);border:1px solid transparent;color:var(--ink);outline:none}input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--shadow)}button{border:0;background:var(--accent);color:var(--accent-ink);font-weight:650;cursor:pointer;transition:background .15s,transform .15s}button:hover{background:var(--accent-hover)}button:active{transform:scale(.985)}button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}.error{font-size:13px;color:var(--error);margin:0;min-height:18px;line-height:1.5}.foot{font-size:12px;color:var(--muted)}@media(max-width:430px){main{padding:32px 24px 24px}}
+</style>
+</head>
+<body>
+<main>
+<svg viewBox="0 0 120 126" aria-hidden="true"><path d="M37 37V27a23 23 0 0 1 46 0v10" fill="none" stroke="var(--strap)" stroke-width="8" stroke-linecap="round"/><path d="M25 32h70l9 68a15 15 0 0 1-15 17H31a15 15 0 0 1-15-17z" fill="var(--bag)"/><path d="M26 36h68" stroke="var(--strap)" stroke-width="4" stroke-linecap="round"/><ellipse cx="43" cy="68" rx="4" ry="6" fill="var(--line)"/><ellipse cx="77" cy="68" rx="4" ry="6" fill="var(--line)"/><path d="M49 83q11 13 22 0" fill="none" stroke="var(--line)" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="80" r="7" fill="var(--pink)"/><circle cx="88" cy="80" r="7" fill="var(--pink)"/></svg>
+<div><h1>配送关怀</h1><p>每一份等待，都值得被认真对待。</p></div>
+<form method="post" action="/_access?next={{next}}">
+<label for="password">小组访问口令</label>
+<input id="password" name="password" type="password" autocomplete="current-password" required maxlength="256" placeholder="输入访问口令" autofocus>
+<p class="error" role="status">{{error}}</p>
+<button type="submit">进入</button>
+</form>
+<div class="foot">小组演示 · 模拟订单</div>
+</main>
+</body>
+</html>
