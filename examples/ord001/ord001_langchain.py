@@ -62,11 +62,11 @@ class ScriptedOrderModel(BaseChatModel):
             order = json.loads(last.text)
             if order["found"]:
                 response = AIMessage(content=(
-                    f'模拟模型：{order["order_id"]} 已送达，'
+                    f'{order["order_id"]} 已送达，'
                     f'预计 {order["expected_at"]}，实际 {order["delivered_at"]}。'
                 ))
             else:
-                response = AIMessage(content="模拟模型：查不到这笔订单，无法核实送达时间。")
+                response = AIMessage(content="未找到这笔订单，请核对订单号。")
         else:
             match = re.search(r"ORD[0-9]+", last.text, re.IGNORECASE)
             if match:
@@ -76,7 +76,7 @@ class ScriptedOrderModel(BaseChatModel):
                     "id": uuid4().hex,
                 }])
             else:
-                response = AIMessage(content="模拟模型：请提供订单号。")
+                response = AIMessage(content="请提供订单号，或从「我的订单」中选择。")
 
         return ChatResult(generations=[ChatGeneration(message=response)])
 

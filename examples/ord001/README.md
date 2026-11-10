@@ -4,6 +4,140 @@
 
 项目当前安排和团队交件见 [当前方案与进度](../../notes/current-plan.md)。
 
+## 本机网页：顾客端与审批端
+
+网页和 Studio 使用独立的端口。网页默认使用模拟模型，不需要模型密钥。订单为 [demo-data.json](demo-data.json)，补偿参数为 [demo-policy.json](demo-policy.json) 的 demo-v1：已送达、晚到严格超过 30 分钟，建议 ¥10 模拟券，顾客确认后进入人工审批。
+
+新版页面、交互与截图见 [界面升级说明](../../notes/team/ord001-ui-upgrade-2026-11-10.md)，完整浏览器复跑见 [UI 检查说明](ui-check/README.md)。在 GitHub 查看负责人、分支和待复核状态，见 [GitHub 组内协作方式](../../notes/team/github-collaboration.md)。
+
+### 首次安装 uv
+
+已安装 uv 可跳过。Mac / zsh 使用官方安装器，安装完成后把用户目录加入当前终端的 PATH：
+
+~~~bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+export PATH="$HOME/.local/bin:$PATH"
+uv --version
+~~~
+
+Windows / PowerShell 使用官方安装器：
+
+~~~powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+$env:Path = "$HOME\.local\bin;$env:Path"
+uv --version
+~~~
+
+安装说明：https://docs.astral.sh/uv/getting-started/installation/ 。本轮实测 Mac，Windows 安装、启动及验收命令尚未在 Windows 设备实跑。
+
+### Mac / zsh 启动
+
+在仓库根目录打开终端，完整执行：
+
+~~~bash
+export UV_PYTHON_INSTALL_DIR="$HOME/.uv/python"
+export LANGSMITH_TRACING=false
+export LANGCHAIN_TRACING_V2=false
+
+env -u ORD001_CHAT_MODEL -u ORD001_POLICY_PATH \
+  uv run --no-project --python 3.12 examples/ord001/ord001_web.py \
+  --host 127.0.0.1 --port 8024 --db "$PWD/ord001-demo.sqlite3"
+~~~
+
+如果终端提示找不到 uv，使用 `$HOME/.local/bin/uv` 替换命令中的 `uv`。首次运行会安装脚本声明的依赖。看到 `Uvicorn running on http://127.0.0.1:8024` 后，保持这个终端运行。
+
+### Windows / PowerShell 启动
+
+在仓库根目录打开 PowerShell，完整执行：
+
+~~~powershell
+$env:ORD001_CHAT_MODEL = $null
+$env:ORD001_POLICY_PATH = $null
+$env:LANGSMITH_TRACING = 'false'
+$env:LANGCHAIN_TRACING_V2 = 'false'
+uv run --no-project --python 3.12 examples/ord001/ord001_web.py --host 127.0.0.1 --port 8024 --db .\ord001-demo.sqlite3
+~~~
+
+### 打开并点完一笔 ORD001
+
+1. 打开 [顾客端](http://127.0.0.1:8024/)，选择 **顾客 01（U001）**。
+2. 输入「我的外卖 ORD001 迟到了，可以申请补偿吗？」并发送。预计 18:00、实际 18:50，页面显示晚到 50 分钟、建议 ¥10 券和确认框；此时尚未建工单。
+3. 点 **确认提交**，在「申请进度」看到审核中及工单编号；审批前不发券。
+4. 打开 [商家端](http://127.0.0.1:8024/review)，选择 **商家账号（R001）**。核对同一工单的订单、延误和建议金额，填写可选的处理说明，再点 **通过** 或 **拒绝**。要先补充资料，填写问题后点 **请顾客补充**。
+5. 回到顾客端，页面约 3 秒自动刷新同一工单的结果。通过后显示 ¥10 模拟券；拒绝后显示处理说明且不发券。重复咨询同一订单复用原工单。
+6. 独立验证另一种处理结果时，在商家端打开右上角 **演示**，点 **重置演示数据**，再点 **确认清空**，然后从第 2 步开始。重置会清空此服务的全部模拟工单及对话。
+
+商家需要补充说明时，在同一工单填写问题并要求补资料；顾客补充文本后提交，工单回到待审核，商家可以再次要求补充或作最终决定。每轮记录都会保留，工单编号、订单事实、规则版本和建议金额保持不变。当前补充支持最多 500 字文本，不支持图片或附件；商家的补充要求须为非空文本，最多 200 字。
+
+模拟账号 U002 持有 ORD101；U001 查询 ORD101 会收到无法核实的提示，不回显该订单事实。ORD002–ORD008 用于阈值、取消、未送达和时间缺失用例。完整订单与用例对应关系在模拟数据文件中。
+
+### 验证生效与复跑验收
+
+另开一个终端，健康检查：
+
+~~~bash
+curl --fail --silent --show-error http://127.0.0.1:8024/api/health
+~~~
+
+返回应包含 `status: ok`、`model: ord001-scripted-model`、`policy.version: demo-v1`、`include_threshold: false`、`coupon_yuan: 10`。网页元信息显示同一规则和模型。
+
+从仓库根目录执行以下命令，在独立的进程内 HTTP 服务复跑验收；不会清空已打开网页里的数据：
+
+~~~bash
+export UV_PYTHON_INSTALL_DIR="$HOME/.uv/python"
+env -u ORD001_CHAT_MODEL -u ORD001_POLICY_PATH LANGSMITH_TRACING=false LANGCHAIN_TRACING_V2=false \
+  uv run --no-project --python 3.12 examples/ord001/ord001_web_check.py \
+  --json /tmp/ord001-check.json --markdown /tmp/ord001-check.md
+~~~
+
+Windows / PowerShell 的独立验收命令（尚未在 Windows 设备实跑）：
+
+~~~powershell
+$env:ORD001_CHAT_MODEL = $null
+$env:ORD001_POLICY_PATH = $null
+$env:LANGSMITH_TRACING = 'false'
+$env:LANGCHAIN_TRACING_V2 = 'false'
+uv run --no-project --python 3.12 examples/ord001/ord001_web_check.py --json "$env:TEMP\ord001-check.json" --markdown "$env:TEMP\ord001-check.md"
+~~~
+
+要验证已经启动的真实 HTTP 服务，在上一条命令的脚本路径之后加入 `--base-url http://127.0.0.1:8024`。**此模式会在每项用例前清空该服务的模拟数据，请与手动演示分开运行。** 验收脚本失败时退出码为 1，并在 JSON 内逐项保留预期、实际、失败原因和工单记录。
+
+### 补资料专项检查
+
+补资料专项在隔离的 TestClient 和临时数据库内运行，不会清空已打开网页的模拟工单。覆盖输入与权限、本人补充、多轮批准、驳回、并发重试以及旧表迁移／重启恢复。
+
+Mac / zsh 从仓库根目录执行：
+
+~~~bash
+export UV_PYTHON_INSTALL_DIR="$HOME/.uv/python"
+env -u ORD001_CHAT_MODEL -u ORD001_POLICY_PATH LANGSMITH_TRACING=false LANGCHAIN_TRACING_V2=false \
+  uv run --no-project --python 3.12 examples/ord001/ord001_followup_check.py \
+  --json /tmp/ord001-followup-check.json
+~~~
+
+Windows / PowerShell（尚未在 Windows 设备实跑）：
+
+~~~powershell
+$env:ORD001_CHAT_MODEL = $null
+$env:ORD001_POLICY_PATH = $null
+$env:LANGSMITH_TRACING = 'false'
+$env:LANGCHAIN_TRACING_V2 = 'false'
+uv run --no-project --python 3.12 examples/ord001/ord001_followup_check.py --json "$env:TEMP\ord001-followup-check.json"
+~~~
+
+脚本失败时退出码为 1，成功为 0。它仅接受 `--json` 输出路径，不使用 `--base-url`。本轮 [补资料专项 6 组结果](evidence/2026-11-10-product/followup-results.json)、[基础接口 12 项结果](evidence/2026-11-10-product/api-inprocess.md) 和 [真实端口 12 项结果](evidence/2026-11-10-product/api-live.md) 均为开发验证，组员复核另行记录。
+
+### 本轮范围与文件
+
+- 顾客确认和人工审批均使用 LangGraph interrupt / resume。身份与订单归属由服务端校验，工单由 SQLite 保存，同一订单和规则版本最多一张。
+- 商家可批准、拒绝或要求补充资料。要求补充时必须填写说明，工单进入 `needs_info`；仅订单本人可以补充，同一工单回到 `pending` 后再审。每轮提问与补充保留历史，补资料不改订单时间、规则版本和建议券额，批准前不发券。订单本身缺少送达事实时仍不能直接提交申请。
+- 原 Studio 图仍用 ord001_graph.py 中只接收 HH:MM、硬编码 >30 分钟／¥10 的旧判断。新网页调用共享 ord001_policy.py，支持秒级边界和规则配置；本轮 30:01 结果来自网页图，Studio 对照只覆盖 50 分钟和 30／31 分钟，两套图尚未统一规则模块。
+- 上述启动命令用仓库根目录的 `ord001-demo.sqlite3` 保存工单、补资料记录与事件，重启后可重新登录查看并继续处理。直接启动脚本但省略 `--db` 时，工单默认保存在内存；浏览器登录、聊天和图检查点始终不跨重启保留。运行库不纳入 Git 或交付 ZIP。可选 `--log-file /绝对路径/runs.jsonl` 追加运行记录。
+- 模拟登录没有密码，仅用于本机演示。正式团队模型、正式规则、线上身份认证与部署待后续对齐。本轮没有开展正式 B/C 模型对照。
+- 入口：[ord001_web.py](ord001_web.py)；图：[ord001_web_graphs.py](ord001_web_graphs.py)；服务：[ord001_web_service.py](ord001_web_service.py)；工单：[ord001_web_store.py](ord001_web_store.py)；基础验收：[ord001_web_check.py](ord001_web_check.py)；补资料专项：[ord001_followup_check.py](ord001_followup_check.py)。
+
+按 **Ctrl+C** 停止网页服务。原 Studio 运行方式如下，端口仍为 2024。
+
 ## 启动 Studio
 
 在仓库根目录打开 PowerShell。需要 Git、uv 和 Python 3.12，首次运行时 uv 会准备依赖。

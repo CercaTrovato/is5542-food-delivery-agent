@@ -1,0 +1,8 @@
+{
+  "prepared_at": "2026-11-10T07:49:44.535Z",
+  "base": "http://127.0.0.1:8024",
+  "ticket_id": "T0001",
+  "order_id": "ORD001",
+  "status": "pending",
+  "coupon_issued_yuan": null
+}

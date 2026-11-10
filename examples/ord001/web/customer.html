@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f3f4f9">
+  <title>配送关怀 · 订单服务</title>
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/app.js" defer></script>
+  <script src="/static/customer.js" defer></script>
+</head>
+<body data-page="customer">
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <div class="ambient" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="配送关怀首页"><span class="brand-symbol" data-icon="bowl"></span><span>配送关怀</span></a>
+    <nav class="role-switch" aria-label="切换入口"><a class="active" href="/" aria-current="page"><span data-icon="chat"></span>顾客</a><a href="/review"><span data-icon="inbox"></span>商家</a></nav>
+    <div class="topbar-actions">
+      <button class="demo-chip" type="button" id="meta" data-open-demo aria-label="演示说明">演示</button>
+      <span class="connection" id="connection" title="正在连接"><i></i><span>正在连接</span></span>
+      <button class="icon-button" type="button" id="theme-toggle" aria-label="切换深浅主题" title="切换深浅主题"><span data-icon="moon"></span></button>
+      <div class="who" id="who" hidden><span class="avatar avatar-small" aria-hidden="true">U</span><span id="who-name"></span><button type="button" class="icon-button" id="logout" aria-label="切换账号" title="切换账号"><span data-icon="logout"></span></button></div>
+    </div>
+  </header>
+  <main class="page-content" id="main">
+    <section class="entry-stage" id="login" hidden aria-labelledby="login-title">
+      <div class="entry-art" aria-hidden="true"><div class="entry-orbit"></div><div class="glass-orb orb-peach"></div><div class="glass-orb orb-blue"></div><div class="glass-orb orb-pink"></div><div class="floating-receipt"><span class="receipt-symbol" data-icon="bowl"></span><span class="buddy-face receipt-face"><i></i><i></i><span></span></span><span class="receipt-rule"></span><span class="receipt-rule short"></span><span class="receipt-check" data-icon="check"></span></div><div class="floating-coupon"><span data-icon="ticket"></span></div><div class="art-spark spark-one"></div><div class="art-spark spark-two"></div></div>
+      <div class="login-content"><span class="login-brand">配送关怀</span><h1 id="login-title">订单服务</h1><div class="login-choices" id="login-choices"></div></div>
+    </section>
+    <div id="app" hidden>
+      <div class="page-heading"><h1>订单服务</h1><ol class="journey" id="journey" aria-label="申请进度"><li class="current"><span class="step-number">1</span><strong>核实订单</strong></li><li><span class="step-number">2</span><strong>确认申请</strong></li><li><span class="step-number">3</span><strong>人工审核</strong></li><li><span class="step-number">4</span><strong>查看结果</strong></li></ol></div>
+      <div class="customer-layout">
+        <section class="panel orders-panel" id="orders-panel" aria-labelledby="orders-title"><div class="section-heading"><h2 id="orders-title">我的订单</h2><span class="round-icon violet" data-icon="bowl"></span></div><label class="order-search" for="order-search"><span data-icon="search"></span><input id="order-search" type="search" placeholder="搜索订单或餐厅" autocomplete="off"></label><div id="orders"></div><button type="button" class="show-more" id="more-orders" hidden>全部订单<span data-icon="chevron-down"></span></button></section>
+        <section class="panel chat" aria-labelledby="chat-title"><div class="panel-heading"><div class="heading-with-icon"><span class="service-avatar" data-icon="chat"></span><h2 id="chat-title">订单咨询</h2></div><button class="icon-button" type="button" data-open-demo aria-label="查看服务说明"><span data-icon="info"></span></button></div>
+          <div class="messages" id="messages" aria-live="polite" aria-label="客服对话"></div>
+          <div class="confirm" id="confirm" hidden><div class="confirm-heading"><h3>确认申请</h3><div class="confirm-amount" id="confirm-amount"></div></div><dl class="facts" id="confirm-facts"></dl><p class="hint">审核通过后发放</p><div class="actions"><button type="button" class="primary" id="confirm-yes">确认提交<span data-icon="arrow-right"></span></button><button type="button" class="secondary" id="confirm-no">暂不提交</button></div></div>
+          <div class="composer-wrap"><form class="composer" id="composer"><label class="sr-only" for="input">订单问题</label><textarea id="input" rows="2" maxlength="500" placeholder="输入订单号或遇到的问题"></textarea><button type="submit" class="send-button" id="send" aria-label="发送"><span data-icon="arrow-up"></span></button></form><div class="composer-foot"><span>Enter 发送</span><span id="input-count">0 / 500</span></div></div>
+          <p class="status" id="status" role="status"></p>
+        </section>
+        <section class="panel ticket-panel" id="tickets-panel" aria-labelledby="tickets-title"><div class="section-heading"><h2 id="tickets-title">申请进度</h2><span class="round-icon blue" data-icon="clock"></span></div><div id="tickets" aria-live="polite"></div></section>
+      </div>
+    </div>
+    <footer class="page-footer"><span>配送关怀</span></footer>
+  </main>
+  <dialog class="dialog" id="demo-dialog" aria-labelledby="demo-title"><div class="dialog-heading"><span class="dialog-kicker">IS5542 · GROUP 24</span><button class="icon-button" type="button" data-close-dialog aria-label="关闭说明"><span data-icon="close"></span></button></div><h2 id="demo-title">演示说明</h2><p>账号、订单与补偿均为模拟数据，不涉及实际发券。</p><dl class="facts" id="policy-details"></dl><details class="quick" id="quick-scenarios" hidden><summary>测试场景</summary><div class="choices" id="quick"></div></details><p class="dialog-note">顾客确认后提交申请，由人工决定通过或拒绝。正式平台政策仍待核对。</p><a class="secondary button-link" href="/review">商家工作台<span data-icon="arrow-up-right"></span></a></dialog>
+</body>
+</html>

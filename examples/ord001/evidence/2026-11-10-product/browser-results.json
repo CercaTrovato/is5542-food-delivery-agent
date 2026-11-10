@@ -1,0 +1,49 @@
+{
+  "base": "http://127.0.0.1:8024",
+  "checked_at": "2026-11-10T07:46:41.483Z",
+  "results": [
+    {
+      "case": "Order search and expand/collapse",
+      "status": "passed"
+    },
+    {
+      "case": "Demo information dialog and Escape",
+      "status": "passed"
+    },
+    {
+      "case": "P01 approve, same ticket, note visible, live progress",
+      "status": "passed",
+      "ticket_id": "T0001"
+    },
+    {
+      "case": "Information request, draft preservation, same ticket resumes and is approved",
+      "status": "passed",
+      "ticket_id": "T0001"
+    },
+    {
+      "case": "P01 independent reject, no coupon, note visible",
+      "status": "passed"
+    },
+    {
+      "case": "Cancel confirmation creates no ticket",
+      "status": "passed"
+    },
+    {
+      "case": "P03 asks for order, refuses other owner without leaking facts",
+      "status": "passed"
+    },
+    {
+      "case": "Theme switching and per-browser persistence",
+      "status": "passed"
+    },
+    {
+      "case": "390px confirmation, merchant decision and customer result",
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "passed": 9,
+    "failed": 0
+  }
+}
