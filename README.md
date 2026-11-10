@@ -8,7 +8,7 @@ Group 24 的课程项目。我们用模拟外卖订单验证一件事：面对�
 2. 在下表点自己的名字，看这轮要读什么、交什么、交给谁。
 3. 要复跑，打开 [ORD001 Studio 运行指南](examples/ord001/README.md)。要交接给队友或其 Agent，按[组内协作规范](notes/team/collaboration.md)填写交接记录。
 
-截至 **11 月 10 日**，首版框架已选 **LangChain／LangGraph**，ORD001 参考原型可运行，三平台调研任务已写明。团队首版分支、正式补偿参数和 B/C 评测细节待对齐。11 月 12 日交开发首轮、11 月 13 日验收是建议安排，等开发成员确认。
+截至 **11 月 10 日**，首版框架已选 **LangChain／LangGraph**，ORD001 参考原型可运行，三平台调研任务已写明。团队首版分支、正式补偿参数和 B/C 评测细节待对齐。优先 11 月 10 日收可点的 ORD001 网页和 P01 结果，待开发成员确认。完整首轮和验收时间随交件对齐。
 
 ## 首轮实名分工
 
@@ -19,7 +19,7 @@ Group 24 的课程项目。我们用模拟外卖订单验证一件事：面对�
 | [Jacky](notes/team/jacky-research.md) | 业务调研 | 三平台公开补偿规则表及待核项 | 林、开发与测试 | 11 月 11 日 |
 | [林](notes/team/lin-research.md) | 业务调研 | R01–R03 实际客服流程与证据 | Jacky、开发与测试 | 11 月 11 日 |
 | [李宾雄](notes/team/li-binxiong.md) | 工程／baseline | 规则判定表、资格判定与分流节点、baseline B 和评分口径 | 李宗谦、gaga老师、A | 随首轮交期对齐 |
-| [李宗谦](notes/team/li-zongqian.md) | 开发 | 可重跑分支、启动方法、模拟数据与 P01–P03 试跑记录 | 李宾雄、gaga老师、A | 11 月 12 日 |
+| [李宗谦](notes/team/li-zongqian.md) | 开发（含前端与部署） | 可点的 ORD001 网页、可重跑分支与试跑记录 | 李宾雄、gaga老师、A | 优先 11 月 10 日，待确认 |
 | [gaga老师](notes/team/gaga-test.md) | 测试 | P01 的待审、批准与驳回验收记录 | 李宗谦、李宾雄、A | 11 月 13 日 |
 | [A](notes/team/a-test.md) | 测试 | P02／P03 的阈值、缺单和订单归属验收记录 | 李宗谦、李宾雄、gaga老师 | 11 月 13 日 |
 
@@ -29,6 +29,7 @@ Group 24 的课程项目。我们用模拟外卖订单验证一件事：面对�
 |---|---|
 | 课程交什么、怎么评分 | [课程任务说明](notes/任务说明.md) |
 | 三家平台查什么、交件怎么填 | [调研交接与模板](notes/team/research-handoff.md) |
+| 李宗谦与开发 Agent 今天怎么开工 | [ORD001 前端与工程交接](notes/team/frontend-handoff.md) |
 | 开发首轮怎么验、P01–P03 是什么 | [开发交接](notes/supervision-report.md#首轮开发交接) |
 | 组内调研报告、附录截图、启动会记录 | [组内原件](work/team-private/README.md) |
 | 过去为什么这样选、建库时是什么状态 | [历史决策与进度快照](progress/README.md) |

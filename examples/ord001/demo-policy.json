@@ -1,0 +1,6 @@
+{
+  "version": "demo-v1",
+  "threshold_minutes": 30,
+  "include_threshold": false,
+  "coupon_yuan": 10
+}
