@@ -1,5 +1,13 @@
 # IS5542 · 外卖延误补偿 Agent
 
+## 进度与每日事项入口
+
+- [项目时间线：已完成、当前与未来](TIMELINE.md)
+- [个人助手读取说明](ASSISTANT-README.md) · [结构化时间线](progress/timeline.json) · [总监督每日事项候选](progress/daily-plan.json)
+
+时间线按可核事实维护，建议日期需确认，等待回件与已验收分开。线上只读看板：https://cityu-board-online.vercel.app/
+
+
 Group 24 的课程项目。我们用模拟外卖订单验证一件事：面对缺信息、说法不一致或涉及审批的延误投诉，系统能否给出**正确、安全的处理结果**。效率和成本作为辅助结果。课程交付包括可运行的演示、录制视频和 slides。
 
 ## 从这里开始
