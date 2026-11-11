@@ -4,9 +4,9 @@
   "course": "IS5542",
   "timezone": "Asia/Shanghai",
   "as_of": "2026-11-11",
-  "basis_revision": "a6686aedd1c02424f9f2a699dc6d10e6cbee9bb172de78414fd753c9d1376925",
+  "basis_revision": "4e76f883d5501d9b3a18857de3fe9f8c67ac360f9ec727943151a9bfc6ed4b31",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
-  "summary": "三平台公开补偿规则初稿已收到。首版前端与工程交接、判定接口及 demo-v1 已发布至私有 GitHub。开发首轮网页、客服流程回件、正式补偿规则和 B/C 范围待跟进。",
+  "summary": "11/11 公开规则补件 v1.3 和 8 页截图已收并逐页核读；美团准时宝、淘宝闪购慢必赔的存在和基本条件已补，局部边界与截图来源仍待核。工程沿用 demo-v1；团队网页、实际客服流程、正式政策及 B/C 范围待跟进。",
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "items": [
     {
@@ -16,27 +16,43 @@
       "owner": "Jacky · 公开规则调研",
       "owner_role": "member",
       "scope": "team",
-      "summary": "R02 公开条款 v1.0 已收到并阅读。 部分保障细则、个案额度与条件仍待核。",
+      "summary": "v1.3 与 8 页截图已逐页核读；官方回源确认两项保障存在和基本条件。精确边界、截图来源与适用版本仍待核。",
       "deliverable": "按三家平台记录适用条件、时间门槛、补偿、例外和原文证据。",
-      "next_action": "补待核字段，明确哪些是平台事实，哪些是本组模拟参数。",
+      "next_action": "保留普通／黑金及各页面版本；补可得的截图出处和边界，查不到就注明检索位置。",
       "my_next_action": null,
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
         {
           "id": "draft",
-          "label": "三平台条款初稿已收到",
+          "label": "三平台初稿与两项保障 v1.3 已收",
           "status": "pass",
           "evidence": [
-            "handoff"
+            "market-rules-v13"
+          ]
+        },
+        {
+          "id": "existence",
+          "label": "两项保障存在和基本条件有依据",
+          "status": "pass",
+          "evidence": [
+            "market-rules-v13"
+          ]
+        },
+        {
+          "id": "screenshots",
+          "label": "8 页截图已核读并记录版本差异",
+          "status": "pass",
+          "evidence": [
+            "market-rules-v13"
           ]
         },
         {
           "id": "complete",
-          "label": "影响首版政策的待核字段已关闭",
+          "label": "精确边界、出处与适用版本已全部关闭",
           "status": "gap",
           "evidence": [
-            "handoff"
+            "market-rules-v13"
           ]
         }
       ],
@@ -47,13 +63,17 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-10",
+      "observed_on": "2026-11-11",
       "estimated_minutes": null,
-      "state_basis": "沿用已有核验；未凭文件存在推定正式提交。 本日期为总监督建议，待相关成员确认，不改变正式截止。",
+      "state_basis": "11/11 实际收件、全部 8 页视觉核验并重开两份官方条款；只关闭有证据的基本条件缺口，正式政策未批准。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
           "url": null
+        },
+        {
+          "label": "v1.3 统一核验与资料",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/market-compensation-rules.md"
         }
       ],
       "history": [
@@ -61,6 +81,11 @@
           "observed_on": "2026-11-10",
           "status": "needs_review",
           "note": "首次纳入统一时间线；该日为核实日期，不代替实际完成日。"
+        },
+        {
+          "observed_on": "2026-11-11",
+          "status": "needs_review",
+          "note": "v1.3 补齐两项保障基本条件；全 8 页已看，截图第 5／6 页另有不同权益，第 8 页来源待补，局部待核保留。"
         }
       ]
     },
@@ -748,7 +773,7 @@
       "owner": "全组及本人核对",
       "owner_role": "team",
       "scope": "team",
-      "summary": "Jacky 的三平台公开条款初稿已收；准时宝和淘宝闪购延误保障细则等字段仍待补核。",
+      "summary": "此前三平台 v1.0 已收到；11/11 又收两项保障 v1.3 和 8 页截图，收件与核读已完成，规则研究仍有局部待核。",
       "deliverable": "三平台公开规则初稿已收到",
       "next_action": "保留本版与核验边界，后续工作在当前和未来任务中继续。",
       "my_next_action": null,
@@ -768,13 +793,17 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-10",
+      "observed_on": "2026-11-11",
       "estimated_minutes": null,
       "state_basis": "完成的是本标题所述阶段成果，不是整个作业或正式提交。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
           "url": null
+        },
+        {
+          "label": "11/11 v1.3 与截图索引",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/market-compensation-rules.md"
         }
       ],
       "history": [
@@ -782,6 +811,11 @@
           "observed_on": "2026-11-10",
           "status": "done",
           "note": "沿用已有完成证据；实际完成日未知。"
+        },
+        {
+          "observed_on": "2026-11-11",
+          "status": "done",
+          "note": "完成本次补件收取和核读，不代表规则冻结、真实赔付实测或正式提交。"
         }
       ]
     }

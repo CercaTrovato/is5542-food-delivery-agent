@@ -1,0 +1,19 @@
+{
+  "received_on": "2026-11-11",
+  "originals": [
+    {
+      "source_name": "market_rules_v13(1).md",
+      "sha256": "aed9bf760f88ffcd8e4e9c946786be7baf69159fbafc055946be4d3eec453b2b",
+      "repository_copy": "market_rules_v13.md",
+      "copy_sha256": "aed9bf760f88ffcd8e4e9c946786be7baf69159fbafc055946be4d3eec453b2b"
+    },
+    {
+      "source_name": "超时补偿政策相关截图(1).pdf",
+      "sha256": "da2add4c888420cac5295d767f9fa6847398dfad07c73bcc2e8536aafa270dd0",
+      "repository_copy": "policy-screenshots-redacted.pdf",
+      "copy_sha256": "e111feae1c14978868ba5801405ad85fe82a8aaad08209c557d8467aac836ae2",
+      "pages": 8,
+      "privacy_change": "仅遮去第 8 页底部第三方账号标识；原始 PDF 保留本机只读。原图有小红书水印和部分内容由 AI 生成提示，来源局限保留在核验说明。"
+    }
+  ]
+}

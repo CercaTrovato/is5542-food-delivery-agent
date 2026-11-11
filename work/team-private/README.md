@@ -9,3 +9,7 @@
 | [11 月 6 日商业调研报告](FoodDelivery_Agent_Report.docx) | 平台观察、延误补偿 Demo、测试情形和附录 E01–E09 截图。 |
 
 现行方案见 [任务说明](../../notes/任务说明.md) 和 [开发交接](../../notes/supervision-report.md)。
+
+## 11 月 11 日规则补件
+
+[Jacky v1.3、8 页截图发布副本与哈希索引](2026-11-11-market-rules/README.md)。截图副本只遮去第三方账号标识；原 MD 未改，接收方核验结论见[规则表](../spec/market-compensation-rules.md)。
