@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<title>配送关怀</title>
+<style>
+:root{color-scheme:light;--bg:#f7f5fb;--ink:#2a263c;--muted:#817992;--accent:#7760e8;--on-accent:#fff;--pink:#f9d5e3;--blue:#d9eaff;--yellow:#fff0c7;--surface:#ffffffbd;--edge:#fff;--shadow:#5d467012}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#191620;--ink:#f6f0ff;--muted:#b2a7c5;--accent:#bea8ff;--on-accent:#2e204b;--pink:#4b2c40;--blue:#27374b;--yellow:#443921;--surface:#28232fc9;--edge:#ffffff12;--shadow:#00000025}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#191620;--ink:#f6f0ff;--muted:#b2a7c5;--accent:#bea8ff;--on-accent:#2e204b;--pink:#4b2c40;--blue:#27374b;--yellow:#443921;--surface:#28232fc9;--edge:#ffffff12;--shadow:#00000025}
+*{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;padding-block:40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));background:radial-gradient(ellipse at 12% 20%,var(--pink),transparent 44%),radial-gradient(ellipse at 88% 75%,var(--blue),transparent 44%),radial-gradient(ellipse at 70% 0%,var(--yellow),transparent 44%),var(--bg);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;color:var(--ink)}main{width:100%;max-width:440px;border-radius:32px;padding:48px 28px 32px;background:var(--surface);border:1px solid var(--edge);text-align:center;box-shadow:0 20px 80px var(--shadow);backdrop-filter:blur(20px)}.mark{font-size:56px;margin-bottom:24px}h1{font-size:30px;letter-spacing:-1px;margin:0}p{font-size:14px;color:var(--muted);line-height:1.6;margin:14px 0 28px}nav{display:flex;gap:12px;flex-wrap:wrap}a{flex:1;min-width:120px;min-height:48px;padding:14px 16px;border-radius:16px;text-decoration:none;background:var(--accent);color:var(--on-accent);font-weight:600;font-size:14px}.secondary{background:var(--bg);color:var(--ink)}small{display:block;margin-top:24px;color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+<main><div class="mark" aria-hidden="true">🛍️</div><h1>配送关怀</h1><p>正在为你打开客服…</p><nav><a id="customer" href="__LIVE_ORIGIN__/">顾客入口</a><a id="merchant" class="secondary" href="__LIVE_ORIGIN__/review">商家入口</a></nav><small>小组演示 · 模拟订单</small></main>
+<script>
+const destination = '__LIVE_ORIGIN__';
+location.replace(destination + (/^\/review\/?$/.test(location.pathname) ? '/review' : '/'));
+</script>
+</body>
+</html>

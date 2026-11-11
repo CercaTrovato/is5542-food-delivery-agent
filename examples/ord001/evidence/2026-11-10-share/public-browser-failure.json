@@ -1,0 +1,26 @@
+{
+  "results": [
+    {
+      "case": "Surge 固定入口打开带口令的页面，未授权接口返回 401，手机无横向溢出",
+      "status": "passed"
+    },
+    {
+      "case": "公网口令登录、顾客选择及真实 DeepSeek 问候成功，浏览器不请求模型供应商",
+      "status": "passed",
+      "model": "openai:deepseek-flash",
+      "answer": "你好，我是配送关怀的 AI 客服，可以帮你查询订单配送进度、了解延误补偿条件，以及查看补偿申请的处理进度。有什么需要帮忙的吗？"
+    }
+  ],
+  "errors": [],
+  "failure": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(Array.isArray(tickets.tickets))\n\n    at /Users/lizongqian/is5542-dev/is5542-food-delivery-agent/examples/ord001/ui-check/share.cjs:63:5",
+  "pages": [
+    {
+      "url": "https://studios-diamonds-qualifying-affects.trycloudflare.com/",
+      "text": "跳到主要内容\n配送关怀\n顾客\n商家\n演示\nU\n顾客 U001\n订单服务\n1\n核实订单\n2\n确认申请\n3\n人工审核\n4\n查看结果\n我的订单\n模拟餐厅 A\nORD001 · 已送达\n18:00 → 18:50\n咨询\n模拟餐厅 B\nORD002 · 已送达\n18:00 → 18:10\n咨询\n模拟餐厅 C\nORD003 · 已送达\n18:00 → 18:30\n咨询\n全部订单 · 8\n订单咨询\n你好，请问您是？\n你好，我是配送关怀的 AI 客服，可以帮你查询订单配送进度、了解延误补偿条件，以及查看补偿申请的处理进度。有什么需要帮忙的吗？\n订单问题\nEnter 发送\n0 / 500\n申请进度\nORD001\nT0001\n审核中\n申请补偿券\n¥10\n\n等待商家审核\n\n预计送达\n18:00\n实际送达\n18:50\n晚到\n50 分钟\n已提交\n审核\n结果\n处理记录\n配送关怀"
+    },
+    {
+      "url": "https://studios-diamonds-qualifying-affects.trycloudflare.com/review",
+      "text": "跳到主要内容\n配送关怀\n顾客\n商家\n演示\nR\n商家 R001\n商家工作台\n订单补偿\n待处理\n1\n已处理\n0\nORD001T0001\n审核中\nU\n顾客 U001\n15:49:43\n预计送达\n18:00\n实际送达\n18:50\n晚到\n50 分钟\n申请补偿\n¥10\n处理说明\n选填 · 200 字\n请顾客补充\n拒绝\n通过\n处理记录\n补偿券\n¥10\n\n已送达，晚到超过 30 分钟可申请\n\n配送关怀"
+    }
+  ]
+}

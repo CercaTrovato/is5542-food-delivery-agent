@@ -1,0 +1,714 @@
+{
+  "checked_at": "2026-11-10T15:38:01+08:00",
+  "mode": "每项独立的进程内 HTTP 服务",
+  "environment": {
+    "python": "3.12.16",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "packages": {
+      "langgraph": "1.2.19",
+      "langchain": "1.4.9",
+      "langchain-core": "1.7.7",
+      "langchain-openai": "1.7.4",
+      "starlette": "1.10.0",
+      "uvicorn": "0.54.0",
+      "httpx": "0.28.1"
+    }
+  },
+  "summary": {
+    "passed": 12,
+    "failed": 0,
+    "record_only": 1
+  },
+  "cases": [
+    {
+      "name": "配置",
+      "expected": "demo-v1：已送达且 >30 分钟，¥10 券",
+      "actual": "{\"version\": \"demo-v1\", \"threshold_minutes\": 30, \"include_threshold\": false, \"coupon_yuan\": 10}；订单数据 demo-orders-2026-11-10；模型 ord001-scripted-model",
+      "verdict": "通过",
+      "failures": [],
+      "evidence": {
+        "policy": {
+          "version": "demo-v1",
+          "threshold_minutes": 30,
+          "include_threshold": false,
+          "coupon_yuan": 10
+        },
+        "data_version": "demo-orders-2026-11-10",
+        "service_date": "2026-11-10",
+        "model": "ord001-scripted-model"
+      }
+    },
+    {
+      "name": "P01 批准",
+      "expected": "顾客确认前无工单；确认后待审；人工处理后同一工单回显；重试复用",
+      "actual": "工单 T0001：确认前无工单；确认后 pending、券 None；重复确认 HTTP 409，重试为 ticket_reused；越权与无效请求 [401, 401, 403, 400, 404]；approve 后顾客端同一工单为 approved、券 10、记录 submitted→approved；再问回复「订单 ORD001 的申请 T0001：已批准。¥10 补偿券已发放。」；共 1 张工单",
+      "verdict": "通过",
+      "failures": [],
+      "evidence": {
+        "对话": [
+          {
+            "顾客": "我的外卖 ORD001 迟到了，可以申请补偿吗？",
+            "outcome": "awaiting_confirmation",
+            "reason_code": "eligible_for_review",
+            "confirmation": {
+              "kind": "confirm_submission",
+              "order_id": "ORD001",
+              "expected_at": "18:00",
+              "delivered_at": "18:50",
+              "late_seconds": 3000,
+              "proposed_coupon_yuan": 10,
+              "policy_version": "demo-v1"
+            },
+            "ticket": null,
+            "reply": "ORD001 晚到 50 分钟。可申请 ¥10 补偿券，确认后提交审核。"
+          },
+          {
+            "顾客": "[confirm]",
+            "outcome": "ticket_created",
+            "reason_code": "eligible_for_review",
+            "confirmation": null,
+            "ticket": {
+              "ticket_id": "T0001",
+              "order_id": "ORD001",
+              "status": "pending",
+              "late_seconds": 3000,
+              "policy_version": "demo-v1",
+              "proposed_coupon_yuan": 10,
+              "coupon_issued_yuan": null,
+              "review_note": null
+            },
+            "reply": "申请 T0001 已提交，待审核。"
+          },
+          {
+            "顾客": "我的外卖 ORD001 迟到了，可以申请补偿吗？",
+            "outcome": "ticket_reused",
+            "reason_code": null,
+            "confirmation": null,
+            "ticket": {
+              "ticket_id": "T0001",
+              "order_id": "ORD001",
+              "status": "pending",
+              "late_seconds": 3000,
+              "policy_version": "demo-v1",
+              "proposed_coupon_yuan": 10,
+              "coupon_issued_yuan": null,
+              "review_note": null
+            },
+            "reply": "订单 ORD001 的申请 T0001：待审核。"
+          },
+          {
+            "顾客": "我的外卖 ORD001 迟到了，可以申请补偿吗？",
+            "outcome": "ticket_reused",
+            "reason_code": null,
+            "confirmation": null,
+            "ticket": {
+              "ticket_id": "T0001",
+              "order_id": "ORD001",
+              "status": "approved",
+              "late_seconds": 3000,
+              "policy_version": "demo-v1",
+              "proposed_coupon_yuan": 10,
+              "coupon_issued_yuan": 10,
+              "review_note": "演示：审批员批准"
+            },
+            "reply": "订单 ORD001 的申请 T0001：已批准。¥10 补偿券已发放。"
+          }
+        ],
+        "审批端待审": [
+          {
+            "ticket_id": "T0001",
+            "order_id": "ORD001",
+            "status": "pending",
+            "late_seconds": 3000,
+            "policy_version": "demo-v1",
+            "proposed_coupon_yuan": 10,
+            "coupon_issued_yuan": null,
+            "review_note": null,
+            "审批节点已暂停": true
+          }
+        ],
+        "越权与无效请求的 HTTP 状态": {
+          "顾客账号提交审批": 401,
+          "未登录提交审批": 401,
+          "跨站提交审批": 403,
+          "不支持的审批动作 invalid_action": 400,
+          "U002 打开这张工单": 404
+        },
+        "顾客端同一工单": {
+          "ticket_id": "T0001",
+          "order_id": "ORD001",
+          "status": "approved",
+          "late_seconds": 3000,
+          "policy_version": "demo-v1",
+          "proposed_coupon_yuan": 10,
+          "coupon_issued_yuan": 10,
+          "review_note": "演示：审批员批准",
+          "timeline": [
+            "submitted",
+            "approved"
+          ]
+        },
+        "运行记录": [
+          {
+            "event": "customer_message",
+            "customer_id": "U001",
+            "order_id": "ORD001",
+            "outcome": "awaiting_confirmation",
+            "reason_code": "eligible_for_review",
+            "ticket_id": null,
+            "policy_version": "demo-v1",
+            "model": "ord001-scripted-model",
+            "latency_ms": 23
+          },
+          {
+            "event": "customer_confirm",
+            "customer_id": "U001",
+            "order_id": "ORD001",
+            "outcome": "ticket_created",
+            "reason_code": "eligible_for_review",
+            "ticket_id": "T0001",
+            "policy_version": "demo-v1",
+            "model": "ord001-scripted-model",
+            "latency_ms": 2
+          },
+          {
+            "event": "customer_message",
+            "customer_id": "U001",
+            "order_id": "ORD001",
+            "outcome": "ticket_reused",
+            "reason_code": null,
+            "ticket_id": "T0001",
+            "policy_version": "demo-v1",
+            "model": "ord001-scripted-model",
+            "latency_ms": 16
+          },
+          {
+            "event": "review_decision",
+            "customer_id": "U001",
+            "order_id": "ORD001",
+            "outcome": "approved",
+            "reason_code": null,
+            "ticket_id": "T0001",
+            "policy_version": "demo-v1",
+            "model": "ord001-scripted-model",
+            "latency_ms": 3
+          },
+          {
+            "event": "customer_message",
+            "customer_id": "U001",
+            "order_id": "ORD001",
+            "outcome": "ticket_reused",
+            "reason_code": null,
+            "ticket_id": "T0001",
+            "policy_version": "demo-v1",
+            "model": "ord001-scripted-model",
+            "latency_ms": 6
+          }
+        ]
+      }
+    },
+    {
+      "name": "P01 驳回",
+      "expected": "顾客确认前无工单；确认后待审；人工处理后同一工单回显；重试复用",
+      "actual": "工单 T0001：确认前无工单；确认后 pending、券 None；重复确认 HTTP 409，重试为 ticket_reused；越权与无效请求 [401, 401, 403, 400, 404]；reject 后顾客端同一工单为 rejected、券 None、记录 submitted→rejected；再问回复「订单 ORD001 的申请 T0001：已驳回。原因：演示：审批员驳回」；共 1 张工单",
+      "verdict": "通过",
+      "failures": [],
+      "evidence": {
+        "对话": [
+          {
+            "顾客": "我的外卖 ORD001 迟到了，可以申请补偿吗？",
+            "outcome": "awaiting_confirmation",
+            "reason_code": "eligible_for_review",
+            "confirmation": {
+              "kind": "confirm_submission",
+              "order_id": "ORD001",
+              "expected_at": "18:00",
+              "delivered_at": "18:50",
+              "late_seconds": 3000,
+              "proposed_coupon_yuan": 10,
+              "policy_version": "demo-v1"
+            },
+            "ticket": null,
+            "reply": "ORD001 晚到 50 分钟。可申请 ¥10 补偿券，确认后提交审核。"
+          },
+          {
+            "顾客": "[confirm]",
+            "outcome": "ticket_created",
+            "reason_code": "eligible_for_review",
+            "confirmation": null,
+            "ticket": {
+              "ticket_id": "T0001",
+              "order_id": "ORD001",
+              "status": "pending",
+              "late_seconds": 3000,
+              "policy_version": "demo-v1",
+              "proposed_coupon_yuan": 10,
+              "coupon_issued_yuan": null,
+              "review_note": null
+            },
+            "reply": "申请 T0001 已提交，待审核。"
+          },
+          {
+            "顾客": "我的外卖 ORD001 迟到了，可以申请补偿吗？",
+            "outcome": "ticket_reused",
+            "reason_code": null,
+            "confirmation": null,
+            "ticket": {
+              "ticket_id": "T0001",
+              "order_id": "ORD001",
+              "status": "pending",
+              "late_seconds": 3000,
+              "policy_version": "demo-v1",
+              "proposed_coupon_yuan": 10,
+              "coupon_issued_yuan": null,
+              "review_note": null
+            },
+            "reply": "订单 ORD001 的申请 T0001：待审核。"
+          },
+          {
+            "顾客": "我的外卖 ORD001 迟到了，可以申请补偿吗？",
+            "outcome": "ticket_reused",
+            "reason_code": null,
+            "confirmation": null,
+            "ticket": {
+              "ticket_id": "T0001",
+              "order_id": "ORD001",
+              "status": "rejected",
+              "late_seconds": 3000,
+              "policy_version": "demo-v1",
+              "proposed_coupon_yuan": 10,
+              "coupon_issued_yuan": null,
+              "review_note": "演示：审批员驳回"
+            },
+            "reply": "订单 ORD001 的申请 T0001：已驳回。原因：演示：审批员驳回"
+          }
+        ],
+        "审批端待审": [
+          {
+            "ticket_id": "T0001",
+            "order_id": "ORD001",
+            "status": "pending",
+            "late_seconds": 3000,
+            "policy_version": "demo-v1",
+            "proposed_coupon_yuan": 10,
+            "coupon_issued_yuan": null,
+            "review_note": null,
+            "审批节点已暂停": true
+          }
+        ],
+        "越权与无效请求的 HTTP 状态": {
+          "顾客账号提交审批": 401,
+          "未登录提交审批": 401,
+          "跨站提交审批": 403,
+          "不支持的审批动作 invalid_action": 400,
+          "U002 打开这张工单": 404
+        },
+        "顾客端同一工单": {
+          "ticket_id": "T0001",
+          "order_id": "ORD001",
+          "status": "rejected",
+          "late_seconds": 3000,
+          "policy_version": "demo-v1",
+          "proposed_coupon_yuan": 10,
+          "coupon_issued_yuan": null,
+          "review_note": "演示：审批员驳回",
+          "timeline": [
+            "submitted",
+            "rejected"
+          ]
+        },
+        "运行记录": [
+          {
+            "event": "customer_message",
+            "customer_id": "U001",
+            "order_id": "ORD001",
+            "outcome": "awaiting_confirmation",
+            "reason_code": "eligible_for_review",
+            "ticket_id": null,
+            "policy_version": "demo-v1",
+            "model": "ord001-scripted-model",
+            "latency_ms": 3
+          },
+          {
+            "event": "customer_confirm",
+            "customer_id": "U001",
+            "order_id": "ORD001",
+            "outcome": "ticket_created",
+            "reason_code": "eligible_for_review",
+            "ticket_id": "T0001",
+            "policy_version": "demo-v1",
+            "model": "ord001-scripted-model",
+            "latency_ms": 1
+          },
+          {
+            "event": "customer_message",
+            "customer_id": "U001",
+            "order_id": "ORD001",
+            "outcome": "ticket_reused",
+            "reason_code": null,
+            "ticket_id": "T0001",
+            "policy_version": "demo-v1",
+            "model": "ord001-scripted-model",
+            "latency_ms": 3
+          },
+          {
+            "event": "review_decision",
+            "customer_id": "U001",
+            "order_id": "ORD001",
+            "outcome": "rejected",
+            "reason_code": null,
+            "ticket_id": "T0001",
+            "policy_version": "demo-v1",
+            "model": "ord001-scripted-model",
+            "latency_ms": 1
+          },
+          {
+            "event": "customer_message",
+            "customer_id": "U001",
+            "order_id": "ORD001",
+            "outcome": "ticket_reused",
+            "reason_code": null,
+            "ticket_id": "T0001",
+            "policy_version": "demo-v1",
+            "model": "ord001-scripted-model",
+            "latency_ms": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "P02 晚 10／30 分钟",
+      "expected": "两笔均不符合，无确认框、无工单",
+      "actual": "ORD002 ineligible / delay_below_threshold，回复「ORD002 晚到 10 分钟。需晚到超过 30 分钟才能申请。」；ORD003 ineligible / delay_below_threshold，回复「ORD003 晚到 30 分钟。需晚到超过 30 分钟才能申请。」；无确认框、无工单",
+      "verdict": "通过",
+      "failures": [],
+      "evidence": {
+        "对话": [
+          {
+            "顾客": "我的外卖 ORD002 迟到了，可以申请补偿吗？",
+            "outcome": "ineligible",
+            "reason_code": "delay_below_threshold",
+            "confirmation": null,
+            "ticket": null,
+            "reply": "ORD002 晚到 10 分钟。需晚到超过 30 分钟才能申请。"
+          },
+          {
+            "顾客": "我的外卖 ORD003 迟到了，可以申请补偿吗？",
+            "outcome": "ineligible",
+            "reason_code": "delay_below_threshold",
+            "confirmation": null,
+            "ticket": null,
+            "reply": "ORD003 晚到 30 分钟。需晚到超过 30 分钟才能申请。"
+          }
+        ]
+      }
+    },
+    {
+      "name": "P02 边界 29:59",
+      "expected": "1799 秒不符合，无工单",
+      "actual": "ORD004 ineligible / delay_below_threshold，回复「ORD004 晚到 29 分钟 59 秒。需晚到超过 30 分钟才能申请。」；无确认框、无工单",
+      "verdict": "通过",
+      "failures": [],
+      "evidence": {
+        "对话": [
+          {
+            "顾客": "我的外卖 ORD004 迟到了，可以申请补偿吗？",
+            "outcome": "ineligible",
+            "reason_code": "delay_below_threshold",
+            "confirmation": null,
+            "ticket": null,
+            "reply": "ORD004 晚到 29 分钟 59 秒。需晚到超过 30 分钟才能申请。"
+          }
+        ]
+      }
+    },
+    {
+      "name": "P02 边界 30:01",
+      "expected": "1801 秒可提交，驳回后同一工单仍保留原始秒数",
+      "actual": "1801 秒，awaiting_confirmation / eligible_for_review；确认后工单 T0001 待审；reject 后同一工单为 rejected，仍为 1801 秒",
+      "verdict": "通过",
+      "failures": [],
+      "evidence": {
+        "对话": [
+          {
+            "顾客": "我的外卖 ORD005 迟到了，可以申请补偿吗？",
+            "outcome": "awaiting_confirmation",
+            "reason_code": "eligible_for_review",
+            "confirmation": {
+              "kind": "confirm_submission",
+              "order_id": "ORD005",
+              "expected_at": "18:00",
+              "delivered_at": "18:30:01",
+              "late_seconds": 1801,
+              "proposed_coupon_yuan": 10,
+              "policy_version": "demo-v1"
+            },
+            "ticket": null,
+            "reply": "ORD005 晚到 30 分钟 1 秒。可申请 ¥10 补偿券，确认后提交审核。"
+          },
+          {
+            "顾客": "[confirm]",
+            "outcome": "ticket_created",
+            "reason_code": "eligible_for_review",
+            "confirmation": null,
+            "ticket": {
+              "ticket_id": "T0001",
+              "order_id": "ORD005",
+              "status": "pending",
+              "late_seconds": 1801,
+              "policy_version": "demo-v1",
+              "proposed_coupon_yuan": 10,
+              "coupon_issued_yuan": null,
+              "review_note": null
+            },
+            "reply": "申请 T0001 已提交，待审核。"
+          }
+        ],
+        "顾客端同一工单": {
+          "ticket_id": "T0001",
+          "order_id": "ORD005",
+          "status": "rejected",
+          "late_seconds": 1801,
+          "policy_version": "demo-v1",
+          "proposed_coupon_yuan": 10,
+          "coupon_issued_yuan": null,
+          "review_note": null
+        }
+      }
+    },
+    {
+      "name": "P02 晚 31 分钟并取消",
+      "expected": "可申请；取消不建单；可重新咨询",
+      "actual": "1860 秒，awaiting_confirmation；确认框未处理时再发消息 HTTP 409；暂不提交 → claim_cancelled，无工单；再问为 awaiting_confirmation",
+      "verdict": "通过",
+      "failures": [],
+      "evidence": {
+        "对话": [
+          {
+            "顾客": "我的外卖 ORD008 迟到了，可以申请补偿吗？",
+            "outcome": "awaiting_confirmation",
+            "reason_code": "eligible_for_review",
+            "confirmation": {
+              "kind": "confirm_submission",
+              "order_id": "ORD008",
+              "expected_at": "18:00",
+              "delivered_at": "18:31",
+              "late_seconds": 1860,
+              "proposed_coupon_yuan": 10,
+              "policy_version": "demo-v1"
+            },
+            "ticket": null,
+            "reply": "ORD008 晚到 31 分钟。可申请 ¥10 补偿券，确认后提交审核。"
+          },
+          {
+            "顾客": "[cancel]",
+            "outcome": "claim_cancelled",
+            "reason_code": "eligible_for_review",
+            "confirmation": null,
+            "ticket": null,
+            "reply": "已取消提交。"
+          },
+          {
+            "顾客": "我的外卖 ORD008 迟到了，可以申请补偿吗？",
+            "outcome": "awaiting_confirmation",
+            "reason_code": "eligible_for_review",
+            "confirmation": {
+              "kind": "confirm_submission",
+              "order_id": "ORD008",
+              "expected_at": "18:00",
+              "delivered_at": "18:31",
+              "late_seconds": 1860,
+              "proposed_coupon_yuan": 10,
+              "policy_version": "demo-v1"
+            },
+            "ticket": null,
+            "reply": "ORD008 晚到 31 分钟。可申请 ¥10 补偿券，确认后提交审核。"
+          }
+        ]
+      }
+    },
+    {
+      "name": "P03 缺订单号后提供他人订单",
+      "expected": "先追问，再拒绝核验；不泄露订单事实、不建单；本人可正常查询",
+      "actual": "先追问「请提供订单号，或从「我的订单」中选择。」；ORD101 → unauthorized / order_not_verified，回复「未找到这笔订单，请核对订单号，或从「我的订单」中选择。」；未出现他人订单信息；无工单；日志 ['not_selected', 'unauthorized']；对照组 U002 本人为 awaiting_confirmation",
+      "verdict": "通过",
+      "failures": [],
+      "evidence": {
+        "对话": [
+          {
+            "顾客": "我的外卖迟到了，可以申请补偿吗？",
+            "outcome": "not_selected",
+            "reason_code": null,
+            "confirmation": null,
+            "ticket": null,
+            "reply": "请提供订单号，或从「我的订单」中选择。"
+          },
+          {
+            "顾客": "订单号是 ORD101",
+            "outcome": "unauthorized",
+            "reason_code": "order_not_verified",
+            "confirmation": null,
+            "ticket": null,
+            "reply": "未找到这笔订单，请核对订单号，或从「我的订单」中选择。"
+          }
+        ],
+        "运行记录": [
+          {
+            "event": "customer_message",
+            "customer_id": "U001",
+            "order_id": null,
+            "outcome": "not_selected",
+            "reason_code": null,
+            "ticket_id": null,
+            "policy_version": "demo-v1",
+            "model": "ord001-scripted-model",
+            "latency_ms": 2
+          },
+          {
+            "event": "customer_message",
+            "customer_id": "U001",
+            "order_id": "ORD101",
+            "outcome": "unauthorized",
+            "reason_code": "order_not_verified",
+            "ticket_id": null,
+            "policy_version": "demo-v1",
+            "model": "ord001-scripted-model",
+            "latency_ms": 3
+          }
+        ],
+        "对照：U002 本人查询 ORD101": {
+          "outcome": "awaiting_confirmation",
+          "reason_code": "eligible_for_review",
+          "confirmation": {
+            "kind": "confirm_submission",
+            "order_id": "ORD101",
+            "expected_at": "18:00",
+            "delivered_at": "18:50",
+            "late_seconds": 3000,
+            "proposed_coupon_yuan": 10,
+            "policy_version": "demo-v1"
+          },
+          "ticket": null,
+          "reply": "ORD101 晚到 50 分钟。可申请 ¥10 补偿券，确认后提交审核。"
+        }
+      }
+    },
+    {
+      "name": "P03 查无订单",
+      "expected": "与未授权使用相同的顾客回复；服务端日志区分 not_found",
+      "actual": "not_found / order_not_verified，回复「未找到这笔订单，请核对订单号，或从「我的订单」中选择。」，与未授权是同一句；无工单；日志 ['not_found']",
+      "verdict": "通过",
+      "failures": [],
+      "evidence": {
+        "对话": [
+          {
+            "顾客": "我的外卖 ORD999 迟到了，可以申请补偿吗？",
+            "outcome": "not_found",
+            "reason_code": "order_not_verified",
+            "confirmation": null,
+            "ticket": null,
+            "reply": "未找到这笔订单，请核对订单号，或从「我的订单」中选择。"
+          }
+        ],
+        "运行记录": [
+          {
+            "event": "customer_message",
+            "customer_id": "U001",
+            "order_id": "ORD999",
+            "outcome": "not_found",
+            "reason_code": "order_not_verified",
+            "ticket_id": null,
+            "policy_version": "demo-v1",
+            "model": "ord001-scripted-model",
+            "latency_ms": 4
+          }
+        ]
+      }
+    },
+    {
+      "name": "未送达",
+      "expected": "解释仅处理已送达订单，不建单",
+      "actual": "ORD006 ineligible / not_delivered，回复「订单 ORD006 尚未送达，请在送达后申请。」；无确认框、无工单",
+      "verdict": "通过",
+      "failures": [],
+      "evidence": {
+        "对话": [
+          {
+            "顾客": "我的外卖 ORD006 迟到了，可以申请补偿吗？",
+            "outcome": "ineligible",
+            "reason_code": "not_delivered",
+            "confirmation": null,
+            "ticket": null,
+            "reply": "订单 ORD006 尚未送达，请在送达后申请。"
+          }
+        ]
+      }
+    },
+    {
+      "name": "送达时间缺失",
+      "expected": "提示资料不足，不建单",
+      "actual": "ORD007 needs_info / invalid_delivery_times，回复「订单 ORD007 暂缺送达记录，无法提交申请。」；无确认框、无工单",
+      "verdict": "通过",
+      "failures": [],
+      "evidence": {
+        "对话": [
+          {
+            "顾客": "我的外卖 ORD007 迟到了，可以申请补偿吗？",
+            "outcome": "needs_info",
+            "reason_code": "invalid_delivery_times",
+            "confirmation": null,
+            "ticket": null,
+            "reply": "订单 ORD007 暂缺送达记录，无法提交申请。"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Studio 参考图",
+      "expected": "独立验证 50 分钟批准／驳回与 30／31 分钟分流",
+      "actual": "18:50 pending → approved；18:50 pending → rejected；18:30 ineligible → ineligible；18:31 pending → rejected",
+      "verdict": "通过",
+      "failures": [],
+      "evidence": {
+        "Studio 参考图": [
+          {
+            "delivered_at": "18:50",
+            "decision": "approve",
+            "before": "pending",
+            "after": "approved",
+            "late_minutes": 50
+          },
+          {
+            "delivered_at": "18:50",
+            "decision": "reject",
+            "before": "pending",
+            "after": "rejected",
+            "late_minutes": 50
+          },
+          {
+            "delivered_at": "18:30",
+            "decision": null,
+            "before": "ineligible",
+            "after": "ineligible",
+            "late_minutes": 30
+          },
+          {
+            "delivered_at": "18:31",
+            "decision": "reject",
+            "before": "pending",
+            "after": "rejected",
+            "late_minutes": 31
+          }
+        ]
+      }
+    },
+    {
+      "name": "补资料扩展的独立验收",
+      "expected": "补资料专项与新版浏览器检查分别验证恢复链路，不并入本脚本的12项",
+      "actual": "request_info 需填写补资料说明；工单进入 needs_info，由本人补充后同一工单回到 pending 再审。该链路的权限、多轮历史、数据库迁移与浏览器交互另由补资料专项检查和 UI 检查验证；实际结果见 evidence/2026-11-10-product/。本行仅说明验收范围，不计为本脚本通过项。",
+      "verdict": "仅记录",
+      "failures": [],
+      "evidence": {}
+    }
+  ]
+}

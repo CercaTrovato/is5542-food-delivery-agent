@@ -1,0 +1,59 @@
+{
+  "base": "http://127.0.0.1:8024",
+  "checked_at": "2026-11-10T06:27:07.989Z",
+  "results": [
+    {
+      "case": "P01 approve",
+      "ticket_id": "T0001",
+      "status": "passed",
+      "actual": {
+        "ticket_id": "T0001",
+        "customer_id": "U001",
+        "order_id": "ORD001",
+        "policy_version": "demo-v1",
+        "expected_at": "18:00",
+        "delivered_at": "18:50",
+        "late_seconds": 3000,
+        "proposed_coupon_yuan": 10,
+        "status": "approved",
+        "coupon_issued_yuan": 10,
+        "created_at": "2026-11-10T14:26:48+08:00",
+        "decided_at": "2026-11-10T14:26:51+08:00",
+        "review_note": "已核实晚到 50 分钟，同意演示补偿。"
+      }
+    },
+    {
+      "case": "P01 reject (independent run)",
+      "ticket_id": "T0001",
+      "status": "passed",
+      "actual": {
+        "ticket_id": "T0001",
+        "customer_id": "U001",
+        "order_id": "ORD001",
+        "policy_version": "demo-v1",
+        "expected_at": "18:00",
+        "delivered_at": "18:50",
+        "late_seconds": 3000,
+        "proposed_coupon_yuan": 10,
+        "status": "rejected",
+        "coupon_issued_yuan": null,
+        "created_at": "2026-11-10T14:26:59+08:00",
+        "decided_at": "2026-11-10T14:27:00+08:00",
+        "review_note": "独立驳回用例：不发放模拟券。"
+      }
+    },
+    {
+      "case": "P03 missing order id",
+      "status": "passed"
+    },
+    {
+      "case": "P03 other customer order",
+      "status": "passed"
+    },
+    {
+      "case": "390px mobile layout",
+      "status": "passed"
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,30 @@
+{
+  "checked_at": "2026-11-10T16:24:30+08:00",
+  "mode": "isolated synthetic provider failures; no external API calls",
+  "results": [
+    {
+      "case": "无效凭据有明确错误且不泄露凭据、不建单",
+      "status": "passed"
+    },
+    {
+      "case": "账户余额不足有明确错误且不泄露凭据、不建单",
+      "status": "passed"
+    },
+    {
+      "case": "服务限流有明确错误且不泄露凭据、不建单",
+      "status": "passed"
+    },
+    {
+      "case": "连接失败有明确错误且不泄露凭据、不建单",
+      "status": "passed"
+    },
+    {
+      "case": "健康接口只返回模型模式，不包含密钥与私有配置路径",
+      "status": "passed"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0
+  }
+}

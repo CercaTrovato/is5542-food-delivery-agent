@@ -1,0 +1,32 @@
+{
+  "checked_at": "2026-11-10T10:30:10.304Z",
+  "entry": "https://ord001-group24.surge.sh",
+  "live_origin": "https://studios-diamonds-qualifying-affects.trycloudflare.com",
+  "mode": "open",
+  "results": [
+    {
+      "case": "Surge 固定入口直接进入顾客页（未设口令），手机无横向溢出",
+      "status": "passed"
+    },
+    {
+      "case": "公网真实 DeepSeek 问候成功，浏览器不请求模型供应商",
+      "status": "passed",
+      "model": "openai:deepseek-flash",
+      "answer": "你好，我是配送关怀的 AI 客服，可以帮你查询订单配送进度、了解延误补偿条件，以及查看补偿申请的处理进度。有什么需要帮忙的吗？"
+    },
+    {
+      "case": "Surge 商家入口可登录并读取当前工单，未改动任何审批结果",
+      "status": "passed",
+      "tickets_visible": 1
+    },
+    {
+      "case": "公网商家端不能清空演示数据",
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "passed": 4,
+    "failed": 0
+  }
+}

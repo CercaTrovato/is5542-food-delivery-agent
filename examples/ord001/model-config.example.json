@@ -1,0 +1,5 @@
+{
+  "model": "deepseek-flash",
+  "base_url": "https://api.deepseek.com",
+  "api_key": "填写你自己的 API 密钥；实际配置请保存在仓库外"
+}

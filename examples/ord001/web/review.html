@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f3f4f9">
+  <title>配送关怀 · 商家工作台</title>
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/app.js" defer></script>
+  <script src="/static/review.js" defer></script>
+</head>
+<body data-page="review">
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <div class="ambient" aria-hidden="true"></div>
+  <header class="topbar"><a class="brand" href="/" aria-label="配送关怀首页"><span class="brand-symbol" data-icon="bowl"></span><span>配送关怀</span></a><nav class="role-switch" aria-label="切换入口"><a href="/"><span data-icon="chat"></span>顾客</a><a class="active" href="/review" aria-current="page"><span data-icon="inbox"></span>商家</a></nav><div class="topbar-actions"><button class="demo-chip" type="button" id="meta" data-open-demo aria-label="演示说明">演示</button><span class="connection" id="connection" title="正在连接"><i></i><span>正在连接</span></span><button class="icon-button" type="button" id="theme-toggle" aria-label="切换深浅主题" title="切换深浅主题"><span data-icon="moon"></span></button><div class="who" id="who" hidden><span class="avatar avatar-small" aria-hidden="true">R</span><span id="who-name"></span><button type="button" class="icon-button" id="logout" aria-label="切换账号" title="切换账号"><span data-icon="logout"></span></button></div></div></header>
+  <main class="page-content review-page" id="main">
+    <section class="entry-stage" id="login" hidden aria-labelledby="login-title"><div class="entry-art merchant-art" aria-hidden="true"><div class="entry-orbit"></div><div class="glass-orb orb-peach"></div><div class="glass-orb orb-blue"></div><div class="glass-orb orb-pink"></div><div class="floating-receipt"><span class="receipt-symbol" data-icon="inbox"></span><span class="buddy-face receipt-face"><i></i><i></i><span></span></span><span class="receipt-rule"></span><span class="receipt-rule short"></span><span class="receipt-check" data-icon="check"></span></div><div class="floating-coupon"><span data-icon="ticket"></span></div><div class="art-spark spark-one"></div><div class="art-spark spark-two"></div></div><div class="login-content"><span class="login-brand">配送关怀</span><h1 id="login-title">商家工作台</h1><div class="login-choices" id="login-choices"></div></div></section>
+    <div id="app" hidden><div class="page-heading"><h1>商家工作台</h1><span class="heading-caption">订单补偿</span></div><div class="review-toolbar"><div class="inbox-tabs"><button class="inbox-tab active" type="button" id="tab-pending" aria-pressed="true">待处理<span id="pending-count" class="tab-count">0</span></button><button class="inbox-tab" type="button" id="tab-decided" aria-pressed="false">已处理<span id="decided-count" class="tab-count">0</span></button></div><span class="sync-indicator" aria-label="自动同步"><span data-icon="refresh"></span></span></div><p class="status review-status" id="status" role="status"></p><div class="review-workspace"><section class="review-list" id="pending-panel" aria-label="待处理申请"><div id="pending"></div></section><section class="review-list" id="decided-panel" aria-label="已处理申请" hidden><div id="decided"></div></section><aside class="compensation-card"><div class="coupon-art" aria-hidden="true"><span data-icon="ticket"></span></div><span class="compensation-label">补偿券</span><strong class="compensation-amount" id="guide-amount"></strong><p id="guide-policy"></p></aside></div></div>
+    <footer class="page-footer"><span>配送关怀</span></footer>
+  </main>
+  <dialog class="dialog" id="demo-dialog" aria-labelledby="demo-title"><div class="dialog-heading"><span class="dialog-kicker">IS5542 · GROUP 24</span><button class="icon-button" type="button" data-close-dialog aria-label="关闭说明"><span data-icon="close"></span></button></div><h2 id="demo-title">演示说明</h2><p>账号、订单与补偿均为模拟数据，不涉及实际发券。</p><dl class="facts" id="policy-details"></dl><p class="dialog-note">支持通过、拒绝与补充资料。重置将清空全部申请与对话。正式平台政策仍待核对。</p><button type="button" class="secondary" id="reset" hidden><span data-icon="reset"></span>重置演示数据</button></dialog>
+  <dialog class="dialog reset-dialog" id="reset-dialog" aria-labelledby="reset-title"><div class="dialog-heading"><span class="round-icon coral" data-icon="reset"></span><button class="icon-button" type="button" data-close-dialog aria-label="取消重置"><span data-icon="close"></span></button></div><h2 id="reset-title">清空演示记录？</h2><p>全部申请与对话将被清空。模拟账号和订单保留。</p><div class="actions"><button class="danger-solid" type="button" id="reset-confirm">确认清空</button><button class="secondary" type="button" data-close-dialog>取消</button></div></dialog>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "results": [
+    {
+      "case": "真实网页直接回应身份问候",
+      "status": "passed",
+      "answer": "你好，我是配送关怀的 AI 客服，可以帮你查询订单配送进度、了解延误补偿条件，以及查看补偿申请的处理进度。有什么需要帮忙的吗？"
+    },
+    {
+      "case": "只查订单不出现申请确认卡",
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "failure": "page.waitForFunction: Timeout 30000ms exceeded.\n    at send (/Users/lizongqian/is5542-dev/is5542-food-delivery-agent/examples/ord001/ui-check/live.cjs:35:22)\n    at async /Users/lizongqian/is5542-dev/is5542-food-delivery-agent/examples/ord001/ui-check/live.cjs:59:16"
+}

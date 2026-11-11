@@ -1,0 +1,64 @@
+name: 小组任务与验收
+description: 记录负责人、交件、运行证据和复核结果。
+title: "[任务] "
+body:
+  - type: input
+    id: owner
+    attributes:
+      label: 负责人
+      description: 写小组成员姓名；GitHub 账号可在右侧 Assignees 认领。
+      placeholder: 李宗谦
+    validations:
+      required: true
+  - type: input
+    id: reviewers
+    attributes:
+      label: 接收人／复核人
+      placeholder: 李宾雄、gaga老师、A
+    validations:
+      required: true
+  - type: dropdown
+    id: status
+    attributes:
+      label: 当前状态
+      description: 提交代码表示有进展；完成验收需要复核人确认。
+      options:
+        - 待开始
+        - 进行中
+        - 待复核
+        - 已验收
+        - 阻塞
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: 要交什么
+      description: 写可检查的结果，附对应任务卡路径。
+      placeholder: 顾客确认后创建待审工单；审批后同一工单回显结果。
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 实际交件与证据
+      description: 附分支／PR、提交号、文件路径、运行方法、预期及实际结果。
+      value: |
+        - 分支／PR：
+        - 提交号：
+        - 启动／复跑：
+        - 预期与实际：
+        - 证据路径：
+    validations:
+      required: true
+  - type: textarea
+    id: blockers
+    attributes:
+      label: 待核／阻塞与下一步
+      description: 缺什么、影响哪一步、由谁补、最早可补时间；没有依据时不要承诺日期。
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 复核记录
+      description: 由复核人填写结果及日期；开发验证不能代替测试组验收。
+      placeholder: 待复核。
