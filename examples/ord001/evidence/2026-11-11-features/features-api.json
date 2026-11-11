@@ -1,0 +1,148 @@
+{
+  "checked_at": "2026-11-11T22:33:23+08:00",
+  "mode": "in-process TestClient; isolated databases; scripted or fixed-reply model",
+  "results": [
+    {
+      "case": "申请进度跟随正在咨询的订单；他人订单不显示任何事实",
+      "status": "passed",
+      "evidence": {
+        "focus": {
+          "ORD001": {
+            "order_id": "ORD001",
+            "verified": true,
+            "status": "pending",
+            "reason_code": "eligible_for_review",
+            "late_seconds": 3000,
+            "proposed_coupon_yuan": 10,
+            "ticket_id": "T0001"
+          },
+          "ORD002": {
+            "order_id": "ORD002",
+            "verified": true,
+            "status": "ineligible",
+            "reason_code": "delay_below_threshold",
+            "late_seconds": 600,
+            "proposed_coupon_yuan": null,
+            "ticket_id": null
+          },
+          "ORD005": {
+            "order_id": "ORD005",
+            "verified": true,
+            "status": "pending",
+            "reason_code": "eligible_for_review",
+            "late_seconds": 1801,
+            "proposed_coupon_yuan": 10,
+            "ticket_id": null
+          },
+          "ORD101": {
+            "order_id": "ORD101",
+            "verified": false
+          },
+          "ORD999": {
+            "order_id": "ORD999",
+            "verified": false
+          },
+          "ORD006": {
+            "order_id": "ORD006",
+            "verified": true,
+            "status": "ineligible",
+            "reason_code": "not_delivered",
+            "late_seconds": null,
+            "proposed_coupon_yuan": null,
+            "ticket_id": null
+          },
+          "U002 asks ORD001": {
+            "order_id": "ORD001",
+            "verified": false
+          }
+        },
+        "ticket_id": "T0001"
+      }
+    },
+    {
+      "case": "转人工关键词识别（含「不用转人工」等否定）",
+      "status": "passed",
+      "evidence": {
+        "cases": 11,
+        "requests": [
+          "人工",
+          "转人工",
+          "我要投诉",
+          "能不能转人工",
+          "找真人客服",
+          "ORD002 晚到太久了，我要投诉"
+        ]
+      }
+    },
+    {
+      "case": "转人工：关键词直达不经模型、同一顾客只排一个、取消、人工回复、权限与重置",
+      "status": "passed",
+      "evidence": {
+        "keyword_handoff": "H0001",
+        "button_handoff": "H0002",
+        "order_id": "ORD002",
+        "excerpt_lines": 5,
+        "events": [
+          "customer_message",
+          "customer_cancel",
+          "handoff_request",
+          "handoff_request",
+          "handoff_request",
+          "handoff_cancel",
+          "handoff_request",
+          "handoff_reply",
+          "customer_message"
+        ]
+      }
+    },
+    {
+      "case": "人工咨询总量上限",
+      "status": "passed",
+      "evidence": {
+        "limit": 1,
+        "second_customer_http": 429
+      }
+    },
+    {
+      "case": "满意度：审核后才能评、1–5 整数、本人一次",
+      "status": "passed",
+      "evidence": {
+        "ticket_id": "T0001",
+        "rating": 2,
+        "rejected_values": 6
+      }
+    },
+    {
+      "case": "AI 回复护栏：金额、承诺、退款、虚假完成被替换并记录；正常回复与服务端模板不受影响",
+      "status": "passed",
+      "evidence": {
+        "replaced": {
+          "放心，保证给你赔 20 元。": "amount",
+          "您一定能拿到补偿券的。": "promise",
+          "我马上为您退款。": "refund",
+          "补偿券已发放到您的账户。": "claim",
+          "已经为您转接人工客服。": "claim"
+        },
+        "kept": 3,
+        "server_template_kept": "T0001"
+      }
+    },
+    {
+      "case": "现有 SQLite 原地加列、建表，保留旧工单和事件，重启后继续",
+      "status": "passed",
+      "evidence": {
+        "ticket_kept": "T0001",
+        "new_columns": [
+          "rating",
+          "rated_at"
+        ],
+        "handoffs_table": "created",
+        "integrity_check": "ok"
+      }
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0
+  }
+}

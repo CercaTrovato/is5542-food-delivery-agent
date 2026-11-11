@@ -42,6 +42,8 @@ const open = passwordFile === '-';
     }
     await customer.getByRole('button', { name: '模拟顾客 U001', exact: true }).click();
     await customer.locator('#app').waitFor();
+    assert.equal(await customer.locator('.chat-caption').innerText(), 'AI 客服 · 非真人');
+    assert(await customer.locator('#handoff').isVisible(), 'The public page is not the version with the handoff button');
     const health = await (await context.request.get(`${liveOrigin}/api/health`)).json();
     assert.equal(health.model_mode, 'live');
     const input = '你好，请问您是？';

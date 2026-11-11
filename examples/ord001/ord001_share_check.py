@@ -187,7 +187,12 @@ def run_checks():
         assert client.post("/api/customer/login", json={"customer_id": "U001"}).status_code == 200
         assert client.post("/api/customer/messages", json={"text": "你好"}).status_code == 200
         assert client.post("/api/customer/messages", json={"text": "再问一次"}).status_code == 429
+        handoff = client.post("/api/customer/handoff", json={})
+        assert handoff.status_code == 200 and handoff.json()["handoff"]["status"] == "waiting"
+        probe = client.get("/static/ping.svg")
+        assert probe.status_code == 200 and probe.headers["content-type"].startswith("image/svg+xml")
     results.append({"case": "开放模式直接进入，仍保留重置拦截、主机/同源校验与聊天限流", "status": "passed"})
+    results.append({"case": "聊天限流时「转人工」按钮仍可经网关使用；入口探测图片可经网关读取", "status": "passed"})
     return results
 
 

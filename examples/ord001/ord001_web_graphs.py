@@ -1,6 +1,7 @@
 """LangGraph flows behind the ORD001 web demo: the customer claim and the human review."""
 
 import json
+import re
 from dataclasses import dataclass
 from typing import Literal, TypedDict
 
@@ -13,12 +14,14 @@ from langgraph.types import interrupt
 
 from ord001_policy import evaluate_order
 from ord001_web_store import DECISION_STATUS, normalize_order_id, order_facts
-from ord001_web_texts import CANCELLED, NOT_VERIFIED, QUERY_FAILED, confirm_text, delay_text, outcome_text, ticket_text
+from ord001_web_texts import (CANCELLED, GUARDED_REPLY, NOT_VERIFIED, QUERY_FAILED, confirm_text, delay_text,
+                              outcome_text, ticket_text)
 
 SYSTEM_PROMPT = (
     "你是「配送关怀」的 AI 客服，帮助顾客查询配送、理解延误补偿和查看申请进度。"
     "使用自然、简洁的中文，先回应顾客当前的问题，通常一到三句话即可。"
-    "顾客打招呼、询问你的身份或能力时，直接友好回应，不要索要订单号；不要自称真人。"
+    "顾客打招呼、询问你的身份或能力时，直接友好回应，不要索要订单号；说明你是 AI 客服，不要自称真人。"
+    "顾客想找人工或投诉时，告诉顾客点对话框上方的「转人工」即可，不要声称已经转接。"
     "遇到抱怨先回应实际不便，不说空泛的服务口号，不展示技术术语、内部规则版本或思考过程。"
     "承接前文已明确的订单和查询结果；如有多个订单且指代不明，先澄清，不要猜测。"
     "需要首次核实具体订单时调用 query_order；不得编造订单、配送时间、金额或查询结果。"
@@ -37,6 +40,43 @@ SYSTEM_PROMPT = (
 )
 TOOL_NOT_VERIFIED = json.dumps({"found": False, "message": "当前账号下没有这笔订单，无法核实。"}, ensure_ascii=False)
 
+# Free model text is checked before the customer sees it. Server templates are not: they come from the rule.
+AMOUNT = re.compile(r"[¥￥]\s*(\d+(?:\.\d+)?)|(\d+(?:\.\d+)?)\s*(?:元|块)")
+GUARANTEE = re.compile(r"(?:保证|一定|肯定|必定|必然|百分之?百|100\s*%)[^，。！？；,.!?;\n]{0,4}?"
+                       r"(?:通过|批准|到账|发放|发券|赔|退款|退钱|拿到|领到|获得)")
+REFUND_PROMISE = re.compile(r"(?:帮|为|给|替)(?:您|你)(?:办理|申请)?(?:全额|部分)?退(?:款|钱)"
+                            r"|(?:会|可以|能|马上|立即|立刻)(?:为您|给您|帮您|为你|给你|帮你)?(?:全额|部分)?退(?:款|钱)")
+DONE_CLAIM = re.compile(r"已(?:经)?(?:为您|为你|给您|给你|帮您|帮你)?(?:成功)?"
+                        r"(退款|退钱|赔付|赔偿|补偿|发放|发券|到账|批准|通过|提交|申请|转接|转人工|转给)")
+NEGATIONS = ("不", "无", "没", "未", "非", "别")
+TICKET_REF = re.compile(r"(?<![A-Za-z0-9])(?:ORD\d{1,12}|T\d{4})(?!\d)", re.IGNORECASE)
+
+
+def negated(text: str, start: int, width: int) -> bool:
+    return any(word in text[max(0, start - width):start] for word in NEGATIONS)
+
+
+def reply_risk(text: str, *, allowed_amounts: set, statuses: set) -> str | None:
+    """Name the rule a model reply breaks: an amount the rule did not set, a promised result, or a false claim."""
+    for match in AMOUNT.finditer(text):
+        # "无法改成 100 元" refuses an amount the customer asked for; it promises nothing.
+        if float(match.group(1) or match.group(2)) not in allowed_amounts and not negated(text, match.start(), 6):
+            return "amount"
+    if any(not negated(text, match.start(), 4) for match in GUARANTEE.finditer(text)):
+        return "promise"
+    if any(not negated(text, match.start(), 6) for match in REFUND_PROMISE.finditer(text)):
+        return "refund"
+    for match in DONE_CLAIM.finditer(text):
+        if negated(text, match.start(), 3):
+            continue
+        word = match.group(1)
+        if word in ("提交", "申请"):
+            if not statuses:
+                return "claim"
+        elif word in ("退款", "退钱", "转接", "转人工", "转给") or "approved" not in statuses:
+            return "claim"
+    return None
+
 
 @dataclass(frozen=True)
 class CustomerContext:
@@ -48,6 +88,7 @@ class CustomerState(MessagesState, total=False):
     reason_code: str | None
     claim: dict | None
     ticket_id: str | None
+    guarded: dict | None
 
 
 class ReviewState(TypedDict, total=False):
@@ -101,8 +142,24 @@ def build_customer_graph(model, data, store, policy, checkpointer=None):
         response = model_with_tools.invoke([
             SystemMessage(content=SYSTEM_PROMPT + "\n" + context), *state["messages"]
         ])
-        outcome = "lookup_requested" if response.tool_calls else "not_selected"
-        return {"messages": [response], "outcome": outcome, "reason_code": None, "claim": None, "ticket_id": None}
+        turn = {"outcome": "not_selected", "reason_code": None, "claim": None, "ticket_id": None, "guarded": None}
+        if response.tool_calls:
+            return {**turn, "messages": [response], "outcome": "lookup_requested"}
+        allowed = {float(policy.coupon_yuan)} | {
+            float(ticket[key]) for ticket in tickets
+            for key in ("proposed_coupon_yuan", "coupon_issued_yuan") if ticket[key] is not None
+        }
+        # A reply about named orders is checked against those orders' tickets only.
+        named = {ref.upper() for ref in TICKET_REF.findall(response.text)}
+        scoped = [ticket for ticket in tickets if ticket["order_id"] in named or ticket["ticket_id"] in named]
+        statuses = {ticket["status"] for ticket in (scoped if named else tickets)}
+        rule = reply_risk(response.text, allowed_amounts=allowed, statuses=statuses)
+        if rule is None:
+            return {**turn, "messages": [response]}
+        # Keep the token count and message id; the history the model reads next turn holds only the safe text.
+        safe = AIMessage(content=GUARDED_REPLY, id=response.id, usage_metadata=response.usage_metadata)
+        return {**turn, "messages": [safe], "reason_code": "reply_guarded",
+                "guarded": {"rule": rule, "text": response.text[:300]}}
 
     def judge(order: dict) -> dict:
         """Reuse the ticket kept for this order and rule version, otherwise apply the rule."""

@@ -32,6 +32,8 @@ CREATE TABLE IF NOT EXISTS tickets (
     customer_information TEXT,
     information_requested_at TEXT,
     information_submitted_at TEXT,
+    rating INTEGER,
+    rated_at TEXT,
     UNIQUE (order_id, policy_version)
 );
 CREATE TABLE IF NOT EXISTS ticket_events (
@@ -42,7 +44,23 @@ CREATE TABLE IF NOT EXISTS ticket_events (
     action TEXT NOT NULL,
     note TEXT
 );
+CREATE TABLE IF NOT EXISTS handoffs (
+    handoff_id TEXT PRIMARY KEY,
+    customer_id TEXT NOT NULL,
+    thread_id TEXT NOT NULL,
+    order_id TEXT,
+    after_index INTEGER NOT NULL,
+    request_text TEXT,
+    excerpt TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (status IN ('waiting', 'replied', 'cancelled')),
+    reply_text TEXT,
+    reviewer_id TEXT,
+    created_at TEXT NOT NULL,
+    closed_at TEXT
+);
 """
+# Columns added after the needs_info upgrade. Older files gain them in place, so nothing is copied.
+ADDED_TICKET_COLUMNS = (("rating", "INTEGER"), ("rated_at", "TEXT"))
 
 
 def now_text() -> str:
@@ -82,7 +100,7 @@ class DemoData:
 
 
 class TicketStore:
-    """SQLite tickets. The same order under the same policy version keeps one ticket."""
+    """SQLite tickets and human handoffs. The same order under the same policy version keeps one ticket."""
 
     def __init__(self, path: str = ":memory:"):
         self._lock = threading.Lock()
@@ -92,23 +110,28 @@ class TicketStore:
         self._db.executescript(SCHEMA)
 
     def _migrate(self) -> None:
-        """Replace the original three-state table atomically, preserving tickets and events."""
+        """Replace the original three-state table atomically, preserving tickets and events; add later columns in place."""
         table = self._db.execute("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'tickets'").fetchone()
         if table is None:
             return
         columns = {row["name"] for row in self._db.execute("PRAGMA table_info(tickets)")}
-        if "needs_info" in table["sql"] and {"information_request", "customer_information",
-                                                "information_requested_at", "information_submitted_at"} <= columns:
-            return
-        ticket_schema = SCHEMA.split("CREATE TABLE IF NOT EXISTS ticket_events", 1)[0]
-        with self._db:
-            self._db.execute("BEGIN IMMEDIATE")
-            self._db.execute(ticket_schema.replace("IF NOT EXISTS tickets", "tickets_upgrade", 1))
-            target = [row["name"] for row in self._db.execute("PRAGMA table_info(tickets_upgrade)")]
-            common = ", ".join(f'"{name}"' for name in target if name in columns)
-            self._db.execute(f"INSERT INTO tickets_upgrade ({common}) SELECT {common} FROM tickets")
-            self._db.execute("DROP TABLE tickets")
-            self._db.execute("ALTER TABLE tickets_upgrade RENAME TO tickets")
+        if not ("needs_info" in table["sql"] and {"information_request", "customer_information",
+                                                     "information_requested_at", "information_submitted_at"} <= columns):
+            ticket_schema = SCHEMA.split("CREATE TABLE IF NOT EXISTS ticket_events", 1)[0]
+            with self._db:
+                self._db.execute("BEGIN IMMEDIATE")
+                self._db.execute(ticket_schema.replace("IF NOT EXISTS tickets", "tickets_upgrade", 1))
+                target = [row["name"] for row in self._db.execute("PRAGMA table_info(tickets_upgrade)")]
+                common = ", ".join(f'"{name}"' for name in target if name in columns)
+                self._db.execute(f"INSERT INTO tickets_upgrade ({common}) SELECT {common} FROM tickets")
+                self._db.execute("DROP TABLE tickets")
+                self._db.execute("ALTER TABLE tickets_upgrade RENAME TO tickets")
+            columns = {row["name"] for row in self._db.execute("PRAGMA table_info(tickets)")}
+        missing = [(name, kind) for name, kind in ADDED_TICKET_COLUMNS if name not in columns]
+        if missing:
+            with self._db:
+                for name, kind in missing:
+                    self._db.execute(f"ALTER TABLE tickets ADD COLUMN {name} {kind}")
 
     def close(self) -> None:
         with self._lock:
@@ -208,7 +231,74 @@ class TicketStore:
             self._event(ticket_id, f"customer:{customer_id}", "information_submitted", text, at)
             return self._one("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,))
 
+    def rate(self, ticket_id: str, *, customer_id: str, rating: int) -> dict | None:
+        """Keep the owner's first 1–5 rating of a decided ticket."""
+        at = now_text()
+        with self._lock, self._db:
+            cursor = self._db.execute(
+                "UPDATE tickets SET rating = ?, rated_at = ? WHERE ticket_id = ? AND customer_id = ?"
+                " AND status IN ('approved', 'rejected') AND rating IS NULL",
+                (rating, at, ticket_id, customer_id),
+            )
+            if cursor.rowcount != 1:
+                return None
+            self._event(ticket_id, f"customer:{customer_id}", "rated", f"{rating} 分", at)
+            return self._one("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,))
+
+    # Human handoffs: a customer asks for a person, a reviewer answers in the same chat.
+
+    @staticmethod
+    def _handoff(row: dict | None) -> dict | None:
+        if row is not None:
+            row["excerpt"] = json.loads(row["excerpt"])
+        return row
+
+    def create_handoff(self, *, customer_id: str, thread_id: str, order_id: str | None, after_index: int,
+                       request_text: str | None, excerpt: list, limit: int) -> tuple[dict | None, bool]:
+        """Open one waiting handoff per customer. Returns (handoff, created); (None, False) once the demo is full."""
+        with self._lock, self._db:
+            waiting = self._one("SELECT * FROM handoffs WHERE customer_id = ? AND status = 'waiting'", (customer_id,))
+            if waiting:
+                return self._handoff(waiting), False
+            count = self._db.execute("SELECT COUNT(*) FROM handoffs").fetchone()[0]
+            if count >= limit:
+                return None, False
+            handoff_id = f"H{count + 1:04d}"
+            self._db.execute(
+                "INSERT INTO handoffs (handoff_id, customer_id, thread_id, order_id, after_index, request_text,"
+                " excerpt, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, 'waiting', ?)",
+                (handoff_id, customer_id, thread_id, order_id, after_index, request_text,
+                 json.dumps(excerpt, ensure_ascii=False), now_text()),
+            )
+            return self._handoff(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,))), True
+
+    def handoffs(self, *, customer_id: str | None = None) -> list[dict]:
+        sql, params = "SELECT * FROM handoffs", ()
+        if customer_id is not None:
+            sql, params = sql + " WHERE customer_id = ?", (customer_id,)
+        with self._lock:
+            rows = self._db.execute(sql + " ORDER BY handoff_id", params).fetchall()
+        return [self._handoff(dict(row)) for row in rows]
+
+    def get_handoff(self, handoff_id: str) -> dict | None:
+        with self._lock:
+            return self._handoff(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,)))
+
+    def close_handoff(self, handoff_id: str, *, status: str, customer_id: str | None = None,
+                      reviewer_id: str | None = None, reply_text: str | None = None) -> dict | None:
+        """Move a waiting handoff to replied or cancelled exactly once."""
+        sql = ("UPDATE handoffs SET status = ?, reply_text = ?, reviewer_id = ?, closed_at = ?"
+               " WHERE handoff_id = ? AND status = 'waiting'")
+        params = [status, reply_text, reviewer_id, now_text(), handoff_id]
+        if customer_id is not None:
+            sql, params = sql + " AND customer_id = ?", params + [customer_id]
+        with self._lock, self._db:
+            if self._db.execute(sql, params).rowcount != 1:
+                return None
+            return self._handoff(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,)))
+
     def reset(self) -> None:
         with self._lock, self._db:
             self._db.execute("DELETE FROM ticket_events")
             self._db.execute("DELETE FROM tickets")
+            self._db.execute("DELETE FROM handoffs")

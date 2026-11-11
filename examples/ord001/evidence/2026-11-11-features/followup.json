@@ -1,0 +1,88 @@
+{
+  "checked_at": "2026-11-11T22:33:21+08:00",
+  "mode": "in-process TestClient; isolated temporary databases; scripted model",
+  "results": [
+    {
+      "case": "商家问题必填、审批权限与等待补充保护",
+      "status": "passed",
+      "evidence": {
+        "ticket_id": "T0001",
+        "status": "needs_info",
+        "blocked_decisions": 3
+      }
+    },
+    {
+      "case": "顾客归属、文本边界、重复回复与审核恢复",
+      "status": "passed",
+      "evidence": {
+        "ticket_id": "T0001",
+        "status": "pending",
+        "ownership_http": 404,
+        "duplicate_http": 409,
+        "late_seconds": 1801
+      }
+    },
+    {
+      "case": "两轮补充同一申请、原始事实不变、批准后发券",
+      "status": "passed",
+      "evidence": {
+        "ticket_id": "T0001",
+        "events": [
+          "submitted",
+          "information_requested",
+          "information_submitted",
+          "information_requested",
+          "information_submitted",
+          "approved"
+        ],
+        "late_seconds": 1801,
+        "coupon_issued_yuan": 10
+      }
+    },
+    {
+      "case": "补充后拒绝不发券",
+      "status": "passed",
+      "evidence": {
+        "status": "rejected",
+        "coupon_issued_yuan": null
+      }
+    },
+    {
+      "case": "并发回复和审批只生效一次",
+      "status": "passed",
+      "evidence": {
+        "reply_http": [
+          200,
+          409
+        ],
+        "approval_http": [
+          200,
+          409
+        ],
+        "coupon_issued_yuan": 10
+      }
+    },
+    {
+      "case": "旧 SQLite 无损升级、两种状态重启后继续审核",
+      "status": "passed",
+      "evidence": {
+        "legacy_tickets_preserved": 2,
+        "legacy_event_ids_preserved": [
+          7,
+          8,
+          9
+        ],
+        "restart_states": [
+          "needs_info",
+          "pending"
+        ],
+        "integrity_check": "ok",
+        "late_seconds": 1801
+      }
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0
+  }
+}

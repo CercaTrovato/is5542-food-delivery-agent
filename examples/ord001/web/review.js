@@ -1,6 +1,10 @@
 "use strict";
 
+const TABS = ["pending", "decided", "handoffs"];
+const HANDOFF_STATUS = { waiting: "待回复", replied: "已回复", cancelled: "顾客已取消" };
+const LINE_ROLE = { customer: "顾客", assistant: "AI", tool: "查询" };
 const drafts = new Map();
+const replyDrafts = new Map();
 let signedIn = false;
 let busy = false;
 let lastTickets = "";
@@ -8,7 +12,7 @@ let selectedTab = "pending";
 
 function showTab(name) {
   selectedTab = name;
-  for (const tab of ["pending", "decided"]) {
+  for (const tab of TABS) {
     const active = tab === name;
     $(`tab-${tab}`).classList.toggle("active", active);
     $(`tab-${tab}`).setAttribute("aria-pressed", String(active));
@@ -94,7 +98,64 @@ function decidedCard(ticket) {
     note.append(el("span", "", "处理说明"), el("p", "", ticket.review_note));
     card.append(note);
   }
-  card.append(ticketHistory(ticket.ticket_id));
+  const rating = el("p", `review-rating${ticket.rating ? " rated" : ""}`);
+  if (ticket.rating) rating.append(icon("star"), el("span", "", `顾客评价 ${ticket.rating} / 5`));
+  else rating.append(el("span", "", "顾客暂未评价"));
+  card.append(rating, ticketHistory(ticket.ticket_id));
+  return card;
+}
+
+function handoffCard(item) {
+  const card = el("article", `ticket handoff handoff-${item.status}`);
+  card.dataset.handoffId = item.handoff_id;
+  const head = el("div", "ticket-head");
+  const heading = el("strong", "", item.order_id || "未指明订单");
+  heading.append(el("small", "", item.handoff_id));
+  head.append(heading, el("span", `badge badge-${item.status}`, HANDOFF_STATUS[item.status] || item.status));
+  const person = el("div", "review-person");
+  person.append(el("span", "avatar", "U"), el("span", "", `顾客 ${item.customer_id}`), el("time", "", clock(item.created_at)));
+  card.append(head, person);
+  if (item.request_text) {
+    const request = el("div", "information-request");
+    request.append(el("span", "", "顾客留言"), el("p", "", item.request_text));
+    card.append(request);
+  }
+  const transcript = el("ol", "handoff-transcript");
+  for (const line of item.excerpt) {
+    const row = el("li", `line-${line.role}`);
+    row.append(el("span", "line-role", LINE_ROLE[line.role] || line.role), el("p", "", line.text));
+    transcript.append(row);
+  }
+  if (!item.excerpt.length) transcript.append(el("li", "line-empty", "顾客直接转人工，暂无对话"));
+  card.append(el("span", "transcript-label", "转人工前的对话"), transcript);
+  if (item.status === "waiting") {
+    const replyId = `handoff-reply-${item.handoff_id}`;
+    const label = el("label", "note-label", "回复顾客");
+    label.htmlFor = replyId;
+    label.append(el("span", "", "顾客在对话里看到 · 500 字"));
+    const note = el("textarea", "note");
+    note.id = replyId;
+    note.rows = 3;
+    note.maxLength = 500;
+    note.placeholder = "例如：已看到你的情况，我来帮你核对";
+    note.dataset.handoff = item.handoff_id;
+    note.value = replyDrafts.get(item.handoff_id) || "";
+    note.addEventListener("input", () => { replyDrafts.set(item.handoff_id, note.value); note.removeAttribute("aria-invalid"); });
+    const actions = el("div", "actions");
+    const send = button("发送回复", "primary", () => reply(item.handoff_id));
+    send.dataset.action = "handoff-reply";
+    send.prepend(icon("arrow-up"));
+    actions.append(send);
+    card.append(label, note, actions);
+  } else if (item.status === "replied") {
+    const note = el("div", "ticket-note");
+    note.append(el("span", "", `人工回复 · ${clock(item.closed_at)} · ${item.reviewer_id}`), el("p", "", item.reply_text));
+    card.append(note);
+  } else {
+    const waiting = el("p", "waiting-information");
+    waiting.append(icon("close"), el("span", "", `顾客已于 ${clock(item.closed_at)} 取消`));
+    card.append(waiting);
+  }
   return card;
 }
 
@@ -103,30 +164,44 @@ function renderList(id, tickets, makeCard) {
   $(id).replaceChildren(emptyState(id === "pending" ? "inbox" : "file-check", id === "pending" ? "暂无待处理申请" : "暂无处理记录", "", true));
 }
 
+function renderHandoffs(data) {
+  const waitingIds = new Set(data.waiting.map((item) => item.handoff_id));
+  for (const id of replyDrafts.keys()) if (!waitingIds.has(id)) replyDrafts.delete(id);
+  $("handoffs-count").textContent = data.waiting.length;
+  $("tab-handoffs").classList.toggle("has-waiting", data.waiting.length > 0);
+  const items = [...data.waiting, ...data.closed.slice().reverse()];
+  if (items.length) $("handoffs").replaceChildren(...items.map(handoffCard));
+  else $("handoffs").replaceChildren(emptyState("chat", "暂无人工咨询", "", true));
+}
+
 function signOut() {
   signedIn = false;
   lastTickets = "";
   drafts.clear();
+  replyDrafts.clear();
   setSignedIn(null);
 }
 
 async function refresh() {
-  let data;
-  try { data = await api("/api/review/tickets"); }
+  let data, handoffs;
+  try { [data, handoffs] = await Promise.all([api("/api/review/tickets"), api("/api/review/handoffs")]); }
   catch (error) { if (error.status === 401) return signOut(); throw error; }
-  const key = JSON.stringify(data);
+  const key = JSON.stringify([data, handoffs]);
   if (key === lastTickets) return;
   lastTickets = key;
   const active = document.activeElement;
-  const focused = active && active.dataset.ticket;
-  const start = focused ? active.selectionStart : 0;
-  const end = focused ? active.selectionEnd : 0;
+  const field = active && (active.dataset.ticket || active.dataset.handoff) ? active : null;
+  const selector = field ? (field.dataset.ticket ? `textarea[data-ticket="${CSS.escape(field.dataset.ticket)}"]`
+    : `textarea[data-handoff="${CSS.escape(field.dataset.handoff)}"]`) : null;
+  const start = field ? field.selectionStart : 0;
+  const end = field ? field.selectionEnd : 0;
   $("pending-count").textContent = data.pending.length;
   $("decided-count").textContent = data.decided.length;
   renderList("pending", data.pending, pendingCard);
   renderList("decided", data.decided.slice().reverse(), decidedCard);
-  if (focused) {
-    const note = document.querySelector(`textarea[data-ticket="${CSS.escape(focused)}"]`);
+  renderHandoffs(handoffs);
+  if (selector) {
+    const note = document.querySelector(selector);
     if (note) { note.focus({ preventScroll: true }); note.setSelectionRange(start, end); }
   }
 }
@@ -157,6 +232,31 @@ async function decide(ticketId, decision) {
   }
 }
 
+async function reply(handoffId) {
+  if (busy) return;
+  const text = (replyDrafts.get(handoffId) || "").trim();
+  if (!text) {
+    const note = document.getElementById(`handoff-reply-${handoffId}`);
+    note.setAttribute("aria-invalid", "true");
+    note.focus();
+    showStatus("请填写回复内容", true);
+    return;
+  }
+  busy = true;
+  for (const node of document.querySelectorAll("#handoffs button, #handoffs textarea")) node.disabled = true;
+  showStatus("处理中…");
+  try {
+    await api(`/api/review/handoffs/${encodeURIComponent(handoffId)}/reply`, { text });
+    replyDrafts.delete(handoffId);
+    showStatus(`${handoffId} · 已回复顾客`);
+  } catch (error) { showStatus(error.message, true); }
+  finally {
+    busy = false;
+    lastTickets = "";
+    await refresh().catch((error) => showStatus(error.message, true));
+  }
+}
+
 async function resetDemo() {
   if (busy) return;
   busy = true;
@@ -164,6 +264,7 @@ async function resetDemo() {
   try {
     await api("/api/review/reset", {});
     drafts.clear();
+    replyDrafts.clear();
     showTab("pending");
     showStatus("已清空演示记录");
   } catch (error) { showStatus(error.message, true); }
@@ -188,8 +289,7 @@ async function boot() {
     try { await enter((await api("/api/review/login", { reviewer_id: reviewerId })).reviewer); }
     catch (error) { showStatus(error.message, true); }
   });
-  $("tab-pending").addEventListener("click", () => showTab("pending"));
-  $("tab-decided").addEventListener("click", () => showTab("decided"));
+  for (const tab of TABS) $(`tab-${tab}`).addEventListener("click", () => showTab(tab));
   $("reset").addEventListener("click", () => {
     if (busy) return;
     $("demo-dialog").close();

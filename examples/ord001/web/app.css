@@ -362,6 +362,100 @@ h1 { font-size: 32px; line-height: 1.35; font-weight: 650; letter-spacing: -.055
 .history-event p { font-size: 12px; line-height: 1.8; white-space: pre-wrap; overflow-wrap: anywhere; margin-top: 5px; }
 .history-loading, .history-error { font-size: 11px; color: var(--muted); }
 .history-retry { display: inline-flex; border: 0; background: transparent; color: var(--accent); padding: 3px 8px; font-size: 11px; }
+/* AI disclosure and the human handoff inside the chat. */
+.chat-title { display: flex; flex-direction: column; min-width: 0; }
+.chat-caption { font-size: 10px; line-height: 1.4; color: var(--muted); }
+.chat-tools { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.handoff-button { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel-solid); color: var(--text); font-size: 12px; font-weight: 500; white-space: nowrap; transition: background .15s, border-color .15s, color .15s; }
+.handoff-button:hover:not(:disabled) { border-color: var(--focus); background: var(--accent-soft); color: var(--accent); }
+.handoff-button svg { width: 15px; height: 15px; }
+.handoff-button.waiting { color: var(--violet); background: var(--violet-soft); border-color: transparent; }
+.handoff-button.waiting:disabled { opacity: 1; cursor: default; }
+.welcome-note { font-size: 13px; line-height: 1.8; color: var(--muted); max-width: 26em; }
+.bubble-tag { font-size: 10px; letter-spacing: .04em; color: var(--muted); margin: 0 0 5px 4px; }
+.human .bubble { background: var(--approved-bg); }
+.human .bubble-tag { color: var(--approved); }
+.handoff-note { align-self: center; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 8px; max-width: 100%; padding: 8px 14px; border-radius: 14px; background: var(--violet-soft); color: var(--violet); font-size: 12px; text-align: center; overflow-wrap: anywhere; }
+.handoff-note svg { width: 14px; height: 14px; }
+.handoff-note.note-replied { background: var(--approved-bg); color: var(--approved); }
+.handoff-note.note-cancelled { background: var(--soft); color: var(--muted); }
+.handoff-cancel { border: 0; background: transparent; color: inherit; font-size: 12px; padding: 2px 4px; text-decoration: underline; text-underline-offset: 3px; }
+/* The application panel follows the order being discussed. */
+.focus-card { min-width: 0; }
+.focus-card .ticket-head small { font-family: var(--font-body); }
+.focus-card .ticket-highlight > div { padding-right: 50px; }
+.focus-card .ticket-highlight h3 { color: var(--text); font-size: 15px; font-weight: 560; }
+.focus-card .ticket-highlight p { font-size: 12px; line-height: 1.75; }
+.focus-card > .primary { width: 100%; margin-top: 20px; }
+.focus-ineligible .ticket-highlight { background: var(--soft); }
+.focus-ineligible .ticket-highlight > [data-icon] { color: var(--muted); }
+.focus-delivering .ticket-highlight { background: linear-gradient(125deg, var(--cyan-soft), var(--accent-soft)); }
+.focus-delivering .ticket-highlight > [data-icon] { color: var(--cyan); }
+.focus-unverified .ticket-highlight { background: var(--rejected-bg); }
+.focus-unverified .ticket-highlight > [data-icon] { color: var(--rejected); }
+.focus-unknown .ticket-highlight { background: var(--pending-bg); }
+.focus-unknown .ticket-highlight > [data-icon] { color: var(--pending); }
+.focus-hint { display: flex; align-items: flex-start; gap: 10px; padding: 16px; border-radius: 14px; background: var(--soft); color: var(--muted); font-size: 12px; line-height: 1.8; }
+.focus-hint svg { width: 16px; height: 16px; margin-top: 3px; }
+.ticket-others { display: grid; gap: 10px; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); }
+.back-focus { display: inline-flex; align-items: center; gap: 7px; justify-self: start; padding: 8px 12px; border: 0; border-radius: 10px; background: var(--accent-soft); color: var(--accent); font-size: 12px; }
+.back-focus svg { width: 14px; height: 14px; }
+.other-tickets[open] .history-summary svg { transform: rotate(180deg); }
+.other-list { display: grid; gap: 6px; margin-top: 10px; }
+.other-ticket { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 10px; width: 100%; padding: 10px 12px; text-align: left; border: 1px solid var(--line); border-radius: 11px; background: var(--panel-solid); color: var(--text); font-size: 12px; }
+.other-ticket:hover { border-color: var(--focus); background: var(--accent-soft); }
+.other-ticket strong { font-weight: 550; overflow-wrap: anywhere; }
+.other-amount { color: var(--muted); font-variant-numeric: tabular-nums; }
+.mini-status { padding: 2px 7px; border-radius: 6px; font-size: 10px; white-space: nowrap; }
+.status-pending { color: var(--pending); background: var(--pending-bg); }
+.status-needs_info { color: var(--violet); background: var(--violet-soft); }
+.status-approved { color: var(--approved); background: var(--approved-bg); }
+.status-rejected { color: var(--rejected); background: var(--rejected-bg); }
+.order { position: relative; }
+.order-picks { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 20px 10px; }
+.pick-label { width: 100%; font-size: 11px; color: var(--muted); }
+.pick { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; padding: 7px 11px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel-solid); color: var(--text); font-size: 12px; transition: background .15s, border-color .15s, color .15s; }
+.pick:hover:not(:disabled) { border-color: var(--focus); background: var(--accent-soft); color: var(--accent); }
+.pick strong { font-weight: 550; font-variant-numeric: tabular-nums; }
+.pick span { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pick-more { color: var(--accent); border-style: dashed; }
+.order.is-focus::before { content: ""; position: absolute; left: -12px; top: 18px; bottom: 18px; width: 3px; border-radius: 3px; background: var(--accent); }
+.order.is-focus .order-text strong { color: var(--accent); }
+/* Satisfaction after a decision. */
+.rating { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-top: 18px; padding: 12px 14px; border-radius: 13px; background: var(--soft); }
+.rating-label { font-size: 12px; color: var(--muted); }
+.rating-stars { display: flex; gap: 2px; }
+.rate-star { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0; border: 0; border-radius: 9px; background: transparent; color: var(--muted); transition: color .12s; }
+.rate-star svg { width: 20px; height: 20px; }
+.rating-stars:hover .rate-star:not(:disabled), .rating-stars:has(.rate-star:focus-visible) .rate-star { color: var(--pending); }
+.rating-stars:hover .rate-star:not(:disabled) svg, .rating-stars:has(.rate-star:focus-visible) .rate-star svg { fill: currentColor; }
+.rating-stars .rate-star:hover ~ .rate-star:not(:disabled), .rating-stars .rate-star:focus-visible ~ .rate-star:not(:disabled) { color: var(--muted); }
+.rating-stars .rate-star:hover ~ .rate-star:not(:disabled) svg, .rating-stars .rate-star:focus-visible ~ .rate-star:not(:disabled) svg { fill: none; }
+.rating-done { display: inline-flex; gap: 2px; color: var(--pending); }
+.rating-done svg { width: 16px; height: 16px; }
+.star-on svg { fill: currentColor; }
+.star-off { color: var(--track); }
+.rating-score { width: 100%; font-size: 11px; color: var(--muted); }
+.toast { position: fixed; left: 0; right: 0; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); z-index: 60; width: fit-content; max-width: min(440px, calc(100% - 32px)); margin-inline: auto; display: flex; align-items: center; gap: 10px; padding: 13px 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel-solid); color: var(--text); box-shadow: var(--dialog-shadow); font-size: 13px; pointer-events: none; opacity: 0; visibility: hidden; transform: translateY(12px); transition: opacity .2s, transform .2s, visibility .2s; }
+.toast.show { opacity: 1; visibility: visible; transform: translateY(0); }
+.toast svg { width: 17px; height: 17px; color: var(--accent); }
+.toast span { overflow-wrap: anywhere; }
+/* Merchant side: handoff queue, transcript and ratings. */
+.badge-waiting { color: var(--violet); background: var(--violet-soft); }
+.badge-replied { color: var(--approved); background: var(--approved-bg); }
+.badge-cancelled { color: var(--muted); background: var(--soft); }
+.inbox-tab.has-waiting .tab-count { min-width: 18px; padding: 0 5px; border-radius: 9px; text-align: center; font-weight: 600; color: var(--coral); background: var(--coral-soft); }
+.transcript-label { display: block; margin: 18px 0 8px; font-size: 11px; color: var(--muted); }
+.handoff-transcript { list-style: none; display: grid; gap: 8px; max-height: 260px; overflow-y: auto; margin: 0 0 18px; padding: 12px 14px; border-radius: 13px; background: var(--soft); }
+.handoff-transcript li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 8px; font-size: 12px; line-height: 1.7; }
+.handoff-transcript li.line-empty { display: block; color: var(--muted); }
+.handoff-transcript p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.line-role { padding-top: 1px; font-size: 10px; color: var(--muted); }
+.line-customer .line-role { color: var(--accent); }
+.line-tool p { color: var(--muted); }
+.review-rating { display: flex; align-items: center; gap: 6px; margin-top: 15px; font-size: 12px; color: var(--muted); }
+.review-rating.rated { color: var(--pending); }
+.review-rating svg { width: 15px; height: 15px; fill: currentColor; }
 @keyframes blink { 0%, 43%, 47%, 100% { transform: scaleY(1); } 45% { transform: scaleY(.12); } }
 @keyframes arrive { from { transform: translateY(6px); } to { transform: translateY(0); } }
 @media (min-width: 1600px) { .page-content { padding-inline: 40px; padding-block-start: 42px; } .customer-layout { gap: 24px; } .messages { min-height: 430px; } }
@@ -464,5 +558,12 @@ h1 { font-size: 32px; line-height: 1.35; font-weight: 650; letter-spacing: -.055
   .review-list .actions .danger { flex: .7; }
   .empty-state { min-height: 330px; padding: 35px 20px; }
   .dialog { padding: 25px; }
+  .handoff-button { padding: 7px 10px; min-height: 36px; }
+  .order-picks { margin-inline: 16px; }
+  .pick { min-height: 38px; }
+  .rate-star { width: 40px; height: 40px; }
+  .handoff-cancel { min-height: 32px; }
+  .other-ticket { min-height: 44px; }
+  .toast { bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }

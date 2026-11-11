@@ -3,55 +3,103 @@
 const QUICK = [
   ["晚到 50 分钟", "ORD001"], ["恰好 30 分钟", "ORD003"], ["30 分 1 秒", "ORD005"],
   ["未提供订单号", "我的外卖迟到了，可以申请补偿吗？"], ["其他账号的订单", "ORD101"], ["查无订单", "ORD999"],
+  ["找人工客服", "我想找人工客服"],
 ];
 const ORDER_STATUS = { delivered: "已送达", delivering: "配送中" };
+const HANDOFF_NOTE = { waiting: "已转人工，排队中，人工客服会在这里回复", replied: "人工客服已接入", cancelled: "已取消转人工" };
 let signedIn = false;
 let busy = false;
 let confirming = false;
 let lastState = "";
-let lastMessages = "";
+let lastChat = "";
 let orders = [];
 let expandedOrders = false;
+let policy = null;
+let latest = null;
+let lastFocus = null;
+let viewTicket = null;
+let shownOrder = null;
+let othersOpen = null;
+let handoffWaiting = false;
+let seen = null;
+let toastTimer = 0;
 const informationDrafts = new Map();
 
 function updateControls() {
   const locked = busy || confirming;
-  for (const node of document.querySelectorAll("#composer textarea, #composer button, #quick button, #orders button, #tickets textarea, #tickets button, .suggestion")) node.disabled = locked;
-  $("confirm-yes").disabled = busy;
-  $("confirm-no").disabled = busy;
+  for (const node of document.querySelectorAll("#composer textarea, #composer button, #quick button, #orders button, #order-picks button, #tickets textarea, #tickets button, .suggestion")) node.disabled = locked;
+  for (const node of document.querySelectorAll("#confirm-yes, #confirm-no, .handoff-cancel")) node.disabled = busy;
+  $("handoff").disabled = busy || handoffWaiting;
   $("send").setAttribute("aria-busy", String(busy));
   document.body.classList.toggle("is-working", busy);
 }
 
-function renderMessages(messages) {
-  const key = JSON.stringify(messages);
-  if (key === lastMessages) return;
-  lastMessages = key;
-  const box = $("messages");
-  if (!messages.length) {
-    const welcome = el("div", "chat-welcome");
-    welcome.append(careBuddy("buddy-welcome"), el("h3", "", "想处理哪笔订单？"));
-    const suggestions = el("div", "suggestion-row");
-    for (const [label, text] of [["ORD001 晚到了", "我的外卖 ORD001 迟到了，可以申请补偿吗？"], ["咨询延误补偿", "我的外卖迟到了，可以申请补偿吗？"]]) {
-      const suggestion = button(label, "suggestion", () => send(text));
-      suggestion.append(icon("arrow-up-right"));
-      suggestions.append(suggestion);
-    }
-    welcome.append(suggestions);
-    box.replaceChildren(welcome);
-    return;
+function toast(text) {
+  const node = $("toast");
+  node.replaceChildren(icon("bell"), el("span", "", text));
+  node.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => node.classList.remove("show"), 6000);
+}
+
+function bubble(role, text, tag) {
+  const row = el("div", `bubble-row ${role}`);
+  if (tag) row.append(el("span", "bubble-tag", tag));
+  row.append(el("div", "bubble", text));
+  return row;
+}
+
+function handoffBlock(item) {
+  const nodes = [];
+  if (item.request_text) nodes.push(bubble("customer", item.request_text));
+  const note = el("div", `handoff-note note-${item.status}`);
+  note.dataset.handoffId = item.handoff_id;
+  note.append(icon(item.status === "cancelled" ? "close" : "person"), el("span", "", HANDOFF_NOTE[item.status] || item.status));
+  if (item.status === "waiting") {
+    note.append(button("取消", "handoff-cancel", () => act(() => api(`/api/customer/handoffs/${encodeURIComponent(item.handoff_id)}/cancel`, {}))));
   }
-  box.replaceChildren(...messages.map((item) => {
+  nodes.push(note);
+  if (item.status === "replied") nodes.push(bubble("human", item.reply_text, "人工客服"));
+  return nodes;
+}
+
+function welcome() {
+  const box = el("div", "chat-welcome");
+  box.append(careBuddy("buddy-welcome"), el("h3", "", "想处理哪笔订单？"),
+    el("p", "welcome-note", "我是 AI 客服，不是真人。可以查配送、申请晚到补偿；需要真人时点「转人工」。"));
+  const suggestions = el("div", "suggestion-row");
+  for (const [label, text] of [["ORD001 晚到了", "我的外卖 ORD001 迟到了，可以申请补偿吗？"], ["咨询延误补偿", "我的外卖迟到了，可以申请补偿吗？"]]) {
+    const suggestion = button(label, "suggestion", () => send(text));
+    suggestion.append(icon("arrow-up-right"));
+    suggestions.append(suggestion);
+  }
+  box.append(suggestions);
+  return box;
+}
+
+function renderMessages(messages, handoffs) {
+  const key = JSON.stringify([messages, handoffs]);
+  if (key === lastChat) return;
+  lastChat = key;
+  const box = $("messages");
+  if (!messages.length && !handoffs.length) { box.replaceChildren(welcome()); updateControls(); return; }
+  const nodes = [];
+  // A handoff sits after the chat lines that existed when it was opened.
+  const place = (index) => {
+    for (const item of handoffs) if (Math.min(item.after, messages.length) === index) nodes.push(...handoffBlock(item));
+  };
+  messages.forEach((item, index) => {
+    place(index);
     if (item.role === "tool") {
       const line = el("p", "tool-line");
       line.append(icon("search"), el("span", "", item.text.replace("查单工具 query_order：", "查询 ")));
-      return line;
-    }
-    const row = el("div", `bubble-row ${item.role}`);
-    row.append(el("div", "bubble", item.text));
-    return row;
-  }));
+      nodes.push(line);
+    } else nodes.push(bubble(item.role, item.text, item.role === "assistant" ? "AI" : ""));
+  });
+  place(messages.length);
+  box.replaceChildren(...nodes);
   box.scrollTop = box.scrollHeight;
+  updateControls();
 }
 
 function renderConfirmation(claim) {
@@ -67,12 +115,16 @@ function renderConfirmation(claim) {
   updateControls();
 }
 
-function renderJourney(state) {
+function ruleText() {
+  if (!policy) return "达到晚到条件";
+  return policy.include_threshold ? `晚到 ${policy.threshold_minutes} 分钟及以上` : `晚到超过 ${policy.threshold_minutes} 分钟`;
+}
+
+function renderJourney(state, ticket) {
   let current = 0;
   if (state.confirmation) current = 1;
-  else if (state.tickets.length) current = ["pending", "needs_info"].includes(state.tickets[state.tickets.length - 1].status) ? 2 : 3;
-  const needsInfo = state.tickets.some((ticket) => ticket.status === "needs_info");
-  $("journey").children[2].querySelector("strong").textContent = needsInfo ? "补充说明" : "人工审核";
+  else if (ticket) current = ["pending", "needs_info"].includes(ticket.status) ? 2 : 3;
+  $("journey").children[2].querySelector("strong").textContent = ticket && ticket.status === "needs_info" ? "补充说明" : "人工审核";
   [...$("journey").children].forEach((node, index) => {
     node.classList.toggle("current", index === current);
     node.classList.toggle("done", index < current);
@@ -81,90 +133,239 @@ function renderJourney(state) {
   });
 }
 
-function renderTickets(tickets) {
+function ratingBlock(ticket) {
+  const box = el("div", "rating");
+  if (ticket.rating) {
+    box.classList.add("rated");
+    const stars = el("span", "rating-done");
+    for (let n = 1; n <= 5; n += 1) stars.append(icon("star", n <= ticket.rating ? "star-on" : "star-off"));
+    box.append(el("span", "rating-label", "你的评价"), stars, el("span", "rating-score", `${ticket.rating} 分 · 谢谢反馈`));
+    return box;
+  }
+  box.append(el("span", "rating-label", "这次处理满意吗？"));
+  const stars = el("div", "rating-stars");
+  for (let n = 1; n <= 5; n += 1) {
+    const star = button("", "rate-star", () => act(() => api(`/api/customer/tickets/${encodeURIComponent(ticket.ticket_id)}/rating`, { rating: n })));
+    star.setAttribute("aria-label", `${n} 分`);
+    star.append(icon("star"));
+    stars.append(star);
+  }
+  box.append(stars);
+  return box;
+}
+
+function informationForm(ticket) {
+  const request = el("div", "information-request");
+  request.append(el("span", "", "请补充"), el("p", "", ticket.information_request));
+  const form = el("form", "information-form");
+  const inputId = `ticket-information-${ticket.ticket_id}`;
+  const label = el("label", "note-label", "补充说明");
+  label.htmlFor = inputId;
+  const input = el("textarea", "note");
+  input.id = inputId;
+  input.dataset.information = "";
+  input.rows = 3;
+  input.maxLength = 500;
+  input.required = true;
+  input.placeholder = "填写需要补充的信息";
+  input.value = informationDrafts.get(ticket.ticket_id) || "";
+  input.addEventListener("input", () => informationDrafts.set(ticket.ticket_id, input.value));
+  const submit = el("button", "primary", "提交补充");
+  submit.type = "submit";
+  submit.dataset.action = "submit-information";
+  form.append(label, input, submit);
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const text = input.value.trim();
+    if (busy || confirming) return;
+    if (!text) { input.focus(); showStatus("请填写补充说明", true); return; }
+    act(async () => {
+      await api(`/api/customer/tickets/${encodeURIComponent(ticket.ticket_id)}/information`, { text });
+      informationDrafts.delete(ticket.ticket_id);
+    });
+  });
+  return [request, form];
+}
+
+function ticketCard(ticket) {
+  const card = el("article", `ticket ticket-${ticket.status}`);
+  card.dataset.ticketId = ticket.ticket_id;
+  const head = el("div", "ticket-head");
+  const heading = el("strong", "", ticket.order_id);
+  heading.append(el("small", "", ticket.ticket_id));
+  head.append(heading, badge(ticket.status));
+  const highlight = el("div", "ticket-highlight");
+  const text = el("div");
+  const approved = ticket.status === "approved";
+  text.append(el("h3", "", approved ? "已到账 · 补偿券" : "申请补偿券"),
+    el("strong", "result-amount", `¥${approved ? ticket.coupon_issued_yuan : ticket.proposed_coupon_yuan}`));
+  if (ticket.status === "pending") text.append(el("p", "", "等待商家审核，预计 24 小时内处理"));
+  else if (ticket.status === "rejected") text.append(el("p", "", "本次未发放"));
+  highlight.append(text, icon(ticket.status === "pending" ? "clock" : approved ? "check" : "close"));
+  card.append(head, highlight, facts([
+    ["预计送达", ticket.expected_at], ["实际送达", ticket.delivered_at],
+    ["晚到", delayText(ticket.late_seconds)],
+  ]));
+  const timeline = el("ol", "mini-timeline");
+  const complete = !["pending", "needs_info"].includes(ticket.status);
+  ["已提交", "审核", "结果"].forEach((label, index) => {
+    timeline.append(el("li", complete ? (index === 2 ? "current" : "done") : (index === 0 ? "done" : index === 1 ? "current" : ""), label));
+  });
+  card.append(timeline);
+  if (ticket.status === "needs_info") card.append(...informationForm(ticket));
+  else if (ticket.review_note) {
+    const note = el("div", "ticket-note");
+    note.append(el("span", "", "商家回复"), el("p", "", ticket.review_note));
+    card.append(note);
+  }
+  if (ticket.customer_information) {
+    const information = el("div", "customer-information");
+    information.append(el("span", "", "你的补充"), el("p", "", ticket.customer_information));
+    card.append(information);
+  }
+  if (complete) card.append(ratingBlock(ticket));
+  card.append(ticketHistory(ticket.ticket_id));
+  return card;
+}
+
+// The order the chat is about, before any ticket exists: what the rule says and what to do next.
+function stateCard(focus, claim) {
+  const order = orders.find((item) => item.order_id === focus.order_id);
+  const card = el("article", "focus-card");
+  card.dataset.focusOrder = focus.order_id;
+  const head = el("div", "ticket-head");
+  const heading = el("strong", "", focus.order_id);
+  if (order) heading.append(el("small", "", order.merchant));
+  head.append(heading);
+  const highlight = el("div", "ticket-highlight");
+  const text = el("div");
+  let kind, title, note, amount = null, symbol = "info", action = null;
+  if (!focus.verified) {
+    kind = "unverified"; title = "无法核实这笔订单"; note = "当前账号下没有这笔订单。请核对订单号，或从「我的订单」中选择。";
+  } else if (claim) {
+    kind = "confirm"; title = "待你确认"; amount = claim.proposed_coupon_yuan; symbol = "file-check"; note = "核对对话框里的信息后点「确认提交」";
+  } else if (focus.status === "pending") {
+    kind = "eligible"; title = "符合申请条件"; amount = focus.proposed_coupon_yuan; symbol = "ticket"; note = "提交后由商家人工审核";
+    action = button("申请补偿", "primary", () => send(`我的外卖 ${focus.order_id} 迟到了，可以申请补偿吗？`));
+  } else if (focus.reason_code === "delay_below_threshold") {
+    const late = focus.late_seconds > 0 ? `晚到 ${delayText(focus.late_seconds)}` : "没有晚到";
+    kind = "ineligible"; title = "未达到申请条件"; note = `本单${late}；需${ruleText()}才能申请。`;
+  } else if (focus.reason_code === "not_delivered") {
+    kind = "delivering"; title = "订单还在配送中"; symbol = "clock"; note = `送达后如${ruleText()}，可以再来申请。`;
+  } else {
+    kind = "unknown"; title = "暂缺送达记录"; note = "系统无法判断是否晚到。需要的话可以点「转人工」。";
+  }
+  card.classList.add(`focus-${kind}`);
+  text.append(el("h3", "", title));
+  if (amount !== null) text.append(el("strong", "result-amount", `¥${amount}`));
+  text.append(el("p", "", note));
+  highlight.append(text, icon(symbol));
+  card.append(head, highlight);
+  if (focus.verified && order) {
+    card.append(facts([
+      ["预计送达", order.expected_at], ["实际送达", order.delivered_at || "未送达"],
+      ["晚到", focus.late_seconds === null || focus.late_seconds === undefined ? "—" : delayText(focus.late_seconds)],
+    ]));
+  }
+  if (action) { action.append(icon("arrow-right")); card.append(action); }
+  return card;
+}
+
+function focusHint() {
+  const box = el("div", "focus-hint");
+  box.append(icon("search"), el("p", "", "在对话里发订单号，或点「我的订单」里的「咨询」，这里会显示那笔订单的进度。"));
+  return box;
+}
+
+function renderTickets(state, ticket) {
   const active = document.activeElement;
   const focusedId = active && active.matches("textarea[data-information]") ? active.closest("[data-ticket-id]").dataset.ticketId : null;
   const selection = focusedId ? [active.selectionStart, active.selectionEnd] : null;
-  const currentIds = new Set(tickets.filter((ticket) => ticket.status === "needs_info").map((ticket) => ticket.ticket_id));
+  const currentIds = new Set(state.tickets.filter((item) => item.status === "needs_info").map((item) => item.ticket_id));
   for (const id of informationDrafts.keys()) if (!currentIds.has(id)) informationDrafts.delete(id);
-  if (!tickets.length) {
-    openHistories.clear();
-    $("tickets").replaceChildren(emptyState("ticket", "暂无申请"));
-    return;
-  }
-  $("tickets").replaceChildren(...tickets.slice().reverse().map((ticket) => {
-    const card = el("article", `ticket ticket-${ticket.status}`);
-    card.dataset.ticketId = ticket.ticket_id;
-    const head = el("div", "ticket-head");
-    const heading = el("strong", "", ticket.order_id);
-    heading.append(el("small", "", ticket.ticket_id));
-    head.append(heading, badge(ticket.status));
-    const highlight = el("div", "ticket-highlight");
-    const text = el("div");
-    const approved = ticket.status === "approved";
-    text.append(el("h3", "", approved ? "已到账 · 补偿券" : "申请补偿券"),
-      el("strong", "result-amount", `¥${approved ? ticket.coupon_issued_yuan : ticket.proposed_coupon_yuan}`));
-    if (ticket.status === "pending") text.append(el("p", "", "等待商家审核"));
-    else if (ticket.status === "rejected") text.append(el("p", "", "本次未发放"));
-    highlight.append(text, icon(ticket.status === "pending" ? "clock" : approved ? "check" : "close"));
-    card.append(head, highlight, facts([
-      ["预计送达", ticket.expected_at], ["实际送达", ticket.delivered_at],
-      ["晚到", delayText(ticket.late_seconds)],
-    ]));
-    const timeline = el("ol", "mini-timeline");
-    const complete = !["pending", "needs_info"].includes(ticket.status);
-    ["已提交", "审核", "结果"].forEach((label, index) => {
-      timeline.append(el("li", complete ? (index === 2 ? "current" : "done") : (index === 0 ? "done" : index === 1 ? "current" : ""), label));
-    });
-    card.append(timeline);
-    if (ticket.status === "needs_info") {
-      const request = el("div", "information-request");
-      request.append(el("span", "", "请补充"), el("p", "", ticket.information_request));
-      const form = el("form", "information-form");
-      const inputId = `ticket-information-${ticket.ticket_id}`;
-      const label = el("label", "note-label", "补充说明");
-      label.htmlFor = inputId;
-      const input = el("textarea", "note");
-      input.id = inputId;
-      input.dataset.information = "";
-      input.rows = 3;
-      input.maxLength = 500;
-      input.required = true;
-      input.placeholder = "填写需要补充的信息";
-      input.value = informationDrafts.get(ticket.ticket_id) || "";
-      input.addEventListener("input", () => informationDrafts.set(ticket.ticket_id, input.value));
-      const submit = el("button", "primary", "提交补充");
-      submit.type = "submit";
-      submit.dataset.action = "submit-information";
-      form.append(label, input, submit);
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const text = input.value.trim();
-        if (busy || confirming) return;
-        if (!text) { input.focus(); showStatus("请填写补充说明", true); return; }
-        act(async () => {
-          await api(`/api/customer/tickets/${encodeURIComponent(ticket.ticket_id)}/information`, { text });
-          informationDrafts.delete(ticket.ticket_id);
-        });
-      });
-      card.append(request, form);
-    } else if (ticket.review_note) {
-      const note = el("div", "ticket-note");
-      note.append(el("span", "", "商家回复"), el("p", "", ticket.review_note));
-      card.append(note);
-    }
-    if (ticket.customer_information) {
-      const information = el("div", "customer-information");
-      information.append(el("span", "", "你的补充"), el("p", "", ticket.customer_information));
-      card.append(information);
-    }
-    card.append(ticketHistory(ticket.ticket_id));
-    return card;
-  }));
+  if (ticket) $("tickets").replaceChildren(ticketCard(ticket));
+  else if (state.focus) $("tickets").replaceChildren(stateCard(state.focus, state.confirmation));
+  else if (state.tickets.length) $("tickets").replaceChildren(focusHint());
+  else { openHistories.clear(); $("tickets").replaceChildren(emptyState("ticket", "暂无申请")); }
   if (focusedId) {
     const input = $("tickets").querySelector(`[data-ticket-id="${CSS.escape(focusedId)}"] textarea[data-information]`);
     if (input && !input.disabled) { input.focus({ preventScroll: true }); input.setSelectionRange(...selection); }
   }
+  updateControls();
+}
+
+// Every other application stays one tap away, without status badges that could be mistaken for the shown one.
+function renderOthers(state, ticket) {
+  const box = $("ticket-others");
+  const rest = state.tickets.filter((item) => !ticket || item.ticket_id !== ticket.ticket_id).reverse();
+  const back = Boolean(viewTicket && (!state.focus || !ticket || ticket.order_id !== state.focus.order_id));
+  box.hidden = !rest.length && !back;
+  const nodes = [];
+  if (back) {
+    const label = state.focus ? `回到当前咨询 · ${state.focus.order_id}` : "返回申请列表";
+    const node = button(label, "back-focus", () => { viewTicket = null; renderPanel(); });
+    node.prepend(icon(state.focus ? "chat" : "chevron-down"));
+    nodes.push(node);
+  }
+  if (rest.length) {
+    const details = el("details", "other-tickets");
+    details.open = othersOpen ?? (!ticket && !state.focus);
+    const summary = el("summary", "history-summary", `${ticket || state.focus ? "其他申请" : "我的申请"} · ${rest.length}`);
+    summary.addEventListener("click", () => { othersOpen = !details.open; });
+    summary.append(icon("chevron-down"));
+    const list = el("div", "other-list");
+    for (const item of rest) {
+      const row = button("", "other-ticket", () => { viewTicket = item.ticket_id; renderPanel(); });
+      row.append(el("strong", "", item.order_id),
+        el("span", `mini-status status-${item.status}`, STATUS_TEXT[item.status] || item.status),
+        el("span", "other-amount", `¥${item.status === "approved" ? item.coupon_issued_yuan : item.proposed_coupon_yuan}`));
+      list.append(row);
+    }
+    details.append(summary, list);
+    nodes.push(details);
+  }
+  box.replaceChildren(...nodes);
+}
+
+function markOrders() {
+  for (const row of $("orders").querySelectorAll(".order")) row.classList.toggle("is-focus", row.dataset.orderId === shownOrder);
+}
+
+// Once the chat has started without an order this account owns, offer the orders as one-tap choices.
+function renderPicks(state) {
+  const box = $("order-picks");
+  const show = state.messages.length > 0 && !state.confirmation && (!state.focus || !state.focus.verified) && orders.length > 0;
+  box.hidden = !show;
+  if (!show) { box.replaceChildren(); return; }
+  const chips = orders.slice(0, 3).map((order) => {
+    const chip = button("", "pick", () => send(`我的外卖 ${order.order_id} 迟到了，可以申请补偿吗？`));
+    chip.dataset.pickOrder = order.order_id;
+    chip.append(el("strong", "", order.order_id), el("span", "", order.merchant));
+    return chip;
+  });
+  const more = button("全部订单", "pick pick-more", () => {
+    $("orders-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+    $("order-search").focus({ preventScroll: true });
+  });
+  box.replaceChildren(el("span", "pick-label", "选择要咨询的订单"), ...chips, more);
+}
+
+function renderPanel() {
+  const state = latest;
+  if (!state) return;
+  const focusTicket = state.focus && state.focus.ticket_id ? state.tickets.find((item) => item.ticket_id === state.focus.ticket_id) : null;
+  const picked = viewTicket ? state.tickets.find((item) => item.ticket_id === viewTicket) : null;
+  if (!picked) viewTicket = null;
+  const ticket = picked || focusTicket || null;
+  shownOrder = ticket ? ticket.order_id : state.focus ? state.focus.order_id : null;
+  renderTickets(state, ticket);
+  renderOthers(state, ticket);
+  renderJourney(state, ticket);
+  markOrders();
+  renderPicks(state);
+  handoffWaiting = state.handoffs.some((item) => item.status === "waiting");
+  $("handoff-label").textContent = handoffWaiting ? "人工排队中" : "转人工";
+  $("handoff").classList.toggle("waiting", handoffWaiting);
   updateControls();
 }
 
@@ -174,6 +375,7 @@ function renderOrders() {
   const shown = query || expandedOrders ? matching : matching.slice(0, 3);
   $("orders").replaceChildren(...shown.map((order) => {
     const row = el("div", "order");
+    row.dataset.orderId = order.order_id;
     const text = el("div", "order-text");
     text.append(el("strong", "", order.merchant), el("span", "order-meta", `${order.order_id} · ${ORDER_STATUS[order.status] || order.status}`));
     const bottom = el("div", "order-bottom");
@@ -187,14 +389,38 @@ function renderOrders() {
   $("more-orders").hidden = Boolean(query) || matching.length <= 3;
   $("more-orders").replaceChildren(el("span", "", expandedOrders ? "收起" : `全部订单 · ${matching.length}`), icon("chevron-down"));
   $("more-orders").setAttribute("aria-expanded", String(expandedOrders));
+  markOrders();
   updateControls();
+}
+
+function notifyChanges(state) {
+  const now = new Map([...state.tickets.map((item) => [item.ticket_id, item.status]), ...state.handoffs.map((item) => [item.handoff_id, item.status])]);
+  if (seen) {
+    for (const ticket of state.tickets) {
+      const before = seen.get(ticket.ticket_id);
+      if (!before || before === ticket.status) continue;
+      if (ticket.status === "approved") toast(`${ticket.order_id} 审核通过，¥${ticket.coupon_issued_yuan} 补偿券已发放`);
+      else if (ticket.status === "rejected") toast(`${ticket.order_id} 审核未通过，可查看商家说明`);
+      else if (ticket.status === "needs_info") toast(`${ticket.order_id}：商家请你补充信息`);
+    }
+    for (const item of state.handoffs) if (seen.get(item.handoff_id) === "waiting" && item.status === "replied") toast("人工客服已回复");
+  }
+  seen = now;
 }
 
 function signOut() {
   informationDrafts.clear();
   signedIn = false;
   lastState = "";
-  lastMessages = "";
+  lastChat = "";
+  latest = null;
+  seen = null;
+  lastFocus = null;
+  viewTicket = null;
+  othersOpen = null;
+  // The next account must not see this account's notice.
+  clearTimeout(toastTimer);
+  $("toast").classList.remove("show");
   setSignedIn(null);
 }
 
@@ -205,10 +431,14 @@ async function refresh() {
   const key = JSON.stringify(state);
   if (key === lastState) return;
   lastState = key;
-  renderMessages(state.messages);
+  notifyChanges(state);
+  // A new message or confirmation brings the panel back to the order being discussed.
+  const focusKey = [state.focus && state.focus.order_id, state.messages.length, Boolean(state.confirmation)].join("|");
+  if (focusKey !== lastFocus) { lastFocus = focusKey; viewTicket = null; }
+  latest = state;
+  renderMessages(state.messages, state.handoffs);
   renderConfirmation(state.confirmation);
-  renderTickets(state.tickets);
-  renderJourney(state);
+  renderPanel();
 }
 
 async function act(work) {
@@ -216,7 +446,11 @@ async function act(work) {
   busy = true;
   updateControls();
   showStatus("处理中…");
-  try { await work(); showStatus(""); }
+  try {
+    // A step may return a short note for the status line; API responses are not notes.
+    const note = await work();
+    showStatus(typeof note === "string" ? note : "");
+  }
   catch (error) { showStatus(error.message, true); }
   finally {
     busy = false;
@@ -229,8 +463,9 @@ function send(raw, fromInput) {
   const text = raw.trim();
   if (!text || confirming) return;
   act(async () => {
-    await api("/api/customer/messages", { text });
+    const result = await api("/api/customer/messages", { text });
     if (fromInput) { $("input").value = ""; updateCount(); }
+    return result.outcome === "handoff_waiting" ? "已在排队，人工客服会在对话里回复" : "";
   });
 }
 
@@ -242,7 +477,10 @@ async function enter(customer) {
   expandedOrders = false;
   $("order-search").value = "";
   lastState = "";
-  lastMessages = "";
+  lastChat = "";
+  seen = null;
+  lastFocus = null;
+  viewTicket = null;
   renderOrders();
   await refresh();
   signedIn = true;
@@ -251,6 +489,7 @@ async function enter(customer) {
 
 async function boot() {
   const info = await api("/api/health");
+  policy = info.policy;
   renderMeta(info);
   renderLogin(info.customers, "customer_id", async (customerId) => {
     try { await enter((await api("/api/customer/login", { customer_id: customerId })).customer); }
@@ -266,6 +505,7 @@ async function boot() {
   $("more-orders").addEventListener("click", () => { expandedOrders = !expandedOrders; renderOrders(); });
   $("confirm-yes").addEventListener("click", () => act(() => api("/api/customer/confirm", { answer: "confirm" })));
   $("confirm-no").addEventListener("click", () => act(() => api("/api/customer/confirm", { answer: "cancel" })));
+  $("handoff").addEventListener("click", () => act(() => api("/api/customer/handoff", {})));
   $("logout").addEventListener("click", async () => {
     if (busy) return;
     try { await api("/api/customer/logout", {}); signOut(); showStatus(""); }

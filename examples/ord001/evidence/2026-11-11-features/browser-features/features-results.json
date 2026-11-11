@@ -1,0 +1,43 @@
+{
+  "base": "http://127.0.0.1:8031",
+  "checked_at": "2026-11-11T14:34:18.041Z",
+  "results": [
+    {
+      "case": "AI identity shown before the first message, handoff button always visible",
+      "status": "passed"
+    },
+    {
+      "case": "Status change shows a toast; pending card states the 24-hour target",
+      "status": "passed"
+    },
+    {
+      "case": "After ORD001 is approved, asking about ORD002 / ORD101 moves the panel and steps to that order; ORD001 stays one tap away",
+      "status": "passed"
+    },
+    {
+      "case": "A question without an order number no longer shows the old ORD001 result; one-tap order choices; reply lists expected and actual time",
+      "status": "passed"
+    },
+    {
+      "case": "New ORD005 ticket becomes the panel; approval toast; one 1–5 rating shown to the merchant",
+      "status": "passed"
+    },
+    {
+      "case": "Handoff button: queue with transcript, merchant reply appears in the chat tagged 人工客服",
+      "status": "passed"
+    },
+    {
+      "case": "Typed 我要投诉 goes straight to the queue; customer can cancel",
+      "status": "passed"
+    },
+    {
+      "case": "390px layout without horizontal scroll; dark theme",
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "passed": 8,
+    "failed": 0
+  }
+}

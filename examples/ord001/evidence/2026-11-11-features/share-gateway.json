@@ -1,0 +1,58 @@
+{
+  "checked_at": "2026-11-11T14:33:25.967027+00:00",
+  "live_model_calls": 0,
+  "results": [
+    {
+      "case": "未授权访问页面、模型和商家接口均受保护",
+      "status": "passed"
+    },
+    {
+      "case": "口令错误、篡改及过期会话被拒绝；登录 Cookie 安全属性有效",
+      "status": "passed"
+    },
+    {
+      "case": "双端及静态资源转发正常；跨站、错误主机和明文 HTTP 受控",
+      "status": "passed"
+    },
+    {
+      "case": "两个浏览器账号互不串号；缺少身份 Cookie 不会复用他人的登录",
+      "status": "passed"
+    },
+    {
+      "case": "通过网关完成确认建单、商家补问、顾客补充与同票批准",
+      "status": "passed"
+    },
+    {
+      "case": "共享入口阻止重置模拟库，原有工单保留",
+      "status": "passed"
+    },
+    {
+      "case": "模型请求速率和请求体大小限制实际生效",
+      "status": "passed"
+    },
+    {
+      "case": "后端故障返回脱敏提示，不泄露异常或访问口令",
+      "status": "passed"
+    },
+    {
+      "case": "口令尝试次数限制实际生效",
+      "status": "passed"
+    },
+    {
+      "case": "最多两条模型请求同时进入后端，第三条明确返回繁忙",
+      "status": "passed"
+    },
+    {
+      "case": "开放模式直接进入，仍保留重置拦截、主机/同源校验与聊天限流",
+      "status": "passed"
+    },
+    {
+      "case": "聊天限流时「转人工」按钮仍可经网关使用；入口探测图片可经网关读取",
+      "status": "passed"
+    }
+  ],
+  "summary": {
+    "passed": 12,
+    "failed": 0
+  }
+}

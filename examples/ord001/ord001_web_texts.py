@@ -5,6 +5,8 @@ from ord001_web_store import STATUS_TEXT
 NOT_VERIFIED = "未找到这笔订单，请核对订单号，或从「我的订单」中选择。"
 QUERY_FAILED = "订单查询失败，请重试。"
 CANCELLED = "已取消提交。"
+# Replaces a model reply that promised money or results the server has not decided.
+GUARDED_REPLY = "抱歉，这一点我不能直接答复或承诺。补偿资格和金额以系统核实、商家审核为准；需要的话可以点上方「转人工」。"
 
 
 def delay_text(late_seconds: int) -> str:
@@ -30,9 +32,10 @@ def outcome_text(order: dict, decision: dict, policy) -> str:
     """Explain an evaluate_order result that cannot be submitted."""
     reason = decision["reason_code"]
     if reason == "delay_below_threshold":
+        # Both times go in the reply so the customer can check the result against the order.
         return (
-            f"{order['order_id']} {delay_text(decision['late_seconds'])}。"
-            f"需{threshold_text(policy)}才能申请。"
+            f"{order['order_id']} 预计 {order['expected_at']}，实际 {order['delivered_at']}，"
+            f"{delay_text(decision['late_seconds'])}。需{threshold_text(policy)}才能申请。"
         )
     if reason == "not_delivered":
         return f"订单 {order['order_id']} 尚未送达，请在送达后申请。"

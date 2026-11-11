@@ -201,6 +201,23 @@ def create_app(service: DemoService | None = None, allowed_hosts=LOCAL_HOSTS) ->
         return JSONResponse(await run_in_threadpool(service.submit_information, ident["customer_id"],
                                                     request.path_params["ticket_id"], text))
 
+    async def customer_rating(request: Request) -> JSONResponse:
+        ident = identity(request, "customer")
+        rating = (await read_json(request)).get("rating")
+        return JSONResponse(await run_in_threadpool(service.rate_ticket, ident["customer_id"],
+                                                    request.path_params["ticket_id"], rating))
+
+    async def customer_handoff(request: Request) -> JSONResponse:
+        ident = identity(request, "customer")
+        await read_json(request)
+        return JSONResponse(await run_in_threadpool(service.request_handoff, ident["thread_id"], ident["customer_id"]))
+
+    async def customer_handoff_cancel(request: Request) -> JSONResponse:
+        ident = identity(request, "customer")
+        await read_json(request)
+        return JSONResponse(await run_in_threadpool(service.cancel_handoff, ident["thread_id"], ident["customer_id"],
+                                                    request.path_params["handoff_id"]))
+
     async def review_login(request: Request) -> JSONResponse:
         reviewer = service.data.reviewers.get(text_field(await read_json(request), "reviewer_id", MAX_ID))
         if reviewer is None:
@@ -236,6 +253,16 @@ def create_app(service: DemoService | None = None, allowed_hosts=LOCAL_HOSTS) ->
         identity(request, "reviewer")
         return JSONResponse({"runs": service.runs()})
 
+    async def review_handoffs(request: Request) -> JSONResponse:
+        identity(request, "reviewer")
+        return JSONResponse(await run_in_threadpool(service.review_handoffs))
+
+    async def review_handoff_reply(request: Request) -> JSONResponse:
+        ident = identity(request, "reviewer")
+        text = text_field(await read_json(request), "text", MAX_TEXT)
+        return JSONResponse(await run_in_threadpool(service.reply_handoff, request.path_params["handoff_id"],
+                                                    ident["reviewer_id"], text))
+
     async def review_reset(request: Request) -> JSONResponse:
         identity(request, "reviewer")
         await read_json(request)
@@ -257,12 +284,17 @@ def create_app(service: DemoService | None = None, allowed_hosts=LOCAL_HOSTS) ->
         Route("/api/customer/tickets", customer_tickets),
         Route("/api/customer/tickets/{ticket_id}", customer_ticket),
         Route("/api/customer/tickets/{ticket_id}/information", customer_information, methods=["POST"]),
+        Route("/api/customer/tickets/{ticket_id}/rating", customer_rating, methods=["POST"]),
+        Route("/api/customer/handoff", customer_handoff, methods=["POST"]),
+        Route("/api/customer/handoffs/{handoff_id}/cancel", customer_handoff_cancel, methods=["POST"]),
         Route("/api/review/login", review_login, methods=["POST"]),
         Route("/api/review/logout", review_logout, methods=["POST"]),
         Route("/api/review/me", review_me),
         Route("/api/review/tickets", review_tickets),
         Route("/api/review/tickets/{ticket_id}", review_ticket),
         Route("/api/review/tickets/{ticket_id}/decision", review_decision, methods=["POST"]),
+        Route("/api/review/handoffs", review_handoffs),
+        Route("/api/review/handoffs/{handoff_id}/reply", review_handoff_reply, methods=["POST"]),
         Route("/api/review/runs", review_runs),
         Route("/api/review/reset", review_reset, methods=["POST"]),
         Mount("/static", StaticFiles(directory=WEB_DIR), name="static"),

@@ -14,10 +14,30 @@
 </style>
 </head>
 <body>
-<main><div class="mark" aria-hidden="true">🛍️</div><h1>配送关怀</h1><p>正在为你打开客服…</p><nav><a id="customer" href="__LIVE_ORIGIN__/">顾客入口</a><a id="merchant" class="secondary" href="__LIVE_ORIGIN__/review">商家入口</a></nav><small>小组演示 · 模拟订单</small></main>
+<main><div class="mark" aria-hidden="true">🛍️</div><h1>配送关怀</h1><p id="state" role="status">正在为你打开客服…</p><nav><a id="customer" href="__LIVE_ORIGIN__/">顾客入口</a><a id="merchant" class="secondary" href="__LIVE_ORIGIN__/review">商家入口</a></nav><small>小组演示 · 模拟订单</small></main>
 <script>
 const destination = '__LIVE_ORIGIN__';
-location.replace(destination + (/^\/review\/?$/.test(location.pathname) ? '/review' : '/'));
+const target = destination + (/^\/review\/?$/.test(location.pathname) ? '/review' : '/');
+// Load a tiny image from the live service first: a deleted tunnel or a Cloudflare error page fails to load,
+// so the visitor waits here while the host is being rebuilt instead of landing on an error page.
+function probe() {
+  return new Promise((resolve) => {
+    const image = new Image();
+    const timer = setTimeout(() => { image.src = ''; resolve(false); }, 8000);
+    image.onload = () => { clearTimeout(timer); resolve(true); };
+    image.onerror = () => { clearTimeout(timer); resolve(false); };
+    image.src = destination + '/static/ping.svg?t=' + Date.now();
+  });
+}
+let tries = 0;
+async function open() {
+  if (await probe()) { location.replace(target); return; }
+  tries += 1;
+  document.getElementById('state').textContent = '服务正在恢复，这个页面会自动重试（第 ' + tries + ' 次）…';
+  // Reloading picks up a newly published address once the service is back.
+  setTimeout(() => (tries % 3 === 0 ? location.reload() : open()), 10000);
+}
+open();
 </script>
 </body>
 </html>

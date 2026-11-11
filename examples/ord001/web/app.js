@@ -26,6 +26,9 @@ const ICONS = {
   close: ["m6 6 12 12M6 18 18 6"],
   refresh: ["M20 8a9 9 0 0 0-15-3L2 8m0-6v6h6M4 16a9 9 0 0 0 15 3l3-3m0 6v-6h-6"],
   reset: ["M3 11a9 9 0 1 1 2 7M3 4v7h7", "M12 7v5l3 2"],
+  person: ["M16.5 7.5a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z", "M3.5 21a8.5 8.5 0 0 1 17 0"],
+  star: ["m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3Z"],
+  bell: ["M18 9a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8Z", "M10.3 21a1.9 1.9 0 0 0 3.4 0"],
 };
 
 function icon(name, className) {
@@ -209,7 +212,7 @@ function ticketHistory(ticketId) {
       const data = await api(`/api/${role}/tickets/${encodeURIComponent(ticketId)}`);
       if (!details.open || !details.isConnected) return;
       const entries = data.timeline || data.events || [];
-      const labels = { submitted: "已提交", information_requested: "商家提问", information_submitted: "已补充", approved: "审核通过", rejected: "未通过" };
+      const labels = { submitted: "已提交", information_requested: "商家提问", information_submitted: "已补充", approved: "审核通过", rejected: "未通过", rated: "顾客评价" };
       list.replaceChildren(...entries.map((entry) => {
         const row = el("li", "history-event");
         const head = el("div", "history-event-head");

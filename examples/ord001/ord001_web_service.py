@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+import re
 import threading
 import time
 from collections import defaultdict, deque
@@ -17,12 +18,21 @@ from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.types import Command
 
 from ord001_langchain import ScriptedOrderModel
-from ord001_policy import load_policy
+from ord001_policy import evaluate_order, load_policy
 from ord001_web_graphs import CustomerContext, build_customer_graph, build_review_graph
-from ord001_web_store import DECISION_STATUS, DemoData, TicketStore, now_text
+from ord001_web_store import DECISION_STATUS, DemoData, TicketStore, normalize_order_id, now_text, order_facts
 
 log = logging.getLogger("ord001_web")
 CONFIRM_ANSWERS = ("confirm", "cancel")
+ORDER_ID = re.compile(r"ORD\d{1,12}(?!\d)", re.IGNORECASE)
+# Asking for a person goes straight to the queue by rule; the model is not asked. "不用转人工" does not count.
+HANDOFF_WORDS = re.compile(r"转人工|人工客服|找人工|要人工|人工服务|真人客服|找真人|转真人|要真人|投诉")
+BARE_HANDOFF = re.compile(r"\s*(?:转)?人工(?:客服|服务)?[\s!！。.~～]*")
+NEGATIONS = ("不", "别", "无需", "没")
+QUESTION_FORMS = ("能不能", "可不可以", "可以不可以", "是不是", "要不要")
+HANDOFF_LIMIT, HANDOFF_SHOWN = 500, 5
+EXCERPT_LINES, EXCERPT_CHARS = 6, 160
+REPLY_LIMIT = 500
 
 
 class ServiceError(Exception):
@@ -85,6 +95,45 @@ def requested_order(messages) -> str | None:
         for call in getattr(message, "tool_calls", None) or ():
             return call["args"].get("order_id")
     return None
+
+
+def wants_person(text: str) -> bool:
+    """True when the customer asks for a person: 「人工」, 「转人工」, 「我要投诉」, but not 「不用转人工」."""
+    if BARE_HANDOFF.fullmatch(text):
+        return True
+    for match in HANDOFF_WORDS.finditer(text):
+        before = text[max(0, match.start() - 6):match.start()]
+        for phrase in QUESTION_FORMS:
+            before = before.replace(phrase, "")
+        if not any(word in before[-4:] for word in NEGATIONS):
+            return True
+    return False
+
+
+def focused_order(messages) -> str | None:
+    """The order the chat is about now: the latest order number the customer typed or the model looked up."""
+    for message in reversed(messages):
+        if isinstance(message, HumanMessage):
+            found = ORDER_ID.findall(message.text)
+            if found:
+                return normalize_order_id(found[-1])
+        elif isinstance(message, AIMessage):
+            for call in reversed(message.tool_calls):
+                order_id = call["args"].get("order_id")
+                if isinstance(order_id, str) and order_id.strip():
+                    return normalize_order_id(order_id)[:32]
+    return None
+
+
+def handoff_copy(handoff: dict, thread_id: str | None) -> dict:
+    """What the customer sees of a handoff. Ones opened in an earlier login are placed before the current chat."""
+    keys = ("handoff_id", "order_id", "status", "request_text", "reply_text", "created_at", "closed_at")
+    return {**{key: handoff[key] for key in keys},
+            "after": handoff["after_index"] if handoff["thread_id"] == thread_id else 0}
+
+
+def review_handoff_copy(handoff: dict) -> dict:
+    return {key: value for key, value in handoff.items() if key != "thread_id"}
 
 
 def token_usage(messages) -> dict | None:
@@ -151,10 +200,39 @@ class DemoService:
 
     def customer_view(self, thread_id: str, customer_id: str) -> dict:
         snapshot = self.customer_graph.get_state(self._thread(thread_id))
+        messages = (snapshot.values or {}).get("messages", [])
+        visible = visible_messages(messages)
+        confirmation = first_request(snapshot.interrupts, "confirm_submission")
+        handoffs = self.store.handoffs(customer_id=customer_id)
+        own = [item for item in handoffs if item["thread_id"] == thread_id]
+        # A handoff naming an order is the newest thing in the chat until the customer writes again.
+        handoff_order = own[-1]["order_id"] if own and own[-1]["after_index"] >= len(visible) else None
+        order_id = (confirmation or {}).get("order_id") or handoff_order or focused_order(messages)
         return {
-            "messages": visible_messages((snapshot.values or {}).get("messages", [])),
-            "confirmation": first_request(snapshot.interrupts, "confirm_submission"),
+            "messages": visible,
+            "confirmation": confirmation,
             "tickets": self.customer_tickets(customer_id),
+            "focus": self._focus(customer_id, order_id),
+            # Handoffs from an earlier login stay visible only while waiting or answered.
+            "handoffs": [handoff_copy(item, thread_id) for item in handoffs[-HANDOFF_SHOWN:]
+                         if item["thread_id"] == thread_id or item["status"] != "cancelled"],
+        }
+
+    def _focus(self, customer_id: str, order_id: str | None) -> dict | None:
+        """Rule result and ticket for the order the chat is about. Another customer's order shows nothing."""
+        if not order_id:
+            return None
+        _, order = self.data.lookup_for_customer(order_id, customer_id)
+        if order is None:
+            return {"order_id": order_id, "verified": False}
+        decision = evaluate_order(order_facts(order), self.policy)
+        ticket = self.store.find(order["order_id"], self.policy.version)
+        return {
+            "order_id": order["order_id"], "verified": True,
+            "status": decision["status"], "reason_code": decision["reason_code"],
+            "late_seconds": decision.get("late_seconds"),
+            "proposed_coupon_yuan": decision.get("proposed_coupon_yuan"),
+            "ticket_id": ticket["ticket_id"] if ticket and ticket["customer_id"] == customer_id else None,
         }
 
     def send_message(self, thread_id: str, customer_id: str, text: str) -> dict:
@@ -162,6 +240,10 @@ class DemoService:
             snapshot = self.customer_graph.get_state(self._thread(thread_id))
             if first_request(snapshot.interrupts, "confirm_submission"):
                 raise ServiceError(409, "confirmation_pending", "请先确认或取消当前的提交。")
+            if wants_person(text):
+                result = self._open_handoff(thread_id, customer_id, text, snapshot)
+                return {"outcome": "handoff_requested" if result["created"] else "handoff_waiting",
+                        "reason_code": None, "messages": [], "confirmation": None, "ticket": None, **result}
             payload = {"messages": [HumanMessage(content=text)]}
             return self._run(thread_id, customer_id, payload, "customer_message", snapshot)
 
@@ -202,10 +284,11 @@ class DemoService:
             self._open_review(ticket["ticket_id"])
         confirmation = first_request(result.get("__interrupt__"), "confirm_submission")
         order_id = requested_order(new_messages) or (confirmation or waiting or ticket or {}).get("order_id")
+        guarded = {"guarded": result.get("guarded")} if result.get("reason_code") == "reply_guarded" else {}
         self._record(event=event, customer_id=customer_id, thread_id=thread_id, outcome=result.get("outcome"),
                      reason_code=result.get("reason_code"), order_id=order_id,
                      ticket_id=ticket["ticket_id"] if ticket else None,
-                     latency_ms=latency_ms, usage=token_usage(new_messages))
+                     latency_ms=latency_ms, usage=token_usage(new_messages), **guarded)
         return {
             "outcome": result.get("outcome"),
             "reason_code": result.get("reason_code"),
@@ -248,6 +331,60 @@ class DemoService:
                          outcome="pending", order_id=ticket["order_id"], ticket_id=ticket_id)
             return self.customer_ticket(customer_id, ticket_id)
 
+    def rate_ticket(self, customer_id: str, ticket_id: str, rating) -> dict:
+        if isinstance(rating, bool) or not isinstance(rating, int) or not 1 <= rating <= 5:
+            raise ServiceError(400, "invalid_rating", "评分须为 1 到 5 的整数。")
+        ticket = self.store.get(ticket_id)
+        if ticket is None or ticket["customer_id"] != customer_id:
+            raise ServiceError(404, "ticket_not_found", "当前账号下没有这张工单。")
+        if ticket["status"] not in ("approved", "rejected"):
+            raise ServiceError(409, "ticket_not_decided", "审核完成后才能评价。")
+        if self.store.rate(ticket_id, customer_id=customer_id, rating=rating) is None:
+            raise ServiceError(409, "already_rated", "这份申请已经评价过。")
+        self._record(event="customer_rating", customer_id=customer_id, outcome="rated", rating=rating,
+                     order_id=ticket["order_id"], ticket_id=ticket_id)
+        return self.customer_ticket(customer_id, ticket_id)
+
+    # Human handoff
+
+    def request_handoff(self, thread_id: str, customer_id: str) -> dict:
+        with self._lock(thread_id):
+            snapshot = self.customer_graph.get_state(self._thread(thread_id))
+            return self._open_handoff(thread_id, customer_id, None, snapshot)
+
+    def _open_handoff(self, thread_id: str, customer_id: str, text: str | None, snapshot) -> dict:
+        """Queue the chat for a person with the last few lines attached, so nobody has to ask again."""
+        messages = (snapshot.values or {}).get("messages", [])
+        visible = visible_messages(messages)
+        confirmation = first_request(snapshot.interrupts, "confirm_submission")
+        named = ORDER_ID.findall(text or "")
+        candidate = (normalize_order_id(named[-1]) if named else None) or (confirmation or {}).get("order_id") \
+            or focused_order(messages)
+        focus = self._focus(customer_id, candidate)
+        order_id = focus["order_id"] if focus and focus["verified"] else None
+        excerpt = [{"role": item["role"], "text": item["text"].replace("查单工具 query_order：", "查询 ")[:EXCERPT_CHARS]}
+                   for item in visible[-EXCERPT_LINES:]]
+        handoff, created = self.store.create_handoff(
+            customer_id=customer_id, thread_id=thread_id, order_id=order_id, after_index=len(visible),
+            request_text=text, excerpt=excerpt, limit=HANDOFF_LIMIT)
+        if handoff is None:
+            raise ServiceError(429, "handoff_limit", "人工咨询已达演示上限，请联系演示负责人。")
+        self._record(event="handoff_request", customer_id=customer_id, thread_id=thread_id,
+                     outcome="waiting" if created else "already_waiting", order_id=order_id,
+                     handoff_id=handoff["handoff_id"], via="keyword" if text else "button")
+        return {"handoff": handoff_copy(handoff, thread_id), "created": created}
+
+    def cancel_handoff(self, thread_id: str, customer_id: str, handoff_id: str) -> dict:
+        handoff = self.store.close_handoff(handoff_id, status="cancelled", customer_id=customer_id)
+        if handoff is None:
+            current = self.store.get_handoff(handoff_id)
+            if current is None or current["customer_id"] != customer_id:
+                raise ServiceError(404, "handoff_not_found", "当前账号下没有这条人工咨询。")
+            raise ServiceError(409, "handoff_closed", "这条人工咨询已经结束。")
+        self._record(event="handoff_cancel", customer_id=customer_id, outcome="cancelled",
+                     order_id=handoff["order_id"], handoff_id=handoff_id)
+        return {"handoff": handoff_copy(handoff, thread_id)}
+
     # Review side
 
     @staticmethod
@@ -285,6 +422,30 @@ class DemoService:
     def runs(self, limit: int = 100) -> list[dict]:
         return list(self.run_log)[-limit:]
 
+    def review_handoffs(self) -> dict:
+        items = [review_handoff_copy(item) for item in self.store.handoffs()]
+        return {"waiting": [item for item in items if item["status"] == "waiting"],
+                "closed": [item for item in items if item["status"] != "waiting"][-50:]}
+
+    def reply_handoff(self, handoff_id: str, reviewer_id: str, text) -> dict:
+        if not isinstance(text, str) or not text.strip():
+            raise ServiceError(400, "invalid_text", "请填写回复内容。")
+        text = text.strip()
+        if len(text) > REPLY_LIMIT:
+            raise ServiceError(400, "text_too_long", f"回复不能超过 {REPLY_LIMIT} 个字。")
+        if reviewer_id not in self.data.reviewers:
+            raise ServiceError(403, "not_a_reviewer", "当前身份没有处理权限。")
+        started = time.perf_counter()
+        handoff = self.store.close_handoff(handoff_id, status="replied", reviewer_id=reviewer_id, reply_text=text)
+        if handoff is None:
+            if self.store.get_handoff(handoff_id) is None:
+                raise ServiceError(404, "handoff_not_found", "没有这条人工咨询。")
+            raise ServiceError(409, "handoff_closed", "顾客已取消，或这条咨询已经回复。")
+        self._record(event="handoff_reply", reviewer_id=reviewer_id, customer_id=handoff["customer_id"],
+                     outcome="replied", order_id=handoff["order_id"], handoff_id=handoff_id,
+                     latency_ms=round((time.perf_counter() - started) * 1000))
+        return {"handoff": review_handoff_copy(handoff)}
+
     def review_detail(self, ticket_id: str) -> dict:
         ticket = self._ticket_or_404(ticket_id)
         request = self._open_review(ticket_id) if ticket["status"] == "pending" else None
@@ -321,7 +482,7 @@ class DemoService:
         return {"ticket": ticket, "events": self.store.events(ticket_id)}
 
     def reset(self) -> None:
-        """Clear tickets and conversations. Mock accounts, orders and the rule stay as loaded."""
+        """Clear tickets, handoffs and conversations. Mock accounts, orders and the rule stay as loaded."""
         with self._review_lock, self._guard:
             self.store.reset()
             self._thread_locks.clear()
