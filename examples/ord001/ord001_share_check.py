@@ -170,6 +170,24 @@ def run_checks():
                 assert all(response.status_code == 200 for response in completed) and count == 2
     asyncio.run(concurrency())
     results.append({"case": "最多两条模型请求同时进入后端，第三条明确返回繁忙", "status": "passed"})
+
+    service = DemoService(model=ScriptedOrderModel())
+    app = share_app(password=None, public_host="demo.example.test", model_limit=1,
+                    transport=httpx.ASGITransport(web_app(service)))
+    with TestClient(app, base_url=BASE, follow_redirects=False) as client:
+        assert client.get("/api/health").status_code == 200
+        assert client.get("/").status_code == 200
+        assert client.get("/review").status_code == 200
+        assert client.get("/_access?next=/review").status_code == 303
+        assert client.post("/api/review/reset", json={}).status_code == 403
+        assert client.get("/api/health", headers={"Host": "other.example.test"}).status_code == 400
+        assert client.post("/api/customer/login", json={"customer_id": "U001"},
+                           headers={"Origin": "https://other.example.test"}).status_code == 403
+        assert not service.store.tickets()
+        assert client.post("/api/customer/login", json={"customer_id": "U001"}).status_code == 200
+        assert client.post("/api/customer/messages", json={"text": "你好"}).status_code == 200
+        assert client.post("/api/customer/messages", json={"text": "再问一次"}).status_code == 429
+    results.append({"case": "开放模式直接进入，仍保留重置拦截、主机/同源校验与聊天限流", "status": "passed"})
     return results
 
 

@@ -184,21 +184,20 @@ uv run --no-project --python 3.12 examples/ord001/ord001_model_check.py \
 ### 组内共享：Surge 固定入口
 
 - 顾客入口：<https://ord001-group24.surge.sh/>；商家入口：<https://ord001-group24.surge.sh/review>。
-- 两个入口会跳转到带小组口令的 HTTPS 演示页面。口令由演示负责人单独提供，仓库不保存口令。进入后仍选择模拟身份 U001 / U002 / R001。
+- 两个入口会跳转到 HTTPS 演示页面，当前不设访问口令，按演示负责人要求直接进入；链接只发小组内部。进入后选择模拟身份 U001 / U002 / R001。
 - Surge 托管固定入口。真实网页和 Python / LangGraph / DeepSeek 后端在演示电脑上运行，通过临时 Cloudflare 通道访问。电脑关机、睡眠或服务停止后，后端无法访问；通道重启更换地址时须重新发布 Surge 入口。
 - 组员通过后端共用演示负责人配置的模型；无须获得其 API 密钥。订单与券继续使用模拟数据，模型请求会消耗负责人的提供商额度。
 - 新增独立入口 [ord001_share.py](ord001_share.py)，只监听本机 8028，转发到原 8024；原服务、数据库和 Studio 2024 无须更改。
-- 共享会话八小时有效，口令尝试每分钟最多 30 次；全组聊天请求每分钟最多 20 次、最多同时两条，超限明确返回 429。请求体最多 16 KiB。
-- 共享入口检查公开 Host 与同源 Origin、使用 Secure / HttpOnly / SameSite Cookie，并禁止清空整个模拟库。小组口令只保护组内演示，模拟身份选择不能替代正式顾客或商家账号系统。
+- 当前为开放模式（`--open`）：没有口令会话；全组聊天请求每分钟最多 20 次、最多同时两条，超限明确返回 429，请求体最多 16 KiB。如需恢复口令，用 `--password-file` 启动，口令文件权限须为 0600；口令模式另有每分钟 30 次尝试限制、八小时 Secure / HttpOnly 会话。
+- 共享入口检查公开 Host 与同源 Origin、强制 HTTPS，并禁止清空整个模拟库。开放模式意味着拿到链接即可使用模型额度、进入商家端；模拟身份选择不能替代正式顾客或商家账号系统。
 
-维护时，先确保原 8024 真实模型服务已经启动，且没有另一个 8028 共享入口。当前通道对应的网关启动命令如下（通道重启后需把 `--public-host` 改为新的主机名）：
+维护时，先确保原 8024 真实模型服务已经启动，且没有另一个 8028 共享入口。当前开放的共享网关启动命令如下（通道重启后需把 `--public-host` 改为新的主机名）：
 
 ~~~bash
 export UV_PYTHON_INSTALL_DIR="$HOME/.uv/python"
 uv run --no-project --python 3.12 examples/ord001/ord001_share.py \
   --public-host studios-diamonds-qualifying-affects.trycloudflare.com \
-  --password-file "$HOME/.config/ord001/share-password.txt" \
-  --upstream http://127.0.0.1:8024 --port 8028
+  --open --upstream http://127.0.0.1:8024 --port 8028
 ~~~
 
 共享层检查在独立模拟服务内运行，不调用真实模型、不重置当前演示库：
@@ -209,7 +208,7 @@ uv run --no-project --python 3.12 examples/ord001/ord001_share_check.py \
   --json /tmp/ord001-share-check.json
 ~~~
 
-公网浏览器检查 [ui-check/share.cjs](ui-check/share.cjs) 从私有文件读取访问口令，不把口令写进日志。它会实际调用一次真实模型、读取当前工单，并验证共享入口拒绝清空数据；不会新增或审批工单。启动和实测记录见 [共享上线记录](../../notes/team/ord001-share-2026-11-10.md)。
+公网浏览器检查 [ui-check/share.cjs](ui-check/share.cjs) 会自动识别入口是否要求口令：口令模式从私有文件读取，开放模式把第二个参数传 `-`；口令不会写进日志。它会实际调用一次真实模型、读取当前工单，并验证共享入口拒绝清空数据；不会新增或审批工单。启动和实测记录见 [共享上线记录](../../notes/team/ord001-share-2026-11-10.md)。
 
 ### 本轮范围与文件
 

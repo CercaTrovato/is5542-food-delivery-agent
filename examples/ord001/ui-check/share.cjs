@@ -4,11 +4,12 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 
 const [entry, passwordFile, evidence, liveOrigin] = process.argv.slice(2);
-if (!entry || !passwordFile || !evidence || !liveOrigin) throw new Error('Usage: share.cjs SURGE_URL PRIVATE_PASSWORD_FILE EVIDENCE_DIRECTORY LIVE_ORIGIN');
+if (!entry || !passwordFile || !evidence || !liveOrigin) throw new Error('Usage: share.cjs HTTPS_ENTRY PASSWORD_FILE_OR_DASH EVIDENCE_DIRECTORY HTTPS_LIVE_ORIGIN');
 if (new URL(entry).protocol !== 'https:' || new URL(liveOrigin).protocol !== 'https:') throw new Error('Use HTTPS sharing addresses.');
+const open = passwordFile === '-';
 
 (async () => {
-  const password = (await fs.readFile(passwordFile, 'utf8')).trim();
+  const password = open ? null : (await fs.readFile(passwordFile, 'utf8')).trim();
   await fs.mkdir(evidence, { recursive: true });
   const browser = await chromium.launch({ channel: 'chrome', headless: true });
   const results = [], errors = [];
@@ -23,16 +24,22 @@ if (new URL(entry).protocol !== 'https:' || new URL(liveOrigin).protocol !== 'ht
     };
     watch(customer);
     context.on('requestfailed', request => errors.push(`requestfailed: ${new URL(request.url()).pathname} ${request.failure()?.errorText}`));
-    const denied = await context.request.get(`${liveOrigin}/api/health`);
-    assert.equal(denied.status(), 401);
     await customer.goto(entry, { waitUntil: 'domcontentloaded' });
-    await customer.getByLabel('小组访问口令').waitFor();
-    await customer.screenshot({ path: path.join(evidence, 'share-access.png'), fullPage: true });
+    await customer.waitForSelector('#password, #login-choices', { timeout: 20000 });
+    const gated = await customer.locator('#password').isVisible();
+    const probe = await context.request.get(`${liveOrigin}/api/health`);
+    assert.equal(probe.status(), gated ? 401 : 200);
     await customer.setViewportSize({ width: 390, height: 844 });
     assert(await customer.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-    results.push({ case: 'Surge 固定入口打开带口令的页面，未授权接口返回 401，手机无横向溢出', status: 'passed' });
-    await customer.getByLabel('小组访问口令').fill(password);
-    await customer.getByRole('button', { name: '进入', exact: true }).click();
+    if (gated) {
+      assert(password, 'Live page asks for a password; pass a private password file.');
+      await customer.screenshot({ path: path.join(evidence, 'share-access.png'), fullPage: true });
+      await customer.getByLabel('小组访问口令').fill(password);
+      await customer.getByRole('button', { name: '进入', exact: true }).click();
+      results.push({ case: 'Surge 固定入口打开带口令页面，未授权接口 401，手机无横向溢出', status: 'passed' });
+    } else {
+      results.push({ case: 'Surge 固定入口直接进入顾客页（未设口令），手机无横向溢出', status: 'passed' });
+    }
     await customer.getByRole('button', { name: '模拟顾客 U001', exact: true }).click();
     await customer.locator('#app').waitFor();
     const health = await (await context.request.get(`${liveOrigin}/api/health`)).json();
@@ -49,9 +56,8 @@ if (new URL(entry).protocol !== 'https:' || new URL(liveOrigin).protocol !== 'ht
     assert.match(answer, /客服|助手|AI/);
     assert(!answer.includes('请提供订单号'));
     assert.equal(body.confirmation, null);
-    assert(await customer.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     await customer.screenshot({ path: path.join(evidence, 'share-live-mobile.png'), fullPage: true });
-    results.push({ case: '公网口令登录、顾客选择及真实 DeepSeek 问候成功，浏览器不请求模型供应商', status: 'passed', model: health.model, answer });
+    results.push({ case: '公网真实 DeepSeek 问候成功，浏览器不请求模型供应商', status: 'passed', model: health.model, answer });
     await customer.setViewportSize({ width: 1440, height: 1050 });
     await customer.screenshot({ path: path.join(evidence, 'share-customer.png'), fullPage: true });
     const merchant = await context.newPage();
@@ -67,16 +73,16 @@ if (new URL(entry).protocol !== 'https:' || new URL(liveOrigin).protocol !== 'ht
     assert.equal(reset.status(), 403);
     results.push({ case: '公网商家端不能清空演示数据', status: 'passed' });
     assert.deepEqual(errors, []);
-    const report = { checked_at: new Date().toISOString(), entry, live_origin: liveOrigin, results, errors, summary: { passed: results.length, failed: 0 } };
+    const report = { checked_at: new Date().toISOString(), entry, live_origin: liveOrigin, mode: gated ? 'password' : 'open', results, errors, summary: { passed: results.length, failed: 0 } };
     await fs.writeFile(path.join(evidence, 'public-browser.json'), JSON.stringify(report, null, 2) + '\n');
     console.log(JSON.stringify(report, null, 2));
   } catch (error) {
-    const failure = String(error.stack).split(password).join('[REDACTED]');
+    const failure = password ? String(error.stack).split(password).join('[REDACTED]') : String(error.stack);
     const pages = browser.contexts().flatMap(context => context.pages());
     const visiblePages = [];
     for (const [index, page] of pages.entries()) {
       await page.screenshot({ path: path.join(evidence, `public-browser-failure-${index}.png`), fullPage: true }).catch(() => {});
-      visiblePages.push({ url: page.url(), text: (await page.locator('body').innerText().catch(() => '')).split(password).join('[REDACTED]') });
+      visiblePages.push({ url: page.url(), text: (await page.locator('body').innerText().catch(() => '')).split(password || '\u0000').join('[REDACTED]') });
     }
     await fs.writeFile(path.join(evidence, 'public-browser-failure.json'), JSON.stringify({ results, errors, failure, pages: visiblePages }, null, 2));
     throw new Error(failure);

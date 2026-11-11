@@ -45,9 +45,9 @@ class WindowLimit:
         return True
 
 
-def create_app(*, password, public_host, upstream="http://127.0.0.1:8024", transport=None,
+def create_app(*, password=None, public_host, upstream="http://127.0.0.1:8024", transport=None,
                model_limit=20, login_limit=30):
-    if len(password) < 12:
+    if password is not None and len(password) < 12:
         raise ValueError("共享口令至少需要 12 个字符。")
     public = urlsplit("https://" + public_host)
     if (public.netloc != public_host or not public.hostname or public.port is not None
@@ -59,8 +59,8 @@ def create_app(*, password, public_host, upstream="http://127.0.0.1:8024", trans
             or origin.query or origin.fragment):
         raise ValueError("共享入口只能转发到本机 HTTP 服务。")
     upstream = upstream.rstrip("/")
-    digest = hashlib.sha256(password.encode()).digest()
-    signing_key = secrets.token_bytes(32)
+    digest = hashlib.sha256(password.encode()).digest() if password is not None else None
+    signing_key = secrets.token_bytes(32) if password is not None else None
     attempts, messages = WindowLimit(login_limit), WindowLimit(model_limit)
     inflight = 0
 
@@ -112,7 +112,10 @@ def create_app(*, password, public_host, upstream="http://127.0.0.1:8024", trans
         if request.headers.get("origin") not in (None, expected_origin):
             return problem("cross_origin", "拒绝跨站请求。", 403)
         path = request.url.path
-        authorized = valid_cookie(request.cookies.get(COOKIE))
+        authorized = password is None or valid_cookie(request.cookies.get(COOKIE))
+        if path == "/_access" and password is None:
+            next_path = "/review" if request.query_params.get("next") == "/review" else "/"
+            return RedirectResponse(next_path, status_code=303, headers={"Cache-Control": "no-store"})
         if path == "/_access":
             next_path = "/review" if request.query_params.get("next") == "/review" else "/"
             if request.method in ("GET", "HEAD"):
@@ -185,15 +188,24 @@ def create_app(*, password, public_host, upstream="http://127.0.0.1:8024", trans
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--public-host", required=True)
-    parser.add_argument("--password-file", required=True)
+    parser.add_argument("--password-file", help="访问口令文件；与 --open 二选一")
+    parser.add_argument("--open", action="store_true", help="不设访问口令：链接即通行证；限流与禁止重置仍生效")
     parser.add_argument("--upstream", default="http://127.0.0.1:8024")
     parser.add_argument("--port", type=int, default=8028)
     args = parser.parse_args()
-    password_file = Path(args.password_file).expanduser()
-    if password_file.stat().st_mode & 0o077:
-        parser.error("共享口令文件必须仅由本人读取，请先 chmod 600。")
-    app = create_app(password=password_file.read_text(encoding="utf-8").strip(),
-                     public_host=args.public_host, upstream=args.upstream)
+    if args.open and args.password_file:
+        parser.error("--open 与 --password-file 不能同时使用。")
+    if not args.open and not args.password_file:
+        parser.error("请提供 --password-file，或使用 --open 关闭访问口令。")
+    password = None
+    if not args.open:
+        password_file = Path(args.password_file).expanduser()
+        if password_file.stat().st_mode & 0o077:
+            parser.error("共享口令文件必须仅由本人读取，请先 chmod 600。")
+        password = password_file.read_text(encoding="utf-8").strip()
+    app = create_app(password=password, public_host=args.public_host, upstream=args.upstream)
+    if args.open:
+        print("访问口令：已关闭。链接即通行证，只发小组内部。")
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=args.port, access_log=False, log_level="warning")
 
