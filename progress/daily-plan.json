@@ -2,9 +2,9 @@
   "schema_version": 1,
   "assignment_id": "IS5542-A01",
   "course": "IS5542",
-  "as_of": "2026-11-11",
+  "as_of": "2026-11-12",
   "timezone": "Asia/Shanghai",
-  "source_revision": "7d162e8cb560979c7acb78d3156c41e415b7063fe56f7630edbeda45f1abf605",
+  "source_revision": "c18f05ee60f1e43db159b00796af81eb86e1f1d6ddac530bd7070953f3524ebc",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -21,7 +21,7 @@
       "owner": "本人 · 统筹",
       "status": "planned",
       "personal_action": "向开发侧核对可运行网页、分支、启动说明和 P01 试跑的实际交期。",
-      "readiness": "ready",
+      "readiness": "verify",
       "target": {
         "value": "2026-11-11",
         "precision": "date",
@@ -30,7 +30,7 @@
       "blocked_by": [],
       "estimated_minutes": null,
       "observed_on": "2026-11-10",
-      "date_state": "today"
+      "date_state": "past_due_unverified"
     },
     {
       "id": "acceptance",

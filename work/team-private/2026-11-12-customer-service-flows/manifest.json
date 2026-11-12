@@ -1,0 +1,381 @@
+{
+  "received_on": "2026-11-12",
+  "claimed_observed_on": "2026-11-11",
+  "reviewed_on": "2026-11-12",
+  "review": "三份正文、15张表、26张内嵌图均核读；不是现场重跑。",
+  "private_originals": "本机独立私档保存原字节，不上传原 DOCX 或群聊截图。",
+  "platforms": {
+    "taobao": {
+      "source_name": "淘宝闪购外卖客服流程观察记录_R01-R03(1).docx",
+      "original_sha256": "2e200b95968124f182bcbda59c8c1f9c7b31486ca761633068ea4a4a6a5d4959",
+      "original_bytes": 7097391,
+      "paragraphs": 218,
+      "tables": 5,
+      "images": [
+        {
+          "pdf_page": 1,
+          "embedded_name": "image1.png",
+          "source_block": 11,
+          "redacted_regions": [
+            {
+              "normalized_rect": [
+                0.12,
+                0.07,
+                0.46,
+                0.1
+              ],
+              "reason": "账号手机号尾号"
+            }
+          ]
+        },
+        {
+          "pdf_page": 2,
+          "embedded_name": "image2.png",
+          "source_block": 14,
+          "redacted_regions": []
+        },
+        {
+          "pdf_page": 3,
+          "embedded_name": "image3.png",
+          "source_block": 18,
+          "redacted_regions": [
+            {
+              "normalized_rect": [
+                0.82,
+                0.3,
+                0.98,
+                0.37
+              ],
+              "reason": "配送凭证缩略图"
+            },
+            {
+              "normalized_rect": [
+                0.43,
+                0.875,
+                0.89,
+                0.903
+              ],
+              "reason": "订单编号"
+            }
+          ]
+        },
+        {
+          "pdf_page": 4,
+          "embedded_name": "image4.png",
+          "source_block": 23,
+          "redacted_regions": [
+            {
+              "normalized_rect": [
+                0,
+                0.3,
+                0.65,
+                0.365
+              ],
+              "reason": "收件姓名地址及手机号"
+            },
+            {
+              "normalized_rect": [
+                0.82,
+                0.3,
+                0.98,
+                0.37
+              ],
+              "reason": "配送凭证缩略图"
+            }
+          ]
+        },
+        {
+          "pdf_page": 5,
+          "embedded_name": "image5.png",
+          "source_block": 28,
+          "redacted_regions": []
+        },
+        {
+          "pdf_page": 6,
+          "embedded_name": "image6.png",
+          "source_block": 42,
+          "redacted_regions": []
+        },
+        {
+          "pdf_page": 7,
+          "embedded_name": "image7.png",
+          "source_block": 48,
+          "redacted_regions": [
+            {
+              "normalized_rect": [
+                0.035,
+                0.457,
+                0.84,
+                0.835
+              ],
+              "reason": "配送位置与其他包裹信息"
+            }
+          ]
+        },
+        {
+          "pdf_page": 8,
+          "embedded_name": "image8.png",
+          "source_block": 51,
+          "redacted_regions": [
+            {
+              "normalized_rect": [
+                0.035,
+                0.188,
+                0.84,
+                0.577
+              ],
+              "reason": "配送位置与其他包裹信息"
+            }
+          ]
+        }
+      ],
+      "published_body": "taobao-report-redacted.md",
+      "published_body_sha256": "ddfb3a4f45d7de532e697ec053b60a2b990d5d5ee1b9013938c8cf0e1c731c52",
+      "published_pdf": "taobao-screenshots-redacted.pdf",
+      "published_pdf_sha256": "62d2a196e89c30999985aa63559723b09aa4e67d4553d90fe4b01e23b74748a3"
+    },
+    "jd": {
+      "source_name": "京东秒送外卖客服流程观察记录_R01-R03(1).docx",
+      "original_sha256": "f441b920b39c3a205aba2e5dc5230b9a3ac683bc0318c28be73df0c82e3c5e46",
+      "original_bytes": 7574891,
+      "paragraphs": 222,
+      "tables": 5,
+      "images": [
+        {
+          "pdf_page": 1,
+          "embedded_name": "image1.png",
+          "source_block": 11,
+          "redacted_regions": [
+            {
+              "normalized_rect": [
+                0.23,
+                0.135,
+                0.64,
+                0.18
+              ],
+              "reason": "账户标识"
+            },
+            {
+              "normalized_rect": [
+                0,
+                0.58,
+                1,
+                0.82
+              ],
+              "reason": "无关财务账户与额度"
+            }
+          ]
+        },
+        {
+          "pdf_page": 2,
+          "embedded_name": "image2.png",
+          "source_block": 15,
+          "redacted_regions": [
+            {
+              "normalized_rect": [
+                0,
+                0.3,
+                1,
+                1
+              ],
+              "reason": "无关购物记录"
+            }
+          ]
+        },
+        {
+          "pdf_page": 3,
+          "embedded_name": "image3.png",
+          "source_block": 18,
+          "redacted_regions": [
+            {
+              "normalized_rect": [
+                0,
+                0.79,
+                1,
+                1
+              ],
+              "reason": "其他订单记录"
+            }
+          ]
+        },
+        {
+          "pdf_page": 4,
+          "embedded_name": "image4.png",
+          "source_block": 22,
+          "redacted_regions": [
+            {
+              "normalized_rect": [
+                0.2,
+                0.65,
+                0.62,
+                0.68
+              ],
+              "reason": "订单编号"
+            }
+          ]
+        },
+        {
+          "pdf_page": 5,
+          "embedded_name": "image5.png",
+          "source_block": 27,
+          "redacted_regions": [
+            {
+              "normalized_rect": [
+                0.22,
+                0.247,
+                0.69,
+                0.27
+              ],
+              "reason": "订单编号"
+            }
+          ]
+        },
+        {
+          "pdf_page": 6,
+          "embedded_name": "image6.png",
+          "source_block": 43,
+          "redacted_regions": []
+        },
+        {
+          "pdf_page": 7,
+          "embedded_name": "image7.png",
+          "source_block": 48,
+          "redacted_regions": [
+            {
+              "normalized_rect": [
+                0.22,
+                0.239,
+                0.69,
+                0.26
+              ],
+              "reason": "订单编号"
+            }
+          ]
+        },
+        {
+          "pdf_page": 8,
+          "embedded_name": "image8.png",
+          "source_block": 64,
+          "redacted_regions": []
+        }
+      ],
+      "published_body": "jd-report-redacted.md",
+      "published_body_sha256": "2107aa37a6e4383863fbf535a57af13f794bc4bcb2a85a3fdc802675bbf41d18",
+      "published_pdf": "jd-screenshots-redacted.pdf",
+      "published_pdf_sha256": "22aa837fa314244e26cfb1091d3cb4b1e3031ac8cbe26611bb9fcebff455e4c8"
+    },
+    "meituan": {
+      "source_name": "美团外卖客服流程观察记录_R01-R03(1).docx",
+      "original_sha256": "59e3f953c4af3bb0e40559c9011ffa93b36462aa185444c5204c23c28614832a",
+      "original_bytes": 7014526,
+      "paragraphs": 204,
+      "tables": 5,
+      "images": [
+        {
+          "pdf_page": 1,
+          "embedded_name": "image1.png",
+          "source_block": 11,
+          "redacted_regions": [
+            {
+              "normalized_rect": [
+                0.17,
+                0.07,
+                0.4,
+                0.11
+              ],
+              "reason": "账户标识"
+            }
+          ]
+        },
+        {
+          "pdf_page": 2,
+          "embedded_name": "image2.png",
+          "source_block": 14,
+          "redacted_regions": [
+            {
+              "normalized_rect": [
+                0,
+                0.17,
+                1,
+                1
+              ],
+              "reason": "无关消费记录"
+            }
+          ]
+        },
+        {
+          "pdf_page": 3,
+          "embedded_name": "image3.png",
+          "source_block": 17,
+          "redacted_regions": [
+            {
+              "normalized_rect": [
+                0,
+                0.165,
+                1,
+                0.294
+              ],
+              "reason": "背景中的无关消费记录"
+            }
+          ]
+        },
+        {
+          "pdf_page": 4,
+          "embedded_name": "image4.png",
+          "source_block": 20,
+          "redacted_regions": []
+        },
+        {
+          "pdf_page": 5,
+          "embedded_name": "image5.png",
+          "source_block": 24,
+          "redacted_regions": []
+        },
+        {
+          "pdf_page": 6,
+          "embedded_name": "image6.png",
+          "source_block": 27,
+          "redacted_regions": [
+            {
+              "normalized_rect": [
+                0.2,
+                0.63,
+                0.86,
+                0.665
+              ],
+              "reason": "订单编号"
+            }
+          ]
+        },
+        {
+          "pdf_page": 7,
+          "embedded_name": "image7.png",
+          "source_block": 31,
+          "redacted_regions": []
+        },
+        {
+          "pdf_page": 8,
+          "embedded_name": "image8.png",
+          "source_block": 34,
+          "redacted_regions": []
+        },
+        {
+          "pdf_page": 9,
+          "embedded_name": "image9.png",
+          "source_block": 47,
+          "redacted_regions": []
+        },
+        {
+          "pdf_page": 10,
+          "embedded_name": "image10.png",
+          "source_block": 61,
+          "redacted_regions": []
+        }
+      ],
+      "published_body": "meituan-report-redacted.md",
+      "published_body_sha256": "a370bbc403dbfd5d1e7eac43fb7bf9a12362153c30f64ddfbc65807b4800795f",
+      "published_pdf": "meituan-screenshots-redacted.pdf",
+      "published_pdf_sha256": "54d2dd97d0d01995187bfa13bb4b00ec044ddbda991d572e220a5e7d472332fc"
+    }
+  }
+}

@@ -13,3 +13,7 @@
 ## 11 月 11 日规则补件
 
 [Jacky v1.3、8 页截图发布副本与哈希索引](2026-11-11-market-rules/README.md)。截图副本只遮去第三方账号标识；原 MD 未改，接收方核验结论见[规则表](../spec/market-compensation-rules.md)。
+
+## 11 月 12 日客服流程回件
+
+[三平台正文、26 页脱敏截图与哈希索引](2026-11-12-customer-service-flows/README.md)。原 DOCX 有隐私信息，原字节存本机独立私档；本仓库提供去标识正文和截图。接收范围与待核项见[R01–R03 核验表](../spec/competitor-evidence.md)。

@@ -16,7 +16,7 @@ Group 24 的课程项目。我们用模拟外卖订单验证一件事：面对�
 2. 在下表点自己的名字，看这轮要读什么、交什么、交给谁。
 3. 要复跑，打开 [ORD001 Studio 运行指南](examples/ord001/README.md)。要交接给队友或其 Agent，按[组内协作规范](notes/team/collaboration.md)填写交接记录。
 
-截至 **11 月 11 日**，首版采用 **LangChain／LangGraph**，ORD001 参考原型可运行。Jacky 的 v1.3 和 8 页截图已收到并核读：[规则与核验结论](work/spec/market-compensation-rules.md)。两项保障的基本条件已有依据，截图出处及局部边界仍待核。团队网页、林的流程观察、正式政策和 B/C 范围继续跟进。原建议 11 月 10 日收网页，尚未得到交期确认或团队交件，11 月 12 日是新的建议交期，仍待成员确认。
+截至 **11 月 12 日**，首版仍用 **LangChain／LangGraph**。Jacky 的规则 v1.3 已收；林的三平台 R01–R03 报告及 **26 张截图已核读**：[规则研究](work/spec/market-compensation-rules.md) · [客服流程核验](work/spec/competitor-evidence.md)。已补上首轮市面产品流程观察，真实超时赔付、真人接通和工单进度仍待核。正式政策和 B/C 范围继续对齐；远端开发分支有新提交，网页及 P01 结果留待另批验收，不能仅据分支存在标完成。
 
 ## 首轮实名分工
 
@@ -37,6 +37,7 @@ Group 24 的课程项目。我们用模拟外卖订单验证一件事：面对�
 |---|---|
 | 课程交什么、怎么评分 | [课程任务说明](notes/任务说明.md) |
 | 已收补偿规则、核验边界和截图 | [规则核验入口](work/spec/market-compensation-rules.md) |
+| 已收三平台客服流程、证据及待核 | [R01–R03 核验入口](work/spec/competitor-evidence.md) |
 | 三家平台查什么、交件怎么填 | [调研交接与模板](notes/team/research-handoff.md) |
 | 李宗谦与开发 Agent 今天怎么开工 | [ORD001 前端与工程交接](notes/team/frontend-handoff.md) |
 | 开发首轮怎么验、P01–P03 是什么 | [开发交接](notes/supervision-report.md#首轮开发交接) |
