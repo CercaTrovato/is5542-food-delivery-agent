@@ -4,7 +4,7 @@
   "course": "IS5542",
   "as_of": "2026-11-12",
   "timezone": "Asia/Shanghai",
-  "source_revision": "c18f05ee60f1e43db159b00796af81eb86e1f1d6ddac530bd7070953f3524ebc",
+  "source_revision": "a4dba7d9cd2d51a5c57bc564d4c8edbdf08a29431166881eef76bf46881a2806",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
