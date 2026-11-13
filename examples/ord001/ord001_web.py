@@ -42,7 +42,7 @@ MEDIA_TYPES = {
 }
 # Host names a local browser or the in-process test client sends. Others are refused (DNS rebinding).
 LOCAL_HOSTS = ("127.0.0.1", "localhost", "testserver")
-CSP = "default-src 'self'; base-uri 'none'; form-action 'self'"
+CSP = "default-src 'self'; base-uri 'none'; form-action 'self'; img-src 'self' blob:; media-src 'self' blob:"
 
 
 class SecurityHeaders:
