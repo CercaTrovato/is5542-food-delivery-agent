@@ -23,12 +23,24 @@ let othersOpen = null;
 let handoffWaiting = false;
 let seen = null;
 let toastTimer = 0;
+let draftMedia = null;
+let recorder = null;
+let recorderStream = null;
+let recorderChunks = [];
+let recorderTimer = 0;
+let recorderStartedAt = 0;
 const informationDrafts = new Map();
+const MAX_MEDIA_BYTES = 5 * 1024 * 1024;
+const IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 function updateControls() {
   const locked = busy || confirming;
   for (const node of document.querySelectorAll("#composer textarea, #composer button, #quick button, #orders button, #order-picks button, #tickets textarea, #tickets button, .suggestion")) node.disabled = locked;
   for (const node of document.querySelectorAll("#confirm-yes, #confirm-no, .handoff-cancel")) node.disabled = busy;
+  $("attachment-input").disabled = locked || Boolean(recorder);
+  $("attach").disabled = locked || Boolean(recorder);
+  $("send").disabled = locked || Boolean(recorder);
+  $("record").disabled = locked;
   $("handoff").disabled = busy || handoffWaiting;
   $("send").setAttribute("aria-busy", String(busy));
   document.body.classList.toggle("is-working", busy);
@@ -49,9 +61,16 @@ function bubble(role, text, tag) {
   return row;
 }
 
+function attachmentBubble(item) {
+  const row = el("div", "bubble-row customer attachment-row");
+  row.append(el("span", "bubble-tag", "顾客附件"), attachmentList(item.attachments, { customer: true }));
+  return row;
+}
+
 function handoffBlock(item) {
   const nodes = [];
   if (item.request_text) nodes.push(bubble("customer", item.request_text));
+  if (item.attachments && item.attachments.length) nodes.push(attachmentBubble(item));
   const note = el("div", `handoff-note note-${item.status}`);
   note.dataset.handoffId = item.handoff_id;
   note.append(icon(item.status === "cancelled" ? "close" : "person"), el("span", "", HANDOFF_NOTE[item.status] || item.status));
@@ -331,6 +350,139 @@ function markOrders() {
   for (const row of $("orders").querySelectorAll(".order")) row.classList.toggle("is-focus", row.dataset.orderId === shownOrder);
 }
 
+function showOrderDetail(order) {
+  const root = $("order-detail");
+  const itemNames = ["招牌牛肉饭", "椒盐鸡翅", "青柠气泡水"];
+  const seed = order.order_id.split("").reduce((total, char) => total + char.charCodeAt(0), 0);
+  const items = [itemNames[seed % itemNames.length], "小食拼盘"];
+  const status = ORDER_STATUS[order.status] || order.status;
+  root.replaceChildren();
+  const heading = el("div", "order-detail-heading");
+  const title = el("h2", "", "订单详情");
+  title.id = "order-dialog-title";
+  heading.append(el("span", "order-detail-kicker", "配送关怀 · 演示订单"), title,
+    el("span", "order-detail-status", status));
+  const hero = el("div", "order-detail-hero");
+  hero.append(el("span", "order-detail-merchant", order.merchant), el("strong", "", order.order_id),
+    el("small", "", "模拟订单号 · 仅用于课程演示"));
+  const itemList = el("div", "order-detail-items");
+  for (const [index, name] of items.entries()) {
+    const row = el("div", "order-detail-item");
+    row.append(el("span", "food-thumb", index === 0 ? "餐" : "小食"), el("span", "", name), el("strong", "", index === 0 ? "×1" : "×1"));
+    itemList.append(row);
+  }
+  const rows = [
+    ["订单状态", status], ["下单金额", `¥${order.amount_yuan}`],
+    ["预计送达", order.expected_at], ["实际送达", order.delivered_at || "配送中"],
+    ["配送备注", "请按演示地址交付"],
+  ];
+  root.append(heading, hero, el("h3", "order-detail-section", "餐品明细"), itemList,
+    el("h3", "order-detail-section", "配送信息"), facts(rows),
+    el("p", "order-detail-note", "这是参考常见外卖订单详情结构制作的脱敏模拟页面，不代表任何平台官方页面。"));
+  $("order-dialog").showModal();
+}
+
+function clearDraftMedia() {
+  if (draftMedia && draftMedia.url) URL.revokeObjectURL(draftMedia.url);
+  draftMedia = null;
+  renderDraftMedia();
+}
+
+function renderDraftMedia() {
+  const box = $("attachment-draft");
+  if (!draftMedia) { box.hidden = true; box.replaceChildren(); updateControls(); return; }
+  box.hidden = false;
+  const label = draftMedia.kind === "image" ? "图片待发送" : "语音待发送";
+  const row = el("div", "draft-media-row");
+  row.append(icon(draftMedia.kind === "image" ? "image" : "audio"), el("strong", "", label),
+    el("small", "", `${draftMedia.file.name} · ${(draftMedia.file.size / 1024 / 1024).toFixed(1)} MB`));
+  const remove = button("移除", "media-remove", clearDraftMedia);
+  remove.prepend(icon("trash"));
+  row.append(remove);
+  if (draftMedia.kind === "image") {
+    const preview = document.createElement("img");
+    preview.src = draftMedia.url;
+    preview.alt = "待发送图片预览";
+    row.append(preview);
+  } else {
+    const player = document.createElement("audio");
+    player.controls = true;
+    player.src = draftMedia.url;
+    row.append(player);
+  }
+  box.replaceChildren(row);
+  updateControls();
+}
+
+function setDraftMedia(file, kind) {
+  if (!file || file.size > MAX_MEDIA_BYTES) {
+    showStatus("附件不能超过 5 MB，请换一份较小的文件。", true);
+    return false;
+  }
+  if (kind === "image" && !IMAGE_TYPES.has(file.type)) {
+    showStatus("只支持 JPG、PNG 或 WebP 图片。", true);
+    return false;
+  }
+  clearDraftMedia();
+  draftMedia = { file, kind, url: URL.createObjectURL(file) };
+  renderDraftMedia();
+  showStatus(kind === "image" ? "图片已准备好，发送后会交给人工客服。" : "语音已准备好，发送后会交给人工客服。", false);
+  return true;
+}
+
+function formatRecordingTime() {
+  const seconds = Math.floor((Date.now() - recorderStartedAt) / 1000);
+  return `录音中 ${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
+}
+
+function stopRecording() {
+  if (!recorder) return;
+  recorder.stop();
+  for (const track of recorderStream?.getTracks() || []) track.stop();
+  clearInterval(recorderTimer);
+  recorderTimer = 0;
+  $("record").replaceChildren(icon("mic"), el("span", "", "语音"));
+  $("record").classList.remove("recording");
+  updateControls();
+}
+
+async function toggleRecording() {
+  if (recorder) { stopRecording(); return; }
+  if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
+    showStatus("当前浏览器不支持录音，请选择图片或点「转人工」留言。", true);
+    return;
+  }
+  try {
+    recorderStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const options = MediaRecorder.isTypeSupported("audio/webm;codecs=opus") ? { mimeType: "audio/webm;codecs=opus" } : {};
+    recorderChunks = [];
+    recorder = new MediaRecorder(recorderStream, options);
+    recorder.addEventListener("dataavailable", event => { if (event.data.size) recorderChunks.push(event.data); });
+    recorder.addEventListener("stop", () => {
+      const type = recorder?.mimeType || "audio/webm";
+      const file = new File([new Blob(recorderChunks, { type })], `语音-${Date.now()}.webm`, { type });
+      recorder = null;
+      recorderStream = null;
+      recorderChunks = [];
+      if (file.size) setDraftMedia(file, "audio");
+      updateControls();
+    }, { once: true });
+    recorder.start();
+    recorderStartedAt = Date.now();
+    $("record").replaceChildren(icon("stop"), el("span", "", "停止"));
+    $("record").classList.add("recording");
+    recorderTimer = setInterval(() => { $("record-label").textContent = formatRecordingTime(); }, 1000);
+    $("record-label").textContent = "录音中 00:00";
+    updateControls();
+  } catch (_) {
+    for (const track of recorderStream?.getTracks() || []) track.stop();
+    recorder = null;
+    recorderStream = null;
+    showStatus("没有获得麦克风权限，录音未开始。", true);
+    updateControls();
+  }
+}
+
 // Once the chat has started without an order this account owns, offer the orders as one-tap choices.
 function renderPicks(state) {
   const box = $("order-picks");
@@ -380,7 +532,10 @@ function renderOrders() {
     text.append(el("strong", "", order.merchant), el("span", "order-meta", `${order.order_id} · ${ORDER_STATUS[order.status] || order.status}`));
     const bottom = el("div", "order-bottom");
     const time = order.delivered_at ? `${order.expected_at} → ${order.delivered_at}` : `预计 ${order.expected_at}`;
-    bottom.append(el("span", "order-time", time), button("咨询", "small", () => send(`我的外卖 ${order.order_id} 迟到了，可以申请补偿吗？`)));
+    const actions = el("span", "order-actions");
+    actions.append(button("详情", "small detail-button", () => showOrderDetail(order)),
+      button("咨询", "small", () => send(`我的外卖 ${order.order_id} 迟到了，可以申请补偿吗？`)));
+    bottom.append(el("span", "order-time", time), actions);
     text.append(bottom);
     row.append(icon("bowl", "order-art"), text);
     return row;
@@ -461,11 +616,21 @@ async function act(work) {
 
 function send(raw, fromInput) {
   const text = raw.trim();
-  if (!text || confirming) return;
+  if ((!text && !draftMedia) || confirming) return;
+  const media = draftMedia;
   act(async () => {
-    const result = await api("/api/customer/messages", { text });
+    let result;
+    if (media) {
+      const body = new FormData();
+      if (text) body.append("text", text);
+      body.append("attachment", media.file, media.file.name);
+      result = await api("/api/customer/handoff", body);
+      clearDraftMedia();
+    } else {
+      result = await api("/api/customer/messages", { text });
+    }
     if (fromInput) { $("input").value = ""; updateCount(); }
-    return result.outcome === "handoff_waiting" ? "已在排队，人工客服会在对话里回复" : "";
+    return result.outcome === "handoff_waiting" ? "已在排队，人工客服会在对话里回复" : "附件已交给人工客服，AI 不会自动识别附件内容。";
   });
 }
 
@@ -497,6 +662,12 @@ async function boot() {
   });
   $("quick").replaceChildren(...QUICK.map(([label, text]) => button(label, "suggestion", () => { $("demo-dialog").close(); send(text); })));
   $("composer").addEventListener("submit", (event) => { event.preventDefault(); send($("input").value, true); });
+  $("attach").addEventListener("click", () => $("attachment-input").click());
+  $("attachment-input").addEventListener("change", () => {
+    const file = $("attachment-input").files[0];
+    if (file && setDraftMedia(file, "image")) $("attachment-input").value = "";
+  });
+  $("record").addEventListener("click", toggleRecording);
   $("input").addEventListener("input", updateCount);
   $("input").addEventListener("keydown", (event) => {
     if (event.key === "Enter" && !event.shiftKey && !event.isComposing) { event.preventDefault(); send($("input").value, true); }

@@ -6,6 +6,7 @@
 #     "langchain-openai==1.7.4",
 #     "starlette==1.10.0",
 #     "uvicorn==0.54.0",
+#     "python-multipart==0.0.20",
 # ]
 # ///
 
@@ -33,6 +34,12 @@ from ord001_web_service import DemoService, ServiceError
 WEB_DIR = Path(__file__).with_name("web")
 CUSTOMER_COOKIE, REVIEWER_COOKIE = "ord001_customer", "ord001_reviewer"
 MAX_TEXT, MAX_NOTE, MAX_ID = 500, 200, 32
+MAX_MEDIA_BYTES = 5 * 1024 * 1024
+MEDIA_TYPES = {
+    "image/jpeg": ("image", "jpg"), "image/png": ("image", "png"), "image/webp": ("image", "webp"),
+    "audio/webm": ("audio", "webm"), "audio/ogg": ("audio", "ogg"), "audio/mp4": ("audio", "m4a"),
+    "audio/mpeg": ("audio", "mp3"),
+}
 # Host names a local browser or the in-process test client sends. Others are refused (DNS rebinding).
 LOCAL_HOSTS = ("127.0.0.1", "localhost", "testserver")
 CSP = "default-src 'self'; base-uri 'none'; form-action 'self'"
@@ -114,6 +121,39 @@ def text_field(body: dict, key: str, limit: int, *, required: bool = True) -> st
 
 async def service_error(request: Request, exc: ServiceError) -> JSONResponse:
     return JSONResponse({"error": exc.code, "message": exc.message}, status_code=exc.status)
+
+
+async def read_handoff(request: Request) -> tuple[str | None, list[dict]]:
+    """Read a JSON handoff or a small multipart handoff with one or more media files."""
+    origin = request.headers.get("origin")
+    if origin and urlsplit(origin).netloc != request.headers.get("host"):
+        raise ServiceError(403, "cross_origin", "拒绝跨站请求。")
+    content_type = request.headers.get("content-type", "").split(";", 1)[0].strip()
+    if content_type == "application/json":
+        body = await read_json(request)
+        return text_field(body, "text", MAX_TEXT, required=False), []
+    if content_type != "multipart/form-data":
+        raise ServiceError(415, "upload_required", "附件请求必须使用 multipart/form-data。")
+    try:
+        async with request.form(max_files=3, max_fields=4, max_part_size=MAX_MEDIA_BYTES) as form:
+            text = text_field({"text": form.get("text")}, "text", MAX_TEXT, required=False)
+            files = []
+            for upload in form.getlist("attachment"):
+                media_type = ((getattr(upload, "content_type", None) or "").split(";", 1)[0].strip().lower())
+                spec = MEDIA_TYPES.get(media_type)
+                if spec is None:
+                    raise ServiceError(415, "unsupported_media", "只支持 JPG、PNG、WebP 图片和常见语音格式。")
+                content = await upload.read()
+                if not content or len(content) > MAX_MEDIA_BYTES:
+                    raise ServiceError(413, "media_too_large", "每个附件必须大于 0 且不超过 5 MB。")
+                original = Path(getattr(upload, "filename", None) or ("图片" if spec[0] == "image" else "语音")).name
+                files.append({"kind": spec[0], "extension": spec[1], "original_name": original[:120],
+                              "media_type": media_type, "content": content})
+            return text, files
+    except ServiceError:
+        raise
+    except Exception as exc:
+        raise ServiceError(400, "invalid_multipart", "附件请求无法读取，请重新选择文件。") from exc
 
 
 async def no_icon(request: Request) -> Response:
@@ -209,8 +249,20 @@ def create_app(service: DemoService | None = None, allowed_hosts=LOCAL_HOSTS) ->
 
     async def customer_handoff(request: Request) -> JSONResponse:
         ident = identity(request, "customer")
-        await read_json(request)
-        return JSONResponse(await run_in_threadpool(service.request_handoff, ident["thread_id"], ident["customer_id"]))
+        text, files = await read_handoff(request)
+        return JSONResponse(await run_in_threadpool(service.request_handoff, ident["thread_id"], ident["customer_id"], text, files))
+
+    async def media(request: Request) -> FileResponse:
+        attachment_id = request.path_params["attachment_id"]
+        customer = sessions.get(request.cookies.get(CUSTOMER_COOKIE))
+        reviewer = sessions.get(request.cookies.get(REVIEWER_COOKIE))
+        if customer and customer.get("role") == "customer":
+            found = service.media_for(attachment_id, customer_id=customer["customer_id"])
+        elif reviewer and reviewer.get("role") == "reviewer":
+            found = service.media_for(attachment_id, reviewer=True)
+        else:
+            raise ServiceError(401, "login_required", "请先登录模拟账号。")
+        return FileResponse(found["path"], media_type=found["media_type"], headers={"Cache-Control": "no-store"})
 
     async def customer_handoff_cancel(request: Request) -> JSONResponse:
         ident = identity(request, "customer")
@@ -287,6 +339,7 @@ def create_app(service: DemoService | None = None, allowed_hosts=LOCAL_HOSTS) ->
         Route("/api/customer/tickets/{ticket_id}/rating", customer_rating, methods=["POST"]),
         Route("/api/customer/handoff", customer_handoff, methods=["POST"]),
         Route("/api/customer/handoffs/{handoff_id}/cancel", customer_handoff_cancel, methods=["POST"]),
+        Route("/api/media/{attachment_id}", media),
         Route("/api/review/login", review_login, methods=["POST"]),
         Route("/api/review/logout", review_logout, methods=["POST"]),
         Route("/api/review/me", review_me),
@@ -301,7 +354,7 @@ def create_app(service: DemoService | None = None, allowed_hosts=LOCAL_HOSTS) ->
     ]
     middleware = [Middleware(TrustedHostMiddleware, allowed_hosts=list(allowed_hosts)), Middleware(SecurityHeaders)]
     app = Starlette(routes=routes, middleware=middleware, exception_handlers={ServiceError: service_error},
-                    max_body_size=16 * 1024)
+                    max_body_size=6 * 1024 * 1024)
     app.state.service = service
     return app
 

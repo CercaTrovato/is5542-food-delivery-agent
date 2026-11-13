@@ -6,10 +6,10 @@ Group 24 的课程项目。我们用模拟外卖订单验证一件事：面对�
 
 1. 看[当前方案与进度](notes/current-plan.md)，了解完整流程、已确认的决定和下一步。
 2. 在下表点自己的名字，看这轮要读什么、交什么、交给谁。
-3. 要复跑，打开 [ORD001 网页与 Studio 运行指南](examples/ord001/README.md)。顾客页、审批页、P01–P03 开发验证和待接项见 [11 月 10 日本机交付](notes/team/ord001-web-delivery-2026-11-10.md)；新版页面、交互与浏览器证据见 [界面升级说明](notes/team/ord001-ui-upgrade-2026-11-10.md)。
+3. 要复跑，打开 [ORD001 网页与 Studio 运行指南](examples/ord001/README.md)。顾客页、审批页、P01–P03 开发验证和待接项见 [11 月 10 日本机交付](notes/team/ord001-web-delivery-2026-11-10.md)；新版页面、交互与浏览器证据见 [界面升级说明](notes/team/ord001-ui-upgrade-2026-11-10.md)；图片、语音和移动端界面见 ORD001 指南中的 [2026-11-13 媒体交付](examples/ord001/README.md#2026-11-13-媒体交付与界面证据)。
 4. 要在 GitHub 查看每位成员的任务、交件与复核状态，打开 [GitHub 组内协作方式](notes/team/github-collaboration.md)。交接格式按[组内协作规范](notes/team/collaboration.md)填写。
 
-截至 **11 月 10 日**，首版框架已选 **LangChain／LangGraph**，ORD001 顾客网页、审批网页及 P01–P03 开发证据已具备，使用 `feat/ord001-local-web` 分支交接，**待组员复核**。三平台调研任务已写明；正式补偿参数、团队模型和 B/C 评测细节待对齐。完整首轮和验收时间随交件对齐。
+截至 **11 月 13 日**，首版框架已选 **LangChain／LangGraph**，ORD001 顾客网页、审批网页、人工咨询和媒体附件流程已具备，使用 `feat/ord001-local-web` 分支交接，**待组员复核**。本轮 GitHub 证据包含订单详情、图片附件、商家附件和 390px 移动端界面；三平台调研任务已写明，正式补偿参数、团队模型和 B/C 评测细节待对齐。
 
 ## 首轮实名分工
 

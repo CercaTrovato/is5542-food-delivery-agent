@@ -120,6 +120,11 @@ function handoffCard(item) {
     request.append(el("span", "", "顾客留言"), el("p", "", item.request_text));
     card.append(request);
   }
+  if (item.attachments && item.attachments.length) {
+    const attachments = attachmentList(item.attachments);
+    attachments.classList.add("review-attachments");
+    card.append(attachments);
+  }
   const transcript = el("ol", "handoff-transcript");
   for (const line of item.excerpt) {
     const row = el("li", `line-${line.role}`);

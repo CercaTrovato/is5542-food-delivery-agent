@@ -27,6 +27,12 @@ const ICONS = {
   refresh: ["M20 8a9 9 0 0 0-15-3L2 8m0-6v6h6M4 16a9 9 0 0 0 15 3l3-3m0 6v-6h-6"],
   reset: ["M3 11a9 9 0 1 1 2 7M3 4v7h7", "M12 7v5l3 2"],
   person: ["M16.5 7.5a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z", "M3.5 21a8.5 8.5 0 0 1 17 0"],
+  paperclip: ["m20.5 11.5-8.8 8.8a5 5 0 0 1-7.1-7.1l9-9a3.3 3.3 0 0 1 4.7 4.7l-9.1 9.1a1.7 1.7 0 0 1-2.4-2.4l8.4-8.4"],
+  mic: ["M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z", "M19 10v2a7 7 0 0 1-14 0v-2M12 19v3m-4 0h8"],
+  stop: ["M6 6h12v12H6z"],
+  image: ["M4 5h16v14H4z", "m4 16 4-4 3 3 3-4 6 6M8 9h.01"],
+  audio: ["M5 10v4m3-7v10m4-13v16m4-13v10m3-7v4"],
+  trash: ["M4 7h16M10 11v6m4-6v6M9 7V4h6v3m-9 0 1 13h10l1-13"],
   star: ["m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3Z"],
   bell: ["M18 9a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8Z", "M10.3 21a1.9 1.9 0 0 0 3.4 0"],
 };
@@ -55,8 +61,11 @@ async function api(path, body) {
   const init = { headers: { Accept: "application/json" }, credentials: "same-origin" };
   if (body !== undefined) {
     init.method = "POST";
-    init.headers["Content-Type"] = "application/json";
-    init.body = JSON.stringify(body);
+    if (body instanceof FormData) init.body = body;
+    else {
+      init.headers["Content-Type"] = "application/json";
+      init.body = JSON.stringify(body);
+    }
   }
   let response;
   try {
@@ -111,6 +120,36 @@ function facts(rows) {
 
 function badge(status) {
   return el("span", `badge badge-${status}`, STATUS_TEXT[status] || status);
+}
+
+function attachmentList(items, { customer = false } = {}) {
+  const list = el("div", "attachment-list");
+  for (const item of items || []) {
+    const card = el("div", `attachment-card attachment-${item.kind}`);
+    card.append(icon(item.kind === "image" ? "image" : "audio"), el("div", "attachment-info"));
+    const info = card.lastElementChild;
+    info.append(el("strong", "", item.original_name || (item.kind === "image" ? "图片附件" : "语音附件")),
+      el("small", "", item.kind === "image" ? "图片 · 仅供人工客服查看" : "语音 · 仅供人工客服播放"));
+    if (item.kind === "image") {
+      const preview = document.createElement("img");
+      preview.src = item.url;
+      preview.alt = item.original_name || "顾客上传的图片";
+      preview.loading = "lazy";
+      card.append(preview);
+    } else {
+      const player = document.createElement("audio");
+      player.controls = true;
+      player.preload = "metadata";
+      player.src = item.url;
+      card.append(player);
+    }
+    list.append(card);
+  }
+  if (items && items.length) {
+    const note = el("p", "attachment-disclosure", customer ? "附件已发送给人工客服，AI 不会自动识别其中内容。" : "顾客声明：附件由人工客服查看，AI 未自动识别。 ");
+    list.append(note);
+  }
+  return list;
 }
 
 function delayText(seconds) {

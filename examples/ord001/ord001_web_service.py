@@ -128,12 +128,18 @@ def focused_order(messages) -> str | None:
 def handoff_copy(handoff: dict, thread_id: str | None) -> dict:
     """What the customer sees of a handoff. Ones opened in an earlier login are placed before the current chat."""
     keys = ("handoff_id", "order_id", "status", "request_text", "reply_text", "created_at", "closed_at")
-    return {**{key: handoff[key] for key in keys},
+    attachments = [{**item, "url": f"/api/media/{item['attachment_id']}"} for item in handoff.get("attachments", [])]
+    return {**{key: handoff[key] for key in keys}, "attachments": attachments,
             "after": handoff["after_index"] if handoff["thread_id"] == thread_id else 0}
 
 
 def review_handoff_copy(handoff: dict) -> dict:
-    return {key: value for key, value in handoff.items() if key != "thread_id"}
+    result = {key: value for key, value in handoff.items() if key not in ("thread_id", "attachments")}
+    result["attachments"] = [
+        {key: item[key] for key in ("attachment_id", "handoff_id", "kind", "original_name", "media_type", "size_bytes", "created_at")}
+        for item in handoff.get("attachments", [])
+    ]
+    return result
 
 
 def token_usage(messages) -> dict | None:
@@ -347,12 +353,14 @@ class DemoService:
 
     # Human handoff
 
-    def request_handoff(self, thread_id: str, customer_id: str) -> dict:
+    def request_handoff(self, thread_id: str, customer_id: str, text: str | None = None,
+                        files: list[dict] | None = None) -> dict:
         with self._lock(thread_id):
             snapshot = self.customer_graph.get_state(self._thread(thread_id))
-            return self._open_handoff(thread_id, customer_id, None, snapshot)
+            return self._open_handoff(thread_id, customer_id, text, snapshot, files or [])
 
-    def _open_handoff(self, thread_id: str, customer_id: str, text: str | None, snapshot) -> dict:
+    def _open_handoff(self, thread_id: str, customer_id: str, text: str | None, snapshot,
+                      files: list[dict] | None = None) -> dict:
         """Queue the chat for a person with the last few lines attached, so nobody has to ask again."""
         messages = (snapshot.values or {}).get("messages", [])
         visible = visible_messages(messages)
@@ -366,7 +374,7 @@ class DemoService:
                    for item in visible[-EXCERPT_LINES:]]
         handoff, created = self.store.create_handoff(
             customer_id=customer_id, thread_id=thread_id, order_id=order_id, after_index=len(visible),
-            request_text=text, excerpt=excerpt, limit=HANDOFF_LIMIT)
+            request_text=text, excerpt=excerpt, files=files or [], limit=HANDOFF_LIMIT)
         if handoff is None:
             raise ServiceError(429, "handoff_limit", "人工咨询已达演示上限，请联系演示负责人。")
         self._record(event="handoff_request", customer_id=customer_id, thread_id=thread_id,
@@ -424,8 +432,24 @@ class DemoService:
 
     def review_handoffs(self) -> dict:
         items = [review_handoff_copy(item) for item in self.store.handoffs()]
+        for item in items:
+            item["attachments"] = [{**attachment, "url": f"/api/media/{attachment['attachment_id']}"}
+                                    for attachment in item.get("attachments", [])]
         return {"waiting": [item for item in items if item["status"] == "waiting"],
                 "closed": [item for item in items if item["status"] != "waiting"][-50:]}
+
+    def media_for(self, attachment_id: str, *, customer_id: str | None = None, reviewer: bool = False) -> dict:
+        attachment = self.store.attachment(attachment_id)
+        if attachment is None:
+            raise ServiceError(404, "media_not_found", "没有这个附件。")
+        handoff = self.store.get_handoff(attachment["handoff_id"])
+        if handoff is None or (not reviewer and handoff["customer_id"] != customer_id):
+            raise ServiceError(404, "media_not_found", "没有这个附件。")
+        path = self.store.media_dir / attachment["storage_name"]
+        if not path.is_file():
+            raise ServiceError(404, "media_not_found", "附件文件已不存在。")
+        return {"path": path, "media_type": attachment["media_type"],
+                "name": attachment["original_name"]}
 
     def reply_handoff(self, handoff_id: str, reviewer_id: str, text) -> dict:
         if not isinstance(text, str) or not text.strip():

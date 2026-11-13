@@ -1,7 +1,9 @@
 """Mock accounts, orders and the ticket store behind the ORD001 web demo."""
 
 import json
+import secrets
 import sqlite3
+import tempfile
 import threading
 from datetime import datetime
 from pathlib import Path
@@ -58,6 +60,16 @@ CREATE TABLE IF NOT EXISTS handoffs (
     created_at TEXT NOT NULL,
     closed_at TEXT
 );
+CREATE TABLE IF NOT EXISTS attachments (
+    attachment_id TEXT PRIMARY KEY,
+    handoff_id TEXT NOT NULL,
+    kind TEXT NOT NULL CHECK (kind IN ('image', 'audio')),
+    original_name TEXT NOT NULL,
+    media_type TEXT NOT NULL,
+    size_bytes INTEGER NOT NULL,
+    storage_name TEXT NOT NULL,
+    created_at TEXT NOT NULL
+);
 """
 # Columns added after the needs_info upgrade. Older files gain them in place, so nothing is copied.
 ADDED_TICKET_COLUMNS = (("rating", "INTEGER"), ("rated_at", "TEXT"))
@@ -103,9 +115,14 @@ class TicketStore:
     """SQLite tickets and human handoffs. The same order under the same policy version keeps one ticket."""
 
     def __init__(self, path: str = ":memory:"):
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
         self._db = sqlite3.connect(path, check_same_thread=False)
         self._db.row_factory = sqlite3.Row
+        if path == ":memory:":
+            self.media_dir = Path(tempfile.mkdtemp(prefix="ord001-media-"))
+        else:
+            self.media_dir = Path(path).expanduser().resolve().parent / f"{Path(path).stem}-media"
+            self.media_dir.mkdir(mode=0o700, parents=True, exist_ok=True)
         self._migrate()
         self._db.executescript(SCHEMA)
 
@@ -136,6 +153,35 @@ class TicketStore:
     def close(self) -> None:
         with self._lock:
             self._db.close()
+
+    def _attachment_rows(self, handoff_id: str) -> list[dict]:
+        rows = self._db.execute(
+            "SELECT attachment_id, handoff_id, kind, original_name, media_type, size_bytes, created_at "
+            "FROM attachments WHERE handoff_id = ? ORDER BY created_at, attachment_id",
+            (handoff_id,),
+        ).fetchall()
+        return [dict(row) for row in rows]
+
+    def attachments(self, handoff_id: str) -> list[dict]:
+        with self._lock:
+            return self._attachment_rows(handoff_id)
+
+    def attachment(self, attachment_id: str) -> dict | None:
+        with self._lock:
+            return self._one("SELECT * FROM attachments WHERE attachment_id = ?", (attachment_id,))
+
+    def _store_files(self, handoff_id: str, files: list[dict]) -> None:
+        for item in files:
+            attachment_id = f"A{secrets.token_hex(8)}"
+            storage_name = f"{attachment_id}.{item['extension']}"
+            target = self.media_dir / storage_name
+            target.write_bytes(item["content"])
+            self._db.execute(
+                "INSERT INTO attachments (attachment_id, handoff_id, kind, original_name, media_type, size_bytes, storage_name, created_at) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                (attachment_id, handoff_id, item["kind"], item["original_name"], item["media_type"],
+                 len(item["content"]), storage_name, now_text()),
+            )
 
     def _one(self, sql: str, params: tuple) -> dict | None:
         row = self._db.execute(sql, params).fetchone()
@@ -253,13 +299,22 @@ class TicketStore:
             row["excerpt"] = json.loads(row["excerpt"])
         return row
 
+    def handoff_with_attachments(self, row: dict | None) -> dict | None:
+        if row is None:
+            return None
+        row = self._handoff(row)
+        row["attachments"] = self.attachments(row["handoff_id"])
+        return row
+
     def create_handoff(self, *, customer_id: str, thread_id: str, order_id: str | None, after_index: int,
-                       request_text: str | None, excerpt: list, limit: int) -> tuple[dict | None, bool]:
+                       request_text: str | None, excerpt: list, files: list[dict], limit: int) -> tuple[dict | None, bool]:
         """Open one waiting handoff per customer. Returns (handoff, created); (None, False) once the demo is full."""
         with self._lock, self._db:
             waiting = self._one("SELECT * FROM handoffs WHERE customer_id = ? AND status = 'waiting'", (customer_id,))
             if waiting:
-                return self._handoff(waiting), False
+                if files:
+                    self._store_files(waiting["handoff_id"], files)
+                return self.handoff_with_attachments(waiting), False
             count = self._db.execute("SELECT COUNT(*) FROM handoffs").fetchone()[0]
             if count >= limit:
                 return None, False
@@ -270,7 +325,8 @@ class TicketStore:
                 (handoff_id, customer_id, thread_id, order_id, after_index, request_text,
                  json.dumps(excerpt, ensure_ascii=False), now_text()),
             )
-            return self._handoff(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,))), True
+            self._store_files(handoff_id, files)
+            return self.handoff_with_attachments(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,))), True
 
     def handoffs(self, *, customer_id: str | None = None) -> list[dict]:
         sql, params = "SELECT * FROM handoffs", ()
@@ -278,11 +334,11 @@ class TicketStore:
             sql, params = sql + " WHERE customer_id = ?", (customer_id,)
         with self._lock:
             rows = self._db.execute(sql + " ORDER BY handoff_id", params).fetchall()
-        return [self._handoff(dict(row)) for row in rows]
+        return [self.handoff_with_attachments(dict(row)) for row in rows]
 
     def get_handoff(self, handoff_id: str) -> dict | None:
         with self._lock:
-            return self._handoff(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,)))
+            return self.handoff_with_attachments(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,)))
 
     def close_handoff(self, handoff_id: str, *, status: str, customer_id: str | None = None,
                       reviewer_id: str | None = None, reply_text: str | None = None) -> dict | None:
@@ -295,10 +351,16 @@ class TicketStore:
         with self._lock, self._db:
             if self._db.execute(sql, params).rowcount != 1:
                 return None
-            return self._handoff(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,)))
+            return self.handoff_with_attachments(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,)))
 
     def reset(self) -> None:
         with self._lock, self._db:
             self._db.execute("DELETE FROM ticket_events")
             self._db.execute("DELETE FROM tickets")
+            self._db.execute("DELETE FROM attachments")
             self._db.execute("DELETE FROM handoffs")
+            for item in self.media_dir.glob("*"):
+                try:
+                    item.unlink()
+                except OSError:
+                    pass
