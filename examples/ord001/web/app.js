@@ -137,6 +137,16 @@ function drawIcon(holder) {
 }
 
 async function api(path, body) {
+  if (typeof window.ORD001_CLOUD_API === "function") {
+    try {
+      const data = await window.ORD001_CLOUD_API(path, body);
+      connectionState(true);
+      return data;
+    } catch (error) {
+      connectionState(true);
+      throw error;
+    }
+  }
   const init = { headers: { Accept: "application/json" }, credentials: "same-origin" };
   if (body !== undefined) {
     init.method = "POST";

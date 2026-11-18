@@ -63,6 +63,17 @@ def default_model(config_path=None):
         if base.hostname == "api.deepseek.com":
             options["extra_body"] = {"thinking": {"type": "disabled"}}
         return init_chat_model(**options), f"openai:{options['model']}"
+    ds_key = os.getenv("DEEPSEEK_API_KEY")
+    if ds_key and ds_key.strip():
+        model_name = (os.getenv("DEEPSEEK_MODEL") or "deepseek-chat").strip()
+        base_url = (os.getenv("DEEPSEEK_BASE_URL") or "https://api.deepseek.com/v1").rstrip("/")
+        options = {
+            "model_provider": "openai", "model": model_name,
+            "base_url": base_url, "api_key": ds_key.strip(),
+            "temperature": 0.4, "max_tokens": 800, "timeout": 30, "max_retries": 0,
+            "extra_body": {"thinking": {"type": "disabled"}},
+        }
+        return init_chat_model(**options), f"openai:{model_name}"
     model_id = os.getenv("ORD001_CHAT_MODEL")
     if model_id:
         return init_chat_model(model_id, timeout=30, max_retries=0), model_id
