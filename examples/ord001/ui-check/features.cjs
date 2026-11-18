@@ -38,7 +38,7 @@ const errors = [];
     const consult = async orderId => {
       await customer.locator('#order-search').fill(orderId);
       const sent = posting(customer, '/api/customer/messages');
-      await customer.locator(`#orders .order[data-order-id="${orderId}"] button`).click();
+      await customer.locator(`#orders .order[data-order-id="${orderId}"]`).getByRole('button', { name: '咨询', exact: true }).click();
       await sent;
       await idle(customer);
       await customer.locator('#order-search').fill('');

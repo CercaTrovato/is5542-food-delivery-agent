@@ -331,7 +331,7 @@ h1 { font-size: 32px; line-height: 1.35; font-weight: 650; letter-spacing: -.055
 .media-button { display: inline-flex; align-items: center; gap: 5px; min-height: 34px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 9px; background: var(--panel-solid); color: var(--muted); font-size: 11px; }
 .media-button:hover:not(:disabled) { border-color: var(--focus); background: var(--accent-soft); color: var(--accent); }
 .media-button svg { width: 15px; height: 15px; }
-.media-button.recording { color: var(--rejected); background: var(--rejected-bg); border-color: transparent; }
+.media-button.recording, .media-button.recording:hover:not(:disabled) { color: var(--rejected); background: var(--rejected-bg); border-color: transparent; }
 .media-help { color: var(--muted); font-size: 10px; margin-left: auto; }
 .attachment-draft { margin-bottom: 10px; }
 .draft-media-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 7px; padding: 9px; border-radius: 11px; background: var(--accent-soft); color: var(--accent); }

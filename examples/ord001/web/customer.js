@@ -435,14 +435,22 @@ function formatRecordingTime() {
   return `录音中 ${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
 }
 
+// The timer writes into #record-label, so every redraw of the button keeps that id.
+function showRecordButton(recording) {
+  const label = el("span", "", recording ? formatRecordingTime() : "语音");
+  label.id = "record-label";
+  $("record").replaceChildren(icon(recording ? "stop" : "mic"), label);
+  $("record").classList.toggle("recording", recording);
+  $("record").setAttribute("aria-label", recording ? "停止录音" : "录制语音");
+}
+
 function stopRecording() {
   if (!recorder) return;
   recorder.stop();
   for (const track of recorderStream?.getTracks() || []) track.stop();
   clearInterval(recorderTimer);
   recorderTimer = 0;
-  $("record").replaceChildren(icon("mic"), el("span", "", "语音"));
-  $("record").classList.remove("recording");
+  showRecordButton(false);
   updateControls();
 }
 
@@ -469,10 +477,8 @@ async function toggleRecording() {
     }, { once: true });
     recorder.start();
     recorderStartedAt = Date.now();
-    $("record").replaceChildren(icon("stop"), el("span", "", "停止"));
-    $("record").classList.add("recording");
+    showRecordButton(true);
     recorderTimer = setInterval(() => { $("record-label").textContent = formatRecordingTime(); }, 1000);
-    $("record-label").textContent = "录音中 00:00";
     updateControls();
   } catch (_) {
     for (const track of recorderStream?.getTracks() || []) track.stop();
@@ -630,7 +636,8 @@ function send(raw, fromInput) {
       result = await api("/api/customer/messages", { text });
     }
     if (fromInput) { $("input").value = ""; updateCount(); }
-    return result.outcome === "handoff_waiting" ? "已在排队，人工客服会在对话里回复" : "附件已交给人工客服，AI 不会自动识别附件内容。";
+    if (media) return "附件已交给人工客服，AI 不会自动识别附件内容。";
+    return result.outcome === "handoff_waiting" ? "已在排队，人工客服会在对话里回复" : "";
   });
 }
 
