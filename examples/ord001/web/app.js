@@ -37,6 +37,86 @@ const ICONS = {
   bell: ["M18 9a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8Z", "M10.3 21a1.9 1.9 0 0 0 3.4 0"],
 };
 
+function svgEl(tag, attrs = {}) {
+  const node = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, String(v));
+  return node;
+}
+
+// Chibi Spider-Man delivery-service mascot (Q版蜘蛛侠外卖客服: red webbed mask, big white lenses, yellow rider helmet & headset).
+function spideySvg(compact = false) {
+  const svg = svgEl("svg", { viewBox: compact ? "0 0 100 100" : "0 0 120 128", class: "spidey-svg", "aria-hidden": "true" });
+  if (compact) {
+    svg.append(
+      // Yellow rider helmet dome & playful wing tips
+      svgEl("path", { d: "M16 42 L8 28 L25 33 Z", fill: "#FFB800", stroke: "#18191F", "stroke-width": "2.6", "stroke-linejoin": "round" }),
+      svgEl("path", { d: "M84 42 L92 28 L75 33 Z", fill: "#FFB800", stroke: "#18191F", "stroke-width": "2.6", "stroke-linejoin": "round" }),
+      svgEl("path", { d: "M20 44 C20 17 80 17 80 44 Z", fill: "#FFD000", stroke: "#18191F", "stroke-width": "2.8" }),
+      // Chibi Spider-Man round head
+      svgEl("path", { d: "M17 54 C17 28 83 28 83 54 C83 78 69 88 50 88 C31 88 17 78 17 54 Z", fill: "#E63946", stroke: "#18191F", "stroke-width": "2.8" }),
+      // Mask web lines
+      svgEl("path", { d: "M50 30 L50 87 M50 58 L21 40 M50 58 L79 40 M50 58 L20 68 M50 58 L80 68 M30 44 Q50 51 70 44 M26 67 Q50 75 74 67", stroke: "#9E1926", "stroke-width": "1.5", fill: "none", opacity: "0.65" }),
+      // Helmet brim & mini spider badge
+      svgEl("path", { d: "M15 41 Q50 31 85 41", stroke: "#18191F", "stroke-width": "3.2", fill: "none", "stroke-linecap": "round" }),
+      svgEl("circle", { cx: "50", cy: "28", r: "6.5", fill: "#FFF8D6", stroke: "#18191F", "stroke-width": "2" }),
+      svgEl("circle", { cx: "50", cy: "28", r: "2.6", fill: "#E63946" }),
+      // Big expressive white Spider-Man lenses
+      svgEl("path", { d: "M23 51 C25 40 39 41 46 52 C47 62 36 69 26 64 C21 61 21 55 23 51 Z", fill: "#FFFFFF", stroke: "#18191F", "stroke-width": "3.2", class: "spidey-lens" }),
+      svgEl("path", { d: "M77 51 C75 40 61 41 54 52 C53 62 64 69 74 64 C79 61 79 55 77 51 Z", fill: "#FFFFFF", stroke: "#18191F", "stroke-width": "3.2", class: "spidey-lens" }),
+      svgEl("circle", { cx: "31", cy: "52", r: "2.6", fill: "#BAE6FD", class: "spidey-lens" }),
+      svgEl("circle", { cx: "69", cy: "52", r: "2.6", fill: "#BAE6FD", class: "spidey-lens" }),
+      // Headset mic
+      svgEl("rect", { x: "11", y: "51", width: "6", height: "13", rx: "3", fill: "#FFD000", stroke: "#18191F", "stroke-width": "2.2" }),
+      svgEl("path", { d: "M14 63 Q22 79 40 78", stroke: "#18191F", "stroke-width": "2.4", fill: "none", "stroke-linecap": "round" }),
+      svgEl("circle", { cx: "42", cy: "78", r: "3.2", fill: "#FFD000", stroke: "#18191F", "stroke-width": "1.8" })
+    );
+    return svg;
+  }
+  svg.append(
+    // Soft golden glow behind mascot
+    svgEl("circle", { cx: "60", cy: "66", r: "48", fill: "#FFF3B0", opacity: "0.55" }),
+    // Chibi body (Spider-Red & Blue suit + yellow delivery strap)
+    svgEl("path", { d: "M33 90 C33 77 87 77 87 90 L91 116 C91 120 29 120 29 116 Z", fill: "#E63946", stroke: "#18191F", "stroke-width": "2.8" }),
+    svgEl("path", { d: "M33 93 L29 116 L43 116 L43 91 Z M87 93 L91 116 L77 116 L77 91 Z", fill: "#1D4ED8", stroke: "#18191F", "stroke-width": "2.2" }),
+    svgEl("path", { d: "M42 86 L76 116", stroke: "#FFD000", "stroke-width": "6", "stroke-linecap": "round" }),
+    // Waving chibi hand
+    svgEl("path", { d: "M87 93 Q102 86 103 75", stroke: "#E63946", "stroke-width": "10", "stroke-linecap": "round" }),
+    svgEl("path", { d: "M87 93 Q102 86 103 75", stroke: "#18191F", "stroke-width": "2.8", fill: "none", "stroke-linecap": "round" }),
+    svgEl("circle", { cx: "103", cy: "73", r: "6.5", fill: "#E63946", stroke: "#18191F", "stroke-width": "2.6" }),
+    // Chest mini spider emblem
+    svgEl("circle", { cx: "60", cy: "102", r: "3.2", fill: "#18191F" }),
+    svgEl("circle", { cx: "60", cy: "107", r: "4.2", fill: "#18191F" }),
+    svgEl("path", { d: "M56 101 L50 98 M56 104 L49 104 M56 107 L50 111 M64 101 L70 98 M64 104 L71 104 M64 107 L70 111", stroke: "#18191F", "stroke-width": "1.8", "stroke-linecap": "round" }),
+    // Helmet playful wing-ears (Meituan rider vibe + Spider web-wings)
+    svgEl("path", { d: "M22 44 L9 27 L32 34 Z", fill: "#FFB800", stroke: "#18191F", "stroke-width": "2.8", "stroke-linejoin": "round" }),
+    svgEl("path", { d: "M98 44 L111 27 L88 34 Z", fill: "#FFB800", stroke: "#18191F", "stroke-width": "2.8", "stroke-linejoin": "round" }),
+    // Meituan-yellow delivery rider helmet
+    svgEl("path", { d: "M24 46 C24 16 96 16 96 46 Z", fill: "#FFD000", stroke: "#18191F", "stroke-width": "2.8" }),
+    // Big round Chibi Spider-Man head
+    svgEl("path", { d: "M20 58 C20 30 100 30 100 58 C100 84 83 94 60 94 C37 94 20 84 20 58 Z", fill: "#E63946", stroke: "#18191F", "stroke-width": "2.8" }),
+    // Spider-mask web lines
+    svgEl("path", { d: "M60 33 L60 93 M60 61 L25 42 M60 61 L95 42 M60 61 L23 71 M60 61 L97 71 M60 61 L39 90 M60 61 L81 90 M36 47 Q60 55 84 47 M30 70 Q60 79 90 70 M41 84 Q60 90 79 84", stroke: "#9E1926", "stroke-width": "1.55", fill: "none", opacity: "0.62" }),
+    // Helmet visor & badge
+    svgEl("path", { d: "M17 44 Q60 32 103 44", stroke: "#18191F", "stroke-width": "3.6", fill: "none", "stroke-linecap": "round" }),
+    svgEl("rect", { x: "45", y: "21", width: "30", height: "13", rx: "6.5", fill: "#FFFDF5", stroke: "#18191F", "stroke-width": "2.2" }),
+    svgEl("circle", { cx: "60", cy: "27.5", r: "3.3", fill: "#E63946" }),
+    svgEl("path", { d: "M55 25 L52 23 M55 28 L51 28 M65 25 L68 23 M65 28 L69 28", stroke: "#18191F", "stroke-width": "1.5", "stroke-linecap": "round" }),
+    // Big expressive Chibi Spider-Man eye lenses
+    svgEl("path", { d: "M27 54 C29 41 46 42 55 55 C56 66 43 74 31 68 C25 65 25 58 27 54 Z", fill: "#FFFFFF", stroke: "#18191F", "stroke-width": "3.5", class: "spidey-lens" }),
+    svgEl("path", { d: "M93 54 C91 41 74 42 65 55 C64 66 77 74 89 68 C95 65 95 58 93 54 Z", fill: "#FFFFFF", stroke: "#18191F", "stroke-width": "3.5", class: "spidey-lens" }),
+    svgEl("circle", { cx: "36", cy: "55", r: "3.2", fill: "#BAE6FD", class: "spidey-lens" }),
+    svgEl("circle", { cx: "84", cy: "55", r: "3.2", fill: "#BAE6FD", class: "spidey-lens" }),
+    // Cute chibi blush
+    svgEl("ellipse", { cx: "29", cy: "74", rx: "4.8", ry: "2.6", fill: "#FF9EBB", opacity: "0.75" }),
+    svgEl("ellipse", { cx: "91", cy: "74", rx: "4.8", ry: "2.6", fill: "#FF9EBB", opacity: "0.75" }),
+    // Customer service headset & mic boom
+    svgEl("rect", { x: "14", y: "54", width: "7", height: "15", rx: "3.5", fill: "#FFD000", stroke: "#18191F", "stroke-width": "2.4" }),
+    svgEl("path", { d: "M17 68 Q27 85 49 84", stroke: "#18191F", "stroke-width": "2.6", fill: "none", "stroke-linecap": "round" }),
+    svgEl("circle", { cx: "51", cy: "84", r: "3.8", fill: "#FFD000", stroke: "#18191F", "stroke-width": "2" })
+  );
+  return svg;
+}
+
 function icon(name, className) {
   const holder = el("span", className);
   holder.dataset.icon = name;
@@ -46,6 +126,10 @@ function icon(name, className) {
 }
 
 function drawIcon(holder) {
+  if (holder.dataset.icon === "spidey" || holder.classList.contains("brand-symbol") || holder.classList.contains("service-avatar")) {
+    holder.replaceChildren(spideySvg(true));
+    return;
+  }
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("viewBox", "0 0 24 24");
   svg.setAttribute("aria-hidden", "true");
@@ -213,17 +297,15 @@ function setSignedIn(name) {
 }
 
 function careBuddy(className = "") {
-  const buddy = el("span", `care-buddy ${className}`);
+  const buddy = el("span", `care-buddy ${className}`.trim());
   buddy.setAttribute("aria-hidden", "true");
-  const face = el("span", "buddy-face");
-  face.append(el("i"), el("i"), el("span"));
-  buddy.append(el("span", "buddy-handle"), face, icon("bowl", "buddy-emblem"));
+  buddy.append(spideySvg(false));
   return buddy;
 }
 
 function emptyState(symbol, heading, message, large = false) {
   const box = el("div", large ? "empty-state empty" : "empty-illustration empty");
-  box.append(large ? careBuddy("buddy-empty") : icon(symbol));
+  box.append(careBuddy(large ? "buddy-empty" : "buddy-compact"));
   const text = el("div");
   text.append(el(large ? "h3" : "strong", "", heading));
   if (message) text.append(el("p", "", message));
@@ -291,6 +373,7 @@ function startPolling(refresh, ms) {
 
 function bootUI() {
   document.querySelectorAll("[data-icon]").forEach(drawIcon);
+  document.querySelectorAll(".floating-receipt .receipt-symbol").forEach((node) => node.replaceChildren(spideySvg(false)));
   let theme;
   try { theme = localStorage.getItem("delivery-care-theme"); } catch (_) { /* Theme is optional. */ }
   if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;

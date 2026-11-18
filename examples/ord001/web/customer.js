@@ -84,15 +84,22 @@ function handoffBlock(item) {
 
 function welcome() {
   const box = el("div", "chat-welcome");
-  box.append(careBuddy("buddy-welcome"), el("h3", "", "想处理哪笔订单？"),
-    el("p", "welcome-note", "我是 AI 客服，不是真人。可以查配送、申请晚到补偿；需要真人时点「转人工」。"));
+  const hero = el("div", "welcome-hero");
+  const copy = el("div", "welcome-copy");
+  copy.append(
+    el("span", "welcome-kicker", "小蜘蛛专送 · 准时保客服中心"),
+    el("h3", "", "嗨！想处理哪笔外卖订单？"),
+    el("p", "welcome-note", "我是 AI 客服，不是真人。可以查配送、申请晚到补偿；需要真人时点「转人工」。")
+  );
+  hero.append(careBuddy("buddy-welcome"), copy);
   const suggestions = el("div", "suggestion-row");
+  suggestions.append(el("span", "suggestion-title", "猜你想问"));
   for (const [label, text] of [["ORD001 晚到了", "我的外卖 ORD001 迟到了，可以申请补偿吗？"], ["咨询延误补偿", "我的外卖迟到了，可以申请补偿吗？"]]) {
     const suggestion = button(label, "suggestion", () => send(text));
     suggestion.append(icon("arrow-up-right"));
     suggestions.append(suggestion);
   }
-  box.append(suggestions);
+  box.append(hero, suggestions);
   return box;
 }
 
