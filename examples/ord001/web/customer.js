@@ -87,9 +87,9 @@ function welcome() {
   const hero = el("div", "welcome-hero");
   const copy = el("div", "welcome-copy");
   copy.append(
-    el("span", "welcome-kicker", "小蜘蛛专送 · 准时保客服中心"),
-    el("h3", "", "嗨！想处理哪笔外卖订单？"),
-    el("p", "welcome-note", "我是 AI 客服，不是真人。可以查配送、申请晚到补偿；需要真人时点「转人工」。")
+    el("span", "welcome-kicker", "胖蜘蛛专送 · 准时保客服 MJ"),
+    el("h3", "", "嗨！我是客服 MJ，想处理哪笔外卖订单？"),
+    el("p", "welcome-note", "我是肥胖版小蜘蛛 AI 客服 MJ，不是真人。每切换一笔外卖订单，我头顶就会切换香蕉、厕纸、餐盘或可乐；需要真人时点「转人工」。")
   );
   hero.append(careBuddy("buddy-welcome"), copy);
   const suggestions = el("div", "suggestion-row");
@@ -227,7 +227,7 @@ function ticketCard(ticket) {
     el("strong", "result-amount", `¥${approved ? ticket.coupon_issued_yuan : ticket.proposed_coupon_yuan}`));
   if (ticket.status === "pending") text.append(el("p", "", "等待商家审核，预计 24 小时内处理"));
   else if (ticket.status === "rejected") text.append(el("p", "", "本次未发放"));
-  highlight.append(text, icon(ticket.status === "pending" ? "clock" : approved ? "check" : "close"));
+  highlight.append(text, icon("spidey"));
   card.append(head, highlight, facts([
     ["预计送达", ticket.expected_at], ["实际送达", ticket.delivered_at],
     ["晚到", delayText(ticket.late_seconds)],
@@ -285,7 +285,7 @@ function stateCard(focus, claim) {
   text.append(el("h3", "", title));
   if (amount !== null) text.append(el("strong", "result-amount", `¥${amount}`));
   text.append(el("p", "", note));
-  highlight.append(text, icon(symbol));
+  highlight.append(text, icon("spidey"));
   card.append(head, highlight);
   if (focus.verified && order) {
     card.append(facts([
@@ -523,6 +523,7 @@ function renderPanel() {
   if (!picked) viewTicket = null;
   const ticket = picked || focusTicket || null;
   shownOrder = ticket ? ticket.order_id : state.focus ? state.focus.order_id : null;
+  if (shownOrder) switchMjByOrder(shownOrder);
   renderTickets(state, ticket);
   renderOthers(state, ticket);
   renderJourney(state, ticket);
@@ -541,13 +542,16 @@ function renderOrders() {
   $("orders").replaceChildren(...shown.map((order) => {
     const row = el("div", "order");
     row.dataset.orderId = order.order_id;
+    row.addEventListener("click", (event) => {
+      if (!event.target.closest("button")) switchMjByOrder(order.order_id);
+    });
     const text = el("div", "order-text");
     text.append(el("strong", "", order.merchant), el("span", "order-meta", `${order.order_id} · ${ORDER_STATUS[order.status] || order.status}`));
     const bottom = el("div", "order-bottom");
     const time = order.delivered_at ? `${order.expected_at} → ${order.delivered_at}` : `预计 ${order.expected_at}`;
     const actions = el("span", "order-actions");
-    actions.append(button("详情", "small detail-button", () => showOrderDetail(order)),
-      button("咨询", "small", () => send(`我的外卖 ${order.order_id} 迟到了，可以申请补偿吗？`)));
+    actions.append(button("详情", "small detail-button", () => { switchMjByOrder(order.order_id); showOrderDetail(order); }),
+      button("咨询", "small", () => { switchMjByOrder(order.order_id); send(`我的外卖 ${order.order_id} 迟到了，可以申请补偿吗？`); }));
     bottom.append(el("span", "order-time", time), actions);
     text.append(bottom);
     row.append(icon("bowl", "order-art"), text);
