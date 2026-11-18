@@ -40,10 +40,10 @@ const ICONS = {
 // Customer interface (/) uses Chubby Spider-Man MJ balancing items on his head (banana, toilet paper, dinner plate, cola).
 // Customer-service / merchant review interface (/review) uses Chubby Joker (肥胖版小丑客服).
 const MJ_HEAD_ITEMS = [
-  { key: "banana", label: "头顶香蕉", src: "/static/mj-spidey-banana.png" },
-  { key: "tissue", label: "头顶厕纸", src: "/static/mj-spidey-tissue.png" },
-  { key: "plate", label: "头顶餐盘", src: "/static/mj-spidey-plate.png" },
-  { key: "cola", label: "头顶可乐", src: "/static/mj-spidey-cola.png" },
+  { key: "banana", src: "/static/mj-spidey-banana.png" },
+  { key: "tissue", src: "/static/mj-spidey-tissue.png" },
+  { key: "plate", src: "/static/mj-spidey-plate.png" },
+  { key: "cola", src: "/static/mj-spidey-cola.png" },
 ];
 const JOKER_MASCOT_SRC = "/static/chubby-joker.png";
 let mjHeadIndex = 0;
@@ -87,11 +87,9 @@ function updateMjMascots() {
     }
   }
   const badge = $("brand-badge");
-  if (badge) badge.textContent = `客服 MJ · ${item.label}`;
+  if (badge) badge.textContent = "MJ";
   const pill = $("mj-head-pill");
-  if (pill) pill.textContent = `客服 MJ · ${item.label}`;
-  const caption = $("mj-stage-caption");
-  if (caption) caption.textContent = `${item.label} · 切换订单自动换`;
+  if (pill) pill.textContent = "MJ";
 }
 
 function switchMjByOrder(orderKey = "") {
@@ -257,7 +255,7 @@ function renderMeta(info) {
 }
 
 function renderLogin(people, idKey, onPick) {
-  const names = { U001: "顾客 01", U002: "顾客 02", R001: "商家账号" };
+  const names = { U001: "顾客 01", U002: "顾客 02", R001: "67餐厅" };
   $("login-choices").replaceChildren(...people.map((person) => {
     const node = button("", "login-option", async () => {
       const choices = [...$("login-choices").querySelectorAll("button")];
@@ -275,7 +273,7 @@ function renderLogin(people, idKey, onPick) {
 
 function setSignedIn(name) {
   if (!name) openHistories.clear();
-  $("who-name").textContent = name ? name.replace(/^模拟顾客 /, "顾客 ").replace(/^模拟审批员 /, "商家 ") : "";
+  $("who-name").textContent = name ? name.replace(/^模拟顾客 /, "顾客 ").replace(/^模拟审批员 .*/, "67餐厅") : "";
   $("who").hidden = !name;
   $("app").hidden = !name;
   $("login").hidden = Boolean(name);

@@ -41,7 +41,7 @@ from ord001_web_texts import NOT_VERIFIED, delay_text
 CLAIM = "我的外卖 ORD001 迟到了，可以申请补偿吗？"
 NO_ORDER = "我的外卖迟到了，可以申请补偿吗？"
 # Facts of U002's ORD101 that must never reach U001.
-LEAKS = ("18:00", "18:50", "50 分钟", "U002", "模拟餐厅")
+LEAKS = ("18:00", "18:50", "50 分钟", "U002", "模拟餐厅", "67餐厅")
 PACKAGES = ("langgraph", "langchain", "langchain-core", "langchain-openai", "starlette", "uvicorn", "httpx")
 DEMO_V1 = {"version": "demo-v1", "threshold_minutes": 30, "include_threshold": False, "coupon_yuan": 10}
 LABEL = {"approve": "批准", "reject": "驳回"}

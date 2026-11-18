@@ -124,7 +124,7 @@ const errors = [];
     await send('ORD101');
     await customer.locator('#tickets [data-focus-order="ORD101"]').waitFor();
     const foreign = await tickets();
-    assert(foreign.includes('无法核实这笔订单') && !foreign.includes('18:') && !foreign.includes('模拟餐厅'), foreign);
+    assert(foreign.includes('无法核实这笔订单') && !foreign.includes('18:') && !foreign.includes('模拟餐厅') && !foreign.includes('67餐厅'), foreign);
     assert(await customer.locator('#order-picks').isVisible(), 'Order choices missing after an unverified order');
     results.push({ case: 'After ORD001 is approved, asking about ORD002 / ORD101 moves the panel and steps to that order; ORD001 stays one tap away', status: 'passed' });
 

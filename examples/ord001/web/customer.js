@@ -87,9 +87,9 @@ function welcome() {
   const hero = el("div", "welcome-hero");
   const copy = el("div", "welcome-copy");
   copy.append(
-    el("span", "welcome-kicker", "胖蜘蛛专送 · 准时保客服 MJ"),
-    el("h3", "", "嗨！我是客服 MJ，想处理哪笔外卖订单？"),
-    el("p", "welcome-note", "我是肥胖版小蜘蛛 AI 客服 MJ，不是真人。每切换一笔外卖订单，我头顶就会切换香蕉、厕纸、餐盘或可乐；需要真人时点「转人工」。")
+    el("span", "welcome-kicker", "MJ"),
+    el("h3", "", "嗨！我是 MJ，想处理哪笔外卖订单？"),
+    el("p", "welcome-note", "我是 AI 客服 MJ，不是真人。可以查配送、申请晚到补偿；需要真人时点「转人工」。")
   );
   hero.append(careBuddy("buddy-welcome"), copy);
   const suggestions = el("div", "suggestion-row");
