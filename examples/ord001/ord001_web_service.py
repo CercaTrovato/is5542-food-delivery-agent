@@ -417,9 +417,17 @@ class DemoService:
             result = self.review_graph.invoke({"ticket_id": ticket_id}, config)
             return first_request(result.get("__interrupt__"), "review_ticket")
 
+    def _enrich_review_ticket(self, ticket: dict) -> dict:
+        order = self.data.orders.get(ticket["order_id"], {})
+        extra = {key: order.get(key) for key in (
+            "amount_yuan", "ordered_at", "prep_promised_at", "prep_done_at",
+            "picked_up_at", "liability_party", "liability_detail", "stp_tier", "stp_note", "items"
+        ) if key in order}
+        return {**extra, **ticket}
+
     def review_tickets(self) -> dict:
         with self._review_lock:
-            tickets = self.store.tickets()
+            tickets = [self._enrich_review_ticket(ticket) for ticket in self.store.tickets()]
             return {
                 "pending": [{**ticket, "review_request": self._open_review(ticket["ticket_id"])
                              if ticket["status"] == "pending" else None}

@@ -40,6 +40,10 @@ function ticketCard(ticket) {
     grid.append(item);
   }
   card.append(head, person, grid);
+  const chain = fulfillmentChain(ticket);
+  if (chain) card.append(chain);
+  const attr = attributionBox(ticket);
+  if (attr) card.append(attr);
   if (ticket.information_request) {
     const request = el("div", "information-request");
     request.append(el("span", "", "补充要求"), el("p", "", ticket.information_request));
@@ -73,6 +77,20 @@ function pendingCard(ticket) {
   note.dataset.ticket = ticket.ticket_id;
   note.value = drafts.get(ticket.ticket_id) || "";
   note.addEventListener("input", () => { drafts.set(ticket.ticket_id, note.value); note.removeAttribute("aria-invalid"); });
+  const quickRow = el("div", "quick-notes");
+  for (const preset of [
+    "已核实骑手超时，准时保赔付。",
+    "67餐厅出餐高峰致歉，发放补偿券。",
+    "请补充外卖送达截图或门牌照。",
+  ]) {
+    const chip = button(`快捷：${preset.slice(0, 9)}`, "quick-chip", () => {
+      note.value = preset;
+      drafts.set(ticket.ticket_id, preset);
+      note.removeAttribute("aria-invalid");
+      note.focus();
+    });
+    quickRow.append(chip);
+  }
   const actions = el("div", "actions");
   const approve = button("通过", "primary", () => decide(ticket.ticket_id, "approve"));
   const reject = button("拒绝", "danger", () => decide(ticket.ticket_id, "reject"));
@@ -81,7 +99,7 @@ function pendingCard(ticket) {
   requestInfo.prepend(icon("chat"));
   approve.prepend(icon("check"));
   actions.append(requestInfo, reject, approve);
-  card.append(label, note, actions, ticketHistory(ticket.ticket_id));
+  card.append(label, quickRow, note, actions, ticketHistory(ticket.ticket_id));
   return card;
 }
 
@@ -146,12 +164,25 @@ function handoffCard(item) {
     note.dataset.handoff = item.handoff_id;
     note.value = replyDrafts.get(item.handoff_id) || "";
     note.addEventListener("input", () => { replyDrafts.set(item.handoff_id, note.value); note.removeAttribute("aria-invalid"); });
+    const quickReplies = el("div", "quick-notes");
+    for (const preset of [
+      "你好，我是67餐厅客服，已看到你的订单情况，正在为你核对出餐与骑手记录。",
+      "非常抱歉让你久等了，已为你优先核实准时保补偿并跟进处理。",
+    ]) {
+      const chip = button(`快捷：${preset.slice(0, 10)}…`, "quick-chip", () => {
+        note.value = preset;
+        replyDrafts.set(item.handoff_id, preset);
+        note.removeAttribute("aria-invalid");
+        note.focus();
+      });
+      quickReplies.append(chip);
+    }
     const actions = el("div", "actions");
     const send = button("发送回复", "primary", () => reply(item.handoff_id));
     send.dataset.action = "handoff-reply";
     send.prepend(icon("arrow-up"));
     actions.append(send);
-    card.append(label, note, actions);
+    card.append(label, quickReplies, note, actions);
   } else if (item.status === "replied") {
     const note = el("div", "ticket-note");
     note.append(el("span", "", `人工回复 · ${clock(item.closed_at)} · ${item.reviewer_id}`), el("p", "", item.reply_text));

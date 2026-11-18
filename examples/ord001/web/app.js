@@ -76,7 +76,8 @@ function mascotImg(extraClass = "") {
 
 function updateMjMascots() {
   if (isReviewPage()) return;
-  const item = currentMjItem();
+  const idx = mjHeadIndex % MJ_HEAD_ITEMS.length;
+  const item = MJ_HEAD_ITEMS[idx];
   for (const img of document.querySelectorAll('img[data-mascot="mj"]')) {
     if (img.dataset.headItem !== item.key) {
       img.src = item.src;
@@ -86,14 +87,22 @@ function updateMjMascots() {
       img.classList.add("mascot-pop");
     }
   }
+  for (const dot of document.querySelectorAll("#mj-dots .mj-dot")) {
+    dot.classList.toggle("active", Number(dot.dataset.mjIdx) === idx);
+  }
   const badge = $("brand-badge");
   if (badge) badge.textContent = "MJ";
   const pill = $("mj-head-pill");
   if (pill) pill.textContent = "MJ";
 }
 
-function switchMjByOrder(orderKey = "") {
+function switchMjByOrder(orderKey = "", explicitIdx = null) {
   if (isReviewPage()) return;
+  if (typeof explicitIdx === "number" && explicitIdx >= 0) {
+    mjHeadIndex = explicitIdx % MJ_HEAD_ITEMS.length;
+    updateMjMascots();
+    return;
+  }
   const normalized = String(orderKey || "").trim();
   if (normalized) {
     if (normalized === lastMjOrderKey) return;
@@ -198,8 +207,11 @@ function attachmentList(items, { customer = false } = {}) {
     const card = el("div", `attachment-card attachment-${item.kind}`);
     card.append(icon(item.kind === "image" ? "image" : "audio"), el("div", "attachment-info"));
     const info = card.lastElementChild;
-    info.append(el("strong", "", item.original_name || (item.kind === "image" ? "图片附件" : "语音附件")),
-      el("small", "", item.kind === "image" ? "图片 · 仅供人工客服查看" : "语音 · 仅供人工客服播放"));
+    info.append(
+      el("strong", "", item.original_name || (item.kind === "image" ? "图片附件" : "语音附件")),
+      el("small", "", item.kind === "image" ? "图片 · 仅供人工客服查看" : "语音 · 仅供人工客服播放"),
+      el("span", "attachment-precheck", item.kind === "image" ? "AI 预检：图像完整性已核验 · 待人工复核凭证" : "AI 预检：音频采样有效 · 待人工听取诉求")
+    );
     if (item.kind === "image") {
       const preview = document.createElement("img");
       preview.src = item.url;
@@ -220,6 +232,40 @@ function attachmentList(items, { customer = false } = {}) {
     list.append(note);
   }
   return list;
+}
+
+function fulfillmentChain(data) {
+  if (!data || !data.ordered_at) return null;
+  const wrap = el("div", "fulfillment-chain");
+  const steps = [
+    ["下单", data.ordered_at, "done"],
+    ["餐厅出餐", data.prep_done_at || "—", data.prep_done_at ? "done" : "current"],
+    ["骑手取餐", data.picked_up_at || "—", data.picked_up_at ? "done" : ""],
+    ["实际送达", data.delivered_at || (data.status === "delivering" ? "配送中" : "缺记录"), data.delivered_at ? "done" : "warn"],
+  ];
+  for (const [label, timeVal, state] of steps) {
+    const node = el("div", `chain-step ${state}`.trim());
+    node.append(el("span", "chain-dot"), el("small", "", label), el("strong", "", timeVal));
+    wrap.append(node);
+  }
+  return wrap;
+}
+
+function attributionBox(data) {
+  if (!data || (!data.liability_party && !data.stp_tier)) return null;
+  const box = el("div", "attribution-box");
+  const top = el("div", "attribution-top");
+  if (data.stp_tier) {
+    const tierClass = data.stp_tier.includes("绿灯") ? "stp-green" : data.stp_tier.includes("红灯") ? "stp-red" : "stp-amber";
+    top.append(el("span", `stp-badge ${tierClass}`, data.stp_tier));
+  }
+  if (data.liability_party) {
+    top.append(el("span", "liability-tag", data.liability_party));
+  }
+  box.append(top);
+  if (data.liability_detail) box.append(el("p", "attribution-detail", data.liability_detail));
+  if (data.stp_note) box.append(el("p", "attribution-note", `AI 诊断：${data.stp_note}`));
+  return box;
 }
 
 function delayText(seconds) {
@@ -364,7 +410,19 @@ function bootUI() {
     updateMjMascots();
     for (const item of MJ_HEAD_ITEMS) { const preload = new Image(); preload.src = item.src; }
     const stage = $("mj-order-stage");
-    if (stage) stage.addEventListener("click", () => switchMjByOrder());
+    if (stage) {
+      stage.addEventListener("click", (event) => {
+        const dot = event.target.closest(".mj-dot");
+        if (dot) {
+          event.stopPropagation();
+          switchMjByOrder("", Number(dot.dataset.mjIdx));
+        } else {
+          switchMjByOrder();
+        }
+      });
+    }
+    const entryCard = $("entry-mascot-card");
+    if (entryCard) entryCard.addEventListener("click", () => switchMjByOrder());
   }
   let theme;
   try { theme = localStorage.getItem("delivery-care-theme"); } catch (_) { /* Theme is optional. */ }

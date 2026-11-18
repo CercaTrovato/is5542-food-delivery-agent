@@ -38,8 +38,8 @@ def outcome_text(order: dict, decision: dict, policy) -> str:
             f"{delay_text(decision['late_seconds'])}。需{threshold_text(policy)}才能申请。"
         )
     if reason == "not_delivered":
-        return f"订单 {order['order_id']} 尚未送达，请在送达后申请。"
-    return f"订单 {order['order_id']} 暂缺送达记录，无法提交申请。"
+        return f"订单 {order['order_id']} 正在加急配送中，尚未送达；送达后若达到晚到条件可立即申请补偿，急需催单可点上方「转人工」。"
+    return f"订单 {order['order_id']} 暂缺送达记录，无法自动判断延误；可点上方「转人工」上传小票或截图核实。"
 
 
 def ticket_text(ticket: dict, *, created: bool) -> str:
