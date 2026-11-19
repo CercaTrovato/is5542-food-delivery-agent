@@ -219,8 +219,7 @@ function attachmentList(items, { customer = false } = {}) {
     const info = card.lastElementChild;
     info.append(
       el("strong", "", item.original_name || (item.kind === "image" ? "图片附件" : "语音附件")),
-      el("small", "", item.kind === "image" ? "图片 · 仅供人工客服查看" : "语音 · 仅供人工客服播放"),
-      el("span", "attachment-precheck", item.kind === "image" ? "AI 预检：图像完整性已核验 · 待人工复核凭证" : "AI 预检：音频采样有效 · 待人工听取诉求")
+      el("small", "", item.kind === "image" ? "图片 · 仅供人工客服查看" : "语音 · 仅供人工客服播放")
     );
     if (item.kind === "image") {
       const preview = document.createElement("img");
@@ -262,19 +261,14 @@ function fulfillmentChain(data) {
 }
 
 function attributionBox(data) {
-  if (!data || (!data.liability_party && !data.stp_tier)) return null;
+  if (!data || (!data.liability_party && !data.liability_detail)) return null;
   const box = el("div", "attribution-box");
-  const top = el("div", "attribution-top");
-  if (data.stp_tier) {
-    const tierClass = data.stp_tier.includes("绿灯") ? "stp-green" : data.stp_tier.includes("红灯") ? "stp-red" : "stp-amber";
-    top.append(el("span", `stp-badge ${tierClass}`, data.stp_tier));
-  }
   if (data.liability_party) {
+    const top = el("div", "attribution-top");
     top.append(el("span", "liability-tag", data.liability_party));
+    box.append(top);
   }
-  box.append(top);
   if (data.liability_detail) box.append(el("p", "attribution-detail", data.liability_detail));
-  if (data.stp_note) box.append(el("p", "attribution-note", `AI 诊断：${data.stp_note}`));
   return box;
 }
 
@@ -311,7 +305,11 @@ function renderMeta(info) {
 }
 
 function renderLogin(people, idKey, onPick) {
-  const names = { U001: "顾客 01", U002: "顾客 02", R001: "67餐厅" };
+  const names = {
+    U001: "顾客 01（推荐 · 含 ORD001–ORD008 共 8 笔测试单）",
+    U002: "顾客 02（对照号 · 仅含 ORD101 跨账号测试单）",
+    R001: "67餐厅（商家审批与人工客服）",
+  };
   $("login-choices").replaceChildren(...people.map((person) => {
     const node = button("", "login-option", async () => {
       const choices = [...$("login-choices").querySelectorAll("button")];

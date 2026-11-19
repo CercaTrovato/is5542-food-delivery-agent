@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffd000">
   <title>配送关怀 · 订单服务</title>
-  <link rel="stylesheet" href="/static/app.css?v=20261118-mj4">
-  <script src="/static/app.js?v=20261118-mj4" defer></script>
-  <script src="/static/customer.js?v=20261118-mj4" defer></script>
+  <link rel="stylesheet" href="/static/app.css?v=20261119-mj5">
+  <script src="/static/app.js?v=20261119-mj5" defer></script>
+  <script src="/static/customer.js?v=20261119-mj5" defer></script>
 </head>
 <body data-page="customer">
   <a class="skip-link" href="#main">跳到主要内容</a>
@@ -30,30 +30,27 @@
         <div class="glass-orb orb-blue"></div>
         <div class="glass-orb orb-pink"></div>
         <div class="floating-receipt" id="entry-mascot-card">
-          <span class="receipt-kicker">准时保 · 智能理赔</span>
+          <span class="receipt-kicker">准时送达</span>
           <span class="receipt-symbol" data-icon="spidey"></span>
           <span class="receipt-badge">MJ</span>
           <span class="receipt-check" data-icon="check"></span>
         </div>
-        <div class="floating-coupon"><span class="coupon-tag">准时保赔付</span><strong>¥10</strong></div>
-        <div class="floating-pill pill-top">秒级算时 · 责任归因</div>
-        <div class="floating-pill pill-bottom">防越权承诺风控护栏</div>
+        <div class="floating-coupon"><span class="coupon-tag">补偿券</span><strong>¥10</strong></div>
+        <div class="floating-pill pill-top">准时送达</div>
+        <div class="floating-pill pill-bottom">超时有补偿</div>
         <div class="art-spark spark-one"></div>
         <div class="art-spark spark-two"></div>
       </div>
       <div class="login-content">
         <span class="login-brand">MJ</span>
         <h1 id="login-title">订单服务</h1>
-        <p class="login-subtitle">神经符号双核驱动：AI 自然对话承接诉求 · 确定性规则核验履约与准时保资格</p>
+        <p class="login-subtitle">选择账号进入对话，可查询配送进度、申请延误补偿或联系人工客服</p>
         <div class="login-choices" id="login-choices"></div>
       </div>
     </section>
     <div id="app" hidden>
       <div class="page-heading">
-        <div class="page-title-group">
-          <h1>订单服务</h1>
-          <span class="page-subtitle">67餐厅准时保 · 履约归因与智能理赔工作台</span>
-        </div>
+        <h1>订单服务</h1>
         <ol class="journey" id="journey" aria-label="申请进度">
           <li class="current"><span class="step-number">1</span><strong>核实订单</strong></li>
           <li><span class="step-number">2</span><strong>确认申请</strong></li>
@@ -68,7 +65,7 @@
             <span class="mj-stage-avatar" data-icon="spidey"></span>
             <div class="mj-stage-copy">
               <strong>MJ</strong>
-              <span class="mj-stage-sub">智能客服在线 · 点选订单自动联动</span>
+              <span class="mj-stage-sub">点选订单查看进度</span>
             </div>
             <div class="mj-dots" id="mj-dots" aria-hidden="true">
               <i class="mj-dot active" data-mj-idx="0"></i>
@@ -80,7 +77,7 @@
           <label class="order-search" for="order-search"><span data-icon="search"></span><input id="order-search" type="search" placeholder="搜索订单或餐厅" autocomplete="off"></label>
           <div id="orders"></div>
           <button type="button" class="show-more" id="more-orders" hidden>全部订单<span data-icon="chevron-down"></span></button>
-          <p class="order-disclosure">演示订单 · 含出餐与配送全链路时间戳</p>
+          <p class="order-disclosure">模拟订单，不产生真实扣款</p>
         </section>
         <section class="panel chat" aria-labelledby="chat-title">
           <div class="panel-heading">
@@ -97,17 +94,11 @@
               <button class="icon-button" type="button" data-open-demo aria-label="查看服务说明"><span data-icon="info"></span></button>
             </div>
           </div>
-          <div class="governance-strip" aria-label="AI 商业风控护栏状态">
-            <span class="gov-pill"><i class="gov-dot"></i>确定性算时引擎</span>
-            <span class="gov-pill"><i class="gov-dot"></i>金额/承诺防幻觉护栏</span>
-            <span class="gov-pill"><i class="gov-dot"></i>零信任订单隔离</span>
-            <span class="gov-pill"><i class="gov-dot"></i>规则直达人工</span>
-          </div>
           <div class="messages" id="messages" aria-live="polite" aria-label="客服对话"></div>
           <div class="confirm" id="confirm" hidden>
             <div class="confirm-heading">
               <div>
-                <span class="confirm-kicker">准时保 · 待确认理赔单</span>
+                <span class="confirm-kicker">请核对后确认</span>
                 <h3>确认申请</h3>
               </div>
               <div class="confirm-amount" id="confirm-amount"></div>
@@ -144,20 +135,20 @@
         </section>
       </div>
     </div>
-    <footer class="page-footer"><span>配送关怀 · IS5542 商业人工智能系统</span></footer>
+    <footer class="page-footer"><span>配送关怀 · 模拟客服演示</span></footer>
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <dialog class="dialog" id="demo-dialog" aria-labelledby="demo-title">
-    <div class="dialog-heading"><span class="dialog-kicker">CITYU HK · IS5542 GROUP 24</span><button class="icon-button" type="button" data-close-dialog aria-label="关闭说明"><span data-icon="close"></span></button></div>
+    <div class="dialog-heading"><span class="dialog-kicker">配送关怀</span><button class="icon-button" type="button" data-close-dialog aria-label="关闭说明"><span data-icon="close"></span></button></div>
     <h2 id="demo-title">演示说明</h2>
-    <p>本系统采用「神经符号结合（Neuro-Symbolic）+ 两阶段人类在环（HITL）」架构：AI 客服负责自然语言意图识别与情绪安抚，服务端确定性规则负责秒级延误核算、出餐/配送责任归因与防幻觉金额护栏。</p>
+    <p>账号、订单与补偿均为模拟数据，不涉及实际发券。送达超时条件与补偿金额由系统核实。</p>
     <dl class="facts" id="policy-details"></dl>
     <details class="quick" id="quick-scenarios" hidden><summary>测试场景</summary><div class="choices" id="quick"></div></details>
-    <p class="dialog-note">顾客确认后提交申请，由商家结合 AI 责任归因与 STP 分流建议决定通过或拒绝。</p>
+    <p class="dialog-note">顾客确认后提交申请，由商家决定通过或拒绝；需要真人协助时可点「转人工」。</p>
     <a class="secondary button-link" href="/review">商家工作台<span data-icon="arrow-up-right"></span></a>
   </dialog>
   <dialog class="dialog order-dialog" id="order-dialog" aria-labelledby="order-dialog-title">
-    <div class="dialog-heading"><span class="dialog-kicker">演示订单详情 · 全链路履约与责任归因</span><button class="icon-button" type="button" data-close-dialog aria-label="关闭订单详情"><span data-icon="close"></span></button></div>
+    <div class="dialog-heading"><span class="dialog-kicker">演示订单详情</span><button class="icon-button" type="button" data-close-dialog aria-label="关闭订单详情"><span data-icon="close"></span></button></div>
     <div id="order-detail"><h2 id="order-dialog-title" class="sr-only">订单详情</h2></div>
   </dialog>
 </body>

@@ -24,7 +24,7 @@ from ord001_web_store import DECISION_STATUS, DemoData, TicketStore, normalize_o
 
 log = logging.getLogger("ord001_web")
 CONFIRM_ANSWERS = ("confirm", "cancel")
-ORDER_ID = re.compile(r"ORD\d{1,12}(?!\d)", re.IGNORECASE)
+ORDER_ID = re.compile(r"ORD[\s\-_]*[0-9OIL]{1,12}(?![0-9A-Z])", re.IGNORECASE)
 # Asking for a person goes straight to the queue by rule; the model is not asked. "不用转人工" does not count.
 HANDOFF_WORDS = re.compile(r"转人工|人工客服|找人工|要人工|人工服务|真人客服|找真人|转真人|要真人|投诉")
 BARE_HANDOFF = re.compile(r"\s*(?:转)?人工(?:客服|服务)?[\s!！。.~～]*")
@@ -88,8 +88,9 @@ def visible_messages(messages) -> list[dict]:
             items.append({"role": "customer", "text": message.text})
         elif isinstance(message, AIMessage):
             for call in message.tool_calls:
-                items.append({"role": "tool", "text": f"查单工具 query_order：{call['args'].get('order_id', '')}"})
-            if message.text:
+                raw_oid = call["args"].get("order_id", "")
+                items.append({"role": "tool", "text": f"查单工具 query_order：{normalize_order_id(raw_oid) if raw_oid else ''}"})
+            if message.text and not message.tool_calls:
                 items.append({"role": "assistant", "text": message.text})
     return items
 
@@ -104,7 +105,8 @@ def first_request(interrupts, kind: str) -> dict | None:
 def requested_order(messages) -> str | None:
     for message in reversed(messages):
         for call in getattr(message, "tool_calls", None) or ():
-            return call["args"].get("order_id")
+            raw = call["args"].get("order_id")
+            return normalize_order_id(raw) if raw else None
     return None
 
 

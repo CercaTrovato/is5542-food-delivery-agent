@@ -1,6 +1,7 @@
 """Mock accounts, orders and the ticket store behind the ORD001 web demo."""
 
 import json
+import re
 import secrets
 import sqlite3
 import tempfile
@@ -79,8 +80,17 @@ def now_text() -> str:
     return datetime.now().astimezone().isoformat(timespec="seconds")
 
 
+ORDER_TYPO_MAP = str.maketrans({"O": "0", "o": "0", "I": "1", "i": "1", "L": "1", "l": "1"})
+
+
 def normalize_order_id(raw: str) -> str:
-    return str(raw).strip().upper()
+    cleaned = re.sub(r"[\s\-_#:：]+", "", str(raw).strip()).upper()
+    if cleaned.startswith("ORD") and len(cleaned) > 3:
+        suffix = cleaned[3:].translate(ORDER_TYPO_MAP)
+        if suffix.isdigit() and len(suffix) < 3:
+            suffix = suffix.zfill(3)
+        return "ORD" + suffix
+    return cleaned
 
 
 def order_facts(order: dict) -> dict:

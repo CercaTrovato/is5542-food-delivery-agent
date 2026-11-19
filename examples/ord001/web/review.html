@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffd000">
   <title>配送关怀 · 67餐厅</title>
-  <link rel="stylesheet" href="/static/app.css?v=20261118-mj4">
-  <script src="/static/app.js?v=20261118-mj4" defer></script>
-  <script src="/static/review.js?v=20261118-mj4" defer></script>
+  <link rel="stylesheet" href="/static/app.css?v=20261119-mj5">
+  <script src="/static/app.js?v=20261119-mj5" defer></script>
+  <script src="/static/review.js?v=20261119-mj5" defer></script>
 </head>
 <body data-page="review">
   <a class="skip-link" href="#main">跳到主要内容</a>
@@ -30,21 +30,21 @@
         <div class="glass-orb orb-blue"></div>
         <div class="glass-orb orb-pink"></div>
         <div class="floating-receipt">
-          <span class="receipt-kicker">67餐厅 · 准时保</span>
+          <span class="receipt-kicker">67餐厅</span>
           <span class="receipt-symbol" data-icon="spidey"></span>
           <span class="receipt-badge">小丑</span>
           <span class="receipt-check" data-icon="check"></span>
         </div>
-        <div class="floating-coupon"><span class="coupon-tag">准时保赔付</span><strong>¥10</strong></div>
-        <div class="floating-pill pill-top">出餐 vs 配送责任归因</div>
-        <div class="floating-pill pill-bottom">STP 分级风控秒批建议</div>
+        <div class="floating-coupon"><span class="coupon-tag">补偿券</span><strong>¥10</strong></div>
+        <div class="floating-pill pill-top">审核申请</div>
+        <div class="floating-pill pill-bottom">回复顾客</div>
         <div class="art-spark spark-one"></div>
         <div class="art-spark spark-two"></div>
       </div>
       <div class="login-content">
         <span class="login-brand">小丑</span>
         <h1 id="login-title">67餐厅</h1>
-        <p class="login-subtitle">商家与客服协同审批中心：自动拆解餐厅出餐与骑手配送责任，降低人工审核成本</p>
+        <p class="login-subtitle">选择账号处理顾客申请与人工咨询</p>
         <div class="login-choices" id="login-choices"></div>
       </div>
     </section>
@@ -57,14 +57,6 @@
             <span class="heading-caption">小丑</span>
           </div>
         </div>
-        <div class="kpi-strip" aria-label="商业 AI 运营指标">
-          <div class="kpi-item"><span>STP 智能分流率</span><strong>85%</strong></div>
-          <div class="kpi-item"><span>单均节省人工</span><strong>¥3.2</strong></div>
-          <div class="kpi-item"><span>越权承诺拦截</span><strong>100%</strong></div>
-          <div class="kpi-item"><span>核验延迟</span><strong>&lt; 0.8s</strong></div>
-        </div>
-      </div>
-      <div class="review-toolbar">
         <div class="inbox-tabs">
           <button class="inbox-tab active" type="button" id="tab-pending" aria-pressed="true">待处理<span id="pending-count" class="tab-count">0</span></button>
           <button class="inbox-tab" type="button" id="tab-decided" aria-pressed="false">已处理<span id="decided-count" class="tab-count">0</span></button>
@@ -82,20 +74,15 @@
           <span class="compensation-label">小丑 · 补偿券</span>
           <strong class="compensation-amount" id="guide-amount"></strong>
           <p id="guide-policy"></p>
-          <div class="actuarial-mini">
-            <div class="actuarial-row"><span>骑手配送超时</span><strong>准时保池 100% 赔付</strong></div>
-            <div class="actuarial-row"><span>商家出餐卡餐</span><strong>67餐厅与准时保共担</strong></div>
-            <div class="actuarial-row"><span>时间戳缺失</span><strong>HITL 证据复核</strong></div>
-          </div>
         </aside>
       </div>
     </div>
-    <footer class="page-footer"><span>配送关怀 · 67餐厅智能工作台</span></footer>
+    <footer class="page-footer"><span>配送关怀 · 67餐厅工作台</span></footer>
   </main>
   <dialog class="dialog" id="demo-dialog" aria-labelledby="demo-title">
-    <div class="dialog-heading"><span class="dialog-kicker">CITYU HK · IS5542 GROUP 24</span><button class="icon-button" type="button" data-close-dialog aria-label="关闭说明"><span data-icon="close"></span></button></div>
+    <div class="dialog-heading"><span class="dialog-kicker">配送关怀</span><button class="icon-button" type="button" data-close-dialog aria-label="关闭说明"><span data-icon="close"></span></button></div>
     <h2 id="demo-title">演示说明</h2>
-    <p>账号、订单与补偿均为模拟数据，不涉及实际发券。工作台展示 AI 责任归因（商家出餐 vs 骑手配送）与 STP 分级审核建议。</p>
+    <p>账号、订单与补偿均为模拟数据，不涉及实际发券。送达超时条件与补偿金额由系统核实。</p>
     <dl class="facts" id="policy-details"></dl>
     <p class="dialog-note">支持通过、拒绝与补充资料；顾客点「转人工」后，在「人工咨询」里回复。重置将清空全部申请、人工咨询与对话。</p>
     <button type="button" class="secondary" id="reset" hidden><span data-icon="reset"></span>重置演示数据</button>

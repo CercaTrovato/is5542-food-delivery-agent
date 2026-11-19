@@ -68,11 +68,13 @@ class ScriptedOrderModel(BaseChatModel):
             else:
                 response = AIMessage(content="未找到这笔订单，请核对订单号。")
         else:
-            match = re.search(r"ORD[0-9]+", last.text, re.IGNORECASE)
+            match = re.search(r"ORD[\s\-_]*[0-9OIL]{1,12}(?![0-9A-Z])", last.text, re.IGNORECASE)
             if match:
+                raw_id = re.sub(r"[\s\-_]+", "", match.group().upper())
+                norm_id = "ORD" + raw_id[3:].translate(str.maketrans({"O": "0", "I": "1", "L": "1"}))
                 response = AIMessage(content="", tool_calls=[{
                     "name": "query_order",
-                    "args": {"order_id": match.group().upper()},
+                    "args": {"order_id": norm_id},
                     "id": uuid4().hex,
                 }])
             else:

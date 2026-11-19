@@ -1,9 +1,18 @@
 "use strict";
 
 const QUICK = [
-  ["晚到 50 分钟", "ORD001"], ["恰好 30 分钟", "ORD003"], ["30 分 1 秒", "ORD005"],
-  ["未提供订单号", "我的外卖迟到了，可以申请补偿吗？"], ["其他账号的订单", "ORD101"], ["查无订单", "ORD999"],
-  ["找人工客服", "我想找人工客服"],
+  ["P01 晚到50分钟（可赔）", "我的外卖 ORD001 迟到了，可以申请补偿吗？"],
+  ["P02 晚到10分钟（拒赔）", "我的外卖 ORD002 迟到了，可以申请补偿吗？"],
+  ["边界 恰好30:00（拒赔）", "我的外卖 ORD003 迟到了，可以申请补偿吗？"],
+  ["边界 29分59秒（拒赔）", "我的外卖 ORD004 迟到了，可以申请补偿吗？"],
+  ["边界 30分01秒（可赔）", "我的外卖 ORD005 迟到了，可以申请补偿吗？"],
+  ["配送中盯盘（ORD006）", "帮我查一下 ORD006 送到哪了"],
+  ["缺送达记录（ORD007）", "ORD007 怎么没有送达时间，能赔吗？"],
+  ["餐品异物/有蟑螂（智能分流）", "我ordoo6的餐食有蟑螂，需要申请赔付"],
+  ["P03 查他人订单（ORD101）", "帮我查一下 ORD101"],
+  ["P03 查无此单（ORD999）", "ORD999 迟到了能赔吗"],
+  ["未提供订单号", "我的外卖迟到了，可以申请补偿吗？"],
+  ["转人工客服", "我想找人工客服"],
 ];
 const ORDER_STATUS = { delivered: "已送达", delivering: "配送中" };
 const HANDOFF_NOTE = { waiting: "已转人工，排队中，人工客服会在这里回复", replied: "人工客服已接入", cancelled: "已取消转人工" };
@@ -24,6 +33,7 @@ let handoffWaiting = false;
 let seen = null;
 let toastTimer = 0;
 let draftMedia = null;
+let pendingUserText = "";
 let recorder = null;
 let recorderStream = null;
 let recorderChunks = [];
@@ -89,15 +99,15 @@ function welcome() {
   copy.append(
     el("span", "welcome-kicker", "MJ"),
     el("h3", "", "嗨！我是 MJ，想处理哪笔外卖订单？"),
-    el("p", "welcome-note", "我是 AI 客服 MJ，不是真人。可以查配送、核实出餐与骑手责任、申请准时保补偿；需要真人时点「转人工」。")
+    el("p", "welcome-note", "我是 AI 客服 MJ，不是真人。可以帮你查配送进度、申请晚到补偿或反馈餐品问题；需要真人时点「转人工」。")
   );
   hero.append(careBuddy("buddy-welcome"), copy);
   const suggestions = el("div", "suggestion-row");
   suggestions.append(el("span", "suggestion-title", "猜你想问"));
   for (const [label, text] of [
     ["ORD001 晚到了", "我的外卖 ORD001 迟到了，可以申请补偿吗？"],
-    ["ORD005 压线核验", "我的外卖 ORD005 迟到了，可以申请补偿吗？"],
-    ["ORD006 配送盯盘", "我的外卖 ORD006 迟到了，可以申请补偿吗？"],
+    ["ORD002 差多久达标", "我的外卖 ORD002 迟到了，可以申请补偿吗？"],
+    ["ORD006 送到哪了", "帮我查一下 ORD006 送到哪了"],
     ["咨询延误补偿", "我的外卖迟到了，可以申请补偿吗？"],
   ]) {
     const suggestion = button(label, "suggestion", () => send(text));
@@ -108,12 +118,21 @@ function welcome() {
   return box;
 }
 
+function typingBubble() {
+  const row = el("div", "bubble-row assistant typing-row");
+  row.append(el("span", "bubble-tag", "MJ"));
+  const bub = el("div", "bubble typing-bubble");
+  bub.append(el("span", "typing-text", "MJ 正在思考"), el("span", "typing-dots", "···"));
+  row.append(bub);
+  return row;
+}
+
 function renderMessages(messages, handoffs) {
-  const key = JSON.stringify([messages, handoffs]);
+  const key = JSON.stringify([messages, handoffs, pendingUserText]);
   if (key === lastChat) return;
   lastChat = key;
   const box = $("messages");
-  if (!messages.length && !handoffs.length) { box.replaceChildren(welcome()); updateControls(); return; }
+  if (!messages.length && !handoffs.length && !pendingUserText) { box.replaceChildren(welcome()); updateControls(); return; }
   const nodes = [];
   // A handoff sits after the chat lines that existed when it was opened.
   const place = (index) => {
@@ -128,6 +147,10 @@ function renderMessages(messages, handoffs) {
     } else nodes.push(bubble(item.role, item.text, item.role === "assistant" ? "AI" : ""));
   });
   place(messages.length);
+  if (pendingUserText) {
+    nodes.push(bubble("customer", pendingUserText, ""));
+    nodes.push(typingBubble());
+  }
   box.replaceChildren(...nodes);
   box.scrollTop = box.scrollHeight;
   updateControls();
@@ -137,13 +160,10 @@ function renderConfirmation(claim) {
   confirming = Boolean(claim);
   $("confirm").hidden = !claim;
   if (claim) {
-    const order = orders.find((item) => item.order_id === claim.order_id);
     const rows = [
       ["订单", claim.order_id], ["预计送达", claim.expected_at], ["实际送达", claim.delivered_at],
       ["晚到", delayText(claim.late_seconds)],
     ];
-    if (order && order.liability_party) rows.push(["责任归因", order.liability_party]);
-    if (order && order.amount_yuan) rows.push(["赔付占实付", `¥${claim.proposed_coupon_yuan} / 实付 ¥${order.amount_yuan}（${Math.round((claim.proposed_coupon_yuan / order.amount_yuan) * 100)}%）`]);
     $("confirm-facts").replaceChildren(...factRows(rows));
     $("confirm-amount").replaceChildren(el("small", "", "补偿券"), document.createTextNode(`¥${claim.proposed_coupon_yuan}`));
   }
@@ -419,11 +439,11 @@ function showOrderDetail(order) {
   const heading = el("div", "order-detail-heading");
   const title = el("h2", "", "订单详情");
   title.id = "order-dialog-title";
-  heading.append(el("span", "order-detail-kicker", "配送关怀 · 全链路履约存证"), title,
+  heading.append(el("span", "order-detail-kicker", "配送关怀 · 模拟订单"), title,
     el("span", "order-detail-status", status));
   const hero = el("div", "order-detail-hero");
   hero.append(el("span", "order-detail-merchant", order.merchant), el("strong", "", order.order_id),
-    el("small", "", `实付 ¥${order.amount_yuan} · 准时保最高赔付 ¥10（占实付 ${Math.round(1000 / order.amount_yuan)}%）`));
+    el("small", "", `实付 ¥${order.amount_yuan}`));
   const chain = fulfillmentChain(order);
   const attr = attributionBox(order);
   const itemList = el("div", "order-detail-items");
@@ -438,15 +458,14 @@ function showOrderDetail(order) {
     ["下单时间", order.ordered_at || "17:20"], ["商家出餐", order.prep_done_at ? `${order.prep_done_at}（应出餐 ${order.prep_promised_at || "17:35"}）` : "—"],
     ["骑手取餐", order.picked_up_at || "—"], ["预计送达", order.expected_at],
     ["实际送达", order.delivered_at || (order.status === "delivering" ? "配送中" : "暂缺记录")],
-    ["责任归因", order.liability_party || "待核验"],
   ];
   root.append(heading, hero);
   if (chain) root.append(chain);
   if (attr) root.append(attr);
   root.append(
     el("h3", "order-detail-section", "餐品明细"), itemList,
-    el("h3", "order-detail-section", "履约与准时保精算信息"), facts(rows),
-    el("p", "order-detail-note", "这是结合美团/Keeta履约时间轴设计的商业人工智能演示详情页，用于展示出餐（T1）与配送（T2）责任归因。")
+    el("h3", "order-detail-section", "配送信息"), facts(rows),
+    el("p", "order-detail-note", "演示订单 · 账单与配送时间仅供测试。")
   );
   $("order-dialog").showModal();
 }
@@ -624,6 +643,14 @@ function renderOrders() {
     return row;
   }));
   if (!matching.length) $("orders").append(el("p", "empty search-empty", "未找到订单"));
+  if (orders.length === 1 && orders[0].order_id === "ORD101") {
+    const switchBtn = button("切换到顾客 01（含 8 笔主测试单）", "show-more", async () => {
+      try { await enter((await api("/api/customer/login", { customer_id: "U001" })).customer); }
+      catch (error) { showStatus(error.message, true); }
+    });
+    switchBtn.append(icon("arrow-right"));
+    $("orders").append(switchBtn);
+  }
   $("more-orders").hidden = Boolean(query) || matching.length <= 3;
   $("more-orders").replaceChildren(el("span", "", expandedOrders ? "收起" : `全部订单 · ${matching.length}`), icon("chevron-down"));
   $("more-orders").setAttribute("aria-expanded", String(expandedOrders));
@@ -701,18 +728,27 @@ function send(raw, fromInput) {
   const text = raw.trim();
   if ((!text && !draftMedia) || confirming) return;
   const media = draftMedia;
+  if (fromInput) { $("input").value = ""; updateCount(); }
+  if (!media && text) {
+    pendingUserText = text;
+    if (latest) renderMessages(latest.messages, latest.handoffs);
+  }
   act(async () => {
     let result;
-    if (media) {
-      const body = new FormData();
-      if (text) body.append("text", text);
-      body.append("attachment", media.file, media.file.name);
-      result = await api("/api/customer/handoff", body);
-      clearDraftMedia();
-    } else {
-      result = await api("/api/customer/messages", { text });
+    try {
+      if (media) {
+        const body = new FormData();
+        if (text) body.append("text", text);
+        body.append("attachment", media.file, media.file.name);
+        result = await api("/api/customer/handoff", body);
+        clearDraftMedia();
+      } else {
+        result = await api("/api/customer/messages", { text });
+      }
+    } finally {
+      pendingUserText = "";
+      lastState = "";
     }
-    if (fromInput) { $("input").value = ""; updateCount(); }
     if (media) return "附件已交给人工客服，AI 不会自动识别附件内容。";
     return result.outcome === "handoff_waiting" ? "已在排队，人工客服会在对话里回复" : "";
   });
