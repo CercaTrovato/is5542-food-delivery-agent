@@ -23,6 +23,7 @@ let lastState = "";
 let lastChat = "";
 let orders = [];
 let expandedOrders = false;
+let expandedPicks = false;
 let policy = null;
 let latest = null;
 let lastFocus = null;
@@ -577,23 +578,89 @@ async function toggleRecording() {
   }
 }
 
-// Once the chat has started without an order this account owns, offer the orders as one-tap choices.
+function pickOrderAction(order) {
+  switchMjByOrder(order.order_id);
+  expandedPicks = false;
+  const draft = $("input").value.trim();
+  if (draft && !/ORD[\s\-_]*[0-9OIL]+/i.test(draft)) {
+    $("input").value = "";
+    updateCount();
+    send(`${order.order_id} ${draft}`);
+    return;
+  }
+  if (order.status === "delivering") {
+    send(`帮我查一下 ${order.order_id} 送到哪了`);
+  } else {
+    send(`我的外卖 ${order.order_id} 迟到了，可以申请补偿吗？`);
+  }
+}
+
+// Always offer one-tap order switching and a pull-up order drawer right above the chat input box.
 function renderPicks(state) {
   const box = $("order-picks");
-  const show = state.messages.length > 0 && !state.confirmation && (!state.focus || !state.focus.verified) && orders.length > 0;
+  const show = !state.confirmation && orders.length > 0;
   box.hidden = !show;
   if (!show) { box.replaceChildren(); return; }
+  const autoOpen = state.messages.length > 0 && (!state.focus || !state.focus.verified);
+  const isOpen = expandedPicks || autoOpen;
+  const activeId = state.focus && state.focus.verified ? state.focus.order_id : shownOrder;
+
+  const nodes = [];
+  if (isOpen) {
+    const drawer = el("div", "order-pick-drawer");
+    const head = el("div", "order-pick-drawer-head");
+    head.append(
+      el("strong", "", activeId ? `切换咨询订单（当前：${activeId}）` : "请选择要咨询的订单"),
+      button("收起 ✕", "pick-drawer-close", () => { expandedPicks = false; renderPicks(state); })
+    );
+    const list = el("div", "order-pick-drawer-list");
+    for (const order of orders) {
+      const item = el("div", `order-pick-row${order.order_id === activeId ? " is-active" : ""}`);
+      const info = el("div", "order-pick-info");
+      const titleRow = el("div", "order-pick-title");
+      titleRow.append(
+        el("strong", "", order.order_id),
+        el("span", "order-pick-merchant", order.merchant),
+        el("span", "order-pick-price", `¥${order.amount_yuan}`)
+      );
+      if (order.case) {
+        titleRow.append(el("span", "order-case-pill", order.case.replace(/^P0\d\s*/, "")));
+      }
+      const dish = Array.isArray(order.items) && order.items.length ? order.items.join(" + ") : "招牌套餐";
+      const timeStr = order.delivered_at ? `预计 ${order.expected_at} · 实际 ${order.delivered_at}` : `配送中 · 预计 ${order.expected_at}`;
+      const subRow = el("div", "order-pick-sub", `${dish} ｜ ${timeStr}`);
+      info.append(titleRow, subRow);
+      const actCol = el("div", "order-pick-actions");
+      const pickBtn = button(order.order_id === activeId ? "重新核实" : "选择此单", "small primary", () => pickOrderAction(order));
+      actCol.append(pickBtn);
+      item.append(info, actCol);
+      item.addEventListener("click", (e) => {
+        if (!e.target.closest("button")) pickOrderAction(order);
+      });
+      list.append(item);
+    }
+    drawer.append(head, list);
+    nodes.push(drawer);
+  }
+
+  const bar = el("div", "order-picks-bar");
+  const labelText = activeId ? `当前订单 ${activeId} · 切换` : "选择要咨询的订单";
+  bar.append(el("span", "pick-label", labelText));
   const chips = orders.slice(0, 3).map((order) => {
-    const chip = button("", "pick", () => send(`我的外卖 ${order.order_id} 迟到了，可以申请补偿吗？`));
+    const chip = button("", `pick${order.order_id === activeId ? " is-active" : ""}`, () => pickOrderAction(order));
     chip.dataset.pickOrder = order.order_id;
-    chip.append(el("strong", "", order.order_id), el("span", "", order.merchant));
+    const tag = order.case ? order.case.replace(/^P0\d\s*/, "") : order.merchant;
+    chip.append(el("strong", "", order.order_id), el("span", "", tag));
     return chip;
   });
-  const more = button("全部订单", "pick pick-more", () => {
-    $("orders-panel").scrollIntoView({ behavior: "smooth", block: "start" });
-    $("order-search").focus({ preventScroll: true });
-  });
-  box.replaceChildren(el("span", "pick-label", "选择要咨询的订单"), ...chips, more);
+  const toggleBtn = button(
+    isOpen ? "收起订单列表 ▾" : `切换/选择订单 (${orders.length}) ▴`,
+    `pick pick-more${isOpen ? " is-open" : ""}`,
+    () => { expandedPicks = !isOpen; renderPicks(state); }
+  );
+  bar.append(...chips, toggleBtn);
+  nodes.push(bar);
+  box.replaceChildren(...nodes);
 }
 
 function renderPanel() {
