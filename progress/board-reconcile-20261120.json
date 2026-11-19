@@ -1,0 +1,43 @@
+{
+  "course": "IS5542",
+  "reviewed_on": "2026-11-20",
+  "source_base_commit": "f32f4d1cf85a63283dffc810603b3f6d7cc2a4ef",
+  "assignment_revision": "260900a54686c837483979d4d1c3dc713fa0a205f66bcb10dc2a1e66f87ce82e",
+  "thinking_revision": "ab2bf732261be617cd6ebc42dc7fa63f9ae4a32e7b278b63ed28c6cfa0735a3f",
+  "timeline_revision": "a3899b0192bef7fd95e4ce73e2bc98f300f646da378290a407e62cb4d14929a7",
+  "independent_review": "one risk sample plus directed closure; historical teaching not re-reviewed",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "f1776f3fbac3b1825bbc3811bea5bb55b88410b95d5b9320f366989b296ce4aa"
+    },
+    {
+      "path": "THINKING.md",
+      "sha256": "4771abc91cb53450d0e533b24d8946787683984aac451e690fbc0d35c1bf209d"
+    },
+    {
+      "path": "TIMELINE.md",
+      "sha256": "0c2515dd4d8bcd315a9e55f4dec57e508ab52dd7cf5cdc3f59adbbc853295d85"
+    },
+    {
+      "path": "ASSISTANT-README.md",
+      "sha256": "4367929f7c31cce1e39bd1354d2fb4f3ae8b099a827061bcc77ccb2b32edb426"
+    },
+    {
+      "path": "progress/timeline.json",
+      "sha256": "a3899b0192bef7fd95e4ce73e2bc98f300f646da378290a407e62cb4d14929a7"
+    },
+    {
+      "path": "progress/daily-plan.json",
+      "sha256": "8bfd36774eca87bfabe49d38260414895e9c34931e6122d180590d826dd49cdb"
+    },
+    {
+      "path": "progress/assignment.json",
+      "sha256": "0c67405d3abcd5e461c254b52bdcc1145d72f44a9b427b07b28663a1d24c3142"
+    },
+    {
+      "path": "progress/thinking.json",
+      "sha256": "528498e74f6ad7d53231ebbd6348e7341d93742c0cc2def30fa9d31b5ab09f9c"
+    }
+  ]
+}

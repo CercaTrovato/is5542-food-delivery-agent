@@ -2,9 +2,9 @@
   "schema_version": 1,
   "assignment_id": "IS5542-A01",
   "course": "IS5542",
-  "as_of": "2026-11-12",
+  "as_of": "2026-11-20",
   "timezone": "Asia/Shanghai",
-  "source_revision": "a4dba7d9cd2d51a5c57bc564d4c8edbdf08a29431166881eef76bf46881a2806",
+  "source_revision": "a3899b0192bef7fd95e4ce73e2bc98f300f646da378290a407e62cb4d14929a7",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -19,30 +19,30 @@
       "id": "my-web",
       "title": "本人下一步：顾客页面与人工审批",
       "owner": "本人 · 统筹",
-      "status": "planned",
+      "status": "needs_review",
       "personal_action": "向开发侧核对可运行网页、分支、启动说明和 P01 试跑的实际交期。",
-      "readiness": "verify",
+      "readiness": "ready",
       "target": {
-        "value": "2026-11-11",
-        "precision": "date",
-        "basis": "proposed"
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
       },
       "blocked_by": [],
       "estimated_minutes": null,
-      "observed_on": "2026-11-10",
-      "date_state": "past_due_unverified"
+      "observed_on": "2026-11-20",
+      "date_state": "unscheduled"
     },
     {
       "id": "acceptance",
       "title": "正式政策与 B/C 评价",
       "owner": "本人 + 技术／测试组",
-      "status": "unknown",
+      "status": "needs_review",
       "personal_action": "先整理待确认的正式政策字段和 B/C 同案评分表，再与开发、测试对齐。",
-      "readiness": "verify",
+      "readiness": "waiting_dependency",
       "target": {
-        "value": "2026-11-16",
-        "precision": "date",
-        "basis": "proposed"
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
       },
       "blocked_by": [
         "rules",
@@ -50,8 +50,8 @@
         "p23"
       ],
       "estimated_minutes": null,
-      "observed_on": "2026-11-10",
-      "date_state": "next_7_days"
+      "observed_on": "2026-11-20",
+      "date_state": "unscheduled"
     }
   ],
   "deadlines": [

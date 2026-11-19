@@ -7,22 +7,21 @@
   "board_scope": "active",
   "group": "Group 24",
   "my_role": "技术开发。拟把主要实现和部署交给有免费 Token 的技术组员",
-  "summary": "外卖方向已定，11 月 6 日组员已交商业调研与 Demo 设计。11 月 8 日本人确认沿用原有角色，有免费 Token 的技术组员可承接主要实现和前后端部署。代码交接、试跑与上线状态待核。 业务调研组员推荐 Dify，开发组员计划试用；本人倾向 LangChain／LangGraph，框架与模型待核。",
-  "stage": "商业调研已交 · 主要开发待交接",
-  "updated_at": "2026-11-08T00:13:47+08:00",
-  "reviewed_at": "2026-11-08",
-  "progress_as_of": "2026-11-06",
+  "summary": "三平台首轮观察已收核，15 张表、26 张截图的有限比较成立；真实超时赔付、真人接通与工单闭环仍待补。远端 feat/ord001-local-web 已有开发代码及 11 月 10–11 日历史自检／共享入口记录，最新已见提交 9c8fdbc（11 月 18 日）；本次只核分支与报告，未重跑当前服务、真实模型或接收验收，不将历史自检升级为当前团队 P01 通过。",
+  "stage": "开发分支及历史自检已见，接收验收与闭环证据待补",
+  "updated_at": "2026-11-20T02:00:21+08:00",
+  "reviewed_at": "2026-11-20",
+  "progress_as_of": "2026-11-18",
   "task_scope_complete": false,
   "next_action": {
-    "title": "交接外卖流程与验收用例，约定代码位置；用同一案例核查候选框架的订单查询和人工审批",
-    "owner": "本人／拟主做实现的技术组员",
+    "title": "接收方从已见开发分支核版本、启动说明及 P01/P02/P03；研究成员补可得的日期、点击路径、转接／工单证据。正式政策与 B/C 口径仍待确认，11 月 28 日准确交付条件待核。",
+    "owner": "本人／技术组",
     "basis": "proposed"
   },
   "blockers": [
-    "主要开发任务待交接。代码位置、可用模型与额度、首轮运行记录及上线地址待核",
-    "模拟补偿阈值、恰好 30 分钟的口径、券额和政策负责人待对齐",
-    "提交入口、当天准确时刻、视频上限、rubric 与互评表状态待核",
-    "Dify 与 LangChain／LangGraph 尚在比较，试用结果及可用模型未核"
+    "已见开发分支；当前服务、真实模型模式及接收人独立 P01/P02/P03 未在本次复跑确认",
+    "正式补偿阈值、券额、政策负责人及 B/C 同案条件仍待确认",
+    "11 月 28 日提交入口、准确时刻、视频上限和 rubric 沿用待核；旧邀请数量不是本次实时核查"
   ],
   "tasks": [
     {
@@ -70,16 +69,45 @@
       ]
     },
     {
+      "id": "collaboration",
+      "title": "建立私有 GitHub 协作仓库并上传现有材料",
+      "status": "done",
+      "owner": "本人",
+      "note": "私有协作仓库已建立并上传初始 28 个文件。11/08 复核有 1 个邀请待接受，暂无组员分支或 PR。",
+      "evidence": [
+        "collaboration-repo",
+        "collaboration-commit",
+        "handoff"
+      ]
+    },
+    {
+      "id": "local-prototype",
+      "title": "ORD001 参考原型、边界验证及私有仓库同步",
+      "status": "done",
+      "owner": "本人",
+      "note": "真实模型查单、Python 算延误、Studio 人工批准、30 分钟直接结束均已核。合并图的两种审批决定另用模拟模型验证。 已回读远端提交 28fdea3，干净目录无 Key 重跑批准、驳回及 30／31 分钟边界。",
+      "evidence": [
+        "studio-prototype",
+        "handoff",
+        "prototype-commit"
+      ]
+    },
+    {
       "id": "agent",
       "title": "领域工具与 Agent 最小可运行链路",
-      "status": "todo",
+      "status": "in_progress",
       "owner": "技术组（拟由有免费 Token 的成员主做）",
-      "note": "11/07 本地尚无外卖 Agent 或运行证据。11/08 本人拟将主要实现和部署交接给有免费 Token 的成员，代码和实际运行状态待核。 Dify 待试用，LangChain／LangGraph 是本人偏好，主实现待定。",
+      "note": "已见远端开发分支9c8fdbc及历史自检/共享入口报告；本次未复跑当前服务或真实模型，接收方验收仍待核。",
       "evidence": [
         "app",
         "handoff",
         "owner-team-handoff",
-        "framework-discussion"
+        "framework-discussion",
+        "studio-prototype",
+        "owner-framework-plan",
+        "owner-frontend-and-learning",
+        "frontend-handoff-commit",
+        "web-branch-20261120"
       ]
     },
     {
@@ -87,7 +115,7 @@
       "title": "3 个剧本试跑与成本记录",
       "status": "todo",
       "owner": "技术组",
-      "note": "已拟 3 组开发验收案例，尚无试跑或成本记录。",
+      "note": "P01–P03 已拟定。真实模型本机已复核 ORD001 50 分钟审批、30 分钟边界。完整三组与成本记录待团队首版。 开发分支附历史自检；未记为本次独立复跑或接收方验收。",
       "evidence": [
         "handoff"
       ]
@@ -97,10 +125,12 @@
       "title": "基线比较与系统评测",
       "status": "todo",
       "owner": "技术 / 测试组",
-      "note": "B/C 同模型、同政策、同任务做正式技术对照；人工 As-Is 只作为另外的业务参照。尚未正式评测。",
+      "note": "B/C 同模型、同政策、同任务做正式技术对照；人工 As-Is 只作为另外的业务参照。尚未正式评测。 主目标已确认是复杂投诉的正确与安全处理，效率和成本为辅助结果，指标细则待定。 本人负责 baseline B 与评分口径，测试组独立准备和执行用例，双方共同核对结果。 开发分支附历史自检；未记为本次独立复跑或接收方验收。",
       "evidence": [
         "brief",
-        "handoff"
+        "handoff",
+        "owner-business-objective",
+        "owner-personal-scope"
       ]
     },
     {
@@ -118,6 +148,53 @@
       "owner": null,
       "note": "",
       "evidence": []
+    },
+    {
+      "id": "named-handoff",
+      "title": "私有仓库首轮个人分工与交接入口",
+      "status": "done",
+      "owner": "本人",
+      "note": "现行分工截图核对为开发、工程／baseline 各一人，业务调研、测试各两人。私有首页连到六张任务卡，细任务和日期标为建议。远端 d7e7bc6 已核。",
+      "evidence": [
+        "named-handoff-commit",
+        "handoff",
+        "owner-current-roster"
+      ]
+    },
+    {
+      "id": "market-research-dispatch",
+      "title": "派发三平台补偿规则与客服流程调研",
+      "status": "done",
+      "owner": "本人",
+      "note": "本人确认任务已经发给两位调研组员。以仓库交接模板为准，接收与交件状态待核。",
+      "evidence": [
+        "owner-research-dispatch",
+        "current-github-plan",
+        "handoff"
+      ]
+    },
+    {
+      "id": "market-rules-intake",
+      "title": "收取三平台规则初稿及两项保障 v1.3 补件",
+      "status": "done",
+      "owner": "业务调研组",
+      "note": "11/11 v1.3 和 8 页截图已逐页核读；两项保障存在和基本条件已有依据，截图来源、精确边界与版本仍待核。不等于正式政策批准或客服实测完成。",
+      "evidence": [
+        "market-rules-received",
+        "handoff",
+        "market-rules-v13"
+      ]
+    },
+    {
+      "id": "flow-intake",
+      "title": "收取并核读三平台客服流程首轮材料",
+      "status": "done",
+      "owner": "业务流程调研成员／本人核阅",
+      "note": "实际收三份报告、15 张表、26 张截图，已完成首轮有限样本核阅与去标识整理；真实赔付、真人与工单闭环仍待核，不等于正式评测完成。",
+      "evidence": [
+        "flow-observations-received",
+        "handoff"
+      ]
     }
   ],
   "milestones": [
@@ -142,35 +219,35 @@
   "sources": [
     {
       "id": "brief",
-      "kind": "local",
+      "kind": "thread",
       "label": "A01 当前任务说明",
-      "locator": "notes/任务说明.md",
-      "observed_at": "2026-11-08",
-      "sha256": "5c60324652dfdde020048317929cc0185593e036076c0b5d95c7c3dfc5a1820e"
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "observed_at": "2026-11-09",
+      "sha256": "13c3312197c9671cd2c051f7cf78a9820706ef92740ba785cf22e6c9ae6086d0"
     },
     {
       "id": "deadline-chat",
-      "kind": "web",
+      "kind": "thread",
       "label": "整理各课程作业截止时间表（已登录 Canvas 核对）",
-      "locator": "https://canvas.cityu.edu.hk/courses/71410/discussion_topics/632216",
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
       "observed_at": "2026-11-07",
       "sha256": null
     },
     {
       "id": "meeting",
-      "kind": "local",
+      "kind": "thread",
       "label": "团队会议历史与本人方向确认",
-      "locator": "notes/团队会议与决策.md",
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
       "observed_at": "2026-11-08",
-      "sha256": "32f5b852db166f74a69714f8ac3a6748252b402a68204c585b90486c6b53b726"
+      "sha256": "11ed0efe9f19d51557847ca29ed2ec3f96279c805f0075e3a1ec6f5d2eb8a1ec"
     },
     {
       "id": "app",
-      "kind": "local",
+      "kind": "thread",
       "label": "外卖 app 本地环境与状态说明",
-      "locator": "work/app/README.md",
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
       "observed_at": "2026-11-07",
-      "sha256": "a33766abb5fcf92a18d6208c0c46c71b5e2e434b01ec287328f585300f3a7d24"
+      "sha256": "977679a6105cbb4e86bd51dbf413d0db3bbf4bb2e3f66f4726bac6cd18dcc030"
     },
     {
       "id": "announcement",
@@ -182,42 +259,186 @@
     },
     {
       "id": "owner-direction",
-      "kind": "team_note",
+      "kind": "thread",
       "label": "本人于 11/07 确认外卖方案已定",
-      "locator": "notes/supervision-report.md",
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
       "observed_at": "2026-11-07",
       "sha256": null
     },
     {
       "id": "team-report",
-      "kind": "local",
+      "kind": "thread",
       "label": "11/06 组员商业调研与 Demo 设计原件",
-      "locator": "work/team-private/FoodDelivery_Agent_Report.docx",
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
       "observed_at": "2026-11-07",
       "sha256": "5cefb330ad2eeedae82ff8741f538a6d336126147a028808c127984fedd281da"
     },
     {
       "id": "handoff",
-      "kind": "local",
+      "kind": "thread",
       "label": "组员续作核查与开发交接（脱敏）",
-      "locator": "notes/supervision-report.md",
-      "observed_at": "2026-11-08",
-      "sha256": "7f0f69831a6197a4aa139dd424b8d09806777bcb384fd66cb55ac89efa725e78"
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "observed_at": "2026-11-12",
+      "sha256": "e9c72db7edee9f54ab0ced77a4f11158041df95e557cc991eb4aca4a3981c55e"
     },
     {
       "id": "owner-team-handoff",
-      "kind": "team_note",
+      "kind": "thread",
       "label": "11/08 本人确认原角色沿用及开发部署交接方向",
-      "locator": "notes/supervision-report.md",
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
       "observed_at": "2026-11-08",
       "sha256": null
     },
     {
       "id": "framework-discussion",
-      "kind": "team_note",
+      "kind": "thread",
       "label": "11/08 本人补充框架讨论与群聊（Dify 试用计划）",
-      "locator": "notes/supervision-report.md",
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
       "observed_at": "2026-11-08",
+      "sha256": null
+    },
+    {
+      "id": "collaboration-repo",
+      "kind": "web",
+      "label": "GitHub 私有协作仓库",
+      "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
+      "observed_at": "2026-11-08",
+      "sha256": null
+    },
+    {
+      "id": "collaboration-commit",
+      "kind": "web",
+      "label": "首个 main 提交与上传文件",
+      "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/commit/f579bf5429f99feb01c9f051407227e68d17e5cd",
+      "observed_at": "2026-11-08",
+      "sha256": null
+    },
+    {
+      "id": "studio-prototype",
+      "kind": "thread",
+      "label": "11/08 本地 Studio 真实模型审批及边界核验",
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "observed_at": "2026-11-08",
+      "sha256": null
+    },
+    {
+      "id": "prototype-commit",
+      "kind": "web",
+      "label": "GitHub ORD001 参考原型和最新版交接提交",
+      "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/commit/28fdea3e240bcb994f004513b438ce77d3b9cb21",
+      "observed_at": "2026-11-08",
+      "sha256": null
+    },
+    {
+      "id": "owner-framework-plan",
+      "kind": "thread",
+      "label": "11/09 本人确认团队首版计划采用 LangChain／LangGraph",
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "observed_at": "2026-11-09",
+      "sha256": null
+    },
+    {
+      "id": "named-handoff-commit",
+      "kind": "web",
+      "label": "私有 GitHub 现行六人任务卡和首页交接",
+      "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/commit/d7e7bc62943beca32e1d2303e3354ff85f2dab65",
+      "observed_at": "2026-11-09",
+      "sha256": null
+    },
+    {
+      "id": "owner-current-roster",
+      "kind": "thread",
+      "label": "11/09 本人提供现行六人分工截图",
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "observed_at": "2026-11-09",
+      "sha256": null
+    },
+    {
+      "id": "owner-business-objective",
+      "kind": "thread",
+      "label": "11/10 本人确认项目主目标和辅助指标方向",
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "observed_at": "2026-11-10",
+      "sha256": null
+    },
+    {
+      "id": "owner-personal-scope",
+      "kind": "thread",
+      "label": "11/10 本人确认首轮职责与亲手实现的模块",
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "observed_at": "2026-11-10",
+      "sha256": null
+    },
+    {
+      "id": "owner-research-dispatch",
+      "kind": "thread",
+      "label": "11/10 本人确认三平台调研任务已发送",
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "observed_at": "2026-11-10",
+      "sha256": null
+    },
+    {
+      "id": "current-github-plan",
+      "kind": "web",
+      "label": "私有 GitHub 现行项目说明与调研交接",
+      "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/commit/fa4391c82bb2b2fe0f87cf6fea2054c4d9123a4d",
+      "observed_at": "2026-11-10",
+      "sha256": null
+    },
+    {
+      "id": "owner-frontend-and-learning",
+      "kind": "thread",
+      "label": "11/10 本人明确网页前端与 Agent 推进安排",
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "observed_at": "2026-11-10",
+      "sha256": null
+    },
+    {
+      "id": "market-rules-received",
+      "kind": "thread",
+      "label": "11/10 本人转发三平台公开补偿规则初稿",
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "observed_at": "2026-11-10",
+      "sha256": null
+    },
+    {
+      "id": "frontend-handoff-commit",
+      "kind": "web",
+      "label": "私有 GitHub 前端交接及资格判定接口提交",
+      "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/commit/2d7951b1cab009e54447ef357db709ca941d3f28",
+      "observed_at": "2026-11-10",
+      "sha256": null
+    },
+    {
+      "id": "market-rules-v13",
+      "kind": "web",
+      "label": "11/11 补件 v1.3 的核验与资料索引",
+      "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/market-compensation-rules.md",
+      "observed_at": "2026-11-11",
+      "sha256": null
+    },
+    {
+      "id": "flow-observations-received",
+      "kind": "web",
+      "label": "11/12 三平台流程回件与九行核验",
+      "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/competitor-evidence.md",
+      "observed_at": "2026-11-12",
+      "sha256": null
+    },
+    {
+      "id": "notes-update-20261118",
+      "kind": "thread",
+      "label": "课程笔记更新：补充复习资料，不计小组交付",
+      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "observed_at": "2026-11-20",
+      "sha256": "98892c6607ddaa937003d66da69d5e16b19042822b3ffcb860e280a77e2d0f8a"
+    },
+    {
+      "id": "web-branch-20261120",
+      "kind": "web",
+      "label": "已见开发分支 9c8fdbc；历史交付自检不等于当前接收验收",
+      "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/tree/9c8fdbc",
+      "observed_at": "2026-11-20",
       "sha256": null
     }
   ]
