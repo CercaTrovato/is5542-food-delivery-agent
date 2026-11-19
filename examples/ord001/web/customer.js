@@ -708,7 +708,7 @@ function setPlusTray(open) {
 }
 
 function notifyTestingFeature(featureName) {
-  const msg = `「${featureName}」功能正在测试中，暂未开放，请点击「订单」进行订单咨询`;
+  const msg = `「${featureName}」功能正在测试中，暂未开放，请点击「订单」或「工单进度」`;
   toast(msg);
   showStatus(msg);
 }
@@ -803,6 +803,120 @@ function openOrderSheet() {
   if (dialog && !dialog.open) dialog.showModal();
 }
 
+function renderTicketSheet() {
+  const list = $("ticket-sheet-list");
+  if (!list) return;
+  const state = latest;
+  list.replaceChildren();
+  const tickets = (state && state.tickets) || [];
+  const handoffs = ((state && state.handoffs) || []).filter((h) => h.status !== "cancelled");
+
+  if (!tickets.length && !handoffs.length) {
+    const empty = el("div", "sheet-empty");
+    const buddy = mascotImg("sheet-empty-avatar");
+    empty.append(
+      buddy,
+      el("strong", "", "当前暂无售后申请或人工工单"),
+      el("p", "", "当您的已送达订单晚到超过 30 分钟时，可在咨询订单后提交 ¥10 延误补偿申请，审核进度与满意度评价会实时展示在这里。"),
+      button("📦 选择需要咨询的订单", "welcome-order-cta", () => {
+        $("ticket-sheet-dialog").close();
+        openOrderSheet();
+      })
+    );
+    list.append(empty);
+    return;
+  }
+
+  for (const ticket of tickets) {
+    const card = el("article", "sheet-order-card");
+    const top = el("div", "sheet-order-top");
+    const titleWrap = el("div", "sheet-order-shop");
+    titleWrap.append(
+      icon("ticket", "sheet-shop-icon"),
+      el("strong", "", `售后单 ${ticket.ticket_id} · 订单 ${ticket.order_id}`),
+      badge(ticket.status)
+    );
+    top.append(
+      titleWrap,
+      el("span", "order-price", ticket.coupon_issued_yuan ? `已发 ¥${ticket.coupon_issued_yuan}` : `申请 ¥${ticket.proposed_coupon_yuan} 券`)
+    );
+
+    const meta = el("dl", "waimai-meta-grid");
+    const rows = [
+      ["配送超时：", delayText(ticket.late_seconds)],
+      ["当前状态：", STATUS_TEXT[ticket.status] || ticket.status],
+    ];
+    if (ticket.information_request) rows.push(["商家留言：", ticket.information_request]);
+    if (ticket.customer_information) rows.push(["已补说明：", ticket.customer_information]);
+    if (ticket.review_note) rows.push(["审核说明：", ticket.review_note]);
+    if (ticket.rating) rows.push(["我的评价：", `${ticket.rating} 分（${"★".repeat(ticket.rating)}）`]);
+    for (const [k, v] of rows) {
+      meta.append(el("dt", "", k), el("dd", "", v));
+    }
+
+    const foot = el("div", "sheet-order-foot");
+    const actBtns = el("div", "sheet-order-actions");
+    if (ticket.status === "needs_info") {
+      actBtns.append(button("去填写补充说明", "small primary", () => {
+        viewTicket = ticket.ticket_id;
+        $("ticket-sheet-dialog").close();
+        renderPanel();
+        $("tickets-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+      }));
+    } else if ((ticket.status === "approved" || ticket.status === "rejected") && !ticket.rating) {
+      actBtns.append(button("去评价服务 (1-5星)", "small primary", () => {
+        viewTicket = ticket.ticket_id;
+        $("ticket-sheet-dialog").close();
+        renderPanel();
+        $("tickets-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+      }));
+    }
+    actBtns.append(
+      button("定位到进度面板", "small secondary", () => {
+        viewTicket = ticket.ticket_id;
+        $("ticket-sheet-dialog").close();
+        renderPanel();
+        $("tickets-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+      }),
+      button("在对话中追问", "small secondary", () => {
+        $("ticket-sheet-dialog").close();
+        send(`帮我查一下 ${ticket.order_id} 的申请进度`);
+      })
+    );
+    foot.append(el("span", "sheet-order-time", `更新于 ${clock(ticket.decided_at || ticket.created_at)}`), actBtns);
+    card.append(top, meta, foot);
+    list.append(card);
+  }
+
+  for (const h of handoffs) {
+    const card = el("article", "sheet-order-card");
+    const top = el("div", "sheet-order-top");
+    const titleWrap = el("div", "sheet-order-shop");
+    titleWrap.append(
+      icon("person", "sheet-shop-icon"),
+      el("strong", "", `人工客服单 ${h.handoff_id}${h.order_id ? ` · ${h.order_id}` : ""}`),
+      el("span", "order-case-pill", h.status === "waiting" ? "排队中" : "人工已回复")
+    );
+    top.append(titleWrap);
+    const meta = el("dl", "waimai-meta-grid");
+    meta.append(
+      el("dt", "", "咨询内容："),
+      el("dd", "", h.request_text || "请求转接人工客服"),
+      el("dt", "", "专员回复："),
+      el("dd", "", h.reply_text || "小丑人工专员正在加速接入中，请稍候")
+    );
+    card.append(top, meta);
+    list.append(card);
+  }
+}
+
+function openTicketSheet() {
+  setPlusTray(false);
+  renderTicketSheet();
+  const dialog = $("ticket-sheet-dialog");
+  if (dialog && !dialog.open) dialog.showModal();
+}
+
 // Clean, non-cramped Meituan Waimai style quick-action floating pills right above the input bar.
 function renderPicks(state) {
   const box = $("order-picks");
@@ -825,13 +939,12 @@ function renderPicks(state) {
     const delivering = orders.find((o) => o.status === "delivering") || orders[0];
     if (delivering) send(`帮我查一下 ${delivering.order_id} 送到哪了`);
   });
-  const ratePill = button("⭐ 服务评价", "waimai-pill", () => {
-    if (state.tickets && state.tickets.length) {
-      $("tickets-panel").scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      notifyTestingFeature("服务评价");
-    }
-  });
+  const ticketCount = (state.tickets ? state.tickets.length : 0);
+  const ratePill = button(
+    ticketCount ? `📋 工单进度 (${ticketCount})` : "⭐ 服务评价 / 工单",
+    "waimai-pill",
+    () => openTicketSheet()
+  );
   bar.append(orderPill, claimPill, urgePill, ratePill);
   box.replaceChildren(bar);
 }
@@ -845,6 +958,12 @@ function renderPanel() {
   const ticket = picked || focusTicket || null;
   shownOrder = ticket ? ticket.order_id : state.focus ? state.focus.order_id : null;
   if (shownOrder) switchMjByOrder(shownOrder);
+  const badgeNode = $("tray-ticket-badge");
+  if (badgeNode) {
+    const activeCount = (state.tickets ? state.tickets.length : 0) + (state.handoffs ? state.handoffs.filter((h) => h.status !== "cancelled").length : 0);
+    badgeNode.hidden = activeCount === 0;
+    badgeNode.textContent = String(activeCount);
+  }
   renderTickets(state, ticket);
   renderOthers(state, ticket);
   renderJourney(state, ticket);
@@ -1032,6 +1151,7 @@ async function boot() {
   if ($("plus-toggle")) $("plus-toggle").addEventListener("click", () => setPlusTray(!plusOpen));
   if ($("open-order-sheet")) $("open-order-sheet").addEventListener("click", openOrderSheet);
   if ($("tray-orders")) $("tray-orders").addEventListener("click", openOrderSheet);
+  if ($("tray-tickets")) $("tray-tickets").addEventListener("click", openTicketSheet);
   for (const btn of document.querySelectorAll("[data-testing-feature]")) {
     btn.addEventListener("click", () => notifyTestingFeature(btn.dataset.testingFeature));
   }
@@ -1039,6 +1159,12 @@ async function boot() {
   if ($("order-sheet-dialog")) {
     $("order-sheet-dialog").addEventListener("click", (e) => {
       if (e.target === $("order-sheet-dialog")) $("order-sheet-dialog").close();
+    });
+  }
+  if ($("close-ticket-sheet")) $("close-ticket-sheet").addEventListener("click", () => $("ticket-sheet-dialog").close());
+  if ($("ticket-sheet-dialog")) {
+    $("ticket-sheet-dialog").addEventListener("click", (e) => {
+      if (e.target === $("ticket-sheet-dialog")) $("ticket-sheet-dialog").close();
     });
   }
   $("input").addEventListener("input", updateCount);

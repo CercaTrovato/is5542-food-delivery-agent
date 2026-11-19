@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffd000">
   <title>配送关怀 · 订单服务</title>
-  <link rel="stylesheet" href="/static/app.css?v=20261119-mj9">
-  <script src="/static/app.js?v=20261119-mj9" defer></script>
-  <script src="/static/customer.js?v=20261119-mj9" defer></script>
+  <link rel="stylesheet" href="/static/app.css?v=20261119-mj10">
+  <script src="/static/app.js?v=20261119-mj10" defer></script>
+  <script src="/static/customer.js?v=20261119-mj10" defer></script>
 </head>
 <body data-page="customer">
   <a class="skip-link" href="#main">跳到主要内容</a>
@@ -147,8 +147,8 @@
                 <span class="im-tray-icon"><span class="im-dark-glyph" data-icon="shield"></span></span>
                 <span class="im-tray-label">价保</span>
               </button>
-              <button type="button" class="im-tray-tile" data-testing-feature="工单进度">
-                <span class="im-tray-icon"><span class="im-dark-glyph" data-icon="pie"></span></span>
+              <button type="button" class="im-tray-tile im-tray-tile-featured" id="tray-tickets">
+                <span class="im-tray-icon"><span class="im-ticket-count" id="tray-ticket-badge" hidden>0</span><span class="im-dark-glyph" data-icon="pie"></span></span>
                 <span class="im-tray-label">工单进度</span>
               </button>
               <button type="button" class="im-tray-tile" data-testing-feature="打款">
@@ -160,7 +160,7 @@
                 <span class="im-tray-label">文件</span>
               </button>
             </div>
-            <div class="composer-foot"><span>点下方「订单」图标可弹出订单选择面板咨询（其余功能测试中） · Enter 发送</span><span id="input-count">0 / 500</span></div>
+            <div class="composer-foot"><span>点下方「订单」选单咨询 · 点「工单进度」查看售后审批与评价 · Enter 发送</span><span id="input-count">0 / 500</span></div>
           </div>
           <p class="status" id="status" role="status"></p>
         </section>
@@ -193,6 +193,13 @@
       <button class="icon-button" type="button" id="close-order-sheet" aria-label="关闭订单选择"><span data-icon="close"></span></button>
     </div>
     <div class="order-sheet-body" id="order-sheet-list"></div>
+  </dialog>
+  <dialog class="dialog order-sheet-dialog" id="ticket-sheet-dialog" aria-labelledby="ticket-sheet-title">
+    <div class="order-sheet-head">
+      <h2 id="ticket-sheet-title">售后工单与人工进度</h2>
+      <button class="icon-button" type="button" id="close-ticket-sheet" aria-label="关闭工单进度"><span data-icon="close"></span></button>
+    </div>
+    <div class="order-sheet-body" id="ticket-sheet-list"></div>
   </dialog>
 </body>
 </html>
