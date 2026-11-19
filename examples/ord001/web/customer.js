@@ -24,7 +24,7 @@ let lastChat = "";
 let orders = [];
 let expandedOrders = false;
 let expandedPicks = false;
-let plusOpen = false;
+let plusOpen = true;
 let policy = null;
 let latest = null;
 let lastFocus = null;
@@ -97,11 +97,11 @@ function bubble(role, text, tag) {
       avatar.src = item.src;
       avatar.dataset.mascot = "mj";
       avatar.dataset.headItem = item.key;
-      avatar.alt = "AI 客服 MJ";
+      avatar.alt = "在线客服 MJ";
     }
     head.append(
       avatar,
-      el("span", "bubble-tag", role === "human" ? "人工专员 · Joker" : (tag === "AI" ? "67餐厅 AI 客服 · MJ" : (tag || "MJ")))
+      el("span", "bubble-tag", role === "human" ? "人工客服 · 小丑专员" : (tag === "AI" ? "67餐厅客服 · MJ" : (tag || "MJ")))
     );
     row.append(head);
   } else if (tag) {
@@ -188,20 +188,20 @@ function welcome() {
   const copy = el("div", "welcome-copy");
   const badgeRow = el("div", "welcome-badge-row");
   badgeRow.append(
-    el("span", "welcome-kicker", "AI 客服 MJ"),
-    el("span", "welcome-kicker joker-kicker", "人工专员 Joker")
+    el("span", "welcome-kicker", "在线客服 MJ"),
+    el("span", "welcome-kicker joker-kicker", "人工客服 · 小丑专员")
   );
   copy.append(
     badgeRow,
     el("h3", "", "嗨！我是 MJ，想咨询哪一笔外卖订单？"),
-    el("p", "welcome-note", "点击下方「选择需要咨询的订单」或输入框右侧「+」号，即可像美团外卖一样弹出订单卡片一键发送；疑难食安问题由小丑人工专员优先跟进。")
+    el("p", "welcome-note", "点击下方「选择需要咨询的订单」或底部功能栏中的「订单」图标，即可弹出订单列表一键咨询；复杂问题可随时转人工客服跟进。")
   );
   const mascotPair = el("div", "welcome-mascot-pair");
   const jokerCard = el("div", "joker-side-badge");
   const jokerImg = document.createElement("img");
   jokerImg.src = "/static/chubby-joker.png";
   jokerImg.alt = "小丑专员";
-  jokerCard.append(jokerImg, el("small", "", "Joker 专员"));
+  jokerCard.append(jokerImg, el("small", "", "小丑专员"));
   mascotPair.append(careBuddy("buddy-welcome"), jokerCard);
   hero.append(mascotPair, copy);
 
@@ -226,9 +226,9 @@ function typingBubble() {
   const row = el("div", "bubble-row assistant typing-row");
   const head = el("div", "bubble-sender-head");
   const avatar = mascotImg("bubble-avatar-img");
-  head.append(avatar, el("span", "bubble-tag", "67餐厅 AI 客服 · MJ"));
+  head.append(avatar, el("span", "bubble-tag", "67餐厅客服 · MJ"));
   const bub = el("div", "bubble typing-bubble");
-  bub.append(el("span", "typing-text", "MJ 正在核实订单并思考"), el("span", "typing-dots", "···"));
+  bub.append(el("span", "typing-text", "正在为您核实订单"), el("span", "typing-dots", "···"));
   row.append(head, bub);
   return row;
 }
@@ -249,7 +249,7 @@ function renderMessages(messages, handoffs) {
     if (item.role === "tool") {
       const oid = item.text.replace("查单工具 query_order：", "").trim();
       const line = el("p", "tool-line");
-      line.append(icon("search"), el("span", "", `已通过查单工具核实：${oid}`));
+      line.append(icon("search"), el("span", "", `已核实订单：${oid}`));
       nodes.push(line);
       const matchedOrder = orders.find((o) => o.order_id === oid);
       if (matchedOrder) {
@@ -702,7 +702,15 @@ function setPlusTray(open) {
   if (btn) {
     btn.classList.toggle("is-open", plusOpen);
     btn.setAttribute("aria-expanded", String(plusOpen));
+    const glyph = btn.querySelector(".plus-glyph");
+    if (glyph) glyph.textContent = plusOpen ? "×" : "+";
   }
+}
+
+function notifyTestingFeature(featureName) {
+  const msg = `「${featureName}」功能正在测试中，暂未开放，请点击「订单」进行订单咨询`;
+  toast(msg);
+  showStatus(msg);
 }
 
 function pickOrderAction(order) {
@@ -817,88 +825,15 @@ function renderPicks(state) {
     const delivering = orders.find((o) => o.status === "delivering") || orders[0];
     if (delivering) send(`帮我查一下 ${delivering.order_id} 送到哪了`);
   });
-  const ratePill = button("🧠 5层链路透视", "waimai-pill", () => $("demo-dialog").showModal());
+  const ratePill = button("⭐ 服务评价", "waimai-pill", () => {
+    if (state.tickets && state.tickets.length) {
+      $("tickets-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      notifyTestingFeature("服务评价");
+    }
+  });
   bar.append(orderPill, claimPill, urgePill, ratePill);
   box.replaceChildren(bar);
-}
-
-// Live 5-Layer LangGraph Architecture Visualizer for classroom presentation.
-function buildPipelineView(state, ticket) {
-  const hasMsg = state && state.messages && state.messages.length > 0;
-  const lastTool = hasMsg ? [...state.messages].reverse().find((m) => m.role === "tool") : null;
-  const queriedOid = lastTool ? lastTool.text.replace("查单工具 query_order：", "").trim() : null;
-  const isHandoff = state && state.handoffs && state.handoffs.some((h) => h.status === "waiting" || h.status === "replied");
-  const isVerified = state && state.focus && state.focus.verified;
-  const isUnverified = state && state.focus && state.focus.verified === false;
-  const isConfirming = Boolean(state && state.confirmation);
-
-  const steps = [
-    {
-      num: "L1",
-      title: "前置意图与否定消歧 (wants_person)",
-      desc: isHandoff ? "已命中人工/附件队列直达 (handoffs)" : (hasMsg ? "非转人工意图 / 否定词消歧放行 → 进入图1" : "待命：识别「转人工」与「不用转人工」"),
-      state: isHandoff ? "active-warn" : (hasMsg ? "done" : "idle"),
-    },
-    {
-      num: "L2",
-      title: "图1 · agent 节点 (DeepSeek + 模糊单号纠错)",
-      desc: queriedOid ? `已归一并调用 query_order(${queriedOid})` : (hasMsg ? "自由对话理解 + 注入只读工单摘要" : "待命：提取单号 (如 ordoo6 → ORD006)"),
-      state: queriedOid || (hasMsg && !isHandoff) ? "done" : "idle",
-    },
-    {
-      num: "L3",
-      title: "tools + assess (零信任鉴权 + 秒级精算 + 二次合成)",
-      desc: isUnverified
-        ? `零信任拦截：非本人或未知订单 (${state.focus.order_id})`
-        : (isVerified
-          ? `已核实 ${state.focus.order_id} (${state.focus.reason_code || "已评估"}) + DeepSeek 二次合成`
-          : "待命：ToolRuntime 鉴权 + evaluate_order 算时"),
-      state: isUnverified ? "active-warn" : (isVerified ? "done" : "idle"),
-    },
-    {
-      num: "L4",
-      title: "后置防幻觉风控护栏 (reply_risk)",
-      desc: hasMsg ? "实时扫描通过：无越权金额 / 无虚假退款承诺" : "待命：拦截未授权金额、保证通过与虚假打款",
-      state: hasMsg && !isHandoff ? "done" : "idle",
-    },
-    {
-      num: "L5",
-      title: "双状态机闭环 (confirm Interrupt → review_graph)",
-      desc: isConfirming
-        ? `confirm 节点 interrupt() 挂起：等待顾客确认 ${state.confirmation.order_id}`
-        : (ticket
-          ? `图2 review-${ticket.ticket_id}：${STATUS_TEXT[ticket.status] || ticket.status}${ticket.rating ? ` · 已评 ${ticket.rating}★` : ""}`
-          : "待命：达标(>30m)触发顾客确认卡与商家审批图"),
-      state: isConfirming ? "current" : (ticket ? "done" : "idle"),
-    },
-  ];
-
-  const wrap = el("div", "pipeline-steps");
-  for (const s of steps) {
-    const row = el("div", `pipeline-step step-${s.state}`);
-    const badgeNode = el("span", "pipeline-num", s.num);
-    const body = el("div", "pipeline-body");
-    body.append(el("strong", "", s.title), el("small", "", s.desc));
-    row.append(badgeNode, body);
-    wrap.append(row);
-  }
-  return wrap;
-}
-
-function renderPipelineTrace(state, ticket) {
-  const liveBox = $("pipeline-live");
-  if (liveBox) {
-    const head = el("div", "pipeline-live-head");
-    head.append(
-      el("span", "pipeline-live-kicker", "🧠 LangGraph 5层实时链路"),
-      button("展开大图", "pipeline-expand-btn", () => $("demo-dialog").showModal())
-    );
-    liveBox.replaceChildren(head, buildPipelineView(state, ticket));
-  }
-  const modalBox = $("pipeline-modal-diagram");
-  if (modalBox) {
-    modalBox.replaceChildren(buildPipelineView(state, ticket));
-  }
 }
 
 function renderPanel() {
@@ -910,7 +845,6 @@ function renderPanel() {
   const ticket = picked || focusTicket || null;
   shownOrder = ticket ? ticket.order_id : state.focus ? state.focus.order_id : null;
   if (shownOrder) switchMjByOrder(shownOrder);
-  renderPipelineTrace(state, ticket);
   renderTickets(state, ticket);
   renderOthers(state, ticket);
   renderJourney(state, ticket);
@@ -1056,7 +990,7 @@ function send(raw, fromInput) {
       pendingUserText = "";
       lastState = "";
     }
-    if (media) return "附件已交给人工客服，AI 不会自动识别附件内容。";
+    if (media) return "附件已提交给人工客服处理。";
     return result.outcome === "handoff_waiting" ? "已在排队，人工客服会在对话里回复" : "";
   });
 }
@@ -1089,18 +1023,18 @@ async function boot() {
   });
   $("quick").replaceChildren(...QUICK.map(([label, text]) => button(label, "suggestion", () => { $("demo-dialog").close(); send(text); })));
   $("composer").addEventListener("submit", (event) => { event.preventDefault(); send($("input").value, true); });
-  $("attach").addEventListener("click", () => { setPlusTray(false); $("attachment-input").click(); });
+  $("attach").addEventListener("click", () => { $("attachment-input").click(); });
   $("attachment-input").addEventListener("change", () => {
     const file = $("attachment-input").files[0];
     if (file && setDraftMedia(file, "image")) $("attachment-input").value = "";
   });
-  $("record").addEventListener("click", toggleRecording);
-  if ($("tray-record")) $("tray-record").addEventListener("click", () => { setPlusTray(false); toggleRecording(); });
+  $("record").addEventListener("click", () => notifyTestingFeature("语音输入"));
   if ($("plus-toggle")) $("plus-toggle").addEventListener("click", () => setPlusTray(!plusOpen));
   if ($("open-order-sheet")) $("open-order-sheet").addEventListener("click", openOrderSheet);
   if ($("tray-orders")) $("tray-orders").addEventListener("click", openOrderSheet);
-  if ($("tray-pipeline")) $("tray-pipeline").addEventListener("click", () => { setPlusTray(false); $("demo-dialog").showModal(); });
-  if ($("open-pipeline")) $("open-pipeline").addEventListener("click", () => $("demo-dialog").showModal());
+  for (const btn of document.querySelectorAll("[data-testing-feature]")) {
+    btn.addEventListener("click", () => notifyTestingFeature(btn.dataset.testingFeature));
+  }
   if ($("close-order-sheet")) $("close-order-sheet").addEventListener("click", () => $("order-sheet-dialog").close());
   if ($("order-sheet-dialog")) {
     $("order-sheet-dialog").addEventListener("click", (e) => {

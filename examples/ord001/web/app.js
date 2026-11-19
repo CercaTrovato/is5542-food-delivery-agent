@@ -35,6 +35,13 @@ const ICONS = {
   trash: ["M4 7h16M10 11v6m4-6v6M9 7V4h6v3m-9 0 1 13h10l1-13"],
   star: ["m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3Z"],
   bell: ["M18 9a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8Z", "M10.3 21a1.9 1.9 0 0 0 3.4 0"],
+  camera: ["M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z", "M12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"],
+  "order-list": ["M9 3h6a1 1 0 0 1 1 1v2H8V4a1 1 0 0 1 1-1Z", "M6 5h2v2h8V5h2a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z", "M8 11h8M8 15h6"],
+  bag: ["M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z", "M3 6h18", "M16 10a4 4 0 0 1-8 0"],
+  pie: ["M21.21 15.89A10 10 0 1 1 8 2.83", "M22 12A10 10 0 0 0 12 2v10z"],
+  yen: ["M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z", "m8 7 4 5 4-5M8 12h8M8 15h8M12 12v6"],
+  folder: ["M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"],
+  smile: ["M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z", "M8 14s1.5 2 4 2 4-2 4-2", "M9 9h.01M15 9h.01"],
 };
 
 // Customer interface (/) uses Chubby Spider-Man MJ balancing items on his head (banana, toilet paper, dinner plate, cola).
@@ -237,7 +244,7 @@ function attachmentList(items, { customer = false } = {}) {
     list.append(card);
   }
   if (items && items.length) {
-    const note = el("p", "attachment-disclosure", customer ? "附件已发送给人工客服，AI 不会自动识别其中内容。" : "顾客声明：附件由人工客服查看，AI 未自动识别。 ");
+    const note = el("p", "attachment-disclosure", customer ? "附件已发送给人工客服处理。" : "顾客上传附件，由人工客服核实。");
     list.append(note);
   }
   return list;

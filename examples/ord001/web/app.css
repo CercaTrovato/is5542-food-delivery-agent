@@ -743,29 +743,32 @@ h1 { font-size: 32px; line-height: 1.35; font-weight: 650; letter-spacing: -.055
 .waimai-pill-primary { border-color: color-mix(in srgb, var(--meituan-amber) 55%, var(--line)); background: color-mix(in srgb, var(--meituan-yellow) 22%, var(--panel-solid)); font-weight: 650; }
 .waimai-pill-primary.is-active { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
 
-/* Meituan / Taobao Style Input Bar & Expandable (+) Function Tray */
+/* Meituan / Taobao Style Input Bar & Expandable (+) 8-Icon Function Tray */
 .im-input-row { display: flex; align-items: center; gap: 8px; width: 100%; }
-.im-circle-btn { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--panel-solid); color: var(--text); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; transition: all .18s ease; padding: 0; }
+.im-circle-btn { position: relative; width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--panel-solid); color: var(--text); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; transition: all .18s ease; padding: 0; }
 .im-circle-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .im-circle-btn:hover:not(:disabled) { border-color: var(--focus); color: var(--accent); background: var(--accent-soft); }
 .im-circle-btn.recording { width: auto; border-radius: 999px; padding: 0 12px; gap: 6px; border-color: var(--rejected); background: var(--rejected-bg); color: var(--rejected); }
 .record-time-pill { font-size: 11px; font-weight: 650; white-space: nowrap; }
-.im-plus-btn .plus-glyph { font-size: 22px; font-weight: 400; line-height: 1; display: inline-block; transition: transform .2s ease; }
-.im-plus-btn.is-open { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
-.im-plus-btn.is-open .plus-glyph { transform: rotate(45deg); }
-.im-composer { flex: 1; min-width: 0; border-radius: 999px !important; padding: 5px 6px 5px 16px !important; align-items: center !important; min-height: 42px; }
+.im-plus-btn .plus-glyph { font-size: 20px; font-weight: 500; line-height: 1; display: inline-block; }
+.im-plus-btn.is-open { border-color: var(--text); color: var(--text); background: var(--panel-solid); }
+.im-orange-dot { position: absolute; top: -2px; right: -2px; width: 9px; height: 9px; border-radius: 50%; background: #ff5a00; border: 1.5px solid var(--panel-solid); pointer-events: none; }
+.im-composer { flex: 1; min-width: 0; border-radius: 999px !important; padding: 5px 6px 5px 16px !important; align-items: center !important; min-height: 42px; gap: 6px; }
 .im-composer textarea { min-height: 24px !important; max-height: 76px; padding: 3px 0 !important; font-size: 13px; line-height: 1.45; }
+.im-emoji-btn { width: 30px; height: 30px; border-radius: 50%; border: 0; background: transparent; color: var(--text); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; padding: 0; opacity: .78; transition: opacity .15s, background .15s; }
+.im-emoji-btn:hover { opacity: 1; background: var(--soft); }
+.im-emoji-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
 .im-composer .send-button { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; }
 
-.im-plus-tray { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; padding: 14px 8px 6px; margin-top: 8px; border-top: 1px solid var(--line); animation: traySlide .18s ease-out; }
+.im-plus-tray { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 10px; padding: 16px 10px 10px; margin-top: 10px; border-radius: 18px; background: color-mix(in srgb, var(--soft) 85%, var(--panel-solid)); border: 1px solid var(--line); animation: traySlide .18s ease-out; }
 @keyframes traySlide { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-.im-tray-tile { position: relative; display: flex; flex-direction: column; align-items: center; gap: 7px; border: 0; background: transparent; cursor: pointer; padding: 4px; color: var(--text); }
-.im-tray-icon { width: 56px; height: 56px; border-radius: 18px; background: var(--panel-solid); border: 1px solid var(--line); box-shadow: 0 4px 12px rgba(24, 24, 27, .05); display: flex; align-items: center; justify-content: center; transition: transform .15s, border-color .15s, box-shadow .15s; }
-.im-tray-icon svg { width: 24px; height: 24px; stroke: var(--text); fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
-.im-tray-tile:hover:not(:disabled) .im-tray-icon { transform: translateY(-2px); border-color: var(--focus); box-shadow: 0 8px 18px rgba(224, 46, 61, .12); }
-.im-tray-tile-featured .im-tray-icon { background: linear-gradient(135deg, color-mix(in srgb, var(--meituan-yellow) 32%, var(--panel-solid)), var(--panel-solid)); border-color: color-mix(in srgb, var(--meituan-amber) 50%, var(--line)); }
+.im-tray-tile { position: relative; display: flex; flex-direction: column; align-items: center; gap: 7px; border: 0; background: transparent; cursor: pointer; padding: 2px; color: var(--text); }
+.im-tray-icon { position: relative; width: 60px; height: 60px; border-radius: 16px; background: var(--panel-solid); border: 1px solid var(--line); box-shadow: 0 4px 12px rgba(24, 24, 27, .04); display: flex; align-items: center; justify-content: center; transition: transform .15s, border-color .15s, box-shadow .15s; }
+.im-dark-glyph { width: 34px; height: 34px; border-radius: 10px; background: #141b29; color: #ffffff; display: inline-flex; align-items: center; justify-content: center; }
+.im-dark-glyph svg { width: 19px; height: 19px; stroke: #ffffff; fill: none; stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round; }
+.im-tray-tile:hover:not(:disabled) .im-tray-icon { transform: translateY(-2px); border-color: var(--focus); box-shadow: 0 8px 18px rgba(24, 24, 27, .1); }
+.im-tray-tile-featured .im-tray-icon { border-color: color-mix(in srgb, var(--meituan-amber) 65%, var(--line)); box-shadow: 0 6px 16px rgba(255, 176, 0, .18); }
 .im-tray-label { font-size: 12px; color: var(--muted); font-weight: 560; }
-.im-tray-badge { position: absolute; top: 0; right: 12%; font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 999px; background: var(--accent); color: #fff; z-index: 1; }
 
 /* Bottom-Sheet Order Picker Modal (请选择需要咨询的订单) */
 .order-sheet-dialog { width: min(560px, 94vw); max-height: 82vh; border-radius: 24px; padding: 0; overflow: hidden; }
