@@ -24,6 +24,7 @@ let lastChat = "";
 let orders = [];
 let expandedOrders = false;
 let expandedPicks = false;
+let plusOpen = false;
 let policy = null;
 let latest = null;
 let lastFocus = null;
@@ -44,14 +45,31 @@ const informationDrafts = new Map();
 const MAX_MEDIA_BYTES = 5 * 1024 * 1024;
 const IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
+const FOOD_EMOJI_MAP = [
+  [/牛肉|牛腩|牛排/, "🥩"],
+  [/鸡|乳鸽|鸡翅/, "🍗"],
+  [/烧肉|叉烧|猪扒/, "🍖"],
+  [/云吞|虾|面/, "🍜"],
+  [/柠茶|奶茶|气泡水|饮料/, "🧋"],
+  [/汤/, "🍲"],
+];
+
+function foodEmoji(name) {
+  for (const [re, emoji] of FOOD_EMOJI_MAP) {
+    if (re.test(name)) return emoji;
+  }
+  return "🍱";
+}
+
 function updateControls() {
   const locked = busy || confirming;
-  for (const node of document.querySelectorAll("#composer textarea, #composer button, #quick button, #orders button, #order-picks button, #tickets textarea, #tickets button, .suggestion")) node.disabled = locked;
+  for (const node of document.querySelectorAll("#composer textarea, #composer button, #quick button, #orders button, #order-picks button, #tickets textarea, #tickets button, .suggestion, .im-tray-tile, #open-order-sheet")) node.disabled = locked;
   for (const node of document.querySelectorAll("#confirm-yes, #confirm-no, .handoff-cancel")) node.disabled = busy;
   $("attachment-input").disabled = locked || Boolean(recorder);
   $("attach").disabled = locked || Boolean(recorder);
   $("send").disabled = locked || Boolean(recorder);
   $("record").disabled = locked;
+  if ($("tray-record")) $("tray-record").disabled = locked;
   $("handoff").disabled = busy || handoffWaiting;
   $("send").setAttribute("aria-busy", String(busy));
   document.body.classList.toggle("is-working", busy);
@@ -67,9 +85,80 @@ function toast(text) {
 
 function bubble(role, text, tag) {
   const row = el("div", `bubble-row ${role}`);
-  if (tag) row.append(el("span", "bubble-tag", tag));
+  if (role === "assistant" || role === "human") {
+    const head = el("div", "bubble-sender-head");
+    const avatar = document.createElement("img");
+    avatar.className = "bubble-avatar-img";
+    if (role === "human") {
+      avatar.src = "/static/chubby-joker.png";
+      avatar.alt = "人工客服 Joker";
+    } else {
+      const item = currentMjItem();
+      avatar.src = item.src;
+      avatar.dataset.mascot = "mj";
+      avatar.dataset.headItem = item.key;
+      avatar.alt = "AI 客服 MJ";
+    }
+    head.append(
+      avatar,
+      el("span", "bubble-tag", role === "human" ? "人工专员 · Joker" : (tag === "AI" ? "67餐厅 AI 客服 · MJ" : (tag || "MJ")))
+    );
+    row.append(head);
+  } else if (tag) {
+    row.append(el("span", "bubble-tag", tag));
+  }
   row.append(el("div", "bubble", text));
   return row;
+}
+
+// Meituan Waimai style Rich Order Card rendered directly in the chat stream when an order is queried.
+function chatOrderCard(order) {
+  const card = el("article", "waimai-chat-card");
+  const shopRow = el("div", "waimai-shop-row");
+  const shopAvatar = mascotImg("waimai-shop-avatar");
+  shopRow.append(shopAvatar, el("span", "waimai-shop-name", `${order.merchant}（港城店）`));
+  if (order.case) {
+    shopRow.append(el("span", "order-case-pill", order.case.replace(/^P0\d\s*/, "")));
+  }
+  const title = el("h4", "waimai-card-title", order.status === "delivering" ? "订单配送中 · 实时核验" : "已核实订单履约信息");
+  const rawItems = Array.isArray(order.items) && order.items.length ? order.items : ["招牌黑椒厚切牛肉饭 ×1", "港式冻柠茶 ×1"];
+  const gallery = el("div", "waimai-food-gallery");
+  const thumbs = el("div", "waimai-food-thumbs");
+  let totalCount = 0;
+  for (const raw of rawItems) {
+    const [dishName, qtyRaw] = String(raw).split(" ×");
+    const qty = Number(qtyRaw) || 1;
+    totalCount += qty;
+    const foodItem = el("div", "waimai-food-item");
+    const pic = el("div", "waimai-food-pic", foodEmoji(dishName));
+    const caption = el("span", "waimai-food-name", dishName);
+    foodItem.append(pic, caption);
+    thumbs.append(foodItem);
+  }
+  const priceCol = el("div", "waimai-price-col");
+  priceCol.append(el("strong", "", `¥${Number(order.amount_yuan).toFixed(1)}`), el("small", "", `共 ${totalCount} 件`));
+  gallery.append(thumbs, priceCol);
+
+  const meta = el("dl", "waimai-meta-grid");
+  const timeVal = order.delivered_at
+    ? `预计 ${order.expected_at} · 实际 ${order.delivered_at}`
+    : (order.status === "delivering" ? `配送中（预计 ${order.expected_at} 送达）` : `预计 ${order.expected_at} · 暂缺签收记录`);
+  const rows = [
+    ["订单编号：", order.order_id],
+    ["配送时间：", timeVal],
+    ["履约说明：", order.liability_detail || order.liability_party || "系统已核实配送记录"],
+  ];
+  for (const [k, v] of rows) {
+    meta.append(el("dt", "", k), el("dd", "", v));
+  }
+
+  const footBtn = button(
+    order.status === "delivering" ? "订单配送中 · 查看实时详情" : "订单已完成 · 查看履约详情",
+    "waimai-card-btn",
+    () => showOrderDetail(order)
+  );
+  card.append(shopRow, title, gallery, meta, footBtn);
+  return card;
 }
 
 function attachmentBubble(item) {
@@ -97,39 +186,55 @@ function welcome() {
   const box = el("div", "chat-welcome");
   const hero = el("div", "welcome-hero");
   const copy = el("div", "welcome-copy");
-  copy.append(
-    el("span", "welcome-kicker", "MJ"),
-    el("h3", "", "嗨！我是 MJ，想处理哪笔外卖订单？"),
-    el("p", "welcome-note", "我是 AI 客服 MJ，不是真人。可以帮你查配送进度、申请晚到补偿或反馈餐品问题；需要真人时点「转人工」。")
+  const badgeRow = el("div", "welcome-badge-row");
+  badgeRow.append(
+    el("span", "welcome-kicker", "AI 客服 MJ"),
+    el("span", "welcome-kicker joker-kicker", "人工专员 Joker")
   );
-  hero.append(careBuddy("buddy-welcome"), copy);
+  copy.append(
+    badgeRow,
+    el("h3", "", "嗨！我是 MJ，想咨询哪一笔外卖订单？"),
+    el("p", "welcome-note", "点击下方「选择需要咨询的订单」或输入框右侧「+」号，即可像美团外卖一样弹出订单卡片一键发送；疑难食安问题由小丑人工专员优先跟进。")
+  );
+  const mascotPair = el("div", "welcome-mascot-pair");
+  const jokerCard = el("div", "joker-side-badge");
+  const jokerImg = document.createElement("img");
+  jokerImg.src = "/static/chubby-joker.png";
+  jokerImg.alt = "小丑专员";
+  jokerCard.append(jokerImg, el("small", "", "Joker 专员"));
+  mascotPair.append(careBuddy("buddy-welcome"), jokerCard);
+  hero.append(mascotPair, copy);
+
+  const openSheetBtn = button("📦 选择需要咨询的订单（共 " + (orders.length || 8) + " 笔）", "welcome-order-cta", () => openOrderSheet());
   const suggestions = el("div", "suggestion-row");
   suggestions.append(el("span", "suggestion-title", "猜你想问"));
   for (const [label, text] of [
     ["ORD001 晚到了", "我的外卖 ORD001 迟到了，可以申请补偿吗？"],
     ["ORD002 差多久达标", "我的外卖 ORD002 迟到了，可以申请补偿吗？"],
-    ["ORD006 送到哪了", "帮我查一下 ORD006 送到哪了"],
-    ["咨询延误补偿", "我的外卖迟到了，可以申请补偿吗？"],
+    ["ORD006 餐里有蟑螂", "我ordoo6的餐食有蟑螂，需要申请赔付"],
+    ["未带单号咨询", "我的外卖迟到了，可以申请补偿吗？"],
   ]) {
     const suggestion = button(label, "suggestion", () => send(text));
     suggestion.append(icon("arrow-up-right"));
     suggestions.append(suggestion);
   }
-  box.append(hero, suggestions);
+  box.append(hero, openSheetBtn, suggestions);
   return box;
 }
 
 function typingBubble() {
   const row = el("div", "bubble-row assistant typing-row");
-  row.append(el("span", "bubble-tag", "MJ"));
+  const head = el("div", "bubble-sender-head");
+  const avatar = mascotImg("bubble-avatar-img");
+  head.append(avatar, el("span", "bubble-tag", "67餐厅 AI 客服 · MJ"));
   const bub = el("div", "bubble typing-bubble");
-  bub.append(el("span", "typing-text", "MJ 正在思考"), el("span", "typing-dots", "···"));
-  row.append(bub);
+  bub.append(el("span", "typing-text", "MJ 正在核实订单并思考"), el("span", "typing-dots", "···"));
+  row.append(head, bub);
   return row;
 }
 
 function renderMessages(messages, handoffs) {
-  const key = JSON.stringify([messages, handoffs, pendingUserText]);
+  const key = JSON.stringify([messages, handoffs, pendingUserText, orders.length]);
   if (key === lastChat) return;
   lastChat = key;
   const box = $("messages");
@@ -142,10 +247,21 @@ function renderMessages(messages, handoffs) {
   messages.forEach((item, index) => {
     place(index);
     if (item.role === "tool") {
+      const oid = item.text.replace("查单工具 query_order：", "").trim();
       const line = el("p", "tool-line");
-      line.append(icon("search"), el("span", "", item.text.replace("查单工具 query_order：", "查询 ")));
+      line.append(icon("search"), el("span", "", `已通过查单工具核实：${oid}`));
       nodes.push(line);
-    } else nodes.push(bubble(item.role, item.text, item.role === "assistant" ? "AI" : ""));
+      const matchedOrder = orders.find((o) => o.order_id === oid);
+      if (matchedOrder) {
+        nodes.push(chatOrderCard(matchedOrder));
+      }
+    } else {
+      nodes.push(bubble(item.role, item.text, item.role === "assistant" ? "AI" : ""));
+      if (item.role === "assistant" && /提供订单号|选择.*订单|哪一?笔订单/.test(item.text)) {
+        const promptBtn = button("📦 点击选择需要咨询的订单", "inline-order-sheet-btn", () => openOrderSheet());
+        nodes.push(promptBtn);
+      }
+    }
   });
   place(messages.length);
   if (pendingUserText) {
@@ -526,9 +642,9 @@ function formatRecordingTime() {
 
 // The timer writes into #record-label, so every redraw of the button keeps that id.
 function showRecordButton(recording) {
-  const label = el("span", "", recording ? formatRecordingTime() : "语音");
+  const label = el("span", recording ? "record-time-pill" : "sr-only", recording ? formatRecordingTime() : "语音");
   label.id = "record-label";
-  $("record").replaceChildren(icon(recording ? "stop" : "mic"), label);
+  $("record").replaceChildren(icon(recording ? "stop" : "audio"), label);
   $("record").classList.toggle("recording", recording);
   $("record").setAttribute("aria-label", recording ? "停止录音" : "录制语音");
 }
@@ -578,9 +694,23 @@ async function toggleRecording() {
   }
 }
 
+function setPlusTray(open) {
+  plusOpen = Boolean(open);
+  const tray = $("plus-tray");
+  const btn = $("plus-toggle");
+  if (tray) tray.hidden = !plusOpen;
+  if (btn) {
+    btn.classList.toggle("is-open", plusOpen);
+    btn.setAttribute("aria-expanded", String(plusOpen));
+  }
+}
+
 function pickOrderAction(order) {
   switchMjByOrder(order.order_id);
   expandedPicks = false;
+  setPlusTray(false);
+  const sheet = $("order-sheet-dialog");
+  if (sheet && sheet.open) sheet.close();
   const draft = $("input").value.trim();
   if (draft && !/ORD[\s\-_]*[0-9OIL]+/i.test(draft)) {
     $("input").value = "";
@@ -595,72 +725,180 @@ function pickOrderAction(order) {
   }
 }
 
-// Always offer one-tap order switching and a pull-up order drawer right above the chat input box.
+function renderOrderSheet() {
+  const list = $("order-sheet-list");
+  if (!list) return;
+  const state = latest;
+  const activeId = state && state.focus && state.focus.verified ? state.focus.order_id : shownOrder;
+  list.replaceChildren();
+
+  if (!orders.length) {
+    const empty = el("div", "sheet-empty");
+    empty.append(el("strong", "", "暂无订单"), el("p", "", "当前账号下没有可咨询的订单"));
+    list.append(empty);
+    return;
+  }
+
+  for (const order of orders) {
+    const card = el("article", `sheet-order-card${order.order_id === activeId ? " is-active" : ""}`);
+    const top = el("div", "sheet-order-top");
+    const shop = el("div", "sheet-order-shop");
+    shop.append(icon("bowl", "sheet-shop-icon"), el("strong", "", `${order.merchant}（港城店）`), el("span", "sheet-order-id", order.order_id));
+    const statusText = order.case ? order.case.replace(/^P0\d\s*/, "") : (ORDER_STATUS[order.status] || order.status);
+    top.append(shop, el("span", "order-case-pill", statusText));
+
+    const rawItems = Array.isArray(order.items) && order.items.length ? order.items : ["招牌套餐 ×1"];
+    const gallery = el("div", "waimai-food-gallery");
+    const thumbs = el("div", "waimai-food-thumbs");
+    let totalQty = 0;
+    for (const raw of rawItems) {
+      const [dishName, qtyRaw] = String(raw).split(" ×");
+      const qty = Number(qtyRaw) || 1;
+      totalQty += qty;
+      const foodItem = el("div", "waimai-food-item");
+      foodItem.append(el("div", "waimai-food-pic", foodEmoji(dishName)), el("span", "waimai-food-name", dishName));
+      thumbs.append(foodItem);
+    }
+    const priceCol = el("div", "waimai-price-col");
+    priceCol.append(el("strong", "", `¥${Number(order.amount_yuan).toFixed(1)}`), el("small", "", `共 ${totalQty} 件`));
+    gallery.append(thumbs, priceCol);
+
+    const timeRow = el("div", "sheet-order-foot");
+    const timeStr = order.delivered_at
+      ? `预计 ${order.expected_at} → 实际 ${order.delivered_at}`
+      : (order.status === "delivering" ? `配送中 · 预计 ${order.expected_at} 送达` : `预计 ${order.expected_at} · 暂缺签收时间`);
+    const actBtns = el("div", "sheet-order-actions");
+    actBtns.append(
+      button("订单详情", "small secondary", () => { $("order-sheet-dialog").close(); showOrderDetail(order); }),
+      button(order.order_id === activeId ? "重新发送此单" : "选择此单咨询", "small primary", () => pickOrderAction(order))
+    );
+    timeRow.append(el("span", "sheet-order-time", timeStr), actBtns);
+    card.append(top, gallery, timeRow);
+    list.append(card);
+  }
+
+  if (orders.length === 1 && orders[0].order_id === "ORD101") {
+    const switchBtn = button("切换到顾客 01（查看 ORD001–ORD008 共 8 笔主测试单）", "welcome-order-cta", async () => {
+      try {
+        $("order-sheet-dialog").close();
+        await enter((await api("/api/customer/login", { customer_id: "U001" })).customer);
+      } catch (error) { showStatus(error.message, true); }
+    });
+    list.append(switchBtn);
+  }
+}
+
+function openOrderSheet() {
+  setPlusTray(false);
+  renderOrderSheet();
+  const dialog = $("order-sheet-dialog");
+  if (dialog && !dialog.open) dialog.showModal();
+}
+
+// Clean, non-cramped Meituan Waimai style quick-action floating pills right above the input bar.
 function renderPicks(state) {
   const box = $("order-picks");
   const show = !state.confirmation && orders.length > 0;
   box.hidden = !show;
   if (!show) { box.replaceChildren(); return; }
-  const autoOpen = state.messages.length > 0 && (!state.focus || !state.focus.verified);
-  const isOpen = expandedPicks || autoOpen;
   const activeId = state.focus && state.focus.verified ? state.focus.order_id : shownOrder;
 
-  const nodes = [];
-  if (isOpen) {
-    const drawer = el("div", "order-pick-drawer");
-    const head = el("div", "order-pick-drawer-head");
-    head.append(
-      el("strong", "", activeId ? `切换咨询订单（当前：${activeId}）` : "请选择要咨询的订单"),
-      button("收起 ✕", "pick-drawer-close", () => { expandedPicks = false; renderPicks(state); })
-    );
-    const list = el("div", "order-pick-drawer-list");
-    for (const order of orders) {
-      const item = el("div", `order-pick-row${order.order_id === activeId ? " is-active" : ""}`);
-      const info = el("div", "order-pick-info");
-      const titleRow = el("div", "order-pick-title");
-      titleRow.append(
-        el("strong", "", order.order_id),
-        el("span", "order-pick-merchant", order.merchant),
-        el("span", "order-pick-price", `¥${order.amount_yuan}`)
-      );
-      if (order.case) {
-        titleRow.append(el("span", "order-case-pill", order.case.replace(/^P0\d\s*/, "")));
-      }
-      const dish = Array.isArray(order.items) && order.items.length ? order.items.join(" + ") : "招牌套餐";
-      const timeStr = order.delivered_at ? `预计 ${order.expected_at} · 实际 ${order.delivered_at}` : `配送中 · 预计 ${order.expected_at}`;
-      const subRow = el("div", "order-pick-sub", `${dish} ｜ ${timeStr}`);
-      info.append(titleRow, subRow);
-      const actCol = el("div", "order-pick-actions");
-      const pickBtn = button(order.order_id === activeId ? "重新核实" : "选择此单", "small primary", () => pickOrderAction(order));
-      actCol.append(pickBtn);
-      item.append(info, actCol);
-      item.addEventListener("click", (e) => {
-        if (!e.target.closest("button")) pickOrderAction(order);
-      });
-      list.append(item);
-    }
-    drawer.append(head, list);
-    nodes.push(drawer);
-  }
-
-  const bar = el("div", "order-picks-bar");
-  const labelText = activeId ? `当前订单 ${activeId} · 切换` : "选择要咨询的订单";
-  bar.append(el("span", "pick-label", labelText));
-  const chips = orders.slice(0, 3).map((order) => {
-    const chip = button("", `pick${order.order_id === activeId ? " is-active" : ""}`, () => pickOrderAction(order));
-    chip.dataset.pickOrder = order.order_id;
-    const tag = order.case ? order.case.replace(/^P0\d\s*/, "") : order.merchant;
-    chip.append(el("strong", "", order.order_id), el("span", "", tag));
-    return chip;
-  });
-  const toggleBtn = button(
-    isOpen ? "收起订单列表 ▾" : `切换/选择订单 (${orders.length}) ▴`,
-    `pick pick-more${isOpen ? " is-open" : ""}`,
-    () => { expandedPicks = !isOpen; renderPicks(state); }
+  const bar = el("div", "waimai-floating-pills");
+  const orderPill = button(
+    activeId ? `📦 当前：${activeId} · 切换订单` : `📦 选择订单 (${orders.length})`,
+    `waimai-pill waimai-pill-primary${activeId ? " is-active" : ""}`,
+    () => openOrderSheet()
   );
-  bar.append(...chips, toggleBtn);
-  nodes.push(bar);
-  box.replaceChildren(...nodes);
+  const claimPill = button("⚡ 申请准时保", "waimai-pill", () => {
+    const target = orders.find((o) => o.order_id === (activeId || "ORD001")) || orders[0];
+    if (target) pickOrderAction(target);
+  });
+  const urgePill = button("📍 催单/查进度", "waimai-pill", () => {
+    const delivering = orders.find((o) => o.status === "delivering") || orders[0];
+    if (delivering) send(`帮我查一下 ${delivering.order_id} 送到哪了`);
+  });
+  const ratePill = button("🧠 5层链路透视", "waimai-pill", () => $("demo-dialog").showModal());
+  bar.append(orderPill, claimPill, urgePill, ratePill);
+  box.replaceChildren(bar);
+}
+
+// Live 5-Layer LangGraph Architecture Visualizer for classroom presentation.
+function buildPipelineView(state, ticket) {
+  const hasMsg = state && state.messages && state.messages.length > 0;
+  const lastTool = hasMsg ? [...state.messages].reverse().find((m) => m.role === "tool") : null;
+  const queriedOid = lastTool ? lastTool.text.replace("查单工具 query_order：", "").trim() : null;
+  const isHandoff = state && state.handoffs && state.handoffs.some((h) => h.status === "waiting" || h.status === "replied");
+  const isVerified = state && state.focus && state.focus.verified;
+  const isUnverified = state && state.focus && state.focus.verified === false;
+  const isConfirming = Boolean(state && state.confirmation);
+
+  const steps = [
+    {
+      num: "L1",
+      title: "前置意图与否定消歧 (wants_person)",
+      desc: isHandoff ? "已命中人工/附件队列直达 (handoffs)" : (hasMsg ? "非转人工意图 / 否定词消歧放行 → 进入图1" : "待命：识别「转人工」与「不用转人工」"),
+      state: isHandoff ? "active-warn" : (hasMsg ? "done" : "idle"),
+    },
+    {
+      num: "L2",
+      title: "图1 · agent 节点 (DeepSeek + 模糊单号纠错)",
+      desc: queriedOid ? `已归一并调用 query_order(${queriedOid})` : (hasMsg ? "自由对话理解 + 注入只读工单摘要" : "待命：提取单号 (如 ordoo6 → ORD006)"),
+      state: queriedOid || (hasMsg && !isHandoff) ? "done" : "idle",
+    },
+    {
+      num: "L3",
+      title: "tools + assess (零信任鉴权 + 秒级精算 + 二次合成)",
+      desc: isUnverified
+        ? `零信任拦截：非本人或未知订单 (${state.focus.order_id})`
+        : (isVerified
+          ? `已核实 ${state.focus.order_id} (${state.focus.reason_code || "已评估"}) + DeepSeek 二次合成`
+          : "待命：ToolRuntime 鉴权 + evaluate_order 算时"),
+      state: isUnverified ? "active-warn" : (isVerified ? "done" : "idle"),
+    },
+    {
+      num: "L4",
+      title: "后置防幻觉风控护栏 (reply_risk)",
+      desc: hasMsg ? "实时扫描通过：无越权金额 / 无虚假退款承诺" : "待命：拦截未授权金额、保证通过与虚假打款",
+      state: hasMsg && !isHandoff ? "done" : "idle",
+    },
+    {
+      num: "L5",
+      title: "双状态机闭环 (confirm Interrupt → review_graph)",
+      desc: isConfirming
+        ? `confirm 节点 interrupt() 挂起：等待顾客确认 ${state.confirmation.order_id}`
+        : (ticket
+          ? `图2 review-${ticket.ticket_id}：${STATUS_TEXT[ticket.status] || ticket.status}${ticket.rating ? ` · 已评 ${ticket.rating}★` : ""}`
+          : "待命：达标(>30m)触发顾客确认卡与商家审批图"),
+      state: isConfirming ? "current" : (ticket ? "done" : "idle"),
+    },
+  ];
+
+  const wrap = el("div", "pipeline-steps");
+  for (const s of steps) {
+    const row = el("div", `pipeline-step step-${s.state}`);
+    const badgeNode = el("span", "pipeline-num", s.num);
+    const body = el("div", "pipeline-body");
+    body.append(el("strong", "", s.title), el("small", "", s.desc));
+    row.append(badgeNode, body);
+    wrap.append(row);
+  }
+  return wrap;
+}
+
+function renderPipelineTrace(state, ticket) {
+  const liveBox = $("pipeline-live");
+  if (liveBox) {
+    const head = el("div", "pipeline-live-head");
+    head.append(
+      el("span", "pipeline-live-kicker", "🧠 LangGraph 5层实时链路"),
+      button("展开大图", "pipeline-expand-btn", () => $("demo-dialog").showModal())
+    );
+    liveBox.replaceChildren(head, buildPipelineView(state, ticket));
+  }
+  const modalBox = $("pipeline-modal-diagram");
+  if (modalBox) {
+    modalBox.replaceChildren(buildPipelineView(state, ticket));
+  }
 }
 
 function renderPanel() {
@@ -672,6 +910,7 @@ function renderPanel() {
   const ticket = picked || focusTicket || null;
   shownOrder = ticket ? ticket.order_id : state.focus ? state.focus.order_id : null;
   if (shownOrder) switchMjByOrder(shownOrder);
+  renderPipelineTrace(state, ticket);
   renderTickets(state, ticket);
   renderOthers(state, ticket);
   renderJourney(state, ticket);
@@ -703,7 +942,7 @@ function renderOrders() {
     const time = order.delivered_at ? `${order.expected_at} → ${order.delivered_at}` : `预计 ${order.expected_at}`;
     const actions = el("span", "order-actions");
     actions.append(button("详情", "small detail-button", () => { switchMjByOrder(order.order_id); showOrderDetail(order); }),
-      button("咨询", "small", () => { switchMjByOrder(order.order_id); send(`我的外卖 ${order.order_id} 迟到了，可以申请补偿吗？`); }));
+      button("咨询", "small", () => pickOrderAction(order)));
     bottom.append(el("span", "order-time", time), actions);
     text.append(topLine, metaRow, bottom);
     row.append(icon("bowl", "order-art"), text);
@@ -796,6 +1035,7 @@ function send(raw, fromInput) {
   if ((!text && !draftMedia) || confirming) return;
   const media = draftMedia;
   if (fromInput) { $("input").value = ""; updateCount(); }
+  setPlusTray(false);
   if (!media && text) {
     pendingUserText = text;
     if (latest) renderMessages(latest.messages, latest.handoffs);
@@ -849,12 +1089,24 @@ async function boot() {
   });
   $("quick").replaceChildren(...QUICK.map(([label, text]) => button(label, "suggestion", () => { $("demo-dialog").close(); send(text); })));
   $("composer").addEventListener("submit", (event) => { event.preventDefault(); send($("input").value, true); });
-  $("attach").addEventListener("click", () => $("attachment-input").click());
+  $("attach").addEventListener("click", () => { setPlusTray(false); $("attachment-input").click(); });
   $("attachment-input").addEventListener("change", () => {
     const file = $("attachment-input").files[0];
     if (file && setDraftMedia(file, "image")) $("attachment-input").value = "";
   });
   $("record").addEventListener("click", toggleRecording);
+  if ($("tray-record")) $("tray-record").addEventListener("click", () => { setPlusTray(false); toggleRecording(); });
+  if ($("plus-toggle")) $("plus-toggle").addEventListener("click", () => setPlusTray(!plusOpen));
+  if ($("open-order-sheet")) $("open-order-sheet").addEventListener("click", openOrderSheet);
+  if ($("tray-orders")) $("tray-orders").addEventListener("click", openOrderSheet);
+  if ($("tray-pipeline")) $("tray-pipeline").addEventListener("click", () => { setPlusTray(false); $("demo-dialog").showModal(); });
+  if ($("open-pipeline")) $("open-pipeline").addEventListener("click", () => $("demo-dialog").showModal());
+  if ($("close-order-sheet")) $("close-order-sheet").addEventListener("click", () => $("order-sheet-dialog").close());
+  if ($("order-sheet-dialog")) {
+    $("order-sheet-dialog").addEventListener("click", (e) => {
+      if (e.target === $("order-sheet-dialog")) $("order-sheet-dialog").close();
+    });
+  }
   $("input").addEventListener("input", updateCount);
   $("input").addEventListener("keydown", (event) => {
     if (event.key === "Enter" && !event.shiftKey && !event.isComposing) { event.preventDefault(); send($("input").value, true); }

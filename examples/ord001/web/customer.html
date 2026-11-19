@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffd000">
   <title>配送关怀 · 订单服务</title>
-  <link rel="stylesheet" href="/static/app.css?v=20261119-mj6">
-  <script src="/static/app.js?v=20261119-mj6" defer></script>
-  <script src="/static/customer.js?v=20261119-mj6" defer></script>
+  <link rel="stylesheet" href="/static/app.css?v=20261119-mj7">
+  <script src="/static/app.js?v=20261119-mj7" defer></script>
+  <script src="/static/customer.js?v=20261119-mj7" defer></script>
 </head>
 <body data-page="customer">
   <a class="skip-link" href="#main">跳到主要内容</a>
@@ -84,12 +84,13 @@
             <div class="heading-with-icon">
               <span class="service-avatar" data-icon="chat"></span>
               <div class="chat-title">
-                <div class="chat-title-row"><h2 id="chat-title">订单咨询</h2><span class="mj-head-pill" id="mj-head-pill">MJ</span></div>
-                <span class="chat-caption">AI 客服 · 非真人</span>
+                <div class="chat-title-row"><h2 id="chat-title">67餐厅 · 订单客服</h2><span class="mj-head-pill" id="mj-head-pill">MJ</span><span class="joker-head-pill" title="人工与审批端由小丑专员坐镇">Joker 协同</span></div>
+                <span class="chat-caption">AI 客服 MJ · 人工专员小丑实时协同</span>
               </div>
             </div>
             <div class="chat-tools">
-              <button class="handoff-button" type="button" id="handoff" aria-describedby="handoff-help"><span data-icon="person"></span><span id="handoff-label">转人工</span></button>
+              <button class="handoff-button pipeline-btn" type="button" id="open-pipeline" title="查看 5 层 LangGraph 核心链路"><span data-icon="sparkles"></span><span>核心链路</span></button>
+              <button class="handoff-button" type="button" id="handoff" aria-describedby="handoff-help"><img class="joker-mini-avatar" src="/static/chubby-joker.png" alt=""><span id="handoff-label">转人工</span></button>
               <span class="sr-only" id="handoff-help">把这段对话交给人工客服，回复会出现在对话里</span>
               <button class="icon-button" type="button" data-open-demo aria-label="查看服务说明"><span data-icon="info"></span></button>
             </div>
@@ -113,23 +114,43 @@
           <div class="order-picks" id="order-picks" hidden></div>
           <div class="composer-wrap">
             <div class="attachment-draft" id="attachment-draft" hidden></div>
-            <form class="composer" id="composer">
-              <label class="sr-only" for="input">订单问题</label>
-              <textarea id="input" rows="2" maxlength="500" placeholder="输入订单号或遇到的问题（如：ORD001 晚到了 / 转人工）"></textarea>
-              <button type="submit" class="send-button" id="send" aria-label="发送"><span data-icon="arrow-up"></span></button>
-            </form>
-            <div class="composer-tools">
-              <input id="attachment-input" type="file" accept="image/jpeg,image/png,image/webp" hidden>
-              <button type="button" class="media-button" id="attach" aria-label="上传图片"><span data-icon="paperclip"></span><span>图片</span></button>
-              <button type="button" class="media-button" id="record" aria-label="录制语音"><span data-icon="mic"></span><span id="record-label">语音</span></button>
-              <span class="media-help">图片或语音会转给人工客服</span>
+            <div class="im-input-row">
+              <button type="button" class="im-circle-btn" id="record" aria-label="录制语音" title="录制语音"><span data-icon="audio"></span><span id="record-label" class="sr-only">语音</span></button>
+              <form class="composer im-composer" id="composer">
+                <label class="sr-only" for="input">订单问题</label>
+                <textarea id="input" rows="1" maxlength="500" placeholder="输入订单号或遇到的问题（如：ORD001 晚到了 / 转人工）"></textarea>
+                <button type="submit" class="send-button" id="send" aria-label="发送"><span data-icon="arrow-up"></span></button>
+              </form>
+              <button type="button" class="im-circle-btn im-order-entry" id="open-order-sheet" aria-label="选择咨询订单" title="选择需要咨询的订单"><span data-icon="inbox"></span></button>
+              <button type="button" class="im-circle-btn im-plus-btn" id="plus-toggle" aria-expanded="false" aria-label="展开更多功能" title="展开更多功能"><span class="plus-glyph">+</span></button>
             </div>
-            <div class="composer-foot"><span>Enter 发送 · Shift+Enter 换行</span><span id="input-count">0 / 500</span></div>
+            <input id="attachment-input" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+            <div class="im-plus-tray" id="plus-tray" hidden>
+              <button type="button" class="im-tray-tile" id="attach">
+                <span class="im-tray-icon"><span data-icon="image"></span></span>
+                <span class="im-tray-label">相册</span>
+              </button>
+              <button type="button" class="im-tray-tile" id="tray-record">
+                <span class="im-tray-icon"><span data-icon="mic"></span></span>
+                <span class="im-tray-label">语音</span>
+              </button>
+              <button type="button" class="im-tray-tile im-tray-tile-featured" id="tray-orders">
+                <span class="im-tray-badge">推荐</span>
+                <span class="im-tray-icon"><span data-icon="inbox"></span></span>
+                <span class="im-tray-label">订单</span>
+              </button>
+              <button type="button" class="im-tray-tile" id="tray-pipeline">
+                <span class="im-tray-icon"><span data-icon="sparkles"></span></span>
+                <span class="im-tray-label">测试案例</span>
+              </button>
+            </div>
+            <div class="composer-foot"><span>点右侧「+」或「订单」图标可弹出订单选择面板 · Enter 发送</span><span id="input-count">0 / 500</span></div>
           </div>
           <p class="status" id="status" role="status"></p>
         </section>
         <section class="panel ticket-panel" id="tickets-panel" aria-labelledby="tickets-title">
-          <div class="section-heading"><h2 id="tickets-title">申请进度</h2><span class="round-icon blue" data-icon="clock"></span></div>
+          <div class="section-heading"><h2 id="tickets-title">申请进度与链路状态</h2><span class="round-icon blue" data-icon="clock"></span></div>
+          <div class="pipeline-live-card" id="pipeline-live"></div>
           <div id="tickets" aria-live="polite"></div>
           <div class="ticket-others" id="ticket-others" hidden></div>
         </section>
@@ -139,17 +160,24 @@
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <dialog class="dialog" id="demo-dialog" aria-labelledby="demo-title">
-    <div class="dialog-heading"><span class="dialog-kicker">配送关怀</span><button class="icon-button" type="button" data-close-dialog aria-label="关闭说明"><span data-icon="close"></span></button></div>
-    <h2 id="demo-title">演示说明</h2>
-    <p>账号、订单与补偿均为模拟数据，不涉及实际发券。送达超时条件与补偿金额由系统核实。</p>
+    <div class="dialog-heading"><span class="dialog-kicker">配送关怀 · 核心架构与测试</span><button class="icon-button" type="button" data-close-dialog aria-label="关闭说明"><span data-icon="close"></span></button></div>
+    <h2 id="demo-title">5 层 LangGraph 客服链路 & 测试案例</h2>
+    <div id="pipeline-modal-diagram" class="pipeline-modal-diagram"></div>
     <dl class="facts" id="policy-details"></dl>
-    <details class="quick" id="quick-scenarios" hidden><summary>测试场景</summary><div class="choices" id="quick"></div></details>
+    <details class="quick" id="quick-scenarios" open><summary>一键发送测试案例（12 个典型场景）</summary><div class="choices" id="quick"></div></details>
     <p class="dialog-note">顾客确认后提交申请，由商家决定通过或拒绝；需要真人协助时可点「转人工」。</p>
-    <a class="secondary button-link" href="/review">商家工作台<span data-icon="arrow-up-right"></span></a>
+    <a class="secondary button-link" href="/review">商家工作台（小丑审批端）<span data-icon="arrow-up-right"></span></a>
   </dialog>
   <dialog class="dialog order-dialog" id="order-dialog" aria-labelledby="order-dialog-title">
     <div class="dialog-heading"><span class="dialog-kicker">演示订单详情</span><button class="icon-button" type="button" data-close-dialog aria-label="关闭订单详情"><span data-icon="close"></span></button></div>
     <div id="order-detail"><h2 id="order-dialog-title" class="sr-only">订单详情</h2></div>
+  </dialog>
+  <dialog class="dialog order-sheet-dialog" id="order-sheet-dialog" aria-labelledby="order-sheet-title">
+    <div class="order-sheet-head">
+      <h2 id="order-sheet-title">请选择需要咨询的订单</h2>
+      <button class="icon-button" type="button" id="close-order-sheet" aria-label="关闭订单选择"><span data-icon="close"></span></button>
+    </div>
+    <div class="order-sheet-body" id="order-sheet-list"></div>
   </dialog>
 </body>
 </html>

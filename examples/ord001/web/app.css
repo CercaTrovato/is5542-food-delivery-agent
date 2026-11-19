@@ -695,23 +695,111 @@ h1 { font-size: 32px; line-height: 1.35; font-weight: 650; letter-spacing: -.055
 .typing-dots { display: inline-block; font-weight: 700; letter-spacing: 2px; color: var(--accent); animation: typingPulse 1.1s infinite ease-in-out; }
 @keyframes typingPulse { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
 
-.order-picks { display: flex; flex-direction: column; gap: 8px; padding: 10px 22px 6px; border-top: 1px solid var(--line); background: color-mix(in srgb, var(--soft) 45%, var(--panel-solid)); }
-.order-picks-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; width: 100%; }
-.pick.is-active { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 18%, transparent); }
-.pick-more.is-open { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); font-style: normal; font-weight: 600; }
-.order-pick-drawer { border-radius: 16px; border: 1px solid color-mix(in srgb, var(--meituan-amber) 45%, var(--line)); background: var(--panel-solid); box-shadow: 0 12px 28px rgba(24, 24, 27, .12); overflow: hidden; margin-bottom: 2px; }
-.order-pick-drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: linear-gradient(90deg, color-mix(in srgb, var(--meituan-yellow) 28%, var(--panel-solid)), var(--soft)); border-bottom: 1px solid var(--line); font-size: 12px; }
-.pick-drawer-close { border: 1px solid var(--line); background: var(--panel-solid); border-radius: 999px; padding: 3px 10px; font-size: 11px; color: var(--muted); cursor: pointer; }
-.pick-drawer-close:hover { color: var(--text); border-color: var(--focus); }
-.order-pick-drawer-list { max-height: 220px; overflow-y: auto; display: divide-y; padding: 6px; display: grid; gap: 6px; }
-.order-pick-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--soft); cursor: pointer; transition: border-color .15s, background .15s; }
-.order-pick-row:hover { border-color: var(--focus); background: var(--panel-solid); }
-.order-pick-row.is-active { border-color: var(--accent); background: var(--accent-soft); }
-.order-pick-info { min-width: 0; display: grid; gap: 3px; }
-.order-pick-title { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 13px; }
-.order-pick-merchant { font-size: 12px; color: var(--muted); font-weight: 500; }
-.order-pick-price { font-size: 12px; font-weight: 650; color: var(--text); background: var(--panel-solid); padding: 1px 6px; border-radius: 6px; }
-.order-pick-sub { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.order-pick-actions { flex-shrink: 0; }
+/* MJ & Chubby Joker Co-Branding */
+.joker-head-pill { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--violet-soft); color: var(--violet); border: 1px solid color-mix(in srgb, var(--violet) 30%, var(--line)); }
+.joker-mini-avatar { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 1px solid var(--line); }
+.pipeline-btn { background: color-mix(in srgb, var(--meituan-yellow) 25%, var(--panel-solid)); border-color: color-mix(in srgb, var(--meituan-amber) 45%, var(--line)); font-weight: 600; }
+.welcome-badge-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.joker-kicker { background: var(--violet-soft) !important; color: var(--violet) !important; border-color: color-mix(in srgb, var(--violet) 30%, var(--line)) !important; }
+.welcome-mascot-pair { display: flex; align-items: flex-end; gap: 8px; flex-shrink: 0; }
+.joker-side-badge { display: flex; flex-direction: column; align-items: center; gap: 2px; background: var(--panel-solid); padding: 6px 8px; border-radius: 14px; border: 1px solid var(--line); box-shadow: 0 6px 14px rgba(24, 24, 27, .06); }
+.joker-side-badge img { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; }
+.joker-side-badge small { font-size: 10px; font-weight: 650; color: var(--violet); white-space: nowrap; }
+.welcome-order-cta { width: 100%; min-height: 42px; border-radius: 999px; background: linear-gradient(135deg, var(--meituan-yellow), var(--meituan-amber)); color: #1f2126; font-weight: 700; font-size: 13px; border: 1px solid color-mix(in srgb, var(--meituan-amber) 60%, var(--line)); box-shadow: 0 8px 20px rgba(255, 176, 0, .24); cursor: pointer; transition: transform .15s, box-shadow .15s; margin-block: 4px; }
+.welcome-order-cta:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(255, 176, 0, .34); }
+
+/* Chat Bubble Avatars */
+.bubble-sender-head { display: inline-flex; align-items: center; gap: 7px; margin-bottom: 3px; }
+.bubble-avatar-img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; background: var(--soft); border: 1px solid var(--line); flex-shrink: 0; }
+.inline-order-sheet-btn { align-self: flex-start; margin-top: -4px; padding: 8px 16px; border-radius: 999px; background: var(--panel-solid); border: 1.5px solid var(--meituan-amber); color: var(--text); font-size: 12px; font-weight: 650; cursor: pointer; box-shadow: 0 4px 12px rgba(24, 24, 27, .06); }
+.inline-order-sheet-btn:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+
+/* Meituan Waimai Style Rich Order Card Inside Chat Stream (辉记广东大排档 style) */
+.waimai-chat-card { width: min(100%, 420px); align-self: flex-start; background: var(--panel-solid); border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px; box-shadow: 0 8px 24px rgba(24, 24, 27, .06); display: grid; gap: 11px; }
+.waimai-shop-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+.waimai-shop-avatar { width: 22px; height: 22px; border-radius: 6px; object-fit: cover; }
+.waimai-shop-name { font-weight: 600; color: var(--muted); }
+.waimai-card-title { font-size: 16px; font-weight: 750; color: var(--text); margin: 0; letter-spacing: -.01em; }
+.waimai-food-gallery { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; border-radius: 14px; background: var(--soft); border: 1px solid var(--line); }
+.waimai-food-thumbs { display: flex; align-items: flex-start; gap: 10px; overflow-x: auto; min-width: 0; }
+.waimai-food-item { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 76px; flex-shrink: 0; }
+.waimai-food-pic { width: 64px; height: 64px; border-radius: 12px; background: linear-gradient(135deg, color-mix(in srgb, var(--meituan-yellow) 32%, var(--panel-solid)), var(--panel-solid)); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: inset 0 1px 0 rgba(255,255,255,.7); }
+.waimai-food-name { font-size: 11px; font-weight: 560; color: var(--text); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.waimai-price-col { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; padding-left: 6px; }
+.waimai-price-col strong { font-size: 15px; font-weight: 750; color: var(--text); font-variant-numeric: tabular-nums; }
+.waimai-price-col small { font-size: 11px; color: var(--muted); }
+.waimai-meta-grid { display: grid; grid-template-columns: 74px 1fr; gap: 5px 8px; font-size: 12px; margin: 0; padding-top: 2px; border-top: 1px dashed var(--line); }
+.waimai-meta-grid dt { color: var(--muted); font-weight: 500; }
+.waimai-meta-grid dd { margin: 0; color: var(--text); font-weight: 540; }
+.waimai-card-btn { width: 100%; min-height: 36px; border-radius: 999px; border: 1px solid var(--line); background: var(--soft); color: var(--muted); font-size: 12px; font-weight: 600; cursor: pointer; transition: all .15s; }
+.waimai-card-btn:hover { border-color: var(--focus); color: var(--text); background: var(--panel-solid); }
+
+/* Floating Quick Action Pills Above Input Bar (Not cramped!) */
+.order-picks { padding: 8px 18px 4px; background: transparent; border-top: 0; }
+.waimai-floating-pills { display: flex; align-items: center; gap: 8px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+.waimai-floating-pills::-webkit-scrollbar { display: none; }
+.waimai-pill { flex-shrink: 0; padding: 6px 13px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel-solid); color: var(--text); font-size: 12px; font-weight: 560; cursor: pointer; box-shadow: 0 2px 8px rgba(24, 24, 27, .04); transition: all .15s; white-space: nowrap; }
+.waimai-pill:hover:not(:disabled) { border-color: var(--focus); background: var(--accent-soft); color: var(--accent); }
+.waimai-pill-primary { border-color: color-mix(in srgb, var(--meituan-amber) 55%, var(--line)); background: color-mix(in srgb, var(--meituan-yellow) 22%, var(--panel-solid)); font-weight: 650; }
+.waimai-pill-primary.is-active { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+
+/* Meituan / Taobao Style Input Bar & Expandable (+) Function Tray */
+.im-input-row { display: flex; align-items: center; gap: 8px; width: 100%; }
+.im-circle-btn { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--panel-solid); color: var(--text); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; transition: all .18s ease; padding: 0; }
+.im-circle-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.im-circle-btn:hover:not(:disabled) { border-color: var(--focus); color: var(--accent); background: var(--accent-soft); }
+.im-circle-btn.recording { width: auto; border-radius: 999px; padding: 0 12px; gap: 6px; border-color: var(--rejected); background: var(--rejected-bg); color: var(--rejected); }
+.record-time-pill { font-size: 11px; font-weight: 650; white-space: nowrap; }
+.im-plus-btn .plus-glyph { font-size: 22px; font-weight: 400; line-height: 1; display: inline-block; transition: transform .2s ease; }
+.im-plus-btn.is-open { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.im-plus-btn.is-open .plus-glyph { transform: rotate(45deg); }
+.im-composer { flex: 1; min-width: 0; border-radius: 999px !important; padding: 5px 6px 5px 16px !important; align-items: center !important; min-height: 42px; }
+.im-composer textarea { min-height: 24px !important; max-height: 76px; padding: 3px 0 !important; font-size: 13px; line-height: 1.45; }
+.im-composer .send-button { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; }
+
+.im-plus-tray { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; padding: 14px 8px 6px; margin-top: 8px; border-top: 1px solid var(--line); animation: traySlide .18s ease-out; }
+@keyframes traySlide { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.im-tray-tile { position: relative; display: flex; flex-direction: column; align-items: center; gap: 7px; border: 0; background: transparent; cursor: pointer; padding: 4px; color: var(--text); }
+.im-tray-icon { width: 56px; height: 56px; border-radius: 18px; background: var(--panel-solid); border: 1px solid var(--line); box-shadow: 0 4px 12px rgba(24, 24, 27, .05); display: flex; align-items: center; justify-content: center; transition: transform .15s, border-color .15s, box-shadow .15s; }
+.im-tray-icon svg { width: 24px; height: 24px; stroke: var(--text); fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.im-tray-tile:hover:not(:disabled) .im-tray-icon { transform: translateY(-2px); border-color: var(--focus); box-shadow: 0 8px 18px rgba(224, 46, 61, .12); }
+.im-tray-tile-featured .im-tray-icon { background: linear-gradient(135deg, color-mix(in srgb, var(--meituan-yellow) 32%, var(--panel-solid)), var(--panel-solid)); border-color: color-mix(in srgb, var(--meituan-amber) 50%, var(--line)); }
+.im-tray-label { font-size: 12px; color: var(--muted); font-weight: 560; }
+.im-tray-badge { position: absolute; top: 0; right: 12%; font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 999px; background: var(--accent); color: #fff; z-index: 1; }
+
+/* Bottom-Sheet Order Picker Modal (请选择需要咨询的订单) */
+.order-sheet-dialog { width: min(560px, 94vw); max-height: 82vh; border-radius: 24px; padding: 0; overflow: hidden; }
+.order-sheet-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--line); background: var(--panel-solid); position: sticky; top: 0; z-index: 2; }
+.order-sheet-head h2 { font-size: 16px; font-weight: 750; margin: 0; text-align: center; flex: 1; }
+.order-sheet-body { padding: 14px 16px 20px; max-height: calc(82vh - 64px); overflow-y: auto; display: grid; gap: 12px; background: var(--soft); }
+.sheet-order-card { background: var(--panel-solid); border: 1.5px solid var(--line); border-radius: 16px; padding: 12px 14px; display: grid; gap: 10px; transition: border-color .15s; }
+.sheet-order-card.is-active { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.sheet-order-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.sheet-order-shop { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+.sheet-shop-icon svg { width: 16px; height: 16px; stroke: var(--accent); fill: none; stroke-width: 2; }
+.sheet-order-id { font-family: var(--font-utility); font-size: 12px; font-weight: 700; color: var(--muted); background: var(--soft); padding: 1px 7px; border-radius: 6px; }
+.sheet-order-foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding-top: 6px; border-top: 1px dashed var(--line); }
+.sheet-order-time { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.sheet-order-actions { display: flex; align-items: center; gap: 8px; }
+
+/* 5-Layer LangGraph Live Pipeline Visualizer */
+.pipeline-live-card { margin-bottom: 14px; padding: 12px; border-radius: 16px; background: linear-gradient(145deg, color-mix(in srgb, var(--meituan-yellow) 16%, var(--panel-solid)), var(--soft)); border: 1px solid color-mix(in srgb, var(--meituan-amber) 38%, var(--line)); display: grid; gap: 8px; }
+.pipeline-live-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pipeline-live-kicker { font-size: 12px; font-weight: 750; color: var(--text); }
+.pipeline-expand-btn { border: 1px solid var(--line); background: var(--panel-solid); border-radius: 999px; padding: 2px 9px; font-size: 10px; font-weight: 600; color: var(--muted); cursor: pointer; }
+.pipeline-expand-btn:hover { color: var(--accent); border-color: var(--focus); }
+.pipeline-steps { display: grid; gap: 6px; }
+.pipeline-step { display: flex; align-items: flex-start; gap: 8px; padding: 7px 9px; border-radius: 11px; background: var(--panel-solid); border: 1px solid var(--line); font-size: 11px; transition: all .2s; }
+.pipeline-num { font-family: var(--font-utility); font-size: 10px; font-weight: 750; padding: 2px 6px; border-radius: 6px; background: var(--soft); color: var(--muted); flex-shrink: 0; margin-top: 1px; }
+.pipeline-body { display: grid; gap: 1px; min-width: 0; }
+.pipeline-body strong { font-size: 11px; font-weight: 680; color: var(--text); }
+.pipeline-body small { font-size: 10px; color: var(--muted); line-height: 1.4; }
+.pipeline-step.step-done { border-color: color-mix(in srgb, var(--approved) 40%, var(--line)); background: color-mix(in srgb, var(--approved-bg) 35%, var(--panel-solid)); }
+.pipeline-step.step-done .pipeline-num { background: var(--approved); color: #fff; }
+.pipeline-step.step-current { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 15%, transparent); }
+.pipeline-step.step-current .pipeline-num { background: var(--accent); color: #fff; }
+.pipeline-step.step-active-warn { border-color: var(--meituan-amber); background: color-mix(in srgb, var(--meituan-yellow) 25%, var(--panel-solid)); }
+.pipeline-step.step-active-warn .pipeline-num { background: var(--meituan-amber); color: #1f2126; }
+.pipeline-modal-diagram { margin-block: 10px 14px; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
