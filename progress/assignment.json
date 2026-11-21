@@ -6,22 +6,23 @@
   "assignment_type": "group",
   "board_scope": "active",
   "group": "Group 24",
-  "my_role": "工程／评分口径与PPT。Agent推进实现与核对，本人负责关键选择和最终呈现；李宗谦主做开发与部署。",
-  "summary": "11/21 本人确认统一做PPT及六人末周分工；具体任务卡与未执行交件模板已准备。新开发候选86632a6和10场景／60次实验报告已见待独立复核，500模拟自检另记。固定受测版本、真实验收、市场对照、正式政策／B-C方法与录制继续跟进；日期待成员确认。",
-  "stage": "本人做PPT · 六人任务已明确 · 新开发／实验待接收验收",
-  "updated_at": "2026-11-21T18:54:59+08:00",
+  "my_role": "本人统一PPT／录制与结论把关，Agent可协助核方法和数据；开发由李宗谦主做，A＋gaga作为测试组整体交件。",
+  "summary": "11/21 本人确认48小时五个工作包：开发补有基本架构的工具型B，测试组A＋gaga合交技术／网页／轻量人类视觉结果，研究交有限证据，本人统一PPT与录制。基础B未实现、实验未执行，市场限无订单观察／公开资料。跨会话须先获本次确认，本批未转交看板。",
+  "stage": "48小时五包任务已定 · 基础B待实现 · 测试组合交",
+  "updated_at": "2026-11-21T19:58:21+08:00",
   "reviewed_at": "2026-11-21",
   "progress_as_of": "2026-11-21",
   "task_scope_complete": false,
   "next_action": {
-    "title": "本人发送本轮六人具体任务并收交期；开发交受测版本，测试与研究并行，本人先建PPT骨架和核实验方法",
-    "owner": "本人／全组",
+    "title": "本人发群确认48小时起点；开发交C开测说明并补工具型B，测试组合交结果，研究并行，本人先搭PPT和约录制",
+    "owner": "本人／五个工作包",
     "basis": "proposed"
   },
   "blockers": [
-    "开发新候选86632a6待明确冻结提交、真实模型／规则与开关、接收方独立网页验收；新实验报告待核方法和完整运行证据。",
-    "正式补偿政策和B/C比较因素尚未单独确定；功能测试可沿标明的demo-v1并行。",
-    "成员交期／会议与录制安排待答复；11/28准确入口、时刻和视频要求待Canvas核。"
+    "基础工具型B尚未实现；固定受测提交、实际模型／开关与独立初态待开发交，不能拿旧单轮B顶替。",
+    "T0、成员可交时间和录制到场时段未核；正式补偿政策未定，demo-v1可先做受控验证。",
+    "市场无可用真实订单，比较限无订单观察／公开证据；真实后台及赔付到账未观察，不算平台失败。",
+    "跨会话需本人本次确认，本轮不转交旧／新看板；11/28准确提交要求仍须核实。"
   ],
   "tasks": [
     {
@@ -97,7 +98,7 @@
       "title": "领域工具与 Agent 最小可运行链路",
       "status": "in_progress",
       "owner": "技术组（拟由有免费 Token 的成员主做）",
-      "note": "已见远端开发分支9c8fdbc及历史自检/共享入口报告；本次未复跑当前服务或真实模型，接收方验收仍待核。 11/21新到候选86632a6，受测版本与接收验收仍待；李宗谦交可开测说明和修复。",
+      "note": "已见远端开发分支9c8fdbc及历史自检/共享入口报告；本次未复跑当前服务或真实模型，接收方验收仍待核。 11/21新到候选86632a6，受测版本与接收验收仍待；李宗谦交可开测说明和修复。 当前正式B要求工具、多轮与工单／审批，仍待开发；不把旧纯提示实验当已交B。",
       "evidence": [
         "app",
         "handoff",
@@ -109,33 +110,36 @@
         "frontend-handoff-commit",
         "web-branch-20261120",
         "dev-and-ablation-86632a6",
-        "final-week-task-pack"
+        "final-week-task-pack",
+        "owner-two-day-plan-20261121"
       ]
     },
     {
       "id": "pilot",
       "title": "3 个剧本试跑与成本记录",
       "status": "todo",
-      "owner": "技术组",
-      "note": "P01–P03 已拟定。真实模型本机已复核 ORD001 50 分钟审批、30 分钟边界。完整三组与成本记录待团队首版。 开发分支附历史自检；未记为本次独立复跑或接收方验收。 本轮两位测试分别按正常10条、异常10条待执行模板，使用真实模型并核网页闭环；模板不是结果。",
+      "owner": "测试组（A＋gaga老师）",
+      "note": "本轮测试组统一交一份报告：10场景两模式各3次、网页闭环及6项人类视觉；均未执行。gaga无需独立技术测试，旧个人分配停用。",
       "evidence": [
         "handoff",
-        "final-week-task-pack"
+        "final-week-task-pack",
+        "owner-two-day-plan-20261121"
       ]
     },
     {
       "id": "evaluation",
       "title": "基线比较与系统评测",
       "status": "todo",
-      "owner": "技术 / 测试组",
-      "note": "B/C 同模型、同政策、同任务做正式技术对照；人工 As-Is 只作为另外的业务参照。尚未正式评测。 主目标已确认是复杂投诉的正确与安全处理，效率和成本为辅助结果，指标细则待定。 本人负责 baseline B 与评分口径，测试组独立准备和执行用例，双方共同核对结果。 开发分支附历史自检；未记为本次独立复跑或接收方验收。 11/21新报告自述10场景、B/C各3次，共60次实验；未独立重跑，B全表信息与C权限工具差异、评分和原始记录待核，不能直接算正式受控结果。",
+      "owner": "测试组执行／本人核方法与结论",
+      "note": "正式内部对照改基础工具B与规则C，两边共用模型／合法事实／工具／权限／确认与人工执行边界。B未实现，新实验未跑；旧单轮报告只作辅助，不移植百分比。市场只有限证据比较，不称真实到账或普遍领先。",
       "evidence": [
         "brief",
         "handoff",
         "owner-business-objective",
         "owner-personal-scope",
         "dev-and-ablation-86632a6",
-        "final-week-task-pack"
+        "final-week-task-pack",
+        "owner-two-day-plan-20261121"
       ]
     },
     {
@@ -143,10 +147,11 @@
       "title": "Slides 与 Demo 叙事",
       "status": "todo",
       "owner": "本人",
-      "note": "11/21本人明确PPT自己负责；其他五人交素材与证据。内部目标26日初稿，尚无成稿核验。",
+      "note": "本人统一PPT，前4小时先建骨架并约录制，第二天填已核结果；目标48小时完成，未见成稿。",
       "evidence": [
         "owner-final-week-20261121",
-        "final-week-task-pack"
+        "final-week-task-pack",
+        "owner-two-day-plan-20261121"
       ]
     },
     {
@@ -154,9 +159,10 @@
       "title": "全组录像及最终检查",
       "status": "todo",
       "owner": "全组／本人安排",
-      "note": "内部目标27日录制与检查；具体时间、分段和时长待核要求及成员确认，未记已录制。",
+      "note": "目标48小时内按已约安排实际录制并检查；真人到场时段及准确课方要求未核，未记已录。",
       "evidence": [
-        "final-week-task-pack"
+        "final-week-task-pack",
+        "owner-two-day-plan-20261121"
       ]
     },
     {
@@ -289,7 +295,7 @@
       "label": "组员续作核查与开发交接（脱敏）",
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/supervision-report.md",
       "observed_at": "2026-11-21",
-      "sha256": "30269ab6465352d4ceea4a0057290ef63cdbe9101b257350c5b0de419867c921"
+      "sha256": "9f1436acdca882b566f39fabca497107890bb02758d72c611db830cef8eef4b1"
     },
     {
       "id": "owner-team-handoff",
@@ -470,7 +476,7 @@
     {
       "id": "final-week-task-pack",
       "kind": "web",
-      "label": "本轮六人具体任务与待填交件模板",
+      "label": "当前48小时五个工作包与验收模板（替代上一版排期）",
       "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md",
       "observed_at": "2026-11-21",
       "sha256": null
@@ -480,6 +486,14 @@
       "kind": "web",
       "label": "新到开发候选与对照报告（待复核）",
       "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/commit/86632a6a44c76cfedae6f444e7c005d60fa56164",
+      "observed_at": "2026-11-21",
+      "sha256": null
+    },
+    {
+      "id": "owner-two-day-plan-20261121",
+      "kind": "thread",
+      "label": "本人确认两天收敛、基础Agent及测试组合交、跨会话限制",
+      "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
       "observed_at": "2026-11-21",
       "sha256": null
     }

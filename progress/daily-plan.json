@@ -4,7 +4,7 @@
   "course": "IS5542",
   "as_of": "2026-11-21",
   "timezone": "Asia/Shanghai",
-  "source_revision": "fab288c4660e5ea426d7232e3fcb3da1077f6941b53cfef9d88d6d7a81cb3378",
+  "source_revision": "b838b9fdf73fbbede568a48d76b6441182cc56895ed88ef30fb0ee3d3a3d2ff7",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -16,6 +16,23 @@
   },
   "actions": [
     {
+      "id": "experiment-review",
+      "title": "本人先核基础B合同与共同评分",
+      "owner": "李宾雄／全组核事实",
+      "status": "planned",
+      "personal_action": "先读新报告与脚本，列公平性/评分/完整记录问题，再确认正式实验变量。",
+      "readiness": "ready",
+      "target": {
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
+      },
+      "blocked_by": [],
+      "estimated_minutes": null,
+      "observed_on": "2026-11-21",
+      "date_state": "unscheduled"
+    },
+    {
       "id": "my-web",
       "title": "本人下一步：受测版本、评分口径与PPT",
       "owner": "本人 · 统筹",
@@ -23,14 +40,14 @@
       "personal_action": "先拿固定受测版本和模型说明，确定共同预期；同时搭好PPT骨架。",
       "readiness": "ready",
       "target": {
-        "value": "2026-11-22",
-        "precision": "date",
-        "basis": "proposed"
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
       },
       "blocked_by": [],
       "estimated_minutes": null,
       "observed_on": "2026-11-21",
-      "date_state": "next_7_days"
+      "date_state": "unscheduled"
     },
     {
       "id": "ppt-outline",
@@ -40,54 +57,34 @@
       "personal_action": "先建PPT骨架和素材清单，核Canvas准确提交要求。",
       "readiness": "ready",
       "target": {
-        "value": "2026-11-22",
-        "precision": "date",
-        "basis": "proposed"
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
       },
       "blocked_by": [],
       "estimated_minutes": null,
       "observed_on": "2026-11-21",
-      "date_state": "next_7_days"
+      "date_state": "unscheduled"
     },
     {
       "id": "acceptance",
-      "title": "正式政策与 B/C 评价",
+      "title": "本轮基础B对规则C的结果与方法核对",
       "owner": "本人 + 技术／测试组",
       "status": "needs_review",
-      "personal_action": "先核现有实验的公平性、完整记录和评分，再与本人确认比较变量；接收两位测试真实结果。",
+      "personal_action": "协助核方法与真实结果、整理可用图表；PPT不预填优胜或100%。",
       "readiness": "waiting_dependency",
       "target": {
-        "value": "2026-11-25",
-        "precision": "date",
-        "basis": "proposed"
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
       },
       "blocked_by": [
-        "rules",
         "p01",
         "p23"
       ],
       "estimated_minutes": null,
       "observed_on": "2026-11-21",
-      "date_state": "next_7_days"
-    },
-    {
-      "id": "slides-video",
-      "title": "本人整合PPT初稿与讲述核对",
-      "owner": "李宾雄／全组核事实",
-      "status": "planned",
-      "personal_action": "按已收证据填PPT结果页，约各人核事实和讲述段。",
-      "readiness": "waiting_dependency",
-      "target": {
-        "value": "2026-11-26",
-        "precision": "date",
-        "basis": "proposed"
-      },
-      "blocked_by": [
-        "demo-record"
-      ],
-      "estimated_minutes": null,
-      "observed_on": "2026-11-21",
-      "date_state": "next_7_days"
+      "date_state": "unscheduled"
     },
     {
       "id": "delivery",
@@ -97,16 +94,35 @@
       "personal_action": "先建PPT骨架并收五人的要点、证据和讲述素材，核当前提交要求。",
       "readiness": "verify",
       "target": {
-        "value": "2026-11-27",
-        "precision": "date",
-        "basis": "proposed"
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
       },
       "blocked_by": [
         "acceptance"
       ],
       "estimated_minutes": null,
       "observed_on": "2026-11-21",
-      "date_state": "next_7_days"
+      "date_state": "unscheduled"
+    },
+    {
+      "id": "slides-video",
+      "title": "本人整合PPT初稿与讲述核对",
+      "owner": "李宾雄／全组核事实",
+      "status": "planned",
+      "personal_action": "按已收证据填PPT结果页，约各人核事实和讲述段。",
+      "readiness": "waiting_dependency",
+      "target": {
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
+      },
+      "blocked_by": [
+        "demo-record"
+      ],
+      "estimated_minutes": null,
+      "observed_on": "2026-11-21",
+      "date_state": "unscheduled"
     }
   ],
   "deadlines": [

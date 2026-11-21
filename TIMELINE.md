@@ -1,6 +1,6 @@
 # IS5542 · 项目时间线
 
-11/21 本人确认统一做PPT及六人末周分工；具体任务卡与未执行交件模板已准备。新开发候选86632a6和10场景／60次实验报告已见待独立复核，500模拟自检另记。固定受测版本、真实验收、市场对照、正式政策／B-C方法与录制继续跟进；日期待成员确认。
+11/21 本人确认48小时五个工作包：开发补有基本架构的工具型B，测试组A＋gaga合交技术／网页／轻量人类视觉结果，研究交有限证据，本人统一PPT与录制。基础B未实现、实验未执行，市场限无订单观察／公开资料。跨会话须先获本次确认，本批未转交看板。
 
 进度依据截至 2026-11-21；时区 Asia/Shanghai。完成日期未知时只记录核实日期。
 
@@ -10,110 +10,110 @@
 
 ### 公开补偿规则调研 · `rules`
 
-**待核阅或修订** · 负责人：Jacky · 公开规则调研 · 2026-11-24 · 内部建议
+**待核阅或修订** · 负责人：Jacky · 公开规则调研 · 尚未安排 · 日期未定
 
-v1.3 与 8 页截图已逐页核读；官方回源确认两项保障存在和基本条件。精确边界、截图来源与适用版本仍待核。
+旧v1.3成果承接；当前交一页业务和规则素材，旧未核字段如实保留，不要求两天全查完。
 
 - 本环节交付：按三家平台记录适用条件、时间门槛、补偿、例外和原文证据。
-- 下一步：Jacky交一页业务说明、三平台规则表和可得来源补核，不负责PPT统稿。
+- 下一步：Jacky在发群后12小时交一页业务／三平台规则与来源限制，不扩调研或统稿。
 - 前置依赖：无已登记前置
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
 - 验收：✓ 三平台初稿与两项保障 v1.3 已收；✓ 两项保障存在和基本条件有依据；✓ 8 页截图已核读并记录版本差异；待补 精确边界、出处与适用版本已全部关闭
-- 依据：组员续作核查与开发交接（脱敏）；[v1.3 统一核验与资料](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/market-compensation-rules.md)；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+- 依据：组员续作核查与开发交接（脱敏）；[v1.3 统一核验与资料](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/market-compensation-rules.md)；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
 
 ### 实际客服流程观察 · `observations`
 
-**待核阅或修订** · 负责人：林 · 客服流程观察 · 2026-11-24 · 内部建议
+**待核阅或修订** · 负责人：林 · 客服流程观察 · 尚未安排 · 日期未定
 
-三平台报告、15 张表、26 张截图已核读，首轮所见入口与回复已补；真实赔付、真人接通和有工单进度仍待核。
+旧三平台记录有限比较承接；本轮无真实可用订单，另做无订单可访问页面与公开资料／案例比较。
 
 - 本环节交付：按 R01–R03 观察缺订单号、查补偿、找人工或查进度的流程。
-- 下一步：林承接旧记录，补真实可观察入口／人工／进度并做本系统对照；条件不匹配记不可比。
+- 下一步：林在发群后20小时交无订单观察／公开证据12行比较；未知写未观察，不要求真实赔付到账。
 - 前置依赖：无已登记前置
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
-- 验收：✓ 三平台R01–R03首轮报告与截图已收核；✓ 样本差异、推论边界与规则对照已列明；待补 真实赔付、真人接通与有工单进度已核
-- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[11/12 三平台流程核验及脱敏资料](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/competitor-evidence.md)；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+- 验收：✓ 三平台R01–R03首轮报告与截图已收核；✓ 样本差异、推论边界与规则对照已列明；待补 真实赔付、真人接通与有工单进度已核；待核 两天版证据类型、来源与不可比范围已交
+- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[11/12 三平台流程核验及脱敏资料](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/competitor-evidence.md)；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
 
 ### 顾客页面与人工审批 · `web`
 
-**待核阅或修订** · 负责人：李宗谦 · 网页开发 · 2026-11-22 · 内部建议
+**待核阅或修订** · 负责人：李宗谦 · 网页开发 · 尚未安排 · 日期未定
 
-已见新开发候选86632a6，待明确受测提交与配置；网页登录入口曾只读打开，不替代本轮端到端验收。
+C开发代码已见待接收；当前需固定受测提交与真实模型说明。新基础B另列，不能假设已有。
 
 - 本环节交付：交本机可点通页面、开发分支、启动说明和同一工单的状态回显。
-- 下一步：李宗谦给明确受测提交、入口、实际模型／规则／开关、可恢复初态和录屏；新候选86632a6待接收。
+- 下一步：开发前4小时交C明确受测提交／真实模型／入口／初态；争取12小时内补基础工具B，先收敛主界面。
 - 前置依赖：core
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
-- 验收：待核 顾客与审批入口可操作；待核 服务端归属及审批权限已核；待核 同一工单状态与重复申请处理已核
-- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+- 验收：待核 顾客与审批入口可操作；待核 服务端归属及审批权限已核；待核 同一工单状态与重复申请处理已核；待核 C受测提交、真实模型、入口和初态已交
+- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
 
-### P01 正常流程验收 · `p01`
+### 测试组：网页闭环与轻量人类视觉 · `p01`
 
-**待核阅或修订** · 负责人：gaga老师 · P01 测试 · 2026-11-24 · 内部建议
+**待核阅或修订** · 负责人：测试组（A＋gaga老师） · 尚未安排 · 日期未定
 
-已见开发分支和历史自检材料；当前版本接收验收及正式政策／B/C仍待证据。
+本轮统一测试工作包，尚未执行；不再按两个人分别派技术任务。
 
-- 本环节交付：独立检查顾客确认、待审、批准和驳回，核同一工单的状态回显。
-- 下一步：gaga老师执行正常10条真实模型／网页清单，交逐条实际结果和证据，25日补修复复测。
+- 本环节交付：同一份测试组报告及原始记录；技术、网页和人类视觉分别注明方法与实际核验范围。
+- 下一步：测试组统一在第1天交C四条网页闭环和6项人类视觉，视觉参与者只看页面／示例；合并进同一报告。
 - 前置依赖：web
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
-- 验收：待核 正常审批两条路径已实跑；待核 版本、结果和缺陷证据已交
-- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+- 验收：待核 正常审批两条路径已实跑；待核 版本、结果和缺陷证据已交；待核 6项人类视觉意见已由实际观察者完成并合并
+- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
 
-### P02／P03 边界与异常 · `p23`
+### 测试组：真实模型对照与边界／安全 · `p23`
 
-**待核阅或修订** · 负责人：A · P02／P03 测试 · 2026-11-24 · 内部建议
+**待核阅或修订** · 负责人：测试组（A＋gaga老师） · 尚未安排 · 日期未定
 
-已见开发分支和历史自检材料；当前版本接收验收及正式政策／B/C仍待证据。
+本轮统一测试工作包，尚未执行；不再按两个人分别派技术任务。
 
-- 本环节交付：检查阈值边界、缺订单号、查无记录及订单归属失败。
-- 下一步：A执行异常10条及新问法，交实际回答与状态证据、缺陷，25日补复测。
-- 前置依赖：web
+- 本环节交付：同一份测试组报告及原始记录；技术、网页和人类视觉分别注明方法与实际核验范围。
+- 下一步：测试组统一在合格B交后做10场景两模式各3次及新问法，保留真实完整记录；第二天关键项定向复测。
+- 前置依赖：web、basic-agent
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
 - 验收：待核 边界与缺单/归属情形已实跑；待核 预期、实际和禁止动作已核
-- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
 
-### 正式政策与 B/C 评价 · `acceptance`
+### 本轮基础B对规则C的结果与方法核对 · `acceptance`
 
-**待核阅或修订** · 负责人：本人 + 技术／测试组 · 2026-11-25 · 内部建议
+**待核阅或修订** · 负责人：本人 + 技术／测试组 · 尚未安排 · 日期未定
 
-新开发报告记录10场景、两方案、各3次；评分、信息／权限条件与完整原始结果待独立复核，正式政策／对照变量仍待确认。
+正式基础B尚需实现，当前没有该B的正式成绩；旧单轮报告仅辅助。demo-v1可先验证，不等待真实平台到账或正式生产政策。
 
 - 本环节交付：确认正式政策与公平对照范围，再用同模型、同规则、同题目比较 B/C。
-- 下一步：本人／Agent先核新10场景60次实验、统一评分与两边条件，再确认正式对照；不直接采用100%结论。
-- 前置依赖：rules、p01、p23
+- 下一步：本人／Agent核基础B合同、组内原始结果与评分，确认真实支持的结论；不移植旧单轮分数。
+- 前置依赖：p01、p23
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
-- 总监督可做：先核现有实验的公平性、完整记录和评分，再与本人确认比较变量；接收两位测试真实结果。
-- 验收：待核 正式政策与对照范围已确认；待核 B/C 同条件结果和成本记录已核
-- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+- 总监督可做：协助核方法与真实结果、整理可用图表；PPT不预填优胜或100%。
+- 验收：待核 B基本架构与共同条件、评分已核；待核 本轮完整记录、失败／复测和结论已核
+- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
 
 ### Slides、录像与提交 · `delivery`
 
-**进展待确认** · 负责人：李宾雄统一PPT／全组讲述与录制 · 2026-11-27 · 内部建议
+**进展待确认** · 负责人：李宾雄统一PPT／全组讲述与录制 · 尚未安排 · 日期未定
 
 交付日期沿用 11 月 28 日，Slides 和录像实际进度未确认。 具体入口、时刻、视频要求与最终文件待核。
 
 - 本环节交付：把业务依据、演示和评价串成完整交付，并核最终回执。
-- 下一步：本人统一PPT，各人交素材并核事实；统一安排录制和最终检查，准确提交要求待核。
+- 下一步：本人统一PPT，研究和测试交材料；48小时内完成实际录制与检查，真人时段先约，未完成不记成品。
 - 前置依赖：acceptance
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
 - 总监督可做：先建PPT骨架并收五人的要点、证据和讲述素材，核当前提交要求。
 - 验收：待核 Slides 与演示叙事已确认；待核 录像和交付文件已检查；待核 提交回执已核验
-- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
 
 ### 本人下一步：受测版本、评分口径与PPT · `my-web`
 
-**待核阅或修订** · 负责人：本人 · 统筹 · 2026-11-22 · 内部建议
+**待核阅或修订** · 负责人：本人 · 统筹 · 尚未安排 · 日期未定
 
 三平台首轮观察已收核，15 张表、26 张截图的有限比较成立；真实超时赔付、真人接通与工单闭环仍待补。远端 feat/ord001-local-web 已有开发代码及 11 月 10–11 日历史自检／共享入口记录，最新已见提交 9c8fdbc（11 月 18 日）；本次只核分支与报告，未重跑当前服务、真实模型或接收验收，不将历史自检升级为当前团队 P01 通过。
 
 - 本环节交付：完成核对或交接，并将实际答复更新回任务记录。
-- 下一步：本人先收受测版本与真实模型说明，同时建PPT骨架和评分预期；学习后补不阻塞进度。
+- 下一步：本人先搭PPT与约录制，接开发C受测说明；不等待全部素材或看板会话。
 - 前置依赖：无已登记前置
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
 - 总监督可做：先拿固定受测版本和模型说明，确定共同预期；同时搭好PPT骨架。
 - 验收：待核 已核对并登记实际结果或待回复内容
-- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
 
 ## 未来安排
 
@@ -132,70 +132,97 @@ v1.3 与 8 页截图已逐页核读；官方回源确认两项保障存在和基
 
 ### 准备稳定版本的演示素材 · `demo-record`
 
-**后续计划** · 负责人：全组；本人统筹 · 2026-11-25 · 内部建议
+**后续计划** · 负责人：全组；本人统筹 · 尚未安排 · 日期未定
 
 固定同一分支、政策和测试结果，准备正常、边界与异常演示。
 
 - 本环节交付：准备稳定版本的演示素材的可核版本或结果记录
-- 下一步：开发交录屏，接收方只把已复核的同一版本流程纳入演示；未测场景不当成功片段。
+- 下一步：开发／测试提供已跑通同一版本的正常及异常演示片段，第二天只拍已核主流程。
 - 前置依赖：web、p01、p23
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
 - 验收：待核 准备稳定版本的演示素材有实际产物和核验记录
-- 依据：组员续作核查与开发交接（脱敏）；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+- 依据：组员续作核查与开发交接（脱敏）；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
 
 ### 本人整合PPT初稿与讲述核对 · `slides-video`
 
-**后续计划** · 负责人：李宾雄／全组核事实 · 2026-11-26 · 内部建议
+**后续计划** · 负责人：李宾雄／全组核事实 · 尚未安排 · 日期未定
 
 解释业务目标、方法、实际效果与限制，录制同一版本的演示。
 
 - 本环节交付：合并 Slides 与录制演示的可核版本或结果记录
-- 下一步：本人整合PPT初稿，其他成员核各自事实并准备讲述；次日录制安排待确认。
+- 下一步：第二天前半本人填已核结果、各人核事实，约10页仅内部简化目标；未测结果留空。
 - 前置依赖：demo-record
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
 - 总监督可做：按已收证据填PPT结果页，约各人核事实和讲述段。
 - 验收：待核 合并 Slides 与录制演示有实际产物和核验记录
-- 依据：组员续作核查与开发交接（脱敏）；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+- 依据：组员续作核查与开发交接（脱敏）；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
 
 ### 核对最终文件与视频链接 · `delivery-check`
 
-**后续计划** · 负责人：全组；本人统筹 · 2026-11-27 · 内部建议
+**后续计划** · 负责人：全组；本人统筹 · 尚未安排 · 日期未定
 
 由另一位成员检查视频可访问、字幕声音和 Slides 版本，确认提交代表。
 
 - 本环节交付：核对最终文件与视频链接的可核版本或结果记录
-- 下一步：另一位成员按最终要求核视频、PPT、声音、链接及版本；本人确认提交文件与入口。
+- 下一步：48小时内实际核PPT/PDF、演示来源、声音、可播放链接与未完成清单。
 - 前置依赖：group-recording
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
 - 验收：待核 核对最终文件与视频链接有实际产物和核验记录
-- 依据：组员续作核查与开发交接（脱敏）；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+- 依据：组员续作核查与开发交接（脱敏）；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
 
 ### 本人先搭PPT骨架并核提交要求 · `ppt-outline`
 
-**后续计划** · 负责人：李宾雄／全组核事实 · 2026-11-22 · 内部建议
+**后续计划** · 负责人：李宾雄／全组核事实 · 尚未安排 · 日期未定
 
 本人已明确负责PPT，可先放业务、方案、演示、比较、价值／局限骨架，结果留待核；不等所有交件才开工。
 
 - 本环节交付：待填结果的PPT骨架、缺素材清单和准确提交要求核对。
-- 下一步：由本人／Agent先整理骨架，向各负责人收对应证据；不能预填成绩和效果。
+- 下一步：前4小时本人先搭业务、方案、演示、内部对比、市场证据、局限骨架并核提交要求；不等全部交件。
 - 前置依赖：无已登记前置
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
 - 总监督可做：先建PPT骨架和素材清单，核Canvas准确提交要求。
 - 验收：待核 PPT骨架和缺素材清单已形成
-- 依据：[本人确认PPT与任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+- 依据：[本人确认PPT与任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
 
 ### 全组录制与本人最终核对 · `group-recording`
 
-**后续计划** · 负责人：全组／李宾雄安排 · 2026-11-27 · 内部建议
+**后续计划** · 负责人：全组／李宾雄安排 · 尚未安排 · 日期未定
 
 内部目标27日录制；具体时间、分段和时长待成员确认及要求核查。
 
 - 本环节交付：基于已核PPT和稳定演示的录像候选，尚未录制。
-- 下一步：本人先约时间，各人按已核内容讲述；留时间检查声音、字幕和链接。
+- 下一步：本人在起始阶段约第二天录制时段，各人按已核事实讲述，48小时内录完候选后再核文件。
 - 前置依赖：slides-video
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
 - 验收：待核 录像候选可播放并已核内容
-- 依据：[末周任务与录制目标](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+- 依据：[末周任务与录制目标](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+
+### 本人先核基础B合同与共同评分 · `experiment-review`
+
+**后续计划** · 负责人：李宾雄／全组核事实 · 尚未安排 · 日期未定
+
+本人已认可基本架构方向，细输入与评分需按合同落实；不再把旧单轮B当正式对照。
+
+- 本环节交付：B/C信息与权限条件、模型调用及评分方法的核对表，仍待复核。
+- 下一步：按基础工具B合同先核共同条件和评分；旧单轮报告为辅助，不把它当新B成绩。
+- 前置依赖：无已登记前置
+- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
+- 总监督可做：先读新报告与脚本，列公平性/评分/完整记录问题，再确认正式实验变量。
+- 验收：待核 比较因素与评分方法已核并交本人确认
+- 依据：[本人确认PPT与任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+
+### 开发补有基本架构的工具型B · `basic-agent`
+
+**后续计划** · 负责人：李宗谦／Agent协作 · 尚未安排 · 日期未定
+
+本人已认可工具、多轮、确认、工单、人工审批完整基本架构；旧单轮函数不满足，新B尚未实现。
+
+- 本环节交付：符合基础B合同的实现、两模式运行方法及一条B查单—确认—人工审批记录。
+- 下一步：争取发群后12小时内复用现有系统补B，交真实模型／提交／初态；不重做网站，不放松共同安全底线。
+- 前置依赖：core
+- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
+- 验收：待核 基础B代码和可测说明已交；待核 工具／多轮／工单／审批基本架构实际可跑
+- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
 
 ## 已完成的阶段成果
 
