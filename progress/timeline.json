@@ -4,9 +4,9 @@
   "course": "IS5542",
   "timezone": "Asia/Shanghai",
   "as_of": "2026-11-21",
-  "basis_revision": "33195053c8084696f92ccb509f0e92c58bd6e106db7bc74bdda031dcd0b077ee",
+  "basis_revision": "e39cd5e08f1cbbc92fda6a512778841ab2fb9096a537e16b009bf9733cb8a94c",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
-  "summary": "本人11/21已确认驳回后只补具体原因＋人工入口，保留已驳回记录，不新增二次申请流程。原表7条4过3未过已核读；开发按三问题修复、A＋gaga合交定向复测，仍在原两天窗口。群稿已备待本人发送，修复／验收及工具B正式对照仍待。",
+  "summary": "本人已确认11/21更新安排发群，精确T0／成员承诺未知，原48小时窗口继续。已核教师9页模板，建立13页正文＋2附录逐页内容框架和14项材料清单；结果全部留空，未排版PPT／录制。Canvas最新复核停在SSO；三问题修复、工具B及正式对照待回。",
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "items": [
     {
@@ -1104,7 +1104,7 @@
       "scope": "team",
       "summary": "三平台首轮观察已收核，15 张表、26 张截图的有限比较成立；真实超时赔付、真人接通与工单闭环仍待补。远端 feat/ord001-local-web 已有开发代码及 11 月 10–11 日历史自检／共享入口记录，最新已见提交 9c8fdbc（11 月 18 日）；本次只核分支与报告，未重跑当前服务、真实模型或接收验收，不将历史自检升级为当前团队 P01 通过。",
       "deliverable": "完成核对或交接，并将实际答复更新回任务记录。",
-      "next_action": "本人先搭PPT与约录制，接开发C受测说明；不等待全部素材或看板会话。",
+      "next_action": "本人已发安排；现先按逐页内容框架开工并收缺材料，原48小时不重置，不等待学习或看板会话。",
       "my_next_action": "先拿固定受测版本和模型说明，确定共同预期；同时搭好PPT骨架。",
       "depends_on": [],
       "dependency_gates": [],
@@ -1124,7 +1124,7 @@
       "completed_on": null,
       "observed_on": "2026-11-21",
       "estimated_minutes": null,
-      "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
+      "state_basis": "本人确认已发群并要求先搭框架；实际已生成内容规划与清单，非已生成PPT／完成录制。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -1137,6 +1137,10 @@
         {
           "label": "本人确认的两天版任务与验收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
+        },
+        {
+          "label": "13页逐页内容与材料框架",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md"
         }
       ],
       "history": [
@@ -1193,6 +1197,17 @@
             },
             "next_action": "本人先收受测版本与真实模型说明，同时建PPT骨架和评分预期；学习后补不阻塞进度。",
             "owner": "本人 · 统筹"
+          }
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "needs_review",
+          "note": "任务更新已由本人发群；教师内容已核，逐页框架及材料清单已建，结果留空，最新Canvas行政条件待核。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "三平台首轮观察已收核，15 张表、26 张截图的有限比较成立；真实超时赔付、真人接通与工单闭环仍待补。远端 feat/ord001-local-web 已有开发代码及 11 月 10–11 日历史自检／共享入口记录，最新已见提交 9c8fdbc（11 月 18 日）；本次只核分支与报告，未重跑当前服务、真实模型或接收验收，不将历史自检升级为当前团队 P01 通过。",
+            "next_action": "本人先搭PPT与约录制，接开发C受测说明；不等待全部素材或看板会话。",
+            "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。"
           }
         }
       ]
@@ -1332,9 +1347,9 @@
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "解释业务目标、方法、实际效果与限制，录制同一版本的演示。",
+      "summary": "PPT逐页内容框架已开工，结果页保持空白；正式排版、PPT／PDF与录像仍待，按原两天窗口。",
       "deliverable": "合并 Slides 与录制演示的可核版本或结果记录",
-      "next_action": "第二天前半本人填已核结果、各人核事实，约10页仅内部简化目标；未测结果留空。",
+      "next_action": "素材到齐按框架填结果、统一英文文案与版式，再按核定要求录制；没有证据的数字不补猜测。",
       "my_next_action": "按已收证据填PPT结果页，约各人核事实和讲述段。",
       "depends_on": [
         "demo-record"
@@ -1356,7 +1371,7 @@
       "completed_on": null,
       "observed_on": "2026-11-21",
       "estimated_minutes": null,
-      "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
+      "state_basis": "本人确认已发群并要求先搭框架；实际已生成内容规划与清单，非已生成PPT／完成录制。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
@@ -1369,6 +1384,10 @@
         {
           "label": "本人确认的两天版任务与验收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
+        },
+        {
+          "label": "13页逐页内容与材料框架",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md"
         }
       ],
       "history": [
@@ -1402,6 +1421,17 @@
             },
             "next_action": "本人整合PPT初稿，其他成员核各自事实并准备讲述；次日录制安排待确认。",
             "owner": "李宾雄／全组核事实"
+          }
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "planned",
+          "note": "任务更新已由本人发群；教师内容已核，逐页框架及材料清单已建，结果留空，最新Canvas行政条件待核。",
+          "previous": {
+            "status": "planned",
+            "summary": "解释业务目标、方法、实际效果与限制，录制同一版本的演示。",
+            "next_action": "第二天前半本人填已核结果、各人核事实，约10页仅内部简化目标；未测结果留空。",
+            "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。"
           }
         }
       ]
@@ -1587,21 +1617,40 @@
     {
       "id": "ppt-outline",
       "title": "本人先搭PPT骨架并核提交要求",
-      "status": "planned",
+      "status": "in_progress",
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "本人已明确负责PPT，可先放业务、方案、演示、比较、价值／局限骨架，结果留待核；不等所有交件才开工。",
+      "summary": "教师9页模板与19:03转录已核，13页正文＋2附录逐页内容框架和14项材料清单已建；未排版PPT。Canvas最新复核停在SSO，提交条件仍待。",
       "deliverable": "待填结果的PPT骨架、缺素材清单和准确提交要求核对。",
-      "next_action": "前4小时本人先搭业务、方案、演示、内部对比、市场证据、局限骨架并核提交要求；不等全部交件。",
-      "my_next_action": "先建PPT骨架和素材清单，核Canvas准确提交要求。",
+      "next_action": "先据框架写可核背景／方案，收原工作包材料；取得Canvas最新提交条件后核时长／入口，再排版与录制。",
+      "my_next_action": "查看逐页内容和材料清单；先填业务／方案，后填有证据的结果；不等待补学代码。",
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
         {
           "id": "outline",
-          "label": "PPT骨架和缺素材清单已形成",
-          "status": "unknown"
+          "label": "逐页内容框架和缺材料清单已形成（非PPT成品）",
+          "status": "pass",
+          "evidence": [
+            "owner-dispatch-ppt-framework-20261121"
+          ]
+        },
+        {
+          "id": "latest_requirements",
+          "label": "最新Canvas入口／截止时刻／视频限制已复核",
+          "status": "unknown",
+          "evidence": [
+            "owner-dispatch-ppt-framework-20261121"
+          ]
+        },
+        {
+          "id": "deck",
+          "label": "正式可编辑PPT已制作并核对",
+          "status": "unknown",
+          "evidence": [
+            "owner-dispatch-ppt-framework-20261121"
+          ]
         }
       ],
       "target": {
@@ -1613,7 +1662,7 @@
       "completed_on": null,
       "observed_on": "2026-11-21",
       "estimated_minutes": null,
-      "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
+      "state_basis": "本人确认已发群并要求先搭框架；实际已生成内容规划与清单，非已生成PPT／完成录制。",
       "evidence": [
         {
           "label": "本人确认PPT与任务",
@@ -1622,6 +1671,10 @@
         {
           "label": "本人确认的两天版任务与验收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
+        },
+        {
+          "label": "13页逐页内容与材料框架",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md"
         }
       ],
       "history": [
@@ -1642,6 +1695,17 @@
             },
             "next_action": "由本人／Agent先整理骨架，向各负责人收对应证据；不能预填成绩和效果。",
             "owner": "李宾雄／全组核事实"
+          }
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "in_progress",
+          "note": "任务更新已由本人发群；教师内容已核，逐页框架及材料清单已建，结果留空，最新Canvas行政条件待核。",
+          "previous": {
+            "status": "planned",
+            "summary": "本人已明确负责PPT，可先放业务、方案、演示、比较、价值／局限骨架，结果留待核；不等所有交件才开工。",
+            "next_action": "前4小时本人先搭业务、方案、演示、内部对比、市场证据、局限骨架并核提交要求；不等全部交件。",
+            "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。"
           }
         }
       ]

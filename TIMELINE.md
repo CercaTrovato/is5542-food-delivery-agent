@@ -1,6 +1,6 @@
 # IS5542 · 项目时间线
 
-本人11/21已确认驳回后只补具体原因＋人工入口，保留已驳回记录，不新增二次申请流程。原表7条4过3未过已核读；开发按三问题修复、A＋gaga合交定向复测，仍在原两天窗口。群稿已备待本人发送，修复／验收及工具B正式对照仍待。
+本人已确认11/21更新安排发群，精确T0／成员承诺未知，原48小时窗口继续。已核教师9页模板，建立13页正文＋2附录逐页内容框架和14项材料清单；结果全部留空，未排版PPT／录制。Canvas最新复核停在SSO；三问题修复、工具B及正式对照待回。
 
 进度依据截至 2026-11-21；时区 Asia/Shanghai。完成日期未知时只记录核实日期。
 
@@ -108,12 +108,26 @@
 三平台首轮观察已收核，15 张表、26 张截图的有限比较成立；真实超时赔付、真人接通与工单闭环仍待补。远端 feat/ord001-local-web 已有开发代码及 11 月 10–11 日历史自检／共享入口记录，最新已见提交 9c8fdbc（11 月 18 日）；本次只核分支与报告，未重跑当前服务、真实模型或接收验收，不将历史自检升级为当前团队 P01 通过。
 
 - 本环节交付：完成核对或交接，并将实际答复更新回任务记录。
-- 下一步：本人先搭PPT与约录制，接开发C受测说明；不等待全部素材或看板会话。
+- 下一步：本人已发安排；现先按逐页内容框架开工并收缺材料，原48小时不重置，不等待学习或看板会话。
 - 前置依赖：无已登记前置
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
 - 总监督可做：先拿固定受测版本和模型说明，确定共同预期；同时搭好PPT骨架。
 - 验收：待核 已核对并登记实际结果或待回复内容
-- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)
+
+### 本人先搭PPT骨架并核提交要求 · `ppt-outline`
+
+**正在推进** · 负责人：李宾雄／全组核事实 · 尚未安排 · 日期未定
+
+教师9页模板与19:03转录已核，13页正文＋2附录逐页内容框架和14项材料清单已建；未排版PPT。Canvas最新复核停在SSO，提交条件仍待。
+
+- 本环节交付：待填结果的PPT骨架、缺素材清单和准确提交要求核对。
+- 下一步：先据框架写可核背景／方案，收原工作包材料；取得Canvas最新提交条件后核时长／入口，再排版与录制。
+- 前置依赖：无已登记前置
+- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
+- 总监督可做：查看逐页内容和材料清单；先填业务／方案，后填有证据的结果；不等待补学代码。
+- 验收：✓ 逐页内容框架和缺材料清单已形成（非PPT成品）；待核 最新Canvas入口／截止时刻／视频限制已复核；待核 正式可编辑PPT已制作并核对
+- 依据：[本人确认PPT与任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)
 
 ## 未来安排
 
@@ -147,15 +161,15 @@
 
 **后续计划** · 负责人：李宾雄／全组核事实 · 尚未安排 · 日期未定
 
-解释业务目标、方法、实际效果与限制，录制同一版本的演示。
+PPT逐页内容框架已开工，结果页保持空白；正式排版、PPT／PDF与录像仍待，按原两天窗口。
 
 - 本环节交付：合并 Slides 与录制演示的可核版本或结果记录
-- 下一步：第二天前半本人填已核结果、各人核事实，约10页仅内部简化目标；未测结果留空。
+- 下一步：素材到齐按框架填结果、统一英文文案与版式，再按核定要求录制；没有证据的数字不补猜测。
 - 前置依赖：demo-record
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
 - 总监督可做：按已收证据填PPT结果页，约各人核事实和讲述段。
 - 验收：待核 合并 Slides 与录制演示有实际产物和核验记录
-- 依据：组员续作核查与开发交接（脱敏）；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
+- 依据：组员续作核查与开发交接（脱敏）；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)
 
 ### 核对最终文件与视频链接 · `delivery-check`
 
@@ -169,20 +183,6 @@
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
 - 验收：待核 核对最终文件与视频链接有实际产物和核验记录
 - 依据：组员续作核查与开发交接（脱敏）；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
-
-### 本人先搭PPT骨架并核提交要求 · `ppt-outline`
-
-**后续计划** · 负责人：李宾雄／全组核事实 · 尚未安排 · 日期未定
-
-本人已明确负责PPT，可先放业务、方案、演示、比较、价值／局限骨架，结果留待核；不等所有交件才开工。
-
-- 本环节交付：待填结果的PPT骨架、缺素材清单和准确提交要求核对。
-- 下一步：前4小时本人先搭业务、方案、演示、内部对比、市场证据、局限骨架并核提交要求；不等全部交件。
-- 前置依赖：无已登记前置
-- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
-- 总监督可做：先建PPT骨架和素材清单，核Canvas准确提交要求。
-- 验收：待核 PPT骨架和缺素材清单已形成
-- 依据：[本人确认PPT与任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)
 
 ### 全组录制与本人最终核对 · `group-recording`
 

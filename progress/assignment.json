@@ -7,21 +7,21 @@
   "board_scope": "active",
   "group": "Group 24",
   "my_role": "本人统一PPT／录制与结论把关，Agent可协助核方法和数据；开发由李宗谦主做，A＋gaga作为测试组整体交件。",
-  "summary": "本人11/21已确认驳回后只补具体原因＋人工入口，保留已驳回记录，不新增二次申请流程。原表7条4过3未过已核读；开发按三问题修复、A＋gaga合交定向复测，仍在原两天窗口。群稿已备待本人发送，修复／验收及工具B正式对照仍待。",
-  "stage": "驳回后范围已定 · 三问题待修复复测 · 群稿待本人发送",
-  "updated_at": "2026-11-21T21:40:07+08:00",
+  "summary": "本人已确认11/21更新安排发群，精确T0／成员承诺未知，原48小时窗口继续。已核教师9页模板，建立13页正文＋2附录逐页内容框架和14项材料清单；结果全部留空，未排版PPT／录制。Canvas最新复核停在SSO；三问题修复、工具B及正式对照待回。",
+  "stage": "安排已发 · PPT逐页内容框架已建 · 结果待回填",
+  "updated_at": "2026-11-21T23:25:17+08:00",
   "reviewed_at": "2026-11-21",
   "progress_as_of": "2026-11-21",
   "task_scope_complete": false,
   "next_action": {
-    "title": "本人发更新群稿；开发第1天交三问题修复版本，测试组第2天完成补修复测并合交；PPT／研究／原定对照并行",
-    "owner": "本人／李宗谦／测试组",
+    "title": "按13页内容框架先写可核背景／方案，按14项清单收原交件；开发修复、测试组合交；回查Canvas后填结果和排版",
+    "owner": "本人／四个交件工作包",
     "basis": "proposed"
   },
   "blockers": [
     "原表7条与三问题步骤已核读，驳回后原因＋人工入口范围已确认；原受测版本／模型／运行证据及修复版本仍待开发交，测试组复测尚未核。",
     "基础工具型B尚未实现；固定受测提交、实际模型／开关与独立初态待开发交，不能拿旧单轮B顶替。",
-    "T0、成员可交时间和录制到场时段未核；正式补偿政策未定，demo-v1可先做受控验证。",
+    "群稿已发，精确T0、成员可交时间和录制时段未核；正式补偿政策未定，demo-v1可先做受控验证。",
     "市场无可用真实订单，比较限无订单观察／公开证据；真实后台及赔付到账未观察，不算平台失败。",
     "跨会话需本人本次确认，本轮不转交旧／新看板；11/28准确提交要求仍须核实。"
   ],
@@ -152,15 +152,16 @@
     {
       "id": "slides",
       "title": "Slides 与 Demo 叙事",
-      "status": "todo",
+      "status": "in_progress",
       "owner": "本人",
-      "note": "本人统一PPT，前4小时先建骨架并约录制，第二天填已核结果；目标48小时完成，未见成稿。 已有三个试用问题可先留修复前后页；目前不可写已修关闭。 本轮可引用组员报告7条4过3未过，版本／模型未明限制保留，复测关闭数未得。",
+      "note": "已依据教师模板建13页正文＋2附录内容框架、14项材料清单和空结果位；未排版为PPT、未填最终结果或录制。本人已确认群稿发出，精确时刻未知，仍沿原48小时。",
       "evidence": [
         "owner-final-week-20261121",
         "final-week-task-pack",
         "owner-two-day-plan-20261121",
         "team-feedback-20261121",
-        "team-test-sheet-read-20261121"
+        "team-test-sheet-read-20261121",
+        "owner-dispatch-ppt-framework-20261121"
       ]
     },
     {
@@ -304,7 +305,7 @@
       "label": "组员续作核查与开发交接（脱敏）",
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/supervision-report.md",
       "observed_at": "2026-11-21",
-      "sha256": "1d13897d006978b8c88b583e38e04e85793de3c6022c4e4d1066632dbc9fdf26"
+      "sha256": "0819b371fea4d625b4ab623a8627eb93aae64c2f5ff59f31c62e6b2edb912ad3"
     },
     {
       "id": "owner-team-handoff",
@@ -526,6 +527,14 @@
       "id": "owner-rejection-scope-20261121",
       "kind": "thread",
       "label": "本人确认驳回后原因＋人工入口、不新增二次申请，并要求两天群稿",
+      "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
+      "observed_at": "2026-11-21",
+      "sha256": null
+    },
+    {
+      "id": "owner-dispatch-ppt-framework-20261121",
+      "kind": "thread",
+      "label": "本人确认安排已发群，并要求课程对齐的逐页PPT框架、材料清单和空结果位",
       "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
       "observed_at": "2026-11-21",
       "sha256": null

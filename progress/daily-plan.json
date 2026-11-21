@@ -4,7 +4,7 @@
   "course": "IS5542",
   "as_of": "2026-11-21",
   "timezone": "Asia/Shanghai",
-  "source_revision": "6125c61c955184f3053ca227e4082328af9586d5c600684502b60c4f87683a40",
+  "source_revision": "e07c7c9c9f25e38b07de899822caec014ef1330aa0736547bbd7e8f49cdce8cf",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -53,8 +53,8 @@
       "id": "ppt-outline",
       "title": "本人先搭PPT骨架并核提交要求",
       "owner": "李宾雄／全组核事实",
-      "status": "planned",
-      "personal_action": "先建PPT骨架和素材清单，核Canvas准确提交要求。",
+      "status": "in_progress",
+      "personal_action": "查看逐页内容和材料清单；先填业务／方案，后填有证据的结果；不等待补学代码。",
       "readiness": "ready",
       "target": {
         "value": null,
