@@ -24,6 +24,12 @@ from langchain_core.outputs import ChatGeneration, ChatResult
 
 from ord001_graph import lookup_order
 
+ORDER_SCAN_RE = re.compile(r"ORD[\s\-_]*[0-9OIL]{1,12}(?![0-9A-Z])", re.IGNORECASE)
+PURE_LOOKUP_RE = re.compile(r"送到哪|几点送到|到哪了|查一下进度|查看进度|多少钱|实付|什么菜|订单详情")
+PRAISE_NO_CLAIM_RE = re.compile(
+    r"(?:不是|不用|不要|无需|不需要|不必)(?:要|申请)?(?:申请|赔付?|赔偿|补偿|发券)|辛苦了|表扬|点赞|态度很好"
+)
+
 
 @tool
 def query_order(order_id: str) -> dict:
@@ -46,8 +52,16 @@ def build_agent(model):
     )
 
 
+def _normalize_id(raw_match: str) -> str:
+    raw_id = re.sub(r"[\s\-_]+", "", raw_match.upper())
+    suffix = raw_id[3:].translate(str.maketrans({"O": "0", "I": "1", "L": "1"}))
+    if suffix.isdigit() and len(suffix) < 3:
+        suffix = suffix.zfill(3)
+    return "ORD" + suffix
+
+
 class ScriptedOrderModel(BaseChatModel):
-    """Deterministic teaching stand-in that emits standard tool-call messages."""
+    """Deterministic teaching stand-in that emits standard single or multi-order tool-call messages."""
 
     @property
     def _llm_type(self) -> str:
@@ -68,15 +82,23 @@ class ScriptedOrderModel(BaseChatModel):
             else:
                 response = AIMessage(content="未找到这笔订单，请核对订单号。")
         else:
-            match = re.search(r"ORD[\s\-_]*[0-9OIL]{1,12}(?![0-9A-Z])", last.text, re.IGNORECASE)
-            if match:
-                raw_id = re.sub(r"[\s\-_]+", "", match.group().upper())
-                norm_id = "ORD" + raw_id[3:].translate(str.maketrans({"O": "0", "I": "1", "L": "1"}))
-                response = AIMessage(content="", tool_calls=[{
-                    "name": "query_order",
-                    "args": {"order_id": norm_id},
-                    "id": uuid4().hex,
-                }])
+            text = last.text or ""
+            matches = ORDER_SCAN_RE.findall(text)
+            if matches:
+                seen_ids: list[str] = []
+                for m in matches:
+                    nid = _normalize_id(m)
+                    if nid not in seen_ids:
+                        seen_ids.append(nid)
+                is_lookup = bool(PURE_LOOKUP_RE.search(text) or PRAISE_NO_CLAIM_RE.search(text))
+                purpose = "lookup" if (is_lookup and not re.search(r"能赔|可以赔|申请补偿|申请赔付", text)) else "compensation"
+                response = AIMessage(
+                    content="",
+                    tool_calls=[
+                        {"name": "query_order", "args": {"order_id": nid, "purpose": purpose}, "id": uuid4().hex}
+                        for nid in seen_ids[:4]
+                    ],
+                )
             else:
                 response = AIMessage(content="请提供订单号，或从「我的订单」中选择。")
 
@@ -87,6 +109,7 @@ def build_studio_lookup():
     model_id = os.getenv("ORD001_CHAT_MODEL")
     model = init_chat_model(model_id) if model_id else ScriptedOrderModel()
     return build_agent(model)
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)

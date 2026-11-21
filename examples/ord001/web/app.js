@@ -1,6 +1,6 @@
 "use strict";
 
-// Shared UI and API helpers. Server content always enters the page through textContent.
+// Shared UI and API helpers. Server content always enters the page through textContent (zero innerHTML XSS).
 const STATUS_TEXT = { pending: "审核中", needs_info: "待补充", approved: "已通过", rejected: "未通过" };
 const $ = (id) => document.getElementById(id);
 const ICONS = {
@@ -40,73 +40,58 @@ const ICONS = {
   bag: ["M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z", "M3 6h18", "M16 10a4 4 0 0 1-8 0"],
   pie: ["M21.21 15.89A10 10 0 1 1 8 2.83", "M22 12A10 10 0 0 0 12 2v10z"],
   yen: ["M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z", "m8 7 4 5 4-5M8 12h8M8 15h8M12 12v6"],
-  folder: ["M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"],
-  smile: ["M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z", "M8 14s1.5 2 4 2 4-2 4-2", "M9 9h.01M15 9h.01"],
 };
 
-// Customer interface (/) uses Chubby Spider-Man MJ balancing items on his head (banana, toilet paper, dinner plate, cola).
-// Customer-service / merchant review interface (/review) uses Chubby Joker (肥胖版小丑客服).
-const MJ_HEAD_ITEMS = [
-  { key: "banana", src: "/static/mj-spidey-banana.png" },
-  { key: "tissue", src: "/static/mj-spidey-tissue.png" },
-  { key: "plate", src: "/static/mj-spidey-plate.png" },
-  { key: "cola", src: "/static/mj-spidey-cola.png" },
-];
-const JOKER_MASCOT_SRC = "/static/chubby-joker.png";
+// 100% commercial-safe original pure SVG vector icons (zero third-party IP files or external dependencies).
 let mjHeadIndex = 0;
 let lastMjOrderKey = "";
+let brandSafeMode = true;
 
 function isReviewPage() {
   return Boolean(document.body && document.body.dataset.page === "review");
 }
 
-function currentMjItem() {
-  return MJ_HEAD_ITEMS[mjHeadIndex % MJ_HEAD_ITEMS.length];
+function makeBrandSafeSvgAvatar(isSpecialist) {
+  const propIdx = mjHeadIndex % 3;
+  const wrap = el("span", `brand-safe-avatar ${isSpecialist ? "is-specialist" : `is-assistant prop-${propIdx}`}`);
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 24 24");
+  svg.setAttribute("aria-hidden", "true");
+  const paths = isSpecialist
+    ? ICONS.shield
+    : (propIdx === 0 ? ICONS.bowl : propIdx === 1 ? ICONS.sparkles : ICONS.heart);
+  for (const d of paths) {
+    const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    p.setAttribute("d", d);
+    svg.append(p);
+  }
+  wrap.append(svg);
+  return wrap;
 }
 
 function mascotImg(extraClass = "") {
-  const img = document.createElement("img");
-  img.className = `mascot-img ${extraClass}`.trim();
-  img.alt = "";
-  img.decoding = "async";
-  if (isReviewPage()) {
-    img.src = JOKER_MASCOT_SRC;
-    img.dataset.mascot = "joker";
-  } else {
-    const item = currentMjItem();
-    img.src = item.src;
-    img.dataset.mascot = "mj";
-    img.dataset.headItem = item.key;
-  }
-  return img;
+  const safeNode = makeBrandSafeSvgAvatar(isReviewPage());
+  if (extraClass) safeNode.classList.add(...extraClass.split(/\s+/).filter(Boolean));
+  return safeNode;
 }
 
 function updateMjMascots() {
   if (isReviewPage()) return;
-  const idx = mjHeadIndex % MJ_HEAD_ITEMS.length;
-  const item = MJ_HEAD_ITEMS[idx];
-  for (const img of document.querySelectorAll('img[data-mascot="mj"]')) {
-    if (img.dataset.headItem !== item.key) {
-      img.src = item.src;
-      img.dataset.headItem = item.key;
-      img.classList.remove("mascot-pop");
-      void img.offsetWidth;
-      img.classList.add("mascot-pop");
-    }
-  }
+  const idx = mjHeadIndex % 3;
   for (const dot of document.querySelectorAll("#mj-dots .mj-dot")) {
     dot.classList.toggle("active", Number(dot.dataset.mjIdx) === idx);
   }
-  const badge = $("brand-badge");
-  if (badge) badge.textContent = "MJ";
-  const pill = $("mj-head-pill");
-  if (pill) pill.textContent = "MJ";
+  for (const node of document.querySelectorAll(".brand-safe-avatar.is-assistant")) {
+    const fresh = makeBrandSafeSvgAvatar(false);
+    fresh.className = node.className.replace(/\bprop-\d\b/g, "").trim() + ` prop-${idx}`;
+    node.replaceWith(fresh);
+  }
 }
 
 function switchMjByOrder(orderKey = "", explicitIdx = null) {
   if (isReviewPage()) return;
   if (typeof explicitIdx === "number" && explicitIdx >= 0) {
-    mjHeadIndex = explicitIdx % MJ_HEAD_ITEMS.length;
+    mjHeadIndex = explicitIdx % 3;
     updateMjMascots();
     return;
   }
@@ -115,7 +100,7 @@ function switchMjByOrder(orderKey = "", explicitIdx = null) {
     if (normalized === lastMjOrderKey) return;
     lastMjOrderKey = normalized;
   }
-  mjHeadIndex = (mjHeadIndex + 1) % MJ_HEAD_ITEMS.length;
+  mjHeadIndex = (mjHeadIndex + 1) % 3;
   updateMjMascots();
 }
 
@@ -221,12 +206,14 @@ function badge(status) {
 function attachmentList(items, { customer = false } = {}) {
   const list = el("div", "attachment-list");
   for (const item of items || []) {
-    const card = el("div", `attachment-card attachment-${item.kind}`);
+    const card = el("div", `attachment-card attachment-${item.kind}${item.duplicate_alert ? " is-dup-alert" : ""}`);
     card.append(icon(item.kind === "image" ? "image" : "audio"), el("div", "attachment-info"));
     const info = card.lastElementChild;
     info.append(
-      el("strong", "", item.original_name || (item.kind === "image" ? "图片附件" : "语音附件")),
-      el("small", "", item.kind === "image" ? "图片 · 仅供人工客服查看" : "语音 · 仅供人工客服播放")
+      el("strong", "", item.original_name || (item.kind === "image" ? "图片凭证" : "语音留言")),
+      el("small", "", !customer && item.forensic_note
+        ? item.forensic_note
+        : (item.kind === "image" ? "图片凭证 · 专员核验" : "语音留言 · 专员核验"))
     );
     if (item.kind === "image") {
       const preview = document.createElement("img");
@@ -244,7 +231,9 @@ function attachmentList(items, { customer = false } = {}) {
     list.append(card);
   }
   if (items && items.length) {
-    const note = el("p", "attachment-disclosure", customer ? "附件已发送给人工客服处理。" : "顾客上传附件，由人工客服核实。");
+    const note = el("p", "attachment-disclosure", customer
+      ? "凭证已加密提交至人工专席核实（AI 不会自动裁决图片赔付）。"
+      : "已完成文件魔数与 SHA-256 重复图哈希核验，请人工复核。");
     list.append(note);
   }
   return list;
@@ -255,9 +244,9 @@ function fulfillmentChain(data) {
   const wrap = el("div", "fulfillment-chain");
   const steps = [
     ["下单", data.ordered_at, "done"],
-    ["餐厅出餐", data.prep_done_at || "—", data.prep_done_at ? "done" : "current"],
-    ["骑手取餐", data.picked_up_at || "—", data.picked_up_at ? "done" : ""],
-    ["实际送达", data.delivered_at || (data.status === "delivering" ? "配送中" : "缺记录"), data.delivered_at ? "done" : "warn"],
+    ["餐厅备餐", data.prep_done_at || "—", data.prep_done_at ? "done" : "current"],
+    ["交接配送", data.picked_up_at || "—", data.picked_up_at ? "done" : ""],
+    ["实际送达", data.delivered_at || (data.status === "delivering" ? "配送中" : "待同步"), data.delivered_at ? "done" : "warn"],
   ];
   for (const [label, timeVal, state] of steps) {
     const node = el("div", `chain-step ${state}`.trim());
@@ -267,15 +256,40 @@ function fulfillmentChain(data) {
   return wrap;
 }
 
+// Strict internal/external wording separation:
+// - Customer UI sees calm, non-divisive progress facts (never pitting customer against rider!).
+// - Merchant /review sees the full T1/T2 Subrogation Cost-Split & Rider Protection Ledger.
 function attributionBox(data) {
-  if (!data || (!data.liability_party && !data.liability_detail)) return null;
-  const box = el("div", "attribution-box");
-  if (data.liability_party) {
+  if (!data) return null;
+  if (!isReviewPage()) {
+    const noteText = data.customer_progress_note;
+    if (!noteText) return null;
+    const box = el("div", "attribution-box is-customer-safe");
     const top = el("div", "attribution-top");
-    top.append(el("span", "liability-tag", data.liability_party));
-    box.append(top);
+    top.append(el("span", "liability-tag", "履约进度说明"));
+    box.append(top, el("p", "attribution-detail", noteText));
+    return box;
   }
+  if (!data.liability_party && !data.liability_detail && !data.stp_note) return null;
+  const box = el("div", "attribution-box");
+  const top = el("div", "attribution-top");
+  if (data.stp_tier) {
+    const tierClass = data.stp_tier === "STP_L1_GREEN" ? "stp-green" : (data.stp_tier === "STP_L2_SHARED" ? "stp-amber" : "stp-red");
+    const tierLabel = data.stp_tier === "STP_L1_GREEN" ? "绿灯 · 准时保池 100% 直赔" : (data.stp_tier === "STP_L2_SHARED" ? "共担 · T1/T2 比例清分" : "人工核验单");
+    top.append(el("span", `stp-badge ${tierClass}`, tierLabel));
+  }
+  if (data.liability_party) top.append(el("span", "liability-tag", data.liability_party));
+  box.append(top);
   if (data.liability_detail) box.append(el("p", "attribution-detail", data.liability_detail));
+  if (typeof data.merchant_bear_yuan === "number" && typeof data.platform_bear_yuan === "number") {
+    box.append(el("p", "attribution-note", `清分账本：平台准时保池出资 ¥${data.platform_bear_yuan.toFixed(1)} ｜ 67餐厅净承担 ¥${data.merchant_bear_yuan.toFixed(1)}`));
+  }
+  if (data.rider_protection) {
+    box.append(el("p", "attribution-note rider-safe-tag", `🛵 骑手权益：${data.rider_protection}`));
+  }
+  if (data.gps_fence_note) {
+    box.append(el("p", "attribution-note", `📡 轨迹核验：${data.gps_fence_note}`));
+  }
   return box;
 }
 
@@ -303,11 +317,11 @@ function renderMeta(info) {
   $("meta").textContent = "演示";
   $("policy-details").replaceChildren(...factRows([
     ["规则版本", policy.version], ["申请条件", `已送达且${rule}`],
-    ["建议补偿", `¥${policy.coupon_yuan} 模拟券，人工审核后发放`],
+    ["建议补偿", `¥${policy.coupon_yuan} 模拟券（按 T1/T2 规则清分）`],
     ["对话模式", info.model_mode === "live" ? "在线模型" : "固定脚本"],
     ["模型", info.model], ["订单版本", info.data_version], ["模拟日期", info.service_date],
   ]));
-  if ($("guide-policy")) $("guide-policy").textContent = `已送达，${rule}可申请`;
+  if ($("guide-policy")) $("guide-policy").textContent = `已送达，${rule}可申请（纯运力延误由平台准时保池 100% 承担）`;
   if ($("guide-amount")) $("guide-amount").textContent = `¥${policy.coupon_yuan}`;
 }
 
@@ -315,10 +329,16 @@ function renderLogin(people, idKey, onPick) {
   const names = {
     U001: "顾客 01（推荐 · 含 ORD001–ORD008 共 8 笔测试单）",
     U002: "顾客 02（对照号 · 仅含 ORD101 跨账号测试单）",
-    R001: "67餐厅（商家审批与人工客服）",
+    R001: "67餐厅（门店履约核损台 · 租户 M_67REST）",
+    R002: "平台食安品控专席（独立全平台监管 · 跨租户 *）",
   };
+  const consentBox = $("pics-consent");
   $("login-choices").replaceChildren(...people.map((person) => {
     const node = button("", "login-option", async () => {
+      if (consentBox && !consentBox.checked) {
+        showStatus("请先阅读并勾选《收集个人资料及 AI 服务声明（PICS）》", true);
+        return;
+      }
       const choices = [...$("login-choices").querySelectorAll("button")];
       for (const choice of choices) choice.disabled = true;
       try { await onPick(person[idKey]); }
@@ -330,6 +350,13 @@ function renderLogin(people, idKey, onPick) {
     node.append(el("span", "avatar", person[idKey]), text, icon("arrow-right"));
     return node;
   }));
+  if (consentBox) {
+    consentBox.addEventListener("change", () => {
+      for (const choice of $("login-choices").querySelectorAll("button")) {
+        choice.disabled = !consentBox.checked;
+      }
+    });
+  }
 }
 
 function setSignedIn(name) {
@@ -380,7 +407,7 @@ function ticketHistory(ticketId) {
       const data = await api(`/api/${role}/tickets/${encodeURIComponent(ticketId)}`);
       if (!details.open || !details.isConnected) return;
       const entries = data.timeline || data.events || [];
-      const labels = { submitted: "已提交", information_requested: "商家提问", information_submitted: "已补充", approved: "审核通过", rejected: "未通过", rated: "顾客评价" };
+      const labels = { submitted: "已提交", information_requested: "专员提问", information_submitted: "已补充", approved: "审核通过", rejected: "未通过", rated: "顾客评价" };
       list.replaceChildren(...entries.map((entry) => {
         const row = el("li", "history-event");
         const head = el("div", "history-event-head");
@@ -405,10 +432,11 @@ function ticketHistory(ticketId) {
   return details;
 }
 
-function startPolling(refresh, ms) {
+// Keep merchant /review polling even in background tabs so kitchen staff never miss incoming tickets.
+function startPolling(refresh, ms, { allowHidden = false } = {}) {
   let running = false;
   const tick = async () => {
-    if (running || document.hidden) return;
+    if (running || (!allowHidden && document.hidden)) return;
     running = true;
     try { await refresh(); }
     catch (error) { showStatus(error.message, true); }
@@ -423,7 +451,6 @@ function bootUI() {
   document.querySelectorAll(".floating-receipt .receipt-symbol").forEach((node) => node.replaceChildren(mascotImg()));
   if (!isReviewPage()) {
     updateMjMascots();
-    for (const item of MJ_HEAD_ITEMS) { const preload = new Image(); preload.src = item.src; }
     const stage = $("mj-order-stage");
     if (stage) {
       stage.addEventListener("click", (event) => {
@@ -439,8 +466,13 @@ function bootUI() {
     const entryCard = $("entry-mascot-card");
     if (entryCard) entryCard.addEventListener("click", () => switchMjByOrder());
   }
+  const safeToggle = $("brand-safe-toggle");
+  if (safeToggle) {
+    safeToggle.checked = true;
+    safeToggle.disabled = true;
+  }
   let theme;
-  try { theme = localStorage.getItem("delivery-care-theme"); } catch (_) { /* Theme is optional. */ }
+  try { theme = localStorage.getItem("delivery-care-theme"); } catch (_) {}
   if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
   const applyThemeIcon = () => {
     const dark = document.documentElement.dataset.theme === "dark" ||
@@ -453,7 +485,7 @@ function bootUI() {
     const dark = $("theme-toggle").getAttribute("aria-label") === "切换浅色主题";
     const next = dark ? "light" : "dark";
     document.documentElement.dataset.theme = next;
-    try { localStorage.setItem("delivery-care-theme", next); } catch (_) { /* Works without storage. */ }
+    try { localStorage.setItem("delivery-care-theme", next); } catch (_) {}
     applyThemeIcon();
   });
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyThemeIcon);
@@ -462,7 +494,8 @@ function bootUI() {
   document.querySelectorAll("dialog").forEach((dialog) => dialog.addEventListener("click", (event) => {
     if (event.target !== dialog) return;
     const rect = dialog.getBoundingClientRect();
-    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
+    const inside = rect.top <= event.clientY && event.clientY <= rect.bottom && rect.left <= event.clientX && event.clientX <= rect.right;
+    if (!inside) dialog.close();
   }));
 }
 

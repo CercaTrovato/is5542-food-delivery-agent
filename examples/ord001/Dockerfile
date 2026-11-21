@@ -13,6 +13,9 @@ RUN pip install --no-cache-dir \
     httpx==0.28.1
 
 ENV PORT=7860
+ENV ORD001_PRODUCTION_MODE=1
+ENV ORD001_STRICT_SOD=1
+VOLUME ["/data"]
 EXPOSE 7860
 
-CMD ["sh", "-c", "python ord001_web.py --host 0.0.0.0 --port ${PORT:-7860} --db /tmp/ord001-cloud.sqlite3"]
+CMD ["sh", "-c", "mkdir -p /data && python ord001_web.py --host 0.0.0.0 --port ${PORT:-7860} --db ${ORD001_DB_PATH:-/data/ord001-prod.sqlite3}"]

@@ -243,8 +243,8 @@ uv run --no-project --python 3.12 examples/ord001/ord001_share_check.py \
 - 顾客确认和人工审批均使用 LangGraph interrupt / resume。身份与订单归属由服务端校验，工单由 SQLite 保存，同一订单和规则版本最多一张。
 - 商家可批准、拒绝或要求补充资料。要求补充时必须填写说明，工单进入 `needs_info`；仅订单本人可以补充，同一工单回到 `pending` 后再审。每轮提问与补充保留历史，补资料不改订单时间、规则版本和建议券额，批准前不发券。订单本身缺少送达事实时仍不能直接提交申请。
 - 原 Studio 图仍用 ord001_graph.py 中只接收 HH:MM、硬编码 >30 分钟／¥10 的旧判断。新网页调用共享 ord001_policy.py，支持秒级边界和规则配置；本轮 30:01 结果来自网页图，Studio 对照只覆盖 50 分钟和 30／31 分钟，两套图尚未统一规则模块。
-- 上述启动命令用仓库根目录的 `ord001-demo.sqlite3` 保存工单、补资料记录与事件，重启后可重新登录查看并继续处理。直接启动脚本但省略 `--db` 时，工单默认保存在内存；浏览器登录、聊天和图检查点始终不跨重启保留。运行库不纳入 Git 或交付 ZIP。可选 `--log-file /绝对路径/runs.jsonl` 追加运行记录。
-- 模拟身份选择本身没有密码；当前共享网关为开放模式，链接只发小组内部。个人配置可接入真实模型，本轮已提供依赖本机后端的 Surge 共享入口；团队统一模型、正式规则、生产账号体系和独立云部署仍待对齐。本轮没有开展正式 B/C 模型对照。
+- 上述启动命令用仓库根目录的 `ord001-demo.sqlite3` 保存工单、补资料记录、事件、不可篡改 `audit_logs` 哈希链与零 `pickle` 的 $O(1)$ 增量 JSON+Base64 `DurableSqliteSaver` 图状态快照（`graph_thread_checkpoints`），进程重启后对话与 `interrupt` 待确认状态完整保留恢复。直接启动脚本但省略 `--db` 时，默认使用内存库。运行库不纳入 Git 或交付 ZIP。可选 `--log-file /绝对路径/runs.jsonl` 追加运行记录。
+- 模拟身份选择默认面向课堂双端同屏演示；配置 `ORD001_PRODUCTION_MODE=1`、`ORD001_STRICT_SOD=1` 与 `ORD001_REVIEW_SECRET` 后即启用严格职责分离（SoD 互斥会话）、管理端强口令校验与诉讼保全禁删保护。已完成在线 DeepSeek `Plan B（纯 Prompt 基线）vs. Plan C（神经符号护栏图）` `pass^3` 正式消融对照评测（见 [ord001_ablation_eval.py](ord001_ablation_eval.py) 与 [evidence/ablation_b_vs_c.md](evidence/ablation_b_vs_c.md)）。
 - 入口：[ord001_web.py](ord001_web.py)；图：[ord001_web_graphs.py](ord001_web_graphs.py)；服务：[ord001_web_service.py](ord001_web_service.py)；工单：[ord001_web_store.py](ord001_web_store.py)；基础验收：[ord001_web_check.py](ord001_web_check.py)；补资料专项：[ord001_followup_check.py](ord001_followup_check.py)。
 
 ### 2026-11-11 新增：申请进度跟随订单、转人工、满意度、AI 回复护栏
@@ -255,6 +255,17 @@ uv run --no-project --python 3.12 examples/ord001/ord001_share_check.py \
 - **AI 回复护栏。** 模型自由回复在发给顾客前按规则检查：出现规则以外的金额、「保证/一定通过」、主动退款承诺、或与工单状态不符的「已发放/已转接」等说法时，换成固定说明并在运行记录里留下 `guarded`。服务端模板（规则结论、工单状态）不受影响。
 - **旧数据库原地升级。** 启动时给 tickets 表补 `rating`、`rated_at` 两列并新建 handoffs 表，不复制、不删除已有工单和事件。
 - 新增检查：[ord001_features_check.py](ord001_features_check.py)（隔离进程内，7 项）与 [ui-check/features.cjs](ui-check/features.cjs)（浏览器，8 项，会多次清空数据，只能对独立的脚本模型服务运行，例如 `--port 8031`）。本轮结果见 [evidence/2026-11-11-features](evidence/2026-11-11-features/)。
+
+### 2026-11-21 v12 旗舰升级：多租户 T1/T2 精算清分、零 Pickle $O(1)$ 持久化、原生 `astream` 护栏与真模型 `pass^3 = 100%` 消融对照
+
+- **多租户 T1/T2 责任清分、双池毛利封顶与临界 ¥3 自助秒发引擎（[ord001_policy.py](ord001_policy.py) / [ord001_web_service.py](ord001_web_service.py)）。** 自动比对承诺备餐 `prep_promised_at`、实际出餐 `prep_done_at` 与骑手交接送达时间：纯运力延误（如 `ORD005`、`ORD008`）归入 `STP_L1_GREEN`，由平台准时保池 100% 代偿（67餐厅 ¥0 承担），开启 `STP 0 人工秒赔` 即自动批量清空积压绿灯单；低客单价订单执行实付金额 40% 总赔付双池封顶（`effective_coupon = min(coupon, margin_cap_yuan)`），彻底防穿仓套利；临界延迟（15～30m，如 `ORD003` / `ORD004`）支持顾客端 **一键自助秒领 ¥3 平台暖心关怀券**（`/api/customer/goodwill`，`goodwill_grants` 独立落账，0 人工 CPT）；底层 SQL 支持 `tenant_id` 多租户行级隔离（`R001` 门店核损 vs `R002` 平台跨租户食安品控专席）。
+- **P0 食安红线熔断、64-bit 感知哈希鉴伪与全双工多轮人工会话（[ord001_web_graphs.py](ord001_web_graphs.py) / [ord001_web.py](ord001_web.py)）。** 识别异物、蟑螂、变质等食安诉求时立即熔断普通 ¥10 超时券流程（`outcome="food_safety_escalated"`, `claim=None`），弹出食安应急绿色通道卡；上传接口执行严格二进制魔数校验（`verify_media_magic`，拒绝 `<4B` 畸形载荷）、单单 3 附件与账号级 25MB 磁盘配额，并结合 `SHA-256` 精确哈希与 **64-bit 结构化感知签名（汉明距离 `<= 6`）** 拦截改字节重复网图欺诈；同时打通专员端（`/api/review/handoffs/{id}/followup`）与顾客端（`/api/customer/handoffs/{id}/followup`）全双工多轮追加会话。
+- **司乘友好与内外话术物理隔离（[demo-data.json](demo-data.json) / [web/app.js](web/app.js)）。** 顾客端 API 物理剥离内部定责字段，仅展示中立温和的履约进度说明（`customer_progress_note`），杜绝挑起司乘冲突；配送中订单采用带 15 分钟冷却的静默送达守护替代夺命催单；商家压单自动顺延骑手考核时效（`rider_sla_extended_min`）并记录恶劣天气/弱网免责保护（`rider_protection` / `gps_fence_note`）。
+- **白盒零信任安全、零 Pickle $O(1)$ 状态机、原生 `astream` 流式护栏与香港法例合规（[ord001_web_store.py](ord001_web_store.py)）。**
+  - 彻底移除 `pickle`（消除 CWE-502 反序列化攻击面），`DurableSqliteSaver` 采用纯 `JSON + Base64` 按 `(namespace, thread_id)` 执行 $O(1)$ 单会话增量持久化；非回环网卡（如 `--host 0.0.0.0`）启动强制启用高熵 `ORD001_REVIEW_SECRET` 与 `ORD001_STRICT_SOD=1` Fail-Closed 保护。
+  - `/api/customer/messages/stream` 基于原生异步 `customer_graph.astream(stream_mode=["messages", "values"])` 实现 Token 级中文标点分句缓冲与实时 `reply_risk` 熔断替换，并由每会话 `asyncio.Lock` 并发隔离；二次合成前对历史对话执行 `_PROMPT_INJECTION_TAG_RE` 清洗与状态锚点校验。
+  - 遵循香港 PDPO（Cap. 486 PICS 声明与数据最小化）、《商品说明条例》（Cap. 362 s.13E 显式 AI 身份披露）、《版权条例》（Cap. 528 纯原创零版权 `Brand-Safe SVG` 矢量图标，物理清零第三方 IP 素材）及《证据条例》（Cap. 8 s.22A 只追加 `SHA-256` 审计哈希链 `verify_audit_chain()`）。
+- **500 项零重复自测与真模型 `pass^3 = 100%` 消融评测。** [ord001_500_selfcheck.py](ord001_500_selfcheck.py) 覆盖 8 大维度共 **500/500** 独立不重复断言；[ord001_ablation_eval.py](ord001_ablation_eval.py) 在 60 轮真实 DeepSeek 在线推理上对比纯 Prompt 基线（Plan B，`pass^3 = 90.0%`）与本系统神经符号护栏图（Plan C，**`pass@1 = 100.0%`, `pass^3 = 100.0%`**），实测报告见 [evidence/ablation_b_vs_c.json](evidence/ablation_b_vs_c.json) 与 [evidence/ablation_b_vs_c.md](evidence/ablation_b_vs_c.md)。
 
 按 **Ctrl+C** 停止网页服务。原 Studio 运行方式如下，端口仍为 2024。
 
