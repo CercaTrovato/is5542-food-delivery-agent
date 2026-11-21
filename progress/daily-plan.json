@@ -2,9 +2,9 @@
   "schema_version": 1,
   "assignment_id": "IS5542-A01",
   "course": "IS5542",
-  "as_of": "2026-11-20",
+  "as_of": "2026-11-21",
   "timezone": "Asia/Shanghai",
-  "source_revision": "a3899b0192bef7fd95e4ce73e2bc98f300f646da378290a407e62cb4d14929a7",
+  "source_revision": "fab288c4660e5ea426d7232e3fcb3da1077f6941b53cfef9d88d6d7a81cb3378",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -17,32 +17,49 @@
   "actions": [
     {
       "id": "my-web",
-      "title": "本人下一步：顾客页面与人工审批",
+      "title": "本人下一步：受测版本、评分口径与PPT",
       "owner": "本人 · 统筹",
       "status": "needs_review",
-      "personal_action": "向开发侧核对可运行网页、分支、启动说明和 P01 试跑的实际交期。",
+      "personal_action": "先拿固定受测版本和模型说明，确定共同预期；同时搭好PPT骨架。",
       "readiness": "ready",
       "target": {
-        "value": null,
-        "precision": "unknown",
-        "basis": "unknown"
+        "value": "2026-11-22",
+        "precision": "date",
+        "basis": "proposed"
       },
       "blocked_by": [],
       "estimated_minutes": null,
-      "observed_on": "2026-11-20",
-      "date_state": "unscheduled"
+      "observed_on": "2026-11-21",
+      "date_state": "next_7_days"
+    },
+    {
+      "id": "ppt-outline",
+      "title": "本人先搭PPT骨架并核提交要求",
+      "owner": "李宾雄／全组核事实",
+      "status": "planned",
+      "personal_action": "先建PPT骨架和素材清单，核Canvas准确提交要求。",
+      "readiness": "ready",
+      "target": {
+        "value": "2026-11-22",
+        "precision": "date",
+        "basis": "proposed"
+      },
+      "blocked_by": [],
+      "estimated_minutes": null,
+      "observed_on": "2026-11-21",
+      "date_state": "next_7_days"
     },
     {
       "id": "acceptance",
       "title": "正式政策与 B/C 评价",
       "owner": "本人 + 技术／测试组",
       "status": "needs_review",
-      "personal_action": "先整理待确认的正式政策字段和 B/C 同案评分表，再与开发、测试对齐。",
+      "personal_action": "先核现有实验的公平性、完整记录和评分，再与本人确认比较变量；接收两位测试真实结果。",
       "readiness": "waiting_dependency",
       "target": {
-        "value": null,
-        "precision": "unknown",
-        "basis": "unknown"
+        "value": "2026-11-25",
+        "precision": "date",
+        "basis": "proposed"
       },
       "blocked_by": [
         "rules",
@@ -50,8 +67,46 @@
         "p23"
       ],
       "estimated_minutes": null,
-      "observed_on": "2026-11-20",
-      "date_state": "unscheduled"
+      "observed_on": "2026-11-21",
+      "date_state": "next_7_days"
+    },
+    {
+      "id": "slides-video",
+      "title": "本人整合PPT初稿与讲述核对",
+      "owner": "李宾雄／全组核事实",
+      "status": "planned",
+      "personal_action": "按已收证据填PPT结果页，约各人核事实和讲述段。",
+      "readiness": "waiting_dependency",
+      "target": {
+        "value": "2026-11-26",
+        "precision": "date",
+        "basis": "proposed"
+      },
+      "blocked_by": [
+        "demo-record"
+      ],
+      "estimated_minutes": null,
+      "observed_on": "2026-11-21",
+      "date_state": "next_7_days"
+    },
+    {
+      "id": "delivery",
+      "title": "Slides、录像与提交",
+      "owner": "李宾雄统一PPT／全组讲述与录制",
+      "status": "unknown",
+      "personal_action": "先建PPT骨架并收五人的要点、证据和讲述素材，核当前提交要求。",
+      "readiness": "verify",
+      "target": {
+        "value": "2026-11-27",
+        "precision": "date",
+        "basis": "proposed"
+      },
+      "blocked_by": [
+        "acceptance"
+      ],
+      "estimated_minutes": null,
+      "observed_on": "2026-11-21",
+      "date_state": "next_7_days"
     }
   ],
   "deadlines": [

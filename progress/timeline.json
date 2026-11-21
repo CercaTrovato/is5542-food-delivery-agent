@@ -3,10 +3,10 @@
   "assignment_id": "IS5542-A01",
   "course": "IS5542",
   "timezone": "Asia/Shanghai",
-  "as_of": "2026-11-20",
-  "basis_revision": "260900a54686c837483979d4d1c3dc713fa0a205f66bcb10dc2a1e66f87ce82e",
+  "as_of": "2026-11-21",
+  "basis_revision": "16a7a174dcdc8dd7a5e998fee54cd22b6a3db8619904a058426dbee76286122d",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
-  "summary": "三平台首轮观察已收核，15 张表、26 张截图的有限比较成立；真实超时赔付、真人接通与工单闭环仍待补。远端 feat/ord001-local-web 已有开发代码及 11 月 10–11 日历史自检／共享入口记录，最新已见提交 9c8fdbc（11 月 18 日）；本次只核分支与报告，未重跑当前服务、真实模型或接收验收，不将历史自检升级为当前团队 P01 通过。",
+  "summary": "11/21 本人确认统一做PPT及六人末周分工；具体任务卡与未执行交件模板已准备。新开发候选86632a6和10场景／60次实验报告已见待独立复核，500模拟自检另记。固定受测版本、真实验收、市场对照、正式政策／B-C方法与录制继续跟进；日期待成员确认。",
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "items": [
     {
@@ -18,7 +18,7 @@
       "scope": "team",
       "summary": "v1.3 与 8 页截图已逐页核读；官方回源确认两项保障存在和基本条件。精确边界、截图来源与适用版本仍待核。",
       "deliverable": "按三家平台记录适用条件、时间门槛、补偿、例外和原文证据。",
-      "next_action": "保留普通／黑金及各页面版本；补可得的截图出处和边界，查不到就注明检索位置。",
+      "next_action": "Jacky交一页业务说明、三平台规则表和可得来源补核，不负责PPT统稿。",
       "my_next_action": null,
       "depends_on": [],
       "dependency_gates": [],
@@ -57,15 +57,15 @@
         }
       ],
       "target": {
-        "value": null,
-        "precision": "unknown",
-        "basis": "unknown"
+        "value": "2026-11-24",
+        "precision": "date",
+        "basis": "proposed"
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-20",
+      "observed_on": "2026-11-21",
       "estimated_minutes": null,
-      "state_basis": "11/11 实际收件、全部 8 页视觉核验并重开两份官方条款；只关闭有证据的基本条件缺口，正式政策未批准。 原内部建议日期已过，实际完成未证；旧日期保存在 history，不自动改期或判迟交。",
+      "state_basis": "本人已认可任务方向；未记已派群、成员已承诺或交件完成。沿用旧成果证据，当前真实模型验收和新实验复核另记。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
@@ -74,6 +74,10 @@
         {
           "label": "v1.3 统一核验与资料",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/market-compensation-rules.md"
+        },
+        {
+          "label": "本人确认的本轮具体任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
         }
       ],
       "history": [
@@ -100,6 +104,19 @@
             },
             "state_basis": "11/11 实际收件、全部 8 页视觉核验并重开两份官方条款；只关闭有证据的基本条件缺口，正式政策未批准。"
           }
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "needs_review",
+          "note": "本人认可末周任务方向，PPT由本人做；日期为内部目标待成员确认。",
+          "previous": {
+            "target": {
+              "value": null,
+              "precision": "unknown",
+              "basis": "unknown"
+            },
+            "next_action": "保留普通／黑金及各页面版本；补可得的截图出处和边界，查不到就注明检索位置。"
+          }
         }
       ]
     },
@@ -112,7 +129,7 @@
       "scope": "team",
       "summary": "三平台报告、15 张表、26 张截图已核读，首轮所见入口与回复已补；真实赔付、真人接通和有工单进度仍待核。",
       "deliverable": "按 R01–R03 观察缺订单号、查补偿、找人工或查进度的流程。",
-      "next_action": "确认可得的日期／步骤和转接／进度证据；与规则研究核产品版本，未观察的条件保留待核。",
+      "next_action": "林承接旧记录，补真实可观察入口／人工／进度并做本系统对照；条件不匹配记不可比。",
       "my_next_action": null,
       "depends_on": [],
       "dependency_gates": [],
@@ -143,15 +160,15 @@
         }
       ],
       "target": {
-        "value": null,
-        "precision": "unknown",
-        "basis": "unknown"
+        "value": "2026-11-24",
+        "precision": "date",
+        "basis": "proposed"
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-20",
+      "observed_on": "2026-11-21",
       "estimated_minutes": null,
-      "state_basis": "11/12 收件并逐份核正文、全部内嵌图；观察日期由作者自述为11/11，未代现场复跑，不推后台或通用政策。 原内部建议日期已过，实际完成未证；旧日期保存在 history，不自动改期或判迟交。",
+      "state_basis": "本人已认可任务方向；未记已派群、成员已承诺或交件完成。沿用旧成果证据，当前真实模型验收和新实验复核另记。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -160,6 +177,10 @@
         {
           "label": "11/12 三平台流程核验及脱敏资料",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/competitor-evidence.md"
+        },
+        {
+          "label": "本人确认的本轮具体任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
         }
       ],
       "history": [
@@ -185,6 +206,19 @@
               "basis": "proposed"
             },
             "state_basis": "11/12 收件并逐份核正文、全部内嵌图；观察日期由作者自述为11/11，未代现场复跑，不推后台或通用政策。"
+          }
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "needs_review",
+          "note": "本人认可末周任务方向，PPT由本人做；日期为内部目标待成员确认。",
+          "previous": {
+            "target": {
+              "value": null,
+              "precision": "unknown",
+              "basis": "unknown"
+            },
+            "next_action": "确认可得的日期／步骤和转接／进度证据；与规则研究核产品版本，未观察的条件保留待核。"
           }
         }
       ]
@@ -259,9 +293,9 @@
       "owner": "李宗谦 · 网页开发",
       "owner_role": "member",
       "scope": "team",
-      "summary": "三平台首轮观察已收核，15 张表、26 张截图的有限比较成立；真实超时赔付、真人接通与工单闭环仍待补。远端 feat/ord001-local-web 已有开发代码及 11 月 10–11 日历史自检／共享入口记录，最新已见提交 9c8fdbc（11 月 18 日）；本次只核分支与报告，未重跑当前服务、真实模型或接收验收，不将历史自检升级为当前团队 P01 通过。",
+      "summary": "已见新开发候选86632a6，待明确受测提交与配置；网页登录入口曾只读打开，不替代本轮端到端验收。",
       "deliverable": "交本机可点通页面、开发分支、启动说明和同一工单的状态回显。",
-      "next_action": "接收方从已见开发分支核版本、启动说明及 P01/P02/P03；研究成员补可得的日期、点击路径、转接／工单证据。正式政策与 B/C 口径仍待确认，11 月 28 日准确交付条件待核。",
+      "next_action": "李宗谦给明确受测提交、入口、实际模型／规则／开关、可恢复初态和录屏；新候选86632a6待接收。",
       "my_next_action": null,
       "depends_on": [
         "core"
@@ -294,19 +328,23 @@
         }
       ],
       "target": {
-        "value": null,
-        "precision": "unknown",
-        "basis": "unknown"
+        "value": "2026-11-22",
+        "precision": "date",
+        "basis": "proposed"
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-20",
+      "observed_on": "2026-11-21",
       "estimated_minutes": null,
-      "state_basis": "沿用已有核验；未凭文件存在推定正式提交。 本日期为总监督建议，待相关成员确认，不改变正式截止。 原内部建议日期已过，实际完成未证；旧日期保存在 history，不自动改期或判迟交。",
+      "state_basis": "本人已认可任务方向；未记已派群、成员已承诺或交件完成。沿用旧成果证据，当前真实模型验收和新实验复核另记。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
           "url": null
+        },
+        {
+          "label": "本人确认的本轮具体任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
         }
       ],
       "history": [
@@ -337,6 +375,19 @@
             "summary": "交接说明已经发布；尚未收到团队网页及 P01 运行证据。 今天可交范围和时间仍待开发成员确认。",
             "next_action": "先交顾客确认→待审→批准／驳回→结果回显，缺项附阻塞。"
           }
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "needs_review",
+          "note": "本人认可末周任务方向，PPT由本人做；日期为内部目标待成员确认。",
+          "previous": {
+            "target": {
+              "value": null,
+              "precision": "unknown",
+              "basis": "unknown"
+            },
+            "next_action": "接收方从已见开发分支核版本、启动说明及 P01/P02/P03；研究成员补可得的日期、点击路径、转接／工单证据。正式政策与 B/C 口径仍待确认，11 月 28 日准确交付条件待核。"
+          }
         }
       ]
     },
@@ -349,7 +400,7 @@
       "scope": "team",
       "summary": "已见开发分支和历史自检材料；当前版本接收验收及正式政策／B/C仍待证据。",
       "deliverable": "独立检查顾客确认、待审、批准和驳回，核同一工单的状态回显。",
-      "next_action": "接收方按固定提交复跑并留证；不把历史开发自检当作本次团队验收。",
+      "next_action": "gaga老师执行正常10条真实模型／网页清单，交逐条实际结果和证据，25日补修复复测。",
       "my_next_action": null,
       "depends_on": [
         "web"
@@ -379,19 +430,23 @@
         }
       ],
       "target": {
-        "value": null,
-        "precision": "unknown",
-        "basis": "unknown"
+        "value": "2026-11-24",
+        "precision": "date",
+        "basis": "proposed"
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-20",
+      "observed_on": "2026-11-21",
       "estimated_minutes": null,
-      "state_basis": "沿用已有核验；未凭文件存在推定正式提交。 本日期为总监督建议，待相关成员确认，不改变正式截止。 原内部建议日期已过，实际完成未证；旧日期保存在 history，不自动改期或判迟交。",
+      "state_basis": "本人已认可任务方向；未记已派群、成员已承诺或交件完成。沿用旧成果证据，当前真实模型验收和新实验复核另记。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
           "url": null
+        },
+        {
+          "label": "本人确认的本轮具体任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
         }
       ],
       "history": [
@@ -422,6 +477,19 @@
             "summary": "已有参考用例；尚未收到该成员针对团队首版的独立验收记录。 团队网页与可重跑版本尚待交接，不能用原型验证替代成员验收。",
             "next_action": "先准备测试表和模拟初态；拿到分支后记录版本、预期、实际与复跑证据。"
           }
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "needs_review",
+          "note": "本人认可末周任务方向，PPT由本人做；日期为内部目标待成员确认。",
+          "previous": {
+            "target": {
+              "value": null,
+              "precision": "unknown",
+              "basis": "unknown"
+            },
+            "next_action": "接收方按固定提交复跑并留证；不把历史开发自检当作本次团队验收。"
+          }
         }
       ]
     },
@@ -434,7 +502,7 @@
       "scope": "team",
       "summary": "已见开发分支和历史自检材料；当前版本接收验收及正式政策／B/C仍待证据。",
       "deliverable": "检查阈值边界、缺订单号、查无记录及订单归属失败。",
-      "next_action": "接收方按固定提交复跑并留证；不把历史开发自检当作本次团队验收。",
+      "next_action": "A执行异常10条及新问法，交实际回答与状态证据、缺陷，25日补复测。",
       "my_next_action": null,
       "depends_on": [
         "web"
@@ -464,19 +532,23 @@
         }
       ],
       "target": {
-        "value": null,
-        "precision": "unknown",
-        "basis": "unknown"
+        "value": "2026-11-24",
+        "precision": "date",
+        "basis": "proposed"
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-20",
+      "observed_on": "2026-11-21",
       "estimated_minutes": null,
-      "state_basis": "沿用已有核验；未凭文件存在推定正式提交。 本日期为总监督建议，待相关成员确认，不改变正式截止。 原内部建议日期已过，实际完成未证；旧日期保存在 history，不自动改期或判迟交。",
+      "state_basis": "本人已认可任务方向；未记已派群、成员已承诺或交件完成。沿用旧成果证据，当前真实模型验收和新实验复核另记。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
           "url": null
+        },
+        {
+          "label": "本人确认的本轮具体任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
         }
       ],
       "history": [
@@ -507,6 +579,19 @@
             "summary": "已有参考用例；尚未收到该成员针对团队首版的独立验收记录。 团队网页与可重跑版本尚待交接，不能用原型验证替代成员验收。",
             "next_action": "先准备测试表和模拟初态；拿到分支后记录版本、预期、实际与复跑证据。"
           }
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "needs_review",
+          "note": "本人认可末周任务方向，PPT由本人做；日期为内部目标待成员确认。",
+          "previous": {
+            "target": {
+              "value": null,
+              "precision": "unknown",
+              "basis": "unknown"
+            },
+            "next_action": "接收方按固定提交复跑并留证；不把历史开发自检当作本次团队验收。"
+          }
         }
       ]
     },
@@ -517,10 +602,10 @@
       "owner": "本人 + 技术／测试组",
       "owner_role": "me",
       "scope": "team",
-      "summary": "已见开发分支和历史自检材料；当前版本接收验收及正式政策／B/C仍待证据。",
+      "summary": "新开发报告记录10场景、两方案、各3次；评分、信息／权限条件与完整原始结果待独立复核，正式政策／对照变量仍待确认。",
       "deliverable": "确认正式政策与公平对照范围，再用同模型、同规则、同题目比较 B/C。",
-      "next_action": "接收方按固定提交复跑并留证；不把历史开发自检当作本次团队验收。",
-      "my_next_action": "先整理待确认的正式政策字段和 B/C 同案评分表，再与开发、测试对齐。",
+      "next_action": "本人／Agent先核新10场景60次实验、统一评分与两边条件，再确认正式对照；不直接采用100%结论。",
+      "my_next_action": "先核现有实验的公平性、完整记录和评分，再与本人确认比较变量；接收两位测试真实结果。",
       "depends_on": [
         "rules",
         "p01",
@@ -566,19 +651,23 @@
         }
       ],
       "target": {
-        "value": null,
-        "precision": "unknown",
-        "basis": "unknown"
+        "value": "2026-11-25",
+        "precision": "date",
+        "basis": "proposed"
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-20",
+      "observed_on": "2026-11-21",
       "estimated_minutes": null,
-      "state_basis": "沿用已有核验；未凭文件存在推定正式提交。 本日期为总监督建议，待相关成员确认，不改变正式截止。 原内部建议日期已过，实际完成未证；旧日期保存在 history，不自动改期或判迟交。",
+      "state_basis": "本人已认可任务方向；未记已派群、成员已承诺或交件完成。沿用旧成果证据，当前真实模型验收和新实验复核另记。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
           "url": null
+        },
+        {
+          "label": "本人确认的本轮具体任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
         }
       ],
       "history": [
@@ -609,6 +698,19 @@
             "summary": "有参考原型与用例草案；没有完整团队验收或正式 B/C 结果。 正式政策和比较范围未确定，网页尚未交件。",
             "next_action": "先准备测试初态和评分表；拿到版本后独立验收。"
           }
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "needs_review",
+          "note": "本人认可末周任务方向，PPT由本人做；日期为内部目标待成员确认。",
+          "previous": {
+            "target": {
+              "value": null,
+              "precision": "unknown",
+              "basis": "unknown"
+            },
+            "next_action": "接收方按固定提交复跑并留证；不把历史开发自检当作本次团队验收。"
+          }
         }
       ]
     },
@@ -616,13 +718,13 @@
       "id": "delivery",
       "title": "Slides、录像与提交",
       "status": "unknown",
-      "owner": "全组",
-      "owner_role": "team",
+      "owner": "李宾雄统一PPT／全组讲述与录制",
+      "owner_role": "me",
       "scope": "team",
       "summary": "交付日期沿用 11 月 28 日，Slides 和录像实际进度未确认。 具体入口、时刻、视频要求与最终文件待核。",
       "deliverable": "把业务依据、演示和评价串成完整交付，并核最终回执。",
-      "next_action": "协调展示内容与录制安排，取得正式交付证据。",
-      "my_next_action": null,
+      "next_action": "本人统一PPT，各人交素材并核事实；统一安排录制和最终检查，准确提交要求待核。",
+      "my_next_action": "先建PPT骨架并收五人的要点、证据和讲述素材，核当前提交要求。",
       "depends_on": [
         "acceptance"
       ],
@@ -654,19 +756,23 @@
         }
       ],
       "target": {
-        "value": null,
-        "precision": "unknown",
-        "basis": "unknown"
+        "value": "2026-11-27",
+        "precision": "date",
+        "basis": "proposed"
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-20",
+      "observed_on": "2026-11-21",
       "estimated_minutes": null,
-      "state_basis": "沿用已有核验；未凭文件存在推定正式提交。",
+      "state_basis": "本人已认可任务方向；未记已派群、成员已承诺或交件完成。沿用旧成果证据，当前真实模型验收和新实验复核另记。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
           "url": null
+        },
+        {
+          "label": "本人确认的本轮具体任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
         }
       ],
       "history": [
@@ -674,20 +780,33 @@
           "observed_on": "2026-11-10",
           "status": "unknown",
           "note": "首次纳入统一时间线；该日为核实日期，不代替实际完成日。"
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "unknown",
+          "note": "本人认可末周任务方向，PPT由本人做；日期为内部目标待成员确认。",
+          "previous": {
+            "target": {
+              "value": null,
+              "precision": "unknown",
+              "basis": "unknown"
+            },
+            "next_action": "协调展示内容与录制安排，取得正式交付证据。"
+          }
         }
       ]
     },
     {
       "id": "my-web",
-      "title": "本人下一步：顾客页面与人工审批",
+      "title": "本人下一步：受测版本、评分口径与PPT",
       "status": "needs_review",
       "owner": "本人 · 统筹",
       "owner_role": "me",
       "scope": "team",
       "summary": "三平台首轮观察已收核，15 张表、26 张截图的有限比较成立；真实超时赔付、真人接通与工单闭环仍待补。远端 feat/ord001-local-web 已有开发代码及 11 月 10–11 日历史自检／共享入口记录，最新已见提交 9c8fdbc（11 月 18 日）；本次只核分支与报告，未重跑当前服务、真实模型或接收验收，不将历史自检升级为当前团队 P01 通过。",
       "deliverable": "完成核对或交接，并将实际答复更新回任务记录。",
-      "next_action": "接收方从已见开发分支核版本、启动说明及 P01/P02/P03；研究成员补可得的日期、点击路径、转接／工单证据。正式政策与 B/C 口径仍待确认，11 月 28 日准确交付条件待核。",
-      "my_next_action": "向开发侧核对可运行网页、分支、启动说明和 P01 试跑的实际交期。",
+      "next_action": "本人先收受测版本与真实模型说明，同时建PPT骨架和评分预期；学习后补不阻塞进度。",
+      "my_next_action": "先拿固定受测版本和模型说明，确定共同预期；同时搭好PPT骨架。",
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
@@ -698,19 +817,23 @@
         }
       ],
       "target": {
-        "value": null,
-        "precision": "unknown",
-        "basis": "unknown"
+        "value": "2026-11-22",
+        "precision": "date",
+        "basis": "proposed"
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-20",
+      "observed_on": "2026-11-21",
       "estimated_minutes": null,
-      "state_basis": "总监督根据现有缺口拟定的行动建议，未冒充已经开展。 本日期为总监督建议，待相关成员确认，不改变正式截止。 原内部建议日期已过，实际完成未证；旧日期保存在 history，不自动改期或判迟交。",
+      "state_basis": "本人已认可任务方向；未记已派群、成员已承诺或交件完成。沿用旧成果证据，当前真实模型验收和新实验复核另记。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
           "url": null
+        },
+        {
+          "label": "本人确认的本轮具体任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
         }
       ],
       "history": [
@@ -740,6 +863,19 @@
           "previous": {
             "summary": "向开发侧核对可运行网页、分支、启动说明和 P01 试跑的实际交期。",
             "next_action": "向开发侧核对可运行网页、分支、启动说明和 P01 试跑的实际交期。"
+          }
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "needs_review",
+          "note": "本人认可末周任务方向，PPT由本人做；日期为内部目标待成员确认。",
+          "previous": {
+            "target": {
+              "value": null,
+              "precision": "unknown",
+              "basis": "unknown"
+            },
+            "next_action": "接收方从已见开发分支核版本、启动说明及 P01/P02/P03；研究成员补可得的日期、点击路径、转接／工单证据。正式政策与 B/C 口径仍待确认，11 月 28 日准确交付条件待核。"
           }
         }
       ]
@@ -798,13 +934,12 @@
       "scope": "team",
       "summary": "固定同一分支、政策和测试结果，准备正常、边界与异常演示。",
       "deliverable": "准备稳定版本的演示素材的可核版本或结果记录",
-      "next_action": "固定同一分支、政策和测试结果，准备正常、边界与异常演示。",
+      "next_action": "开发交录屏，接收方只把已复核的同一版本流程纳入演示；未测场景不当成功片段。",
       "my_next_action": null,
       "depends_on": [
         "web",
         "p01",
-        "p23",
-        "acceptance"
+        "p23"
       ],
       "dependency_gates": [],
       "acceptance": [
@@ -815,19 +950,23 @@
         }
       ],
       "target": {
-        "value": "2026-11-23",
+        "value": "2026-11-25",
         "precision": "date",
         "basis": "proposed"
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-20",
+      "observed_on": "2026-11-21",
       "estimated_minutes": null,
-      "state_basis": "总监督根据现有正式节点拟定的倒排建议；未获团队日期确认。",
+      "state_basis": "本人已认可任务方向；未记已派群、成员已承诺或交件完成。沿用旧成果证据，当前真实模型验收和新实验复核另记。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
           "url": null
+        },
+        {
+          "label": "本人确认的本轮具体任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
         }
       ],
       "history": [
@@ -835,20 +974,33 @@
           "observed_on": "2026-11-11",
           "status": "planned",
           "note": "新拟定的计划，需与组员对齐日期和交件负责人。"
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "planned",
+          "note": "本人认可末周任务方向，PPT由本人做；日期为内部目标待成员确认。",
+          "previous": {
+            "target": {
+              "value": "2026-11-23",
+              "precision": "date",
+              "basis": "proposed"
+            },
+            "next_action": "固定同一分支、政策和测试结果，准备正常、边界与异常演示。"
+          }
         }
       ]
     },
     {
       "id": "slides-video",
-      "title": "合并 Slides 与录制演示",
+      "title": "本人整合PPT初稿与讲述核对",
       "status": "planned",
-      "owner": "全组；本人统筹",
-      "owner_role": "team",
+      "owner": "李宾雄／全组核事实",
+      "owner_role": "me",
       "scope": "team",
       "summary": "解释业务目标、方法、实际效果与限制，录制同一版本的演示。",
       "deliverable": "合并 Slides 与录制演示的可核版本或结果记录",
-      "next_action": "解释业务目标、方法、实际效果与限制，录制同一版本的演示。",
-      "my_next_action": null,
+      "next_action": "本人整合PPT初稿，其他成员核各自事实并准备讲述；次日录制安排待确认。",
+      "my_next_action": "按已收证据填PPT结果页，约各人核事实和讲述段。",
       "depends_on": [
         "demo-record"
       ],
@@ -861,19 +1013,23 @@
         }
       ],
       "target": {
-        "value": "2026-11-25",
+        "value": "2026-11-26",
         "precision": "date",
         "basis": "proposed"
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-20",
+      "observed_on": "2026-11-21",
       "estimated_minutes": null,
-      "state_basis": "总监督根据现有正式节点拟定的倒排建议；未获团队日期确认。",
+      "state_basis": "本人已认可任务方向；未记已派群、成员已承诺或交件完成。沿用旧成果证据，当前真实模型验收和新实验复核另记。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
           "url": null
+        },
+        {
+          "label": "本人确认的本轮具体任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
         }
       ],
       "history": [
@@ -881,6 +1037,19 @@
           "observed_on": "2026-11-11",
           "status": "planned",
           "note": "新拟定的计划，需与组员对齐日期和交件负责人。"
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "planned",
+          "note": "本人认可末周任务方向，PPT由本人做；日期为内部目标待成员确认。",
+          "previous": {
+            "target": {
+              "value": "2026-11-25",
+              "precision": "date",
+              "basis": "proposed"
+            },
+            "next_action": "解释业务目标、方法、实际效果与限制，录制同一版本的演示。"
+          }
         }
       ]
     },
@@ -893,10 +1062,10 @@
       "scope": "team",
       "summary": "由另一位成员检查视频可访问、字幕声音和 Slides 版本，确认提交代表。",
       "deliverable": "核对最终文件与视频链接的可核版本或结果记录",
-      "next_action": "由另一位成员检查视频可访问、字幕声音和 Slides 版本，确认提交代表。",
+      "next_action": "另一位成员按最终要求核视频、PPT、声音、链接及版本；本人确认提交文件与入口。",
       "my_next_action": null,
       "depends_on": [
-        "slides-video"
+        "group-recording"
       ],
       "dependency_gates": [],
       "acceptance": [
@@ -913,13 +1082,17 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-20",
+      "observed_on": "2026-11-21",
       "estimated_minutes": null,
-      "state_basis": "总监督根据现有正式节点拟定的倒排建议；未获团队日期确认。",
+      "state_basis": "本人已认可任务方向；未记已派群、成员已承诺或交件完成。沿用旧成果证据，当前真实模型验收和新实验复核另记。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
           "url": null
+        },
+        {
+          "label": "本人确认的本轮具体任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
         }
       ],
       "history": [
@@ -927,6 +1100,19 @@
           "observed_on": "2026-11-11",
           "status": "planned",
           "note": "新拟定的计划，需与组员对齐日期和交件负责人。"
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "planned",
+          "note": "本人认可末周任务方向，PPT由本人做；日期为内部目标待成员确认。",
+          "previous": {
+            "target": {
+              "value": "2026-11-27",
+              "precision": "date",
+              "basis": "proposed"
+            },
+            "next_action": "由另一位成员检查视频可访问、字幕声音和 Slides 版本，确认提交代表。"
+          }
         }
       ]
     },
@@ -1026,7 +1212,97 @@
           "note": "本次首轮材料收取与有限样本核阅完成，后续闭环另记。"
         }
       ]
+    },
+    {
+      "id": "ppt-outline",
+      "title": "本人先搭PPT骨架并核提交要求",
+      "status": "planned",
+      "owner": "李宾雄／全组核事实",
+      "owner_role": "me",
+      "scope": "team",
+      "summary": "本人已明确负责PPT，可先放业务、方案、演示、比较、价值／局限骨架，结果留待核；不等所有交件才开工。",
+      "deliverable": "待填结果的PPT骨架、缺素材清单和准确提交要求核对。",
+      "next_action": "由本人／Agent先整理骨架，向各负责人收对应证据；不能预填成绩和效果。",
+      "my_next_action": "先建PPT骨架和素材清单，核Canvas准确提交要求。",
+      "depends_on": [],
+      "dependency_gates": [],
+      "acceptance": [
+        {
+          "id": "outline",
+          "label": "PPT骨架和缺素材清单已形成",
+          "status": "unknown"
+        }
+      ],
+      "target": {
+        "value": "2026-11-22",
+        "precision": "date",
+        "basis": "proposed"
+      },
+      "started_on": null,
+      "completed_on": null,
+      "observed_on": "2026-11-21",
+      "estimated_minutes": null,
+      "state_basis": "本人已认可任务方向；未记已派群、成员已承诺或交件完成。沿用旧成果证据，当前真实模型验收和新实验复核另记。",
+      "evidence": [
+        {
+          "label": "本人确认PPT与任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
+        }
+      ],
+      "history": [
+        {
+          "observed_on": "2026-11-21",
+          "status": "planned",
+          "note": "本人确认责任，骨架尚未制作；可与测试并行。"
+        }
+      ]
+    },
+    {
+      "id": "group-recording",
+      "title": "全组录制与本人最终核对",
+      "status": "planned",
+      "owner": "全组／李宾雄安排",
+      "owner_role": "team",
+      "scope": "team",
+      "summary": "内部目标27日录制；具体时间、分段和时长待成员确认及要求核查。",
+      "deliverable": "基于已核PPT和稳定演示的录像候选，尚未录制。",
+      "next_action": "本人先约时间，各人按已核内容讲述；留时间检查声音、字幕和链接。",
+      "my_next_action": null,
+      "depends_on": [
+        "slides-video"
+      ],
+      "dependency_gates": [],
+      "acceptance": [
+        {
+          "id": "recorded",
+          "label": "录像候选可播放并已核内容",
+          "status": "unknown"
+        }
+      ],
+      "target": {
+        "value": "2026-11-27",
+        "precision": "date",
+        "basis": "proposed"
+      },
+      "started_on": null,
+      "completed_on": null,
+      "observed_on": "2026-11-21",
+      "estimated_minutes": null,
+      "state_basis": "本人已认可任务方向；未记已派群、成员已承诺或交件完成。沿用旧成果证据，当前真实模型验收和新实验复核另记。",
+      "evidence": [
+        {
+          "label": "末周任务与录制目标",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
+        }
+      ],
+      "history": [
+        {
+          "observed_on": "2026-11-21",
+          "status": "planned",
+          "note": "本人认可方向，未定会议时间或成员承诺。"
+        }
+      ]
     }
   ],
-  "basis_management_revision": "ddd3a93fe07585e4c9d1751caf43d0dfbd19b07dd0a2a8d6af1b5e48494c4c36"
+  "basis_management_revision": "40a5ab36e30a1ace230698f0ef773bd981406a6eae0841fda1a90f4d2483c18e"
 }

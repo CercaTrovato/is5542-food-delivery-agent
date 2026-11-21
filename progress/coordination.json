@@ -1,10 +1,13 @@
 {
   "schema_version": 1,
   "assignment_id": "IS5542-A01",
-  "status": "waiting_user",
-  "updated_at": "2026-11-08T00:13:46+08:00",
-  "summary": "外卖和原分工已定，主要实现与部署拟交接。Dify 待试用，本人倾向 LangChain／LangGraph 并希望实作。主框架未定，补偿档位仍待决定。",
-  "report_path": "notes/supervision-report.md",
+  "thread_id": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
+  "root_thread_id": "01a1b491-403e-7651-9aba-13e5b647af93",
+  "model": "gpt-6.1-sol",
+  "status": "ready_for_review",
+  "updated_at": "2026-11-21T18:53:25+08:00",
+  "summary": "11/21 本人确认统一做PPT及六人末周分工；具体任务卡与未执行交件模板已准备。新开发候选86632a6和10场景／60次实验报告已见待独立复核，500模拟自检另记。固定受测版本、真实验收、市场对照、正式政策／B-C方法与录制继续跟进；日期待成员确认。",
+  "report_path": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/supervision-report.md",
   "decisions": [
     {
       "id": "IS5542-D01",
@@ -26,7 +29,76 @@
       "options": [],
       "status": "decided",
       "answer": "原分工继续沿用。组内有免费 Token 的成员可负责可上线前后端，拟交接大部分开发任务。实际交接与上线状态待核。",
-      "answer_source": "2026-11-08 技术组成员确认，见团队会议与决策"
+      "answer_source": "2026-11-08 本人在课程会话 01a1b4b5-357e-7762-84f1-ae8ff400cba3 的消息 01a1b6c5-c143-77e0-baff-91cf57551c53"
+    },
+    {
+      "id": "IS5542-D03",
+      "question": "团队首版计划采用什么技术框架？",
+      "recommendation": "按拟定的 LangChain／LangGraph 推进首版。",
+      "options": [],
+      "status": "decided",
+      "answer": "本人确认团队首版拟用 LangChain／LangGraph。",
+      "answer_source": "2026-11-09 本人在课程会话 01a1b4b5-357e-7762-84f1-ae8ff400cba3 的消息 01a1c0d6-d321-7ba1-882b-ea7909d99dcf"
+    },
+    {
+      "id": "IS5542-D04",
+      "question": "调研报告作者的群昵称对应原会议中的哪位？两位调研／测试成员的当前具体职责如何划分？",
+      "recommendation": "先按会议原角色和私有仓库中已标明的首轮建议推进，收到真实分担后定向修订。",
+      "options": [],
+      "status": "decided",
+      "answer": "本人提供现行六人分工截图，以图示姓名或组内称呼及角色作为当前交接依据。开发、工程／baseline 各 1 人，业务调研、测试各 2 人。细任务和日期为建议。",
+      "answer_source": "2026-11-09 本人在总监督会话 01a1b491-403e-7651-9aba-13e5b647af93 提供的分工截图，消息 01a1c0f0-2427-7ac3-b5f2-21bc414d5365"
+    },
+    {
+      "id": "IS5542-D05",
+      "question": "课程项目首版优先验证哪类业务价值？",
+      "recommendation": "优先证明复杂外卖延误投诉能正确、安全地处理，效率和成本作为辅助。",
+      "options": [
+        "正确与安全处理",
+        "缩短顾客和客服的处理时间"
+      ],
+      "status": "decided",
+      "answer": "本人选正确与安全处理，效率和成本作为辅助。",
+      "answer_source": "2026-11-10 本人在课程会话 01a1b4b5-357e-7762-84f1-ae8ff400cba3 的消息 01a1c118-6682-7830-999e-a6b332ee06e7"
+    },
+    {
+      "id": "IS5542-D06",
+      "question": "本人这轮负责什么，亲手实现哪一块？",
+      "recommendation": "规则判定表、资格判定与分流节点、baseline B 及同案评分口径，与测试组共同验收。",
+      "options": [],
+      "status": "decided",
+      "answer": "本人确认承担以上三项交付，亲手实现补偿资格判定与分流节点。",
+      "answer_source": "2026-11-10 本人在课程会话 01a1b4b5-357e-7762-84f1-ae8ff400cba3 的消息 01a1c11c-26b0-7983-805d-2d3a91a2fc02，直接确认上一条所列范围。"
+    },
+    {
+      "id": "IS5542-D07",
+      "question": "建议何时让开发组员交可重跑的首轮分支，何时验收？",
+      "recommendation": "先前11/10的当天交期是历史；本轮建议22日交可开测说明、24日首轮结果、25日修复复测，待相应成员确认，不因本人认可方向推定成员已承诺。",
+      "options": [
+        "今天交可重跑结果，列出剩余项和预计交付时间",
+        "按开发组员确认的最早日期交件"
+      ],
+      "status": "pending",
+      "answer": null,
+      "answer_source": null
+    },
+    {
+      "id": "IS5542-D08",
+      "question": "工程推进与学习如何安排？",
+      "recommendation": "工程由 Agent 按已确认方向推进，个人学习随工程结果补上。",
+      "options": [],
+      "status": "decided",
+      "answer": "本人明确工程进度靠 Agent 推进，学习可以在后面跟上。网页前端纳入开发交件。",
+      "answer_source": "2026-11-10 本人在课程会话 01a1b4b5-357e-7762-84f1-ae8ff400cba3 的消息 01a1c37e-01ef-7033-a33a-8571529051f3。"
+    },
+    {
+      "id": "IS5542-D09",
+      "question": "最后一周六人如何分工，PPT由谁负责？",
+      "recommendation": "保留原角色并给六人具体主交付；本人统一PPT，其他人交素材与证据。",
+      "options": [],
+      "status": "decided",
+      "answer": "本人明确PPT自己做，其他分工方向认可，要求用人话列具体操作与交件。内部目标日期尚待成员确认，未授权代发群消息。",
+      "answer_source": "2026-11-21 本课程会话01a1b4b5-357e-7762-84f1-ae8ff400cba3，本人原话：“我来做PPT，其他没什么问题，问需要非常具体的要做的事情，人话”。"
     }
   ]
 }

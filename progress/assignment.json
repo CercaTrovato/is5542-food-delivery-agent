@@ -6,22 +6,22 @@
   "assignment_type": "group",
   "board_scope": "active",
   "group": "Group 24",
-  "my_role": "技术开发。拟把主要实现和部署交给有免费 Token 的技术组员",
-  "summary": "三平台首轮观察已收核，15 张表、26 张截图的有限比较成立；真实超时赔付、真人接通与工单闭环仍待补。远端 feat/ord001-local-web 已有开发代码及 11 月 10–11 日历史自检／共享入口记录，最新已见提交 9c8fdbc（11 月 18 日）；本次只核分支与报告，未重跑当前服务、真实模型或接收验收，不将历史自检升级为当前团队 P01 通过。",
-  "stage": "开发分支及历史自检已见，接收验收与闭环证据待补",
-  "updated_at": "2026-11-20T02:00:21+08:00",
-  "reviewed_at": "2026-11-20",
-  "progress_as_of": "2026-11-18",
+  "my_role": "工程／评分口径与PPT。Agent推进实现与核对，本人负责关键选择和最终呈现；李宗谦主做开发与部署。",
+  "summary": "11/21 本人确认统一做PPT及六人末周分工；具体任务卡与未执行交件模板已准备。新开发候选86632a6和10场景／60次实验报告已见待独立复核，500模拟自检另记。固定受测版本、真实验收、市场对照、正式政策／B-C方法与录制继续跟进；日期待成员确认。",
+  "stage": "本人做PPT · 六人任务已明确 · 新开发／实验待接收验收",
+  "updated_at": "2026-11-21T18:54:59+08:00",
+  "reviewed_at": "2026-11-21",
+  "progress_as_of": "2026-11-21",
   "task_scope_complete": false,
   "next_action": {
-    "title": "接收方从已见开发分支核版本、启动说明及 P01/P02/P03；研究成员补可得的日期、点击路径、转接／工单证据。正式政策与 B/C 口径仍待确认，11 月 28 日准确交付条件待核。",
-    "owner": "本人／技术组",
+    "title": "本人发送本轮六人具体任务并收交期；开发交受测版本，测试与研究并行，本人先建PPT骨架和核实验方法",
+    "owner": "本人／全组",
     "basis": "proposed"
   },
   "blockers": [
-    "已见开发分支；当前服务、真实模型模式及接收人独立 P01/P02/P03 未在本次复跑确认",
-    "正式补偿阈值、券额、政策负责人及 B/C 同案条件仍待确认",
-    "11 月 28 日提交入口、准确时刻、视频上限和 rubric 沿用待核；旧邀请数量不是本次实时核查"
+    "开发新候选86632a6待明确冻结提交、真实模型／规则与开关、接收方独立网页验收；新实验报告待核方法和完整运行证据。",
+    "正式补偿政策和B/C比较因素尚未单独确定；功能测试可沿标明的demo-v1并行。",
+    "成员交期／会议与录制安排待答复；11/28准确入口、时刻和视频要求待Canvas核。"
   ],
   "tasks": [
     {
@@ -97,7 +97,7 @@
       "title": "领域工具与 Agent 最小可运行链路",
       "status": "in_progress",
       "owner": "技术组（拟由有免费 Token 的成员主做）",
-      "note": "已见远端开发分支9c8fdbc及历史自检/共享入口报告；本次未复跑当前服务或真实模型，接收方验收仍待核。",
+      "note": "已见远端开发分支9c8fdbc及历史自检/共享入口报告；本次未复跑当前服务或真实模型，接收方验收仍待核。 11/21新到候选86632a6，受测版本与接收验收仍待；李宗谦交可开测说明和修复。",
       "evidence": [
         "app",
         "handoff",
@@ -107,7 +107,9 @@
         "owner-framework-plan",
         "owner-frontend-and-learning",
         "frontend-handoff-commit",
-        "web-branch-20261120"
+        "web-branch-20261120",
+        "dev-and-ablation-86632a6",
+        "final-week-task-pack"
       ]
     },
     {
@@ -115,9 +117,10 @@
       "title": "3 个剧本试跑与成本记录",
       "status": "todo",
       "owner": "技术组",
-      "note": "P01–P03 已拟定。真实模型本机已复核 ORD001 50 分钟审批、30 分钟边界。完整三组与成本记录待团队首版。 开发分支附历史自检；未记为本次独立复跑或接收方验收。",
+      "note": "P01–P03 已拟定。真实模型本机已复核 ORD001 50 分钟审批、30 分钟边界。完整三组与成本记录待团队首版。 开发分支附历史自检；未记为本次独立复跑或接收方验收。 本轮两位测试分别按正常10条、异常10条待执行模板，使用真实模型并核网页闭环；模板不是结果。",
       "evidence": [
-        "handoff"
+        "handoff",
+        "final-week-task-pack"
       ]
     },
     {
@@ -125,29 +128,36 @@
       "title": "基线比较与系统评测",
       "status": "todo",
       "owner": "技术 / 测试组",
-      "note": "B/C 同模型、同政策、同任务做正式技术对照；人工 As-Is 只作为另外的业务参照。尚未正式评测。 主目标已确认是复杂投诉的正确与安全处理，效率和成本为辅助结果，指标细则待定。 本人负责 baseline B 与评分口径，测试组独立准备和执行用例，双方共同核对结果。 开发分支附历史自检；未记为本次独立复跑或接收方验收。",
+      "note": "B/C 同模型、同政策、同任务做正式技术对照；人工 As-Is 只作为另外的业务参照。尚未正式评测。 主目标已确认是复杂投诉的正确与安全处理，效率和成本为辅助结果，指标细则待定。 本人负责 baseline B 与评分口径，测试组独立准备和执行用例，双方共同核对结果。 开发分支附历史自检；未记为本次独立复跑或接收方验收。 11/21新报告自述10场景、B/C各3次，共60次实验；未独立重跑，B全表信息与C权限工具差异、评分和原始记录待核，不能直接算正式受控结果。",
       "evidence": [
         "brief",
         "handoff",
         "owner-business-objective",
-        "owner-personal-scope"
+        "owner-personal-scope",
+        "dev-and-ablation-86632a6",
+        "final-week-task-pack"
       ]
     },
     {
       "id": "slides",
       "title": "Slides 与 Demo 叙事",
-      "status": "unknown",
-      "owner": null,
-      "note": "",
-      "evidence": []
+      "status": "todo",
+      "owner": "本人",
+      "note": "11/21本人明确PPT自己负责；其他五人交素材与证据。内部目标26日初稿，尚无成稿核验。",
+      "evidence": [
+        "owner-final-week-20261121",
+        "final-week-task-pack"
+      ]
     },
     {
       "id": "recording",
       "title": "全组录像及最终检查",
-      "status": "unknown",
-      "owner": null,
-      "note": "",
-      "evidence": []
+      "status": "todo",
+      "owner": "全组／本人安排",
+      "note": "内部目标27日录制与检查；具体时间、分段和时长待核要求及成员确认，未记已录制。",
+      "evidence": [
+        "final-week-task-pack"
+      ]
     },
     {
       "id": "named-handoff",
@@ -219,9 +229,9 @@
   "sources": [
     {
       "id": "brief",
-      "kind": "thread",
+      "kind": "local",
       "label": "A01 当前任务说明",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/任务说明.md",
       "observed_at": "2026-11-09",
       "sha256": "13c3312197c9671cd2c051f7cf78a9820706ef92740ba785cf22e6c9ae6086d0"
     },
@@ -229,23 +239,23 @@
       "id": "deadline-chat",
       "kind": "thread",
       "label": "整理各课程作业截止时间表（已登录 Canvas 核对）",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "locator": "01a1b1d5-d4db-7911-a458-11f3770a19ee",
       "observed_at": "2026-11-07",
       "sha256": null
     },
     {
       "id": "meeting",
-      "kind": "thread",
+      "kind": "local",
       "label": "团队会议历史与本人方向确认",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/团队会议与决策.md",
       "observed_at": "2026-11-08",
       "sha256": "11ed0efe9f19d51557847ca29ed2ec3f96279c805f0075e3a1ec6f5d2eb8a1ec"
     },
     {
       "id": "app",
-      "kind": "thread",
+      "kind": "local",
       "label": "外卖 app 本地环境与状态说明",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/work/app/README.md",
       "observed_at": "2026-11-07",
       "sha256": "977679a6105cbb4e86bd51dbf413d0db3bbf4bb2e3f66f4726bac6cd18dcc030"
     },
@@ -261,31 +271,31 @@
       "id": "owner-direction",
       "kind": "thread",
       "label": "本人于 11/07 确认外卖方案已定",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "locator": "01a1b491-403e-7651-9aba-13e5b647af93",
       "observed_at": "2026-11-07",
       "sha256": null
     },
     {
       "id": "team-report",
-      "kind": "thread",
-      "label": "11/06 组员商业调研与 Demo 设计原件",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
-      "observed_at": "2026-11-07",
+      "kind": "web",
+      "label": "11/06 商业调研与Demo原件（已发布同哈希存档）",
+      "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/team-private/FoodDelivery_Agent_Report.docx",
+      "observed_at": "2026-11-21",
       "sha256": "5cefb330ad2eeedae82ff8741f538a6d336126147a028808c127984fedd281da"
     },
     {
       "id": "handoff",
-      "kind": "thread",
+      "kind": "local",
       "label": "组员续作核查与开发交接（脱敏）",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
-      "observed_at": "2026-11-12",
-      "sha256": "e9c72db7edee9f54ab0ced77a4f11158041df95e557cc991eb4aca4a3981c55e"
+      "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/supervision-report.md",
+      "observed_at": "2026-11-21",
+      "sha256": "30269ab6465352d4ceea4a0057290ef63cdbe9101b257350c5b0de419867c921"
     },
     {
       "id": "owner-team-handoff",
       "kind": "thread",
       "label": "11/08 本人确认原角色沿用及开发部署交接方向",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
       "observed_at": "2026-11-08",
       "sha256": null
     },
@@ -293,7 +303,7 @@
       "id": "framework-discussion",
       "kind": "thread",
       "label": "11/08 本人补充框架讨论与群聊（Dify 试用计划）",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
       "observed_at": "2026-11-08",
       "sha256": null
     },
@@ -317,7 +327,7 @@
       "id": "studio-prototype",
       "kind": "thread",
       "label": "11/08 本地 Studio 真实模型审批及边界核验",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
       "observed_at": "2026-11-08",
       "sha256": null
     },
@@ -333,7 +343,7 @@
       "id": "owner-framework-plan",
       "kind": "thread",
       "label": "11/09 本人确认团队首版计划采用 LangChain／LangGraph",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
       "observed_at": "2026-11-09",
       "sha256": null
     },
@@ -349,7 +359,7 @@
       "id": "owner-current-roster",
       "kind": "thread",
       "label": "11/09 本人提供现行六人分工截图",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "locator": "01a1b491-403e-7651-9aba-13e5b647af93",
       "observed_at": "2026-11-09",
       "sha256": null
     },
@@ -357,7 +367,7 @@
       "id": "owner-business-objective",
       "kind": "thread",
       "label": "11/10 本人确认项目主目标和辅助指标方向",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
       "observed_at": "2026-11-10",
       "sha256": null
     },
@@ -365,7 +375,7 @@
       "id": "owner-personal-scope",
       "kind": "thread",
       "label": "11/10 本人确认首轮职责与亲手实现的模块",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
       "observed_at": "2026-11-10",
       "sha256": null
     },
@@ -373,7 +383,7 @@
       "id": "owner-research-dispatch",
       "kind": "thread",
       "label": "11/10 本人确认三平台调研任务已发送",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
       "observed_at": "2026-11-10",
       "sha256": null
     },
@@ -389,7 +399,7 @@
       "id": "owner-frontend-and-learning",
       "kind": "thread",
       "label": "11/10 本人明确网页前端与 Agent 推进安排",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
       "observed_at": "2026-11-10",
       "sha256": null
     },
@@ -397,7 +407,7 @@
       "id": "market-rules-received",
       "kind": "thread",
       "label": "11/10 本人转发三平台公开补偿规则初稿",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
       "observed_at": "2026-11-10",
       "sha256": null
     },
@@ -427,9 +437,9 @@
     },
     {
       "id": "notes-update-20261118",
-      "kind": "thread",
+      "kind": "local",
       "label": "课程笔记更新：补充复习资料，不计小组交付",
-      "locator": "已核依据记录；原件未因本轮自动扩大共享",
+      "locator": "IS5542_GenAI_in_Business/review/notes-update-20261118.md",
       "observed_at": "2026-11-20",
       "sha256": "98892c6607ddaa937003d66da69d5e16b19042822b3ffcb860e280a77e2d0f8a"
     },
@@ -439,6 +449,38 @@
       "label": "已见开发分支 9c8fdbc；历史交付自检不等于当前接收验收",
       "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/tree/9c8fdbc",
       "observed_at": "2026-11-20",
+      "sha256": null
+    },
+    {
+      "id": "audio-update-20261121",
+      "kind": "web",
+      "label": "11/21录音与期末复盘（学习补充；不计小组交付）",
+      "locator": "https://github.com/CercaTrovato/cityu-ai-course-notes/blob/main/IS5542_GenAI_in_Business/review/audio-update-20261121.md",
+      "observed_at": "2026-11-21",
+      "sha256": "a3ffb88af2d56488c132a414c22ab6c41d5d9ee370d3e92f1d64db84aae4b990"
+    },
+    {
+      "id": "owner-final-week-20261121",
+      "kind": "thread",
+      "label": "11/21 本人确认PPT与六人分工方向",
+      "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
+      "observed_at": "2026-11-21",
+      "sha256": null
+    },
+    {
+      "id": "final-week-task-pack",
+      "kind": "web",
+      "label": "本轮六人具体任务与待填交件模板",
+      "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md",
+      "observed_at": "2026-11-21",
+      "sha256": null
+    },
+    {
+      "id": "dev-and-ablation-86632a6",
+      "kind": "web",
+      "label": "新到开发候选与对照报告（待复核）",
+      "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/commit/86632a6a44c76cfedae6f444e7c005d60fa56164",
+      "observed_at": "2026-11-21",
       "sha256": null
     }
   ]
