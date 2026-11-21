@@ -5,8 +5,8 @@
   "root_thread_id": "01a1b491-403e-7651-9aba-13e5b647af93",
   "model": "gpt-6.1-sol",
   "status": "ready_for_review",
-  "updated_at": "2026-11-21T19:57:32+08:00",
-  "summary": "11/21 本人确认48小时五个工作包：开发补有基本架构的工具型B，测试组A＋gaga合交技术／网页／轻量人类视觉结果，研究交有限证据，本人统一PPT与录制。基础B未实现、实验未执行，市场限无订单观察／公开资料。跨会话须先获本次确认，本批未转交看板。",
+  "updated_at": "2026-11-21T20:38:18+08:00",
+  "summary": "11/21晚测试组A＋gaga已报告3个试用问题，李宗谦已回复收到修复请求；原在线表当前无访问权限，具体版本／模型／复现记录未核。开发先定位修复、测试组补原记录并定向复测；工具型B和正式对照仍待，PPT与研究并行。未经本人本次确认不跨会话发送。",
   "report_path": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/supervision-report.md",
   "decisions": [
     {
@@ -144,6 +144,18 @@
       "status": "decided",
       "answer": "本人明确A和gaga是一个整体，不需要单独分任务。原个人技术任务停用；视觉参与者不要求独立使用Agent／代码／模型配置。",
       "answer_source": "本人11/21：“更正了，A和gaga是一个整体，不需要单独分任务”。 来源为本课程会话01a1b4b5-357e-7762-84f1-ae8ff400cba3。"
+    },
+    {
+      "id": "IS5542-D15",
+      "question": "申请被驳回后，本轮是否允许补充说明后交人工复核？",
+      "recommendation": "先核原表业务对象；建议保留原驳回记录，允许补充说明后交人工复核，继续防止重复补偿。",
+      "options": [
+        "允许补充说明后交人工复核",
+        "本轮只解释原因并提供人工入口，暂不增加复核"
+      ],
+      "status": "pending",
+      "answer": null,
+      "answer_source": null
     }
   ]
 }

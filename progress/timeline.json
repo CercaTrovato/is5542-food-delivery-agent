@@ -4,9 +4,9 @@
   "course": "IS5542",
   "timezone": "Asia/Shanghai",
   "as_of": "2026-11-21",
-  "basis_revision": "def7c806cbace1d8e48fdbe3e8149ad46f60a2d6c2bf88cce4ded34e4594347c",
+  "basis_revision": "07879e3ab6345dd03e395e29cd36a31dfc900b0649a0026ed85c91c0145cb3d7",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
-  "summary": "11/21 本人确认48小时五个工作包：开发补有基本架构的工具型B，测试组A＋gaga合交技术／网页／轻量人类视觉结果，研究交有限证据，本人统一PPT与录制。基础B未实现、实验未执行，市场限无订单观察／公开资料。跨会话须先获本次确认，本批未转交看板。",
+  "summary": "11/21晚测试组A＋gaga已报告3个试用问题，李宗谦已回复收到修复请求；原在线表当前无访问权限，具体版本／模型／复现记录未核。开发先定位修复、测试组补原记录并定向复测；工具型B和正式对照仍待，PPT与研究并行。未经本人本次确认不跨会话发送。",
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "items": [
     {
@@ -337,9 +337,9 @@
       "owner": "李宗谦 · 网页开发",
       "owner_role": "member",
       "scope": "team",
-      "summary": "C开发代码已见待接收；当前需固定受测提交与真实模型说明。新基础B另列，不能假设已有。",
+      "summary": "已收到三个试用问题，李宗谦已回应修复请求；原表详细步骤／受测版本未核，尚无修复证据。C开测说明和新B继续交。",
       "deliverable": "交本机可点通页面、开发分支、启动说明和同一工单的状态回显。",
-      "next_action": "开发前4小时交C明确受测提交／真实模型／入口／初态；争取12小时内补基础工具B，先收敛主界面。",
+      "next_action": "先拿三个问题原步骤，逐条复现并交修复提交／线上版本／自测；测试组定向复测，不重复等待开始试用。",
       "my_next_action": null,
       "depends_on": [
         "core"
@@ -401,6 +401,10 @@
         {
           "label": "本人确认的两天版任务与验收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
+        },
+        {
+          "label": "11/21晚三个试用问题收件与修复复测任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md"
         }
       ],
       "history": [
@@ -458,19 +462,29 @@
             "next_action": "李宗谦给明确受测提交、入口、实际模型／规则／开关、可恢复初态和录屏；新候选86632a6待接收。",
             "owner": "李宗谦 · 网页开发"
           }
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "needs_review",
+          "note": "收到测试组首轮三个问题与开发确认，改为承接记录、修复、定向复测；具体表内容和修复均未核。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "C开发代码已见待接收；当前需固定受测提交与真实模型说明。新基础B另列，不能假设已有。",
+            "next_action": "开发前4小时交C明确受测提交／真实模型／入口／初态；争取12小时内补基础工具B，先收敛主界面。"
+          }
         }
       ]
     },
     {
       "id": "p01",
       "title": "测试组：网页闭环与轻量人类视觉",
-      "status": "needs_review",
+      "status": "in_progress",
       "owner": "测试组（A＋gaga老师）",
       "owner_role": "team",
       "scope": "team",
-      "summary": "本轮统一测试工作包，尚未执行；不再按两个人分别派技术任务。",
+      "summary": "A＋gaga首轮试用已报三个问题；已开展但原表受限，详细记录、网页和人类视觉各项完成范围待核。修后定向复测。",
       "deliverable": "同一份测试组报告及原始记录；技术、网页和人类视觉分别注明方法与实际核验范围。",
-      "next_action": "测试组统一在第1天交C四条网页闭环和6项人类视觉，视觉参与者只看页面／示例；合并进同一报告。",
+      "next_action": "补原表访问／三个问题步骤与旧证据；收到修复版本逐条复测，只补未测或被改动影响的闭环与轻量视觉。",
       "my_next_action": null,
       "depends_on": [
         "web"
@@ -504,6 +518,22 @@
           "evidence": [
             "owner-two-day-plan-20261121"
           ]
+        },
+        {
+          "id": "feedback_received",
+          "label": "测试组首轮三个问题群聊反馈已收到（非修复通过）",
+          "status": "pass",
+          "evidence": [
+            "team-feedback-20261121"
+          ]
+        },
+        {
+          "id": "feedback_retest",
+          "label": "三个问题原记录、修复版本与定向复测有证据",
+          "status": "unknown",
+          "evidence": [
+            "team-feedback-20261121"
+          ]
         }
       ],
       "target": {
@@ -515,7 +545,7 @@
       "completed_on": null,
       "observed_on": "2026-11-21",
       "estimated_minutes": null,
-      "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
+      "state_basis": "本人提供11/21晚群截图：19:43测试组已报三个问题；19:56开发回复收到。仅反馈接收，不是详细验收或修复通过。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -528,6 +558,10 @@
         {
           "label": "本人确认的两天版任务与验收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
+        },
+        {
+          "label": "11/21晚三个试用问题收件与修复复测任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md"
         }
       ],
       "history": [
@@ -585,6 +619,16 @@
             "next_action": "gaga老师执行正常10条真实模型／网页清单，交逐条实际结果和证据，25日补修复复测。",
             "owner": "gaga老师 · P01 测试"
           }
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "in_progress",
+          "note": "收到测试组首轮三个问题与开发确认，改为承接记录、修复、定向复测；具体表内容和修复均未核。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "本轮统一测试工作包，尚未执行；不再按两个人分别派技术任务。",
+            "next_action": "测试组统一在第1天交C四条网页闭环和6项人类视觉，视觉参与者只看页面／示例；合并进同一报告。"
+          }
         }
       ]
     },
@@ -595,9 +639,9 @@
       "owner": "测试组（A＋gaga老师）",
       "owner_role": "team",
       "scope": "team",
-      "summary": "本轮统一测试工作包，尚未执行；不再按两个人分别派技术任务。",
+      "summary": "首轮试用反馈已经收到；正式工具B对规则C的真实模型对照仍未执行，不与三个问题混计。",
       "deliverable": "同一份测试组报告及原始记录；技术、网页和人类视觉分别注明方法与实际核验范围。",
-      "next_action": "测试组统一在合格B交后做10场景两模式各3次及新问法，保留真实完整记录；第二天关键项定向复测。",
+      "next_action": "先承接现有试用记录；合格B交后只补正式对照所缺实验，保持同条件并保留失败。",
       "my_next_action": null,
       "depends_on": [
         "web",
@@ -655,6 +699,10 @@
         {
           "label": "本人确认的两天版任务与验收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
+        },
+        {
+          "label": "11/21晚三个试用问题收件与修复复测任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md"
         }
       ],
       "history": [
@@ -712,6 +760,16 @@
             "next_action": "A执行异常10条及新问法，交实际回答与状态证据、缺陷，25日补复测。",
             "owner": "A · P02／P03 测试"
           }
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "needs_review",
+          "note": "收到测试组首轮三个问题与开发确认，改为承接记录、修复、定向复测；具体表内容和修复均未核。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "本轮统一测试工作包，尚未执行；不再按两个人分别派技术任务。",
+            "next_action": "测试组统一在合格B交后做10场景两模式各3次及新问法，保留真实完整记录；第二天关键项定向复测。"
+          }
         }
       ]
     },
@@ -722,7 +780,7 @@
       "owner": "本人 + 技术／测试组",
       "owner_role": "me",
       "scope": "team",
-      "summary": "正式基础B尚需实现，当前没有该B的正式成绩；旧单轮报告仅辅助。demo-v1可先验证，不等待真实平台到账或正式生产政策。",
+      "summary": "正式基础B尚需实现，当前没有该B的正式成绩；旧单轮报告仅辅助。demo-v1可先验证，不等待真实平台到账或正式生产政策。 11/21晚三个问题先纳修复复测，原表受限、验收仍待。",
       "deliverable": "确认正式政策与公平对照范围，再用同模型、同规则、同题目比较 B/C。",
       "next_action": "本人／Agent核基础B合同、组内原始结果与评分，确认真实支持的结论；不移植旧单轮分数。",
       "my_next_action": "协助核方法与真实结果、整理可用图表；PPT不预填优胜或100%。",
@@ -771,6 +829,10 @@
         {
           "label": "本人确认的两天版任务与验收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
+        },
+        {
+          "label": "11/21晚三个试用问题收件与修复复测任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md"
         }
       ],
       "history": [
@@ -827,6 +889,16 @@
             },
             "next_action": "本人／Agent先核新10场景60次实验、统一评分与两边条件，再确认正式对照；不直接采用100%结论。",
             "owner": "本人 + 技术／测试组"
+          }
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "needs_review",
+          "note": "收到测试组首轮三个问题与开发确认，改为承接记录、修复、定向复测；具体表内容和修复均未核。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "正式基础B尚需实现，当前没有该B的正式成绩；旧单轮报告仅辅助。demo-v1可先验证，不等待真实平台到账或正式生产政策。",
+            "next_action": "本人／Agent核基础B合同、组内原始结果与评分，确认真实支持的结论；不移植旧单轮分数。"
           }
         }
       ]
@@ -1617,7 +1689,7 @@
       "scope": "team",
       "summary": "本人已认可工具、多轮、确认、工单、人工审批完整基本架构；旧单轮函数不满足，新B尚未实现。",
       "deliverable": "符合基础B合同的实现、两模式运行方法及一条B查单—确认—人工审批记录。",
-      "next_action": "争取发群后12小时内复用现有系统补B，交真实模型／提交／初态；不重做网站，不放松共同安全底线。",
+      "next_action": "开发先接三个反馈定位／修复，同轮继续交合格工具型B；不放宽共同安全边界，不用旧成绩替代。",
       "my_next_action": null,
       "depends_on": [
         "core"
@@ -1657,6 +1729,10 @@
         {
           "label": "本人确认的两天版任务与验收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
+        },
+        {
+          "label": "11/21晚三个试用问题收件与修复复测任务",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md"
         }
       ],
       "history": [
@@ -1664,6 +1740,16 @@
           "observed_on": "2026-11-21",
           "status": "planned",
           "note": "本人认可新增基础工具Agent，尚未开发／验收。"
+        },
+        {
+          "observed_on": "2026-11-21",
+          "status": "planned",
+          "note": "收到测试组首轮三个问题与开发确认，改为承接记录、修复、定向复测；具体表内容和修复均未核。",
+          "previous": {
+            "status": "planned",
+            "summary": "本人已认可工具、多轮、确认、工单、人工审批完整基本架构；旧单轮函数不满足，新B尚未实现。",
+            "next_action": "争取发群后12小时内复用现有系统补B，交真实模型／提交／初态；不重做网站，不放松共同安全底线。"
+          }
         }
       ]
     }
