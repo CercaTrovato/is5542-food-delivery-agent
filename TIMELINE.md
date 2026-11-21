@@ -1,6 +1,6 @@
 # IS5542 · 项目时间线
 
-11/21晚测试组A＋gaga已报告3个试用问题，李宗谦已回复收到修复请求；原在线表当前无访问权限，具体版本／模型／复现记录未核。开发先定位修复、测试组补原记录并定向复测；工具型B和正式对照仍待，PPT与研究并行。未经本人本次确认不跨会话发送。
+11/21原表四张工作表已核读：测试组7条用例标记4通过／3未通过，已对应P02、P03-04、P03-05的具体复现；前次错链导致的权限待办撤回。开发先修回复顺序／人工状态、订单关联／上下文，测试组定向复测；驳回后路径范围待本人定，工具B与正式对照仍待。
 
 进度依据截至 2026-11-21；时区 Asia/Shanghai。完成日期未知时只记录核实日期。
 
@@ -38,46 +38,46 @@
 
 **待核阅或修订** · 负责人：李宗谦 · 网页开发 · 尚未安排 · 日期未定
 
-已收到三个试用问题，李宗谦已回应修复请求；原表详细步骤／受测版本未核，尚无修复证据。C开测说明和新B继续交。
+测试原表已核读，三问题有明确步骤，开发已接修复请求但修复未核。C说明与新工具B继续交。
 
 - 本环节交付：交本机可点通页面、开发分支、启动说明和同一工单的状态回显。
-- 下一步：先拿三个问题原步骤，逐条复现并交修复提交／线上版本／自测；测试组定向复测，不重复等待开始试用。
+- 下一步：直接按P02／P03-04／P03-05复现修复，给新提交／线上版本和自测；补受测模型／环境，不再以缺原步骤等待。
 - 前置依赖：core
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
 - 验收：待核 顾客与审批入口可操作；待核 服务端归属及审批权限已核；待核 同一工单状态与重复申请处理已核；待核 C受测提交、真实模型、入口和初态已交
-- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[11/21晚三个试用问题收件与修复复测任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md)
+- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[11/21晚三个试用问题收件与修复复测任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md)；[原表四工作表已核读与错链纠正](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md)
 
 ### 测试组：网页闭环与轻量人类视觉 · `p01`
 
 **正在推进** · 负责人：测试组（A＋gaga老师） · 尚未安排 · 日期未定
 
-A＋gaga首轮试用已报三个问题；已开展但原表受限，详细记录、网页和人类视觉各项完成范围待核。修后定向复测。
+已读汇总及问题1—3，组员7条标记4通过／3未通过；三个具体步骤已进入修复单，尚未独立重跑或收到修后复测。
 
 - 本环节交付：同一份测试组报告及原始记录；技术、网页和人类视觉分别注明方法与实际核验范围。
-- 下一步：补原表访问／三个问题步骤与旧证据；收到修复版本逐条复测，只补未测或被改动影响的闭环与轻量视觉。
+- 下一步：承接7条现有记录，只补受测版本／模型／原证据，拿修复版本按三问题步骤定向复测，保留首轮失败。
 - 前置依赖：web
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
-- 验收：待核 正常审批两条路径已实跑；待核 版本、结果和缺陷证据已交；待核 6项人类视觉意见已由实际观察者完成并合并；✓ 测试组首轮三个问题群聊反馈已收到（非修复通过）；待核 三个问题原记录、修复版本与定向复测有证据
-- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[11/21晚三个试用问题收件与修复复测任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md)
+- 验收：待核 正常审批两条路径已实跑；待核 版本、结果和缺陷证据已交；待核 6项人类视觉意见已由实际观察者完成并合并；✓ 测试组首轮三个问题群聊反馈已收到（非修复通过）；待核 三个问题原记录、修复版本与定向复测有证据；✓ 原表7条和三问题文字已核读，对应编号／步骤已交开发
+- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[11/21晚三个试用问题收件与修复复测任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md)；[原表四工作表已核读与错链纠正](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md)
 
 ### 测试组：真实模型对照与边界／安全 · `p23`
 
 **待核阅或修订** · 负责人：测试组（A＋gaga老师） · 尚未安排 · 日期未定
 
-首轮试用反馈已经收到；正式工具B对规则C的真实模型对照仍未执行，不与三个问题混计。
+源表7条首轮试用已读，含边界与归属检查；正式工具B对规则C的真实模型对照仍未执行，原表版本／模型未明，不混计。
 
 - 本环节交付：同一份测试组报告及原始记录；技术、网页和人类视觉分别注明方法与实际核验范围。
 - 下一步：先承接现有试用记录；合格B交后只补正式对照所缺实验，保持同条件并保留失败。
 - 前置依赖：web、basic-agent
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
 - 验收：待核 边界与缺单/归属情形已实跑；待核 预期、实际和禁止动作已核
-- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[11/21晚三个试用问题收件与修复复测任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md)
+- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[11/21晚三个试用问题收件与修复复测任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md)；[原表四工作表已核读与错链纠正](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md)
 
 ### 本轮基础B对规则C的结果与方法核对 · `acceptance`
 
 **待核阅或修订** · 负责人：本人 + 技术／测试组 · 尚未安排 · 日期未定
 
-正式基础B尚需实现，当前没有该B的正式成绩；旧单轮报告仅辅助。demo-v1可先验证，不等待真实平台到账或正式生产政策。 11/21晚三个问题先纳修复复测，原表受限、验收仍待。
+正式基础B尚需实现，旧单轮实验只辅助；本轮试用原表已读7条4过3未过，具体三问题进入修复复测，非正式B/C结果或修复验收。
 
 - 本环节交付：确认正式政策与公平对照范围，再用同模型、同规则、同题目比较 B/C。
 - 下一步：本人／Agent核基础B合同、组内原始结果与评分，确认真实支持的结论；不移植旧单轮分数。
@@ -85,7 +85,7 @@ A＋gaga首轮试用已报三个问题；已开展但原表受限，详细记录
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
 - 总监督可做：协助核方法与真实结果、整理可用图表；PPT不预填优胜或100%。
 - 验收：待核 B基本架构与共同条件、评分已核；待核 本轮完整记录、失败／复测和结论已核
-- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[11/21晚三个试用问题收件与修复复测任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md)
+- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[11/21晚三个试用问题收件与修复复测任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md)；[原表四工作表已核读与错链纠正](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md)
 
 ### Slides、录像与提交 · `delivery`
 
