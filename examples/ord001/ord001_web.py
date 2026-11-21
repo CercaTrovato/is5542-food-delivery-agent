@@ -171,18 +171,20 @@ async def service_error(request: Request, exc: ServiceError) -> JSONResponse:
     return JSONResponse({"error": exc.code, "message": exc.message}, status_code=exc.status)
 
 
-async def read_handoff(request: Request) -> tuple[str | None, list[dict]]:
+async def read_handoff(request: Request) -> tuple[str | None, list[dict], str | None]:
     """Read a JSON handoff or a small multipart handoff with magic-byte validated media files."""
     _check_origin_and_secret(request)
     content_type = request.headers.get("content-type", "").split(";", 1)[0].strip()
     if content_type == "application/json":
         body = await read_json(request)
-        return text_field(body, "text", MAX_TEXT, required=False), []
+        focus_oid = text_field(body, "order_id", MAX_ID, required=False)
+        return text_field(body, "text", MAX_TEXT, required=False), [], focus_oid
     if content_type != "multipart/form-data":
         raise ServiceError(415, "upload_required", "附件请求必须使用 multipart/form-data。")
     try:
-        async with request.form(max_files=3, max_fields=4, max_part_size=MAX_MEDIA_BYTES) as form:
+        async with request.form(max_files=3, max_fields=6, max_part_size=MAX_MEDIA_BYTES) as form:
             text = text_field({"text": form.get("text")}, "text", MAX_TEXT, required=False)
+            focus_oid = text_field({"order_id": form.get("order_id")}, "order_id", MAX_ID, required=False)
             files = []
             for upload in form.getlist("attachment"):
                 media_type = ((getattr(upload, "content_type", None) or "").split(";", 1)[0].strip().lower())
@@ -197,7 +199,7 @@ async def read_handoff(request: Request) -> tuple[str | None, list[dict]]:
                 original = Path(getattr(upload, "filename", None) or ("图片" if spec[0] == "image" else "语音")).name
                 files.append({"kind": spec[0], "extension": spec[1], "original_name": original[:120],
                               "media_type": media_type, "content": content})
-            return text, files
+            return text, files, focus_oid
     except ServiceError:
         raise
     except Exception as exc:
@@ -321,8 +323,9 @@ def create_app(service: DemoService | None = None, allowed_hosts=LOCAL_HOSTS) ->
 
     async def customer_handoff(request: Request) -> JSONResponse:
         ident = identity(request, "customer")
-        text, files = await read_handoff(request)
-        return JSONResponse(await run_in_threadpool(service.request_handoff, ident["thread_id"], ident["customer_id"], text, files))
+        text, files, focus_oid = await read_handoff(request)
+        return JSONResponse(await run_in_threadpool(service.request_handoff, ident["thread_id"], ident["customer_id"],
+                                                    text, files, focus_oid))
 
     async def media(request: Request) -> FileResponse:
         attachment_id = request.path_params["attachment_id"]
@@ -340,6 +343,12 @@ def create_app(service: DemoService | None = None, allowed_hosts=LOCAL_HOSTS) ->
         ident = identity(request, "customer")
         await read_json(request)
         return JSONResponse(await run_in_threadpool(service.cancel_handoff, ident["thread_id"], ident["customer_id"],
+                                                    request.path_params["handoff_id"]))
+
+    async def customer_handoff_end(request: Request) -> JSONResponse:
+        ident = identity(request, "customer")
+        await read_json(request)
+        return JSONResponse(await run_in_threadpool(service.end_handoff, ident["thread_id"], ident["customer_id"],
                                                     request.path_params["handoff_id"]))
 
     async def customer_handoff_followup(request: Request) -> JSONResponse:
@@ -441,6 +450,7 @@ def create_app(service: DemoService | None = None, allowed_hosts=LOCAL_HOSTS) ->
         Route("/api/customer/tickets/{ticket_id}/rating", customer_rating, methods=["POST"]),
         Route("/api/customer/handoff", customer_handoff, methods=["POST"]),
         Route("/api/customer/handoffs/{handoff_id}/cancel", customer_handoff_cancel, methods=["POST"]),
+        Route("/api/customer/handoffs/{handoff_id}/end", customer_handoff_end, methods=["POST"]),
         Route("/api/customer/handoffs/{handoff_id}/followup", customer_handoff_followup, methods=["POST"]),
         Route("/api/media/{attachment_id}", media),
         Route("/api/review/login", review_login, methods=["POST"]),

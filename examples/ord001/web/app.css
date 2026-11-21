@@ -859,6 +859,14 @@ h1 { font-size: 25px; line-height: 1.3; font-weight: 660; letter-spacing: -.04em
 .followup-note { margin-top: 10px; background: color-mix(in srgb, var(--approved-bg) 45%, var(--soft)); }
 .followup-toggle-row { justify-content: flex-end; margin-top: 12px !important; }
 .handoff-followup-box { margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.rejected-reason-box { border-left: 3px solid var(--rejected); background: var(--rejected-bg); }
+.rejected-next-step { margin-top: 12px; padding: 12px 14px; border-radius: 14px; background: var(--soft); border: 1px dashed color-mix(in srgb, var(--accent) 45%, var(--line)); display: grid; gap: 10px; }
+.rejected-next-hint { font-size: 12px; line-height: 1.6; color: var(--muted); margin: 0; }
+.rejected-next-step button { justify-self: start; }
+.end-handoff-btn { padding: 6px 10px; font-size: 12px; white-space: nowrap; }
+.handoff-note.note-ended { opacity: .82; background: var(--soft); }
+.initial-appeal-box { border-left: 3px solid var(--accent); }
+.is-needs-reply { border-color: color-mix(in srgb, var(--accent) 55%, var(--line)) !important; }
 
 @media (max-width: 700px) {
   .topbar { min-height: 60px; padding-block: 10px; }

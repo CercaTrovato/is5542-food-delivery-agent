@@ -32,6 +32,8 @@ let viewTicket = null;
 let shownOrder = null;
 let othersOpen = null;
 let handoffWaiting = false;
+let handoffMode = "none";
+let activeHandoffId = null;
 let seen = null;
 let toastTimer = 0;
 let urgeCooldownUntil = 0;
@@ -73,7 +75,11 @@ function updateControls() {
   if ($("tray-record")) $("tray-record").disabled = locked;
   if ($("tray-photo")) $("tray-photo").disabled = locked || Boolean(recorder);
   for (const node of document.querySelectorAll("#confirm-yes, #confirm-no, .handoff-cancel")) node.disabled = busy;
-  $("handoff").disabled = busy || handoffWaiting;
+  $("handoff").disabled = busy || handoffMode !== "none";
+  if ($("end-handoff")) {
+    $("end-handoff").hidden = handoffMode !== "active";
+    $("end-handoff").disabled = busy;
+  }
   $("send").setAttribute("aria-busy", String(busy));
   document.body.classList.toggle("is-working", busy);
 }
@@ -176,47 +182,61 @@ function attachmentBubble(item) {
   return row;
 }
 
-function handoffBlock(item) {
+function handoffOpenNodes(item) {
   const nodes = [];
   if (item.request_text) nodes.push(bubble("customer", item.request_text));
   if (item.attachments && item.attachments.length) nodes.push(attachmentBubble(item));
   const note = el("div", `handoff-note note-${item.status}`);
   note.dataset.handoffId = item.handoff_id;
-  note.append(icon(item.status === "cancelled" ? "close" : "person"), el("span", "", HANDOFF_NOTE[item.status] || item.status));
+  const orderTag = item.order_id ? `（关联订单 ${item.order_id}）` : "";
+  const noteLabel = item.status === "replied" && !item.ended_at
+    ? `人工客服正在为您服务${orderTag}，直接发消息即可继续沟通`
+    : `${HANDOFF_NOTE[item.status] || item.status}${orderTag}`;
+  note.append(icon(item.status === "cancelled" ? "close" : "person"), el("span", "", noteLabel));
   if (item.status === "waiting") {
     note.append(button("取消", "handoff-cancel", () => act(() => api(`/api/customer/handoffs/${encodeURIComponent(item.handoff_id)}/cancel`, {}))));
   }
   nodes.push(note);
-  if (item.status === "replied") {
-    nodes.push(bubble("human", item.reply_text, "人工客服"));
-    for (const f of item.followups || []) {
-      nodes.push(bubble(f.sender_role === "customer" ? "customer" : "human", f.text, f.sender_role === "customer" ? "" : "人工客服"));
-    }
-    const replyBar = el("div", "customer-followup-bar");
-    const fInput = el("input", "customer-followup-input");
-    fInput.type = "text";
-    fInput.maxLength = 500;
-    fInput.placeholder = "向人工专员追加补充说明…";
-    fInput.hidden = true;
-    const sendFollow = button("发送留言", "small primary", () => {
-      const msg = fInput.value.trim();
-      if (!msg) { fInput.focus(); return; }
-      act(async () => {
-        await api(`/api/customer/handoffs/${encodeURIComponent(item.handoff_id)}/followup`, { text: msg });
-        fInput.value = "";
+  return nodes;
+}
+
+function buildHandoffEvents(handoffs, maxIndex) {
+  const buckets = new Map();
+  const pushAt = (idx, entry) => {
+    const slot = Math.min(Math.max(0, idx), maxIndex);
+    if (!buckets.has(slot)) buckets.set(slot, []);
+    buckets.get(slot).push(entry);
+  };
+  handoffs.forEach((item, hOrder) => {
+    const evts = Array.isArray(item.events) && item.events.length
+      ? item.events
+      : [
+          { kind: "open", after: item.after ?? 0, at: item.created_at || "" },
+          ...(item.status === "replied" && item.reply_text
+            ? [{ kind: "message", role: "human", text: item.reply_text, after: item.after ?? 0, at: item.closed_at || "" }]
+            : []),
+          ...(item.followups || []).map((f) => ({
+            kind: "message",
+            role: f.sender_role === "customer" ? "customer" : "human",
+            text: f.text,
+            after: item.after ?? 0,
+            at: f.created_at || "",
+          })),
+        ];
+    evts.forEach((evt, eIdx) => {
+      pushAt(evt.after ?? item.after ?? 0, {
+        item, evt, hOrder, eIdx, isLast: eIdx === evts.length - 1,
       });
     });
-    sendFollow.hidden = true;
-    const replyBtn = button("向人工专员追加留言", "small secondary", () => {
-      replyBtn.hidden = true;
-      fInput.hidden = false;
-      sendFollow.hidden = false;
-      fInput.focus();
+  });
+  for (const list of buckets.values()) {
+    list.sort((a, b) => {
+      if (a.item.handoff_id === b.item.handoff_id) return a.eIdx - b.eIdx;
+      if (a.evt.at && b.evt.at && a.evt.at !== b.evt.at) return a.evt.at.localeCompare(b.evt.at);
+      return a.hOrder - b.hOrder;
     });
-    replyBar.append(replyBtn, fInput, sendFollow);
-    nodes.push(replyBar);
   }
-  return nodes;
+  return buckets;
 }
 
 function welcome() {
@@ -277,8 +297,20 @@ function renderMessages(messages, handoffs) {
     return;
   }
   const nodes = [];
+  const handoffBuckets = buildHandoffEvents(handoffs, messages.length);
   const place = (index) => {
-    for (const item of handoffs) if (Math.min(item.after, messages.length) === index) nodes.push(...handoffBlock(item));
+    for (const entry of handoffBuckets.get(index) || []) {
+      if (entry.evt.kind === "open") {
+        nodes.push(...handoffOpenNodes(entry.item));
+      } else if (entry.evt.kind === "message") {
+        nodes.push(bubble(entry.evt.role, entry.evt.text, entry.evt.role === "human" ? "人工客服" : ""));
+      }
+      if (entry.isLast && entry.item.status === "replied" && entry.item.ended_at) {
+        const endNote = el("div", "handoff-note note-ended");
+        endNote.append(icon("chat"), el("span", "", "已结束本次人工服务，后续消息由 AI 客服继续接待"));
+        nodes.push(endNote);
+      }
+    }
   };
   messages.forEach((item, index) => {
     place(index);
@@ -301,7 +333,7 @@ function renderMessages(messages, handoffs) {
   renderedMsgCount = messages.length;
   if (pendingUserText) {
     nodes.push(bubble("customer", pendingUserText, "", true));
-    nodes.push(typingBubble());
+    if (handoffMode === "none") nodes.push(typingBubble());
   }
   box.replaceChildren(...nodes);
   if (wasNearBottom || pendingUserText) {
@@ -461,7 +493,30 @@ function ticketCard(ticket) {
   });
   card.append(timeline);
   if (ticket.status === "needs_info") card.append(...informationForm(ticket));
-  else if (ticket.review_note) {
+  else if (ticket.status === "rejected") {
+    const note = el("div", "ticket-note rejected-reason-box");
+    note.append(
+      el("span", "", "驳回原因"),
+      el("p", "", ticket.review_note || "本次审核未通过，可转人工客服了解具体核实说明。")
+    );
+    card.append(note);
+    const nextBox = el("div", "rejected-next-step");
+    nextBox.append(
+      el("p", "rejected-next-hint", "原申请保留「已驳回」（本轮不新增二次申请流程）。如需继续沟通这张订单，请进入人工服务：")
+    );
+    const consultHuman = button("转人工继续咨询此订单", "primary small", () => act(async () => {
+      await api("/api/customer/handoff", {
+        order_id: ticket.order_id,
+        text: `咨询订单 ${ticket.order_id}（已驳回申请 ${ticket.ticket_id}）：对驳回原因有疑问，请人工客服继续协助说明`,
+      });
+      $("input").focus();
+      return `已为您接入人工客服并关联订单 ${ticket.order_id}，可直接在对话框继续发送消息`;
+    }));
+    consultHuman.dataset.action = "rejected-handoff";
+    consultHuman.prepend(icon("person"));
+    nextBox.append(consultHuman);
+    card.append(nextBox);
+  } else if (ticket.review_note) {
     const note = el("div", "ticket-note");
     note.append(el("span", "", "处理说明"), el("p", "", ticket.review_note));
     card.append(note);
@@ -968,9 +1023,22 @@ function renderPanel() {
   renderJourney(state, ticket);
   markOrders();
   renderPicks(state);
-  handoffWaiting = state.handoffs.some((item) => item.status === "waiting");
-  $("handoff-label").textContent = handoffWaiting ? "人工排队中" : "转人工";
-  $("handoff").classList.toggle("waiting", handoffWaiting);
+  handoffWaiting = state.handoff_mode === "waiting" || state.handoffs.some((item) => item.status === "waiting");
+  handoffMode = state.handoff_mode || (handoffWaiting ? "waiting" : "none");
+  activeHandoffId = state.active_handoff_id || null;
+  $("handoff-label").textContent = handoffMode === "waiting" ? "人工排队中" : (handoffMode === "active" ? "人工服务中" : "转人工");
+  $("handoff").classList.toggle("waiting", handoffMode !== "none");
+  const caption = document.querySelector(".chat-caption");
+  const pill = $("mj-head-pill");
+  if (caption) {
+    caption.textContent = handoffMode === "active"
+      ? "人工客服服务中 · 直接发消息即可继续沟通"
+      : (handoffMode === "waiting" ? "人工排队中 · 可直接发消息补充说明" : "AI 客服 · 非真人");
+  }
+  if (pill) pill.textContent = handoffMode === "none" ? "AI" : "人工";
+  $("input").placeholder = handoffMode !== "none"
+    ? "正在与人工客服沟通，直接输入内容回车发送（无需再点转人工）…"
+    : "输入订单号或问题，如：ORD001 晚到了能赔吗？";
   updateControls();
 }
 
@@ -1027,13 +1095,16 @@ function notifyChanges(state) {
       const before = seen.get(ticket.ticket_id);
       if (!before || before === ticket.status) continue;
       if (ticket.status === "approved") toast(`${ticket.order_id} 审核通过，¥${ticket.coupon_issued_yuan} 补偿券已发放`);
-      else if (ticket.status === "rejected") toast(`${ticket.order_id} 审核未通过，可查看处理说明`);
+      else if (ticket.status === "rejected") toast(`${ticket.order_id} 已驳回，可查看驳回原因或转人工继续咨询`);
       else if (ticket.status === "needs_info") toast(`${ticket.order_id}：专员请您补充说明`);
     }
     for (const item of state.handoffs) {
       const prev = seen.get(item.handoff_id);
       const curr = `${item.status}:${(item.followups || []).length}`;
-      if (prev && prev !== curr && item.status === "replied") toast("人工客服已回复");
+      const lastFollow = (item.followups || [])[item.followups ? item.followups.length - 1 : -1];
+      if (prev && prev !== curr && item.status === "replied" && (!lastFollow || lastFollow.sender_role !== "customer")) {
+        toast("人工客服已回复");
+      }
     }
   }
   seen = now;
@@ -1066,6 +1137,8 @@ async function refresh() {
   const focusKey = [state.focus && state.focus.order_id, state.messages.length, Boolean(state.confirmation)].join("|");
   if (focusKey !== lastFocus) { lastFocus = focusKey; viewTicket = null; }
   latest = state;
+  handoffMode = state.handoff_mode || (state.handoffs.some((item) => item.status === "waiting") ? "waiting" : "none");
+  activeHandoffId = state.active_handoff_id || null;
   renderMessages(state.messages, state.handoffs);
   renderConfirmation(state.confirmation);
   renderPanel();
@@ -1104,6 +1177,7 @@ function send(raw, fromInput) {
       if (media) {
         const body = new FormData();
         if (text) body.append("text", text);
+        if (shownOrder) body.append("order_id", shownOrder);
         body.append("attachment", media.file, media.file.name);
         result = await api("/api/customer/handoff", body);
         clearDraftMedia();
@@ -1115,6 +1189,7 @@ function send(raw, fromInput) {
       lastState = "";
     }
     if (media) return "凭证已加密提交至人工客服专席，回复将显示在上方对话流中。";
+    if (result.outcome === "handoff_message_sent") return "消息已发送给人工客服，请留意对话流内回复";
     return result.outcome === "handoff_waiting" ? "已在人工专席排队中，回复将显示在对话流内" : "";
   });
 }
@@ -1169,7 +1244,13 @@ async function boot() {
   $("more-orders").addEventListener("click", () => { expandedOrders = !expandedOrders; renderOrders(); });
   $("confirm-yes").addEventListener("click", () => act(() => api("/api/customer/confirm", { answer: "confirm" })));
   $("confirm-no").addEventListener("click", () => act(() => api("/api/customer/confirm", { answer: "cancel" })));
-  $("handoff").addEventListener("click", () => act(() => api("/api/customer/handoff", {})));
+  $("handoff").addEventListener("click", () => act(() => api("/api/customer/handoff", shownOrder ? { order_id: shownOrder } : {})));
+  if ($("end-handoff")) {
+    $("end-handoff").addEventListener("click", () => {
+      if (!activeHandoffId) return;
+      act(() => api(`/api/customer/handoffs/${encodeURIComponent(activeHandoffId)}/end`, {}));
+    });
+  }
   $("logout").addEventListener("click", async () => {
     if (busy) return;
     try { await api("/api/customer/logout", {}); signOut(); showStatus(""); }

@@ -111,12 +111,12 @@ function pendingCard(ticket) {
   const noteId = `review-note-${ticket.ticket_id}`;
   const label = el("label", "note-label", "处理说明");
   label.htmlFor = noteId;
-  label.append(el("span", "", "选填 · 200 字"));
+  label.append(el("span", "", "拒绝或请补充时必填 · 200 字"));
   const note = el("textarea", "note");
   note.id = noteId;
   note.rows = 3;
   note.maxLength = 200;
-  note.placeholder = "处理原因，或需要顾客补充的信息";
+  note.placeholder = "填写通过说明、具体驳回原因，或需要顾客补充的信息";
   note.dataset.ticket = ticket.ticket_id;
   note.value = drafts.get(ticket.ticket_id) || "";
   note.addEventListener("input", () => { drafts.set(ticket.ticket_id, note.value); note.removeAttribute("aria-invalid"); });
@@ -124,6 +124,7 @@ function pendingCard(ticket) {
   for (const preset of [
     "本店按时出餐，转交平台准时保池全额赔付（豁免骑手高峰扣款）。",
     "67餐厅高峰备餐致歉，同意按清分比例发放无门槛补偿券。",
+    "经核实配送时段遇临时交通管制，本次暂不符合发券条件，如有疑问可转人工复核。",
     "请补充外卖送达位置照片或截图以便核验。",
   ]) {
     const chip = button(`快捷：${preset.slice(0, 10)}…`, "quick-chip", () => {
@@ -162,7 +163,7 @@ function decidedCard(ticket) {
   const text = el("div");
   const reviewerTag = ticket.reviewer_id === "STP_ENGINE" ? "准时保直通引擎自动秒批" : ticket.reviewer_id;
   text.append(
-    el("h3", "", ticket.status === "approved" ? `已发放 ¥${ticket.coupon_issued_yuan} 补偿券` : "未通过"),
+    el("h3", "", ticket.status === "approved" ? `已发放 ¥${ticket.coupon_issued_yuan} 补偿券` : "已驳回"),
     el("p", "", `${clock(ticket.decided_at)} · ${reviewerTag}`)
   );
   result.append(icon(ticket.status === "approved" ? "check" : "close"), text);
@@ -181,29 +182,46 @@ function decidedCard(ticket) {
 
 function handoffCard(item) {
   const isP0 = item.priority === "P0_FOOD_SAFETY";
-  const card = el("article", `ticket handoff handoff-${item.status}${isP0 ? " is-p0-handoff" : ""}`);
+  const needsReply = Boolean(item.needs_specialist_reply);
+  const card = el("article", `ticket handoff handoff-${item.status}${isP0 ? " is-p0-handoff" : ""}${needsReply ? " is-needs-reply" : ""}`);
   card.dataset.handoffId = item.handoff_id;
   const head = el("div", "ticket-head");
   const heading = el("strong", "", item.order_id || "未指明订单");
   heading.append(el("small", "", item.handoff_id));
   const badgeWrap = el("div", "handoff-badges");
   if (isP0) badgeWrap.append(el("span", "p0-badge", "P0 食安紧急专案"));
+  if (needsReply) badgeWrap.append(el("span", "badge badge-pending", "顾客新消息待回"));
   badgeWrap.append(el("span", `badge badge-${item.status}`, HANDOFF_STATUS[item.status] || item.status));
   head.append(heading, badgeWrap);
   const person = el("div", "review-person");
   const summary = item.order_summary;
   const orderBrief = summary
-    ? ` · 实付 ¥${summary.amount_yuan}（${(summary.items || []).join("、")}）`
+    ? ` · ${summary.merchant || "67餐厅"} · 实付 ¥${summary.amount_yuan}（${(summary.items || []).join("、")}）`
     : "";
   person.append(el("span", "avatar", "U"), el("span", "", `顾客 ${item.customer_id}${orderBrief}`), el("time", "", clock(item.created_at)));
   card.append(head, person);
   if (summary) {
+    const orderRows = [
+      ["关联订单", `${item.order_id} · ${summary.status === "delivered" ? "已送达" : "配送中"}`],
+      ["预计 / 实际送达", `${summary.expected_at || "—"} → ${summary.delivered_at || "配送中"}`],
+    ];
+    if (item.related_ticket) {
+      const rt = item.related_ticket;
+      const rtNote = rt.review_note ? `（说明：${rt.review_note}）` : "";
+      orderRows.push(["关联申请单", `${rt.ticket_id} · ${STATUS_TEXT[rt.status] || rt.status}${rtNote}`]);
+    }
+    card.append(facts(orderRows));
     const attr = attributionBox(summary);
     if (attr) card.append(attr);
   }
-  if (item.request_text) {
+  if (item.initial_appeal) {
+    const appealBox = el("div", "information-request initial-appeal-box");
+    appealBox.append(el("span", "", "最初诉求"), el("p", "", item.initial_appeal));
+    card.append(appealBox);
+  }
+  if (item.request_text && item.request_text !== item.initial_appeal) {
     const request = el("div", "information-request");
-    request.append(el("span", "", "顾客留言"), el("p", "", item.request_text));
+    request.append(el("span", "", "转人工留言"), el("p", "", item.request_text));
     card.append(request);
   }
   if (item.attachments && item.attachments.length) {
@@ -267,7 +285,7 @@ function handoffCard(item) {
       fNode.append(el("span", "", `${roleLabel} · ${clock(f.created_at)}`), el("p", "", f.text));
       card.append(fNode);
     }
-    const isExpanded = expandedFollowups.has(item.handoff_id);
+    const isExpanded = expandedFollowups.has(item.handoff_id) || needsReply;
     if (!isExpanded) {
       const toggleRow = el("div", "actions followup-toggle-row");
       const openBtn = button("追加跟进回复", "secondary small", () => {
@@ -315,9 +333,12 @@ function renderList(id, tickets, makeCard) {
 function renderHandoffs(data) {
   const waitingIds = new Set(data.waiting.map((item) => item.handoff_id));
   for (const id of replyDrafts.keys()) if (!waitingIds.has(id)) replyDrafts.delete(id);
-  $("handoffs-count").textContent = data.waiting.length;
-  $("tab-handoffs").classList.toggle("has-waiting", data.waiting.length > 0);
-  const items = [...data.waiting, ...data.closed.slice().reverse()];
+  const activeFollowups = data.closed.filter((item) => item.needs_specialist_reply);
+  const restClosed = data.closed.filter((item) => !item.needs_specialist_reply);
+  const actionableCount = data.waiting.length + activeFollowups.length;
+  $("handoffs-count").textContent = actionableCount;
+  $("tab-handoffs").classList.toggle("has-waiting", actionableCount > 0);
+  const items = [...data.waiting, ...activeFollowups.slice().reverse(), ...restClosed.slice().reverse()];
   if (items.length) $("handoffs").replaceChildren(...items.map(handoffCard));
   else $("handoffs").replaceChildren(emptyState("chat", "暂无人工咨询", "", true));
 }
@@ -378,11 +399,11 @@ async function refresh() {
 
 async function decide(ticketId, decision) {
   if (busy) return;
-  if (decision === "request_info" && !(drafts.get(ticketId) || "").trim()) {
+  if ((decision === "request_info" || decision === "reject") && !(drafts.get(ticketId) || "").trim()) {
     const note = document.getElementById(`review-note-${ticketId}`);
     note.setAttribute("aria-invalid", "true");
     note.focus();
-    showStatus("请填写需要顾客补充的信息", true);
+    showStatus(decision === "reject" ? "请填写具体驳回原因，方便顾客查看说明" : "请填写需要顾客补充的信息", true);
     return;
   }
   const otherPendingRemain = pendingCountSnapshot > 1;

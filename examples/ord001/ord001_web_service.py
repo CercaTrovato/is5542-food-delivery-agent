@@ -150,22 +150,144 @@ def focused_order(messages) -> str | None:
     return None
 
 
+def last_verified_order(messages, customer_id: str, data: DemoData) -> str | None:
+    """Walk full conversation history backward to find the latest verified order belonging to this customer."""
+    for message in reversed(messages):
+        if isinstance(message, HumanMessage):
+            for raw in reversed(ORDER_ID.findall(message.text)):
+                cand = normalize_order_id(raw)
+                if data.lookup_for_customer(cand, customer_id)[1] is not None:
+                    return cand
+        elif isinstance(message, AIMessage):
+            for call in reversed(message.tool_calls):
+                raw_oid = call["args"].get("order_id")
+                if isinstance(raw_oid, str) and raw_oid.strip():
+                    cand = normalize_order_id(raw_oid)[:32]
+                    if data.lookup_for_customer(cand, customer_id)[1] is not None:
+                        return cand
+    return None
+
+
+def extract_initial_appeal(visible: list[dict], order_id: str | None, request_text: str | None) -> str | None:
+    """Extract the customer's opening appeal for the consulted order even after many follow-up turns."""
+    if order_id:
+        for idx, item in enumerate(visible):
+            if item["role"] == "customer":
+                in_text = any(normalize_order_id(m) == order_id for m in ORDER_ID.findall(item["text"]))
+                next_is_tool = (
+                    idx + 1 < len(visible)
+                    and visible[idx + 1]["role"] == "tool"
+                    and order_id in visible[idx + 1]["text"]
+                )
+                if in_text or next_is_tool:
+                    return item["text"][:EXCERPT_CHARS]
+    for item in visible:
+        if item["role"] == "customer" and item["text"].strip():
+            return item["text"][:EXCERPT_CHARS]
+    return request_text.strip()[:EXCERPT_CHARS] if request_text and request_text.strip() else None
+
+
+def build_handoff_excerpt(visible: list[dict], order_id: str | None) -> list[dict]:
+    """Preserve BOTH the opening order consultation and recent multi-turn context for the merchant."""
+    formatted = [
+        {"role": item["role"], "text": item["text"].replace("查单工具 query_order：", "查询 ")[:EXCERPT_CHARS]}
+        for item in visible
+    ]
+    if len(formatted) <= 12:
+        return formatted
+    start_idx = 0
+    if order_id:
+        for idx, item in enumerate(visible):
+            if item["role"] == "customer":
+                if any(normalize_order_id(m) == order_id for m in ORDER_ID.findall(item["text"])):
+                    start_idx = idx
+                    break
+            elif item["role"] == "tool" and order_id in item["text"]:
+                start_idx = max(0, idx - 1)
+                break
+    head_end = min(len(formatted) - 8, start_idx + 4)
+    if head_end <= start_idx:
+        return formatted[-12:]
+    head = formatted[start_idx:head_end]
+    tail = formatted[-8:]
+    omitted = (len(formatted) - 8) - head_end
+    marker = [{"role": "tool", "text": f"… 中间省略 {omitted} 条历史消息 …"}] if omitted > 0 else []
+    return head + marker + tail
+
+
 def handoff_copy(handoff: dict, thread_id: str | None) -> dict:
-    """What the customer sees of a handoff (reviewer_id stripped for PDPO anti-doxxing protection)."""
+    """What the customer sees of a handoff, including chronologically anchored chat events."""
     keys = ("handoff_id", "order_id", "status", "request_text", "reply_text", "created_at", "closed_at")
     attachments = [{**item, "url": f"/api/media/{item['attachment_id']}"} for item in handoff.get("attachments", [])]
+    same_thread = handoff["thread_id"] == thread_id
+    base_after = handoff["after_index"] if same_thread else 0
+    rep_after = (
+        handoff["reply_after_index"]
+        if same_thread and handoff.get("reply_after_index") is not None
+        else base_after
+    )
+    followups_raw = handoff.get("followups") or []
+    reply_seq = handoff.get("reply_seq")
+    events: list[dict] = [{"kind": "open", "after": base_after, "at": handoff["created_at"]}]
+
+    if handoff["status"] == "replied" and handoff.get("reply_text"):
+        pre_f = [
+            f for f in followups_raw
+            if (reply_seq is not None and f.get("message_id", 0) <= reply_seq)
+            or (reply_seq is None and f["created_at"] < (handoff.get("closed_at") or ""))
+        ]
+        pre_ids = {id(f) for f in pre_f}
+        post_f = [f for f in followups_raw if id(f) not in pre_ids]
+        for f in pre_f:
+            f_after = (f["after_index"] if f.get("after_index") is not None else base_after) if same_thread else 0
+            events.append({
+                "kind": "message",
+                "role": "customer" if f["sender_role"] == "customer" else "human",
+                "text": f["text"],
+                "after": f_after,
+                "at": f["created_at"],
+            })
+        events.append({
+            "kind": "message",
+            "role": "human",
+            "text": handoff["reply_text"],
+            "after": rep_after,
+            "at": handoff.get("closed_at") or handoff["created_at"],
+        })
+        for f in post_f:
+            f_after = (f["after_index"] if f.get("after_index") is not None else rep_after) if same_thread else 0
+            events.append({
+                "kind": "message",
+                "role": "customer" if f["sender_role"] == "customer" else "human",
+                "text": f["text"],
+                "after": f_after,
+                "at": f["created_at"],
+            })
+    else:
+        for f in followups_raw:
+            f_after = (f["after_index"] if f.get("after_index") is not None else base_after) if same_thread else 0
+            events.append({
+                "kind": "message",
+                "role": "customer" if f["sender_role"] == "customer" else "human",
+                "text": f["text"],
+                "after": f_after,
+                "at": f["created_at"],
+            })
+
     res = {
         **{key: handoff[key] for key in keys},
+        "ended_at": handoff.get("ended_at"),
         "attachments": attachments,
-        "after": handoff["after_index"] if handoff["thread_id"] == thread_id else 0,
+        "after": base_after,
+        "events": events,
     }
-    if handoff.get("followups"):
+    if followups_raw:
         res["followups"] = [{"sender_role": f["sender_role"], "text": f["text"], "created_at": f["created_at"]}
-                            for f in handoff["followups"]]
+                            for f in followups_raw]
     return res
 
 
-def review_handoff_copy(handoff: dict, order: dict | None = None) -> dict:
+def review_handoff_copy(handoff: dict, order: dict | None = None, related_ticket: dict | None = None) -> dict:
     result = {key: value for key, value in handoff.items() if key not in ("thread_id", "attachments")}
     result["attachments"] = [
         {
@@ -175,9 +297,21 @@ def review_handoff_copy(handoff: dict, order: dict | None = None) -> dict:
         }
         for item in handoff.get("attachments", [])
     ]
-    req_txt = str(handoff.get("request_text") or "")
-    excerpt_txt = " ".join(x.get("text", "") for x in handoff.get("excerpt", []))
-    is_food_p0 = bool(SPECIAL_ISSUE_RE.search(req_txt + " " + excerpt_txt))
+    excerpt_list = handoff.get("excerpt") or []
+    if not result.get("initial_appeal"):
+        first_cust = next((x["text"] for x in excerpt_list if x.get("role") == "customer" and x.get("text")), None)
+        result["initial_appeal"] = first_cust or handoff.get("request_text")
+    followups = handoff.get("followups") or []
+    result["needs_specialist_reply"] = bool(
+        handoff.get("status") == "replied"
+        and not handoff.get("ended_at")
+        and followups
+        and followups[-1].get("sender_role") == "customer"
+    )
+    req_txt = str(handoff.get("request_text") or "") + " " + str(result.get("initial_appeal") or "")
+    excerpt_txt = " ".join(x.get("text", "") for x in excerpt_list)
+    fup_txt = " ".join(x.get("text", "") for x in followups)
+    is_food_p0 = bool(SPECIAL_ISSUE_RE.search(f"{req_txt} {excerpt_txt} {fup_txt}"))
     result["priority"] = "P0_FOOD_SAFETY" if is_food_p0 else ("P1_EVIDENCE" if result["attachments"] else "NORMAL")
     if order:
         result["order_summary"] = {
@@ -186,6 +320,11 @@ def review_handoff_copy(handoff: dict, order: dict | None = None) -> dict:
                 "prep_done_at", "picked_up_at", "expected_at", "delivered_at",
                 "liability_party", "liability_detail", "rider_protection", "gps_fence_note", "items"
             ) if k in order
+        }
+    if related_ticket:
+        result["related_ticket"] = {
+            k: related_ticket.get(k)
+            for k in ("ticket_id", "status", "review_note", "proposed_coupon_yuan", "coupon_issued_yuan")
         }
     return result
 
@@ -328,14 +467,25 @@ class DemoService:
 
     # Customer side
 
+    def _visible_len(self, thread_id: str) -> int:
+        if not thread_id:
+            return 0
+        snap = self.customer_graph.get_state(self._thread(thread_id))
+        return len(visible_messages((snap.values or {}).get("messages", [])))
+
     def customer_view(self, thread_id: str, customer_id: str) -> dict:
         snapshot = self.customer_graph.get_state(self._thread(thread_id))
         messages = (snapshot.values or {}).get("messages", [])
         visible = visible_messages(messages)
         confirmation = first_request(snapshot.interrupts, "confirm_submission")
         handoffs = self.store.handoffs(customer_id=customer_id)
+        active = self.store.active_handoff(customer_id, thread_id)
         own = [item for item in handoffs if item["thread_id"] == thread_id]
-        handoff_order = own[-1]["order_id"] if own and own[-1]["after_index"] >= len(visible) else None
+        handoff_order = (
+            active["order_id"]
+            if active and active.get("order_id") and active["after_index"] >= len(visible)
+            else (own[-1]["order_id"] if own and own[-1]["after_index"] >= len(visible) else None)
+        )
         order_id = (confirmation or {}).get("order_id") or handoff_order or focused_order(messages)
         return {
             "messages": visible,
@@ -343,6 +493,8 @@ class DemoService:
             "tickets": self.customer_tickets(customer_id),
             "goodwill_grants": self.store.goodwill_grants(customer_id=customer_id),
             "focus": self._focus(customer_id, order_id),
+            "active_handoff_id": active["handoff_id"] if active else None,
+            "handoff_mode": ("waiting" if active["status"] == "waiting" else "active") if active else "none",
             "handoffs": [handoff_copy(item, thread_id) for item in handoffs[-HANDOFF_SHOWN:]
                          if item["thread_id"] == thread_id or item["status"] != "cancelled"],
         }
@@ -384,11 +536,52 @@ class DemoService:
         )
         return {"grant": grant, "created": created}
 
+    def _route_to_active_handoff(self, active: dict, thread_id: str, customer_id: str, text: str, snapshot) -> dict:
+        messages = (snapshot.values or {}).get("messages", [])
+        visible = visible_messages(messages)
+        named = ORDER_ID.findall(text or "")
+        verified_oid = None
+        if named:
+            cand = normalize_order_id(named[-1])
+            if self.data.lookup_for_customer(cand, customer_id)[1] is not None:
+                verified_oid = cand
+        updated = self.store.append_handoff_followup(
+            active["handoff_id"], sender_role="customer", sender_id=customer_id,
+            text=text.strip(), customer_id=customer_id, after_index=len(visible),
+            order_id=verified_oid if not active.get("order_id") else None,
+        )
+        self._record(
+            event="customer_handoff_message", customer_id=customer_id, thread_id=thread_id,
+            outcome="handoff_message_sent", order_id=updated["order_id"], handoff_id=active["handoff_id"],
+        )
+        return {
+            "outcome": "handoff_message_sent", "reason_code": None, "messages": [],
+            "confirmation": None, "ticket": None, "handoff": handoff_copy(updated, thread_id), "created": False,
+        }
+
     async def stream_message(self, thread_id: str, customer_id: str, text: str):
         """True async LangGraph astream with per-thread async lock, punctuation clause buffering & reply_risk guard."""
         async with self._async_lock(thread_id):
             snapshot = self.customer_graph.get_state(self._thread(thread_id))
             pending_confirm = first_request(snapshot.interrupts, "confirm_submission")
+            active = self.store.active_handoff(customer_id, thread_id)
+            if active and EXPLICIT_NO_HANDOFF_RE.search(text):
+                self.store.end_handoff(active["handoff_id"], customer_id=customer_id)
+                active = None
+            if active:
+                if active["status"] == "waiting" and wants_person(text):
+                    if pending_confirm:
+                        await self.customer_graph.ainvoke(Command(resume="cancel"), self._thread(thread_id), context=CustomerContext(customer_id))
+                        snapshot = self.customer_graph.get_state(self._thread(thread_id))
+                    res = self._open_handoff(thread_id, customer_id, text, snapshot)
+                    yield {"type": "done", "result": {"outcome": "handoff_requested" if res["created"] else "handoff_waiting",
+                                                     "reason_code": None, "messages": [], "confirmation": None, "ticket": None, **res}}
+                    return
+                if pending_confirm:
+                    await self.customer_graph.ainvoke(Command(resume="cancel"), self._thread(thread_id), context=CustomerContext(customer_id))
+                    snapshot = self.customer_graph.get_state(self._thread(thread_id))
+                yield {"type": "done", "result": self._route_to_active_handoff(active, thread_id, customer_id, text, snapshot)}
+                return
             if wants_person(text):
                 if pending_confirm:
                     await self.customer_graph.ainvoke(Command(resume="cancel"), self._thread(thread_id), context=CustomerContext(customer_id))
@@ -485,6 +678,22 @@ class DemoService:
         with self._lock(thread_id):
             snapshot = self.customer_graph.get_state(self._thread(thread_id))
             pending_confirm = first_request(snapshot.interrupts, "confirm_submission")
+            active = self.store.active_handoff(customer_id, thread_id)
+            if active and EXPLICIT_NO_HANDOFF_RE.search(text):
+                self.store.end_handoff(active["handoff_id"], customer_id=customer_id)
+                active = None
+            if active:
+                if active["status"] == "waiting" and wants_person(text):
+                    if pending_confirm:
+                        self._run(thread_id, customer_id, Command(resume="cancel"), "customer_cancel", snapshot)
+                        snapshot = self.customer_graph.get_state(self._thread(thread_id))
+                    result = self._open_handoff(thread_id, customer_id, text, snapshot)
+                    return {"outcome": "handoff_requested" if result["created"] else "handoff_waiting",
+                            "reason_code": None, "messages": [], "confirmation": None, "ticket": None, **result}
+                if pending_confirm:
+                    self._run(thread_id, customer_id, Command(resume="cancel"), "customer_cancel", snapshot)
+                    snapshot = self.customer_graph.get_state(self._thread(thread_id))
+                return self._route_to_active_handoff(active, thread_id, customer_id, text, snapshot)
             # Emergency human-handoff & P0 food-safety escape hatches ALWAYS work, even if a confirmation card was open!
             if wants_person(text):
                 if pending_confirm:
@@ -603,28 +812,62 @@ class DemoService:
     # Human handoff (non-blocking snapshot read so emergency escape button never hangs behind slow LLM calls)
 
     def request_handoff(self, thread_id: str, customer_id: str, text: str | None = None,
-                        files: list[dict] | None = None) -> dict:
+                        files: list[dict] | None = None, focus_order_id: str | None = None) -> dict:
         snapshot = self.customer_graph.get_state(self._thread(thread_id))
-        return self._open_handoff(thread_id, customer_id, text, snapshot, files or [])
+        return self._open_handoff(thread_id, customer_id, text, snapshot, files or [], focus_order_id=focus_order_id)
+
+    def _resolve_handoff_order(self, customer_id: str, text: str | None, confirmation: dict | None,
+                               messages, focus_order_id: str | None = None) -> str | None:
+        named = ORDER_ID.findall(text or "")
+        candidates = [
+            normalize_order_id(named[-1]) if named else None,
+            (confirmation or {}).get("order_id"),
+            last_verified_order(messages, customer_id, self.data),
+            normalize_order_id(focus_order_id) if focus_order_id else None,
+        ]
+        for cand in candidates:
+            if cand and self.data.lookup_for_customer(cand, customer_id)[1] is not None:
+                return cand
+        # Fallback to latest ticket of this customer if no order appeared in chat yet
+        cust_tickets = self.store.tickets(customer_id=customer_id)
+        return cust_tickets[-1]["order_id"] if cust_tickets else None
 
     def _open_handoff(self, thread_id: str, customer_id: str, text: str | None, snapshot,
-                      files: list[dict] | None = None) -> dict:
+                      files: list[dict] | None = None, focus_order_id: str | None = None) -> dict:
         messages = (snapshot.values or {}).get("messages", [])
         visible = visible_messages(messages)
         confirmation = first_request(snapshot.interrupts, "confirm_submission")
-        named = ORDER_ID.findall(text or "")
-        candidate = (normalize_order_id(named[-1]) if named else None) or (confirmation or {}).get("order_id") \
-            or focused_order(messages)
-        focus = self._focus(customer_id, candidate)
-        order_id = focus["order_id"] if focus and focus["verified"] else None
-        excerpt = [{"role": item["role"], "text": item["text"].replace("查单工具 query_order：", "查询 ")[:EXCERPT_CHARS]}
-                   for item in visible[-EXCERPT_LINES:]]
+        order_id = self._resolve_handoff_order(customer_id, text, confirmation, messages, focus_order_id)
+        initial_appeal = extract_initial_appeal(visible, order_id, text)
+        excerpt = build_handoff_excerpt(visible, order_id)
         order_obj = self.data.orders.get(order_id or "") or {}
         tenant_id = str(order_obj.get("tenant_id") or "M_67REST")
+
+        # If an active replied human session already exists on this thread, continue seamlessly inside it!
+        active = self.store.active_handoff(customer_id, thread_id)
+        if active and active["status"] == "replied":
+            try:
+                updated = self.store.append_handoff_followup(
+                    active["handoff_id"], sender_role="customer", sender_id=customer_id,
+                    text=text.strip() if text and text.strip() else None,
+                    customer_id=customer_id, after_index=len(visible),
+                    order_id=order_id, files=files or [],
+                )
+            except ValueError as exc:
+                if "attachment_quota_exceeded" in str(exc):
+                    raise ServiceError(409, "attachment_limit", "单次人工咨询最多上传 3 个附件。") from None
+                if "customer_disk_quota_exceeded" in str(exc):
+                    raise ServiceError(413, "customer_quota_exceeded", "当前账号累计上传凭证容量已达上限（25 MB）。") from None
+                raise
+            self._record(event="handoff_continue", customer_id=customer_id, thread_id=thread_id,
+                         outcome="continued", order_id=updated["order_id"], handoff_id=active["handoff_id"])
+            return {"handoff": handoff_copy(updated, thread_id), "created": False}
+
         try:
             handoff, created = self.store.create_handoff(
                 customer_id=customer_id, thread_id=thread_id, order_id=order_id, after_index=len(visible),
-                request_text=text, excerpt=excerpt, files=files or [], limit=HANDOFF_LIMIT, tenant_id=tenant_id)
+                request_text=text, excerpt=excerpt, files=files or [], limit=HANDOFF_LIMIT,
+                tenant_id=tenant_id, initial_appeal=initial_appeal)
         except ValueError as exc:
             if "attachment_quota_exceeded" in str(exc):
                 raise ServiceError(409, "attachment_limit", "单次人工咨询最多上传 3 个附件。") from None
@@ -633,8 +876,13 @@ class DemoService:
             raise
         if handoff is None:
             raise ServiceError(429, "handoff_limit", "当前人工排队人数已满，请稍后再试。")
+        if not created and text and text.strip() and not BARE_HANDOFF.fullmatch(text):
+            handoff = self.store.append_handoff_followup(
+                handoff["handoff_id"], sender_role="customer", sender_id=customer_id,
+                text=text.strip(), customer_id=customer_id, after_index=len(visible), order_id=order_id,
+            ) or handoff
         self._record(event="handoff_request", customer_id=customer_id, thread_id=thread_id,
-                     outcome="waiting" if created else "already_waiting", order_id=order_id,
+                     outcome="waiting" if created else "already_waiting", order_id=handoff["order_id"],
                      handoff_id=handoff["handoff_id"], via="keyword" if text else "button")
         return {"handoff": handoff_copy(handoff, thread_id), "created": created}
 
@@ -649,6 +897,15 @@ class DemoService:
                      order_id=handoff["order_id"], handoff_id=handoff_id)
         return {"handoff": handoff_copy(handoff, thread_id)}
 
+    def end_handoff(self, thread_id: str, customer_id: str, handoff_id: str) -> dict:
+        """End an active human service session so future chat messages return to AI mode."""
+        handoff = self.store.end_handoff(handoff_id, customer_id=customer_id)
+        if handoff is None:
+            raise ServiceError(404, "handoff_not_found", "当前账号下没有这条人工咨询。")
+        self._record(event="handoff_end", customer_id=customer_id, outcome="ended",
+                     order_id=handoff["order_id"], handoff_id=handoff_id)
+        return {"handoff": handoff_copy(handoff, thread_id)}
+
     def customer_handoff_followup(self, thread_id: str, customer_id: str, handoff_id: str, text: str) -> dict:
         """Allow customer to send a two-way reply back to the human specialist on an active/replied handoff."""
         if not isinstance(text, str) or not text.strip():
@@ -656,8 +913,10 @@ class DemoService:
         text = text.strip()
         if len(text) > REPLY_LIMIT:
             raise ServiceError(400, "text_too_long", f"留言不能超过 {REPLY_LIMIT} 个字。")
+        cur_after = self._visible_len(thread_id)
         updated = self.store.append_handoff_followup(
-            handoff_id, sender_role="customer", sender_id=customer_id, text=text, customer_id=customer_id
+            handoff_id, sender_role="customer", sender_id=customer_id, text=text,
+            customer_id=customer_id, after_index=cur_after,
         )
         if updated is None:
             raise ServiceError(404, "handoff_not_found", "当前账号下没有这条人工咨询或已取消。")
@@ -772,15 +1031,17 @@ class DemoService:
     def runs(self, limit: int = 100) -> list[dict]:
         return list(self.run_log)[-limit:]
 
+    def _review_handoff_item(self, item: dict) -> dict:
+        oid = item.get("order_id") or ""
+        rel_ticket = self.store.find(oid, self.policy.version) if oid else None
+        copied = review_handoff_copy(item, self.data.orders.get(oid), rel_ticket)
+        copied["attachments"] = [{**attachment, "url": f"/api/media/{attachment['attachment_id']}"}
+                                 for attachment in copied.get("attachments", [])]
+        return copied
+
     def review_handoffs(self, reviewer_id: str | None = None) -> dict:
         tenant_id = self._reviewer_tenant(reviewer_id)
-        items = [
-            review_handoff_copy(item, self.data.orders.get(item.get("order_id") or ""))
-            for item in self.store.handoffs(tenant_id=tenant_id)
-        ]
-        for item in items:
-            item["attachments"] = [{**attachment, "url": f"/api/media/{attachment['attachment_id']}"}
-                                    for attachment in item.get("attachments", [])]
+        items = [self._review_handoff_item(item) for item in self.store.handoffs(tenant_id=tenant_id)]
         waiting = sorted(items, key=lambda x: (0 if x.get("priority") == "P0_FOOD_SAFETY" else 1, x["handoff_id"]))
         return {
             "waiting": [item for item in waiting if item["status"] == "waiting"],
@@ -815,13 +1076,16 @@ class DemoService:
             raise ServiceError(404, "handoff_not_found", "没有这条人工咨询。")
         self._assert_tenant_access(reviewer_id, existing_h.get("tenant_id"))
         started = time.perf_counter()
-        handoff = self.store.close_handoff(handoff_id, status="replied", reviewer_id=reviewer_id, reply_text=text)
+        cur_after = self._visible_len(existing_h.get("thread_id") or "")
+        handoff = self.store.close_handoff(
+            handoff_id, status="replied", reviewer_id=reviewer_id, reply_text=text, reply_after_index=cur_after
+        )
         if handoff is None:
             raise ServiceError(409, "handoff_closed", "顾客已取消，或这条咨询已经回复。")
         self._record(event="handoff_reply", reviewer_id=reviewer_id, customer_id=handoff["customer_id"],
                      outcome="replied", order_id=handoff["order_id"], handoff_id=handoff_id,
                      latency_ms=round((time.perf_counter() - started) * 1000))
-        return {"handoff": review_handoff_copy(handoff, self.data.orders.get(handoff.get("order_id") or ""))}
+        return {"handoff": self._review_handoff_item(handoff)}
 
     def followup_handoff(self, handoff_id: str, reviewer_id: str, text) -> dict:
         """Send an additional follow-up message on an already-replied handoff (eliminates 1-message lockout)."""
@@ -836,12 +1100,15 @@ class DemoService:
         if existing_h is None:
             raise ServiceError(404, "handoff_not_found", "没有这条人工咨询或顾客已取消。")
         self._assert_tenant_access(reviewer_id, existing_h.get("tenant_id"))
-        updated = self.store.append_handoff_followup(handoff_id, sender_role="reviewer", sender_id=reviewer_id, text=text)
+        cur_after = self._visible_len(existing_h.get("thread_id") or "")
+        updated = self.store.append_handoff_followup(
+            handoff_id, sender_role="reviewer", sender_id=reviewer_id, text=text, after_index=cur_after
+        )
         if updated is None:
             raise ServiceError(404, "handoff_not_found", "没有这条人工咨询或顾客已取消。")
         self._record(event="handoff_followup", reviewer_id=reviewer_id, customer_id=updated["customer_id"],
                      outcome="followup_sent", order_id=updated["order_id"], handoff_id=handoff_id)
-        return {"handoff": review_handoff_copy(updated, self.data.orders.get(updated.get("order_id") or ""))}
+        return {"handoff": self._review_handoff_item(updated)}
 
     def review_detail(self, ticket_id: str, reviewer_id: str | None = None) -> dict:
         raw = self._ticket_or_404(ticket_id)
@@ -868,6 +1135,13 @@ class DemoService:
                 raise ServiceError(409, "customer_information_pending", "正在等待顾客补充信息。")
             if current["status"] != "pending":
                 raise ServiceError(409, "ticket_already_decided", "这张工单已经处理过。")
+            if decision == "reject":
+                if isinstance(note, str) and note.strip():
+                    note = note.strip()
+                    if len(note) > 200:
+                        raise ServiceError(400, "note_too_long", "驳回原因不能超过 200 个字。")
+                else:
+                    note = "经人工复核暂不符合本次补偿条件，如有疑问可转人工继续咨询此订单。"
             self._open_review(ticket_id)
             started = time.perf_counter()
             answer = {"decision": decision, "reviewer_id": reviewer_id, "note": note}

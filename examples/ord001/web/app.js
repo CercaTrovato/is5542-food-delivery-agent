@@ -1,7 +1,7 @@
 "use strict";
 
 // Shared UI and API helpers. Server content always enters the page through textContent (zero innerHTML XSS).
-const STATUS_TEXT = { pending: "审核中", needs_info: "待补充", approved: "已通过", rejected: "未通过" };
+const STATUS_TEXT = { pending: "审核中", needs_info: "待补充", approved: "已通过", rejected: "已驳回" };
 const $ = (id) => document.getElementById(id);
 const ICONS = {
   bowl: ["M3 11h18c-.7 6-4 9-9 9s-8.3-3-9-9Z", "M2 11h20M8 4c-2 2 2 3 0 5M13 3c-2 2 2 3 0 5M18 4c-2 2 2 3 0 5"],
@@ -407,7 +407,7 @@ function ticketHistory(ticketId) {
       const data = await api(`/api/${role}/tickets/${encodeURIComponent(ticketId)}`);
       if (!details.open || !details.isConnected) return;
       const entries = data.timeline || data.events || [];
-      const labels = { submitted: "已提交", information_requested: "专员提问", information_submitted: "已补充", approved: "审核通过", rejected: "未通过", rated: "顾客评价" };
+      const labels = { submitted: "已提交", information_requested: "专员提问", information_submitted: "已补充", approved: "审核通过", rejected: "已驳回", rated: "顾客评价" };
       list.replaceChildren(...entries.map((entry) => {
         const row = el("li", "history-event");
         const head = el("div", "history-event-head");

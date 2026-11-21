@@ -129,7 +129,13 @@ LEDGER_TICKET_COLUMNS = (
     ("merchant_bear_yuan", "REAL"),
     ("platform_bear_yuan", "REAL"),
 )
-LEDGER_HANDOFF_COLUMNS = (("tenant_id", "TEXT DEFAULT 'M_67REST'"),)
+LEDGER_HANDOFF_COLUMNS = (
+    ("tenant_id", "TEXT DEFAULT 'M_67REST'"),
+    ("reply_after_index", "INTEGER"),
+    ("reply_seq", "INTEGER"),
+    ("ended_at", "TEXT"),
+    ("initial_appeal", "TEXT"),
+)
 
 
 def now_text() -> str:
@@ -360,6 +366,7 @@ class TicketStore:
     def _ensure_ledger_columns(self) -> None:
         t_cols = {row["name"] for row in self._db.execute("PRAGMA table_info(tickets)")}
         h_cols = {row["name"] for row in self._db.execute("PRAGMA table_info(handoffs)")}
+        m_cols = {row["name"] for row in self._db.execute("PRAGMA table_info(handoff_messages)")}
         f_cols = {row["name"] for row in self._db.execute("PRAGMA table_info(attachment_forensics)")}
         with self._db:
             for name, kind in LEDGER_TICKET_COLUMNS:
@@ -368,6 +375,8 @@ class TicketStore:
             for name, kind in LEDGER_HANDOFF_COLUMNS:
                 if name not in h_cols:
                     self._db.execute(f"ALTER TABLE handoffs ADD COLUMN {name} {kind}")
+            if "after_index" not in m_cols:
+                self._db.execute("ALTER TABLE handoff_messages ADD COLUMN after_index INTEGER")
             if "perceptual_sig" not in f_cols:
                 self._db.execute("ALTER TABLE attachment_forensics ADD COLUMN perceptual_sig TEXT")
 
@@ -718,7 +727,8 @@ class TicketStore:
 
     def _handoff_followups(self, handoff_id: str) -> list[dict]:
         rows = self._db.execute(
-            "SELECT sender_role, text, created_at FROM handoff_messages WHERE handoff_id = ? ORDER BY message_id",
+            "SELECT message_id, sender_role, sender_id, text, created_at, after_index"
+            " FROM handoff_messages WHERE handoff_id = ? ORDER BY message_id",
             (handoff_id,),
         ).fetchall()
         return [dict(row) for row in rows]
@@ -739,16 +749,39 @@ class TicketStore:
             row["followups"] = followups
         return row
 
+    def active_handoff(self, customer_id: str, thread_id: str) -> dict | None:
+        """Return the customer's active human consultation (waiting, or replied & not ended on this thread)."""
+        with self._lock:
+            waiting = self._one(
+                "SELECT * FROM handoffs WHERE customer_id = ? AND status = 'waiting' ORDER BY handoff_id DESC LIMIT 1",
+                (customer_id,),
+            )
+            if waiting:
+                return self.handoff_with_attachments(waiting)
+            replied = self._one(
+                "SELECT * FROM handoffs WHERE customer_id = ? AND thread_id = ? AND status = 'replied'"
+                " AND ended_at IS NULL ORDER BY handoff_id DESC LIMIT 1",
+                (customer_id, thread_id),
+            )
+            return self.handoff_with_attachments(replied) if replied else None
+
     def create_handoff(self, *, customer_id: str, thread_id: str, order_id: str | None, after_index: int,
                        request_text: str | None, excerpt: list, files: list[dict], limit: int,
-                       tenant_id: str = "M_67REST") -> tuple[dict | None, bool]:
+                       tenant_id: str = "M_67REST", initial_appeal: str | None = None) -> tuple[dict | None, bool]:
         """Open one waiting handoff per customer. Counts ONLY active waiting handoffs against limit (prevents DoS)."""
         with self._lock, self._db:
             waiting = self._one("SELECT * FROM handoffs WHERE customer_id = ? AND status = 'waiting'", (customer_id,))
             if waiting:
+                if order_id and not waiting.get("order_id"):
+                    self._db.execute("UPDATE handoffs SET order_id = ?, tenant_id = ? WHERE handoff_id = ?",
+                                     (order_id, tenant_id, waiting["handoff_id"]))
+                if initial_appeal and not waiting.get("initial_appeal"):
+                    self._db.execute("UPDATE handoffs SET initial_appeal = ? WHERE handoff_id = ?",
+                                     (initial_appeal, waiting["handoff_id"]))
                 if files:
                     self._store_files(waiting["handoff_id"], customer_id, files)
-                return self.handoff_with_attachments(waiting), False
+                refreshed = self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (waiting["handoff_id"],))
+                return self.handoff_with_attachments(refreshed), False
             active_waiting = self._db.execute("SELECT COUNT(*) FROM handoffs WHERE status = 'waiting'").fetchone()[0]
             if active_waiting >= limit:
                 return None, False
@@ -758,9 +791,9 @@ class TicketStore:
             handoff_id = f"H{next_num:04d}"
             self._db.execute(
                 "INSERT INTO handoffs (handoff_id, customer_id, thread_id, order_id, after_index, request_text,"
-                " excerpt, status, created_at, tenant_id) VALUES (?, ?, ?, ?, ?, ?, ?, 'waiting', ?, ?)",
+                " excerpt, status, created_at, tenant_id, initial_appeal) VALUES (?, ?, ?, ?, ?, ?, ?, 'waiting', ?, ?, ?)",
                 (handoff_id, customer_id, thread_id, order_id, after_index, request_text,
-                 json.dumps(excerpt, ensure_ascii=False), now_text(), tenant_id),
+                 json.dumps(excerpt, ensure_ascii=False), now_text(), tenant_id, initial_appeal),
             )
             self._store_files(handoff_id, customer_id, files)
             return self.handoff_with_attachments(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,))), True
@@ -783,20 +816,44 @@ class TicketStore:
             return self.handoff_with_attachments(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,)))
 
     def close_handoff(self, handoff_id: str, *, status: str, customer_id: str | None = None,
-                      reviewer_id: str | None = None, reply_text: str | None = None) -> dict | None:
+                      reviewer_id: str | None = None, reply_text: str | None = None,
+                      reply_after_index: int | None = None) -> dict | None:
         """Move a waiting handoff to replied or cancelled exactly once."""
-        sql = ("UPDATE handoffs SET status = ?, reply_text = ?, reviewer_id = ?, closed_at = ?"
-               " WHERE handoff_id = ? AND status = 'waiting'")
-        params = [status, reply_text, reviewer_id, now_text(), handoff_id]
-        if customer_id is not None:
-            sql, params = sql + " AND customer_id = ?", params + [customer_id]
         with self._lock, self._db:
+            reply_seq = None
+            if status == "replied":
+                reply_seq = self._db.execute(
+                    "SELECT COALESCE(MAX(message_id), 0) FROM handoff_messages WHERE handoff_id = ?", (handoff_id,)
+                ).fetchone()[0]
+            sql = (
+                "UPDATE handoffs SET status = ?, reply_text = ?, reviewer_id = ?, closed_at = ?,"
+                " reply_after_index = COALESCE(?, after_index), reply_seq = ? WHERE handoff_id = ? AND status = 'waiting'"
+            )
+            params = [status, reply_text, reviewer_id, now_text(), reply_after_index, reply_seq, handoff_id]
+            if customer_id is not None:
+                sql, params = sql + " AND customer_id = ?", params + [customer_id]
             if self._db.execute(sql, params).rowcount != 1:
                 return None
             return self.handoff_with_attachments(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,)))
 
-    def append_handoff_followup(self, handoff_id: str, *, sender_role: str, sender_id: str, text: str,
-                                customer_id: str | None = None) -> dict | None:
+    def end_handoff(self, handoff_id: str, *, customer_id: str) -> dict | None:
+        """Mark an active replied human session as ended so subsequent messages return to AI mode."""
+        with self._lock, self._db:
+            row = self._one("SELECT * FROM handoffs WHERE handoff_id = ? AND customer_id = ?", (handoff_id, customer_id))
+            if row is None or row["status"] == "cancelled":
+                return None
+            if row["status"] == "waiting":
+                self._db.execute(
+                    "UPDATE handoffs SET status = 'cancelled', closed_at = ? WHERE handoff_id = ?",
+                    (now_text(), handoff_id),
+                )
+            elif not row.get("ended_at"):
+                self._db.execute("UPDATE handoffs SET ended_at = ? WHERE handoff_id = ?", (now_text(), handoff_id))
+            return self.handoff_with_attachments(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,)))
+
+    def append_handoff_followup(self, handoff_id: str, *, sender_role: str, sender_id: str, text: str | None = None,
+                                customer_id: str | None = None, after_index: int | None = None,
+                                order_id: str | None = None, files: list[dict] | None = None) -> dict | None:
         """Full-duplex multi-turn follow-up messages for both specialist and customer."""
         with self._lock, self._db:
             row = self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,))
@@ -804,11 +861,20 @@ class TicketStore:
                 return None
             if customer_id is not None and row["customer_id"] != customer_id:
                 return None
-            self._db.execute(
-                "INSERT INTO handoff_messages (handoff_id, sender_role, sender_id, text, created_at) VALUES (?, ?, ?, ?, ?)",
-                (handoff_id, sender_role, sender_id, text, now_text()),
-            )
-            return self.handoff_with_attachments(row)
+            if order_id and row.get("order_id") != order_id:
+                self._db.execute("UPDATE handoffs SET order_id = ? WHERE handoff_id = ?", (order_id, handoff_id))
+            if row.get("ended_at") and sender_role == "reviewer":
+                # Re-activate human session if specialist sends a follow-up message!
+                self._db.execute("UPDATE handoffs SET ended_at = NULL WHERE handoff_id = ?", (handoff_id,))
+            if files:
+                self._store_files(handoff_id, row["customer_id"], files)
+            if text:
+                self._db.execute(
+                    "INSERT INTO handoff_messages (handoff_id, sender_role, sender_id, text, created_at, after_index)"
+                    " VALUES (?, ?, ?, ?, ?, ?)",
+                    (handoff_id, sender_role, sender_id, text, now_text(), after_index),
+                )
+            return self.handoff_with_attachments(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,)))
 
     def reset(self) -> list[str]:
         """Clear demo tickets/handoffs while keeping audit_logs append-only (WORM) with SHA-256 chain intact."""

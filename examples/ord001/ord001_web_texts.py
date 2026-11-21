@@ -63,6 +63,7 @@ def ticket_text(ticket: dict, *, created: bool) -> str:
         return head + f"请补充：{ticket['information_request']}"
     if status == "approved":
         return head + f"¥{ticket['coupon_issued_yuan']} 补偿券已发放。"
-    if status == "rejected" and ticket["review_note"]:
-        return head + f"原因：{ticket['review_note']}"
+    if status == "rejected":
+        reason_str = f"原因：{ticket['review_note']}。" if ticket.get("review_note") else ""
+        return head + reason_str + "原申请保留「已驳回」；如需继续沟通此订单，可通过人工客服入口继续咨询。"
     return head
