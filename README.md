@@ -1,5 +1,21 @@
 # IS5542 · 外卖延误补偿 Agent
 
+## 11月22日当前状态
+
+**开发修复已交，测试组新版表8行均标过；Jacky业务／规则稿已收，PPT可进入素材填充。** 这里的“过”是测试组报告，不是正式B/C成绩或本会话独立重跑。正式基础工具B交件、本轮市场流程比较、成本、录屏和最新Canvas条件仍待核。
+
+本人已选择考虑纳入人工重审和改额，具体边界另定；不能直接把代码里的金额／重开能力当正式政策。原两天窗口继续，群任务已发，精确T0不补猜。最新开发分支29171c8（其中df65b5d修复多单隔离），未在本批合并main。
+
+先看[本次进度](notes/team/progress-2026-11-22.md)，再按角色进入：[开发](notes/team/li-zongqian.md)、[测试组](notes/team/testing-team.md)、[Jacky](notes/team/jacky-research.md)、[林](notes/team/lin-research.md)、[本人PPT](work/presentation/ppt-framework.md)。
+
+- [已读新版复测表的范围与缺口](work/eval/team-retest-2026-11-22.md)
+- [Jacky新稿、原件与来源待补](work/research/jacky-business-rules-2026-11-22.md)
+- [两天执行单](notes/team/final-week-tasks-2026-11-21.md) · [材料收集清单](work/presentation/material-checklist.md)
+
+GitHub和本课记录本批更新；跨会话发送仍须本人本次确认。本批未发群／会话，共享管理与线上看板未更新回读。
+
+<details><summary>11月21日进度与早期历史（由11月22日状态取代）</summary>
+
 ## PPT内容框架已开工（2026-11-21）
 
 本人已确认将更新安排发群；精确发出时刻和成员回信未核，原48小时窗口不重置。当前先做[13页正文＋2页附录的逐页内容框架](work/presentation/ppt-framework.md)，列明每页主题、画面、材料与提供者；[材料清单](work/presentation/material-checklist.md)供原五个工作包交件时直接补齐。测试／修复／市场比较／成本／ROI结果空白，尚未排版为PPT或完成录像。
@@ -80,5 +96,8 @@ Group 24 的课程项目。我们用模拟外卖订单验证一件事：面对�
 | 过去为什么这样选、建库时是什么状态 | [历史决策与进度快照](progress/README.md) |
 
 课程公告记录 **11 月 28 日交录像与 slides**。具体时刻和提交入口以 Canvas 后续通知为准。
+
+</details>
+
 
 </details>

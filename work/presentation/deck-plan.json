@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "status": "content_framework_draft",
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "not_a_finished_ppt_or_submission": true,
   "main_slides": [
     {
@@ -490,7 +490,16 @@
   "results": {
     "B": null,
     "C": null,
-    "repair_retest": null,
+    "repair_retest": {
+      "evidence_type": "team_report_read",
+      "source_date": "2026-11-22",
+      "summary_rows": 8,
+      "rows_marked_pass": 8,
+      "independent_rerun_by_this_chat": false,
+      "pinned_runtime_commit": null,
+      "policy_scope_pending": "D17",
+      "formal_BC_results": false
+    },
     "market_comparison": null,
     "business_value": null,
     "roi": null
@@ -580,5 +589,18 @@
       "slides": "A01、A02",
       "materials": "M01、M14"
     }
-  ]
+  ],
+  "latest_progress": {
+    "developer_branch_head": "29171c8c42671e3de84f2f0940a85867fa98ce1a",
+    "functional_fix": "df65b5d",
+    "research_doc_sha256": "682e20e3125ec63a1d3d73104b5a8d31091cffd5ec084f07bf157b03046f98ab",
+    "policy_direction": "consider human reconsideration and amount changes; detailed boundaries pending",
+    "next_inputs": [
+      "fixed tested version and configuration",
+      "normal and exception recordings",
+      "new basic B implementation and formal comparison",
+      "Lin market flow comparison",
+      "Jacky source locators"
+    ]
+  }
 }

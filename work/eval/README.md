@@ -1,5 +1,7 @@
 # 两天版验收入口
 
+11/22：[测试组复测记录已收](team-retest-2026-11-22.md)，8条验收行均标过。原正式对照模板不自动填成绩，人工重审／改额边界待本人另定。开发开测说明已有部分到件，见[接收状态](developer-handoff.md)及[当日进度](../../notes/team/progress-2026-11-22.md)。
+
 先读[48小时任务](../../notes/team/final-week-tasks-2026-11-21.md)。开发填[开测说明](developer-handoff.md)，测试组（A＋gaga老师）合交[一份报告](team-acceptance.md)。本组肉眼视觉检查只需约20分钟，不要求视觉参与者配置Agent／模型／接口／日志。
 
 正式内部对照必须符合[基础工具型B合同](../spec/basic-tool-agent-baseline.md)。本人已认可方向，代码尚需开发。旧纯提示报告和500模拟回归分别作为历史辅助，不是本轮正式成绩。

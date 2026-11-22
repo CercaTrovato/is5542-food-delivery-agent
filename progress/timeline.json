@@ -3,10 +3,10 @@
   "assignment_id": "IS5542-A01",
   "course": "IS5542",
   "timezone": "Asia/Shanghai",
-  "as_of": "2026-11-21",
-  "basis_revision": "e39cd5e08f1cbbc92fda6a512778841ab2fb9096a537e16b009bf9733cb8a94c",
+  "as_of": "2026-11-22",
+  "basis_revision": "d556b15984d5bea585000c99c077ead2e794f24f3e7cf6b3d825d3b7bd929a16",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
-  "summary": "本人已确认11/21更新安排发群，精确T0／成员承诺未知，原48小时窗口继续。已核教师9页模板，建立13页正文＋2附录逐页内容框架和14项材料清单；结果全部留空，未排版PPT／录制。Canvas最新复核停在SSO；三问题修复、工具B及正式对照待回。",
+  "summary": "11/22已读群聊、新测试表及远端：开发4新提交，功能修复df65b5d，最新29171c8；测试组8行标过但未绑定受测版本。Jacky业务／5规则／3要点已收，官方定位待补；林本轮比较、基础B正式对照及录屏未见。本人考虑纳入人工重审改额，具体边界待定，PPT可先填背景与定性迭代。",
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "items": [
     {
@@ -16,9 +16,9 @@
       "owner": "Jacky · 公开规则调研",
       "owner_role": "member",
       "scope": "team",
-      "summary": "旧v1.3成果承接；当前交一页业务和规则素材，旧未核字段如实保留，不要求两天全查完。",
+      "summary": "Jacky11/22业务说明、5项保障和3要点已收到并读完；条款定位仍缺，不代表本会话官方核实全部规则。",
       "deliverable": "按三家平台记录适用条件、时间门槛、补偿、例外和原文证据。",
-      "next_action": "Jacky在发群后12小时交一页业务／三平台规则与来源限制，不扩调研或统稿。",
+      "next_action": "仅补5行官方URL／原文或已有截图定位，未核保留，不重开大调研。",
       "my_next_action": null,
       "depends_on": [],
       "dependency_gates": [],
@@ -54,6 +54,14 @@
           "evidence": [
             "market-rules-v13"
           ]
+        },
+        {
+          "id": "business_package_received_1122",
+          "label": "11/22业务说明／五规则／三要点已收到并核读",
+          "status": "pass",
+          "evidence": [
+            "group-progress-20261122"
+          ]
         }
       ],
       "target": {
@@ -63,9 +71,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-21",
+      "observed_on": "2026-11-22",
       "estimated_minutes": null,
-      "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
+      "state_basis": "实际核读11/22群聊／新版表／远端代码与原件；区分开发自报、测试组报告和本会话未重跑。本人只确认考虑扩展方向，详细边界待定。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
@@ -82,6 +90,10 @@
         {
           "label": "本人确认的两天版任务与验收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
+        },
+        {
+          "label": "11月22日群进度与交件接收",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/progress-2026-11-22.md"
         }
       ],
       "history": [
@@ -135,6 +147,17 @@
             "next_action": "Jacky交一页业务说明、三平台规则表和可得来源补核，不负责PPT统稿。",
             "owner": "Jacky · 公开规则调研"
           }
+        },
+        {
+          "observed_on": "2026-11-22",
+          "status": "needs_review",
+          "note": "收4新代码提交、测试组8行过和Jacky新稿；正式对照／录屏／来源定位及扩展边界仍待。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "旧v1.3成果承接；当前交一页业务和规则素材，旧未核字段如实保留，不要求两天全查完。",
+            "next_action": "Jacky在发群后12小时交一页业务／三平台规则与来源限制，不扩调研或统稿。",
+            "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。"
+          }
         }
       ]
     },
@@ -145,9 +168,9 @@
       "owner": "林 · 客服流程观察",
       "owner_role": "member",
       "scope": "team",
-      "summary": "旧三平台记录有限比较承接；本轮无真实可用订单，另做无订单可访问页面与公开资料／案例比较。",
+      "summary": "旧材料承接；本次11/22群范围未见林的新12格市场流程比较，不从未见推断未开展。",
       "deliverable": "按 R01–R03 观察缺订单号、查补偿、找人工或查进度的流程。",
-      "next_action": "林在发群后20小时交无订单观察／公开证据12行比较；未知写未观察，不要求真实赔付到账。",
+      "next_action": "按原无订单／公开证据范围交新比较表，Jacky政策对照作为输入，不替代可观察流程。",
       "my_next_action": null,
       "depends_on": [],
       "dependency_gates": [],
@@ -192,9 +215,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-21",
+      "observed_on": "2026-11-22",
       "estimated_minutes": null,
-      "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
+      "state_basis": "实际核读11/22群聊／新版表／远端代码与原件；区分开发自报、测试组报告和本会话未重跑。本人只确认考虑扩展方向，详细边界待定。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -211,6 +234,10 @@
         {
           "label": "本人确认的两天版任务与验收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
+        },
+        {
+          "label": "11月22日群进度与交件接收",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/progress-2026-11-22.md"
         }
       ],
       "history": [
@@ -263,6 +290,17 @@
             },
             "next_action": "林承接旧记录，补真实可观察入口／人工／进度并做本系统对照；条件不匹配记不可比。",
             "owner": "林 · 客服流程观察"
+          }
+        },
+        {
+          "observed_on": "2026-11-22",
+          "status": "needs_review",
+          "note": "收4新代码提交、测试组8行过和Jacky新稿；正式对照／录屏／来源定位及扩展边界仍待。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "旧三平台记录有限比较承接；本轮无真实可用订单，另做无订单可访问页面与公开资料／案例比较。",
+            "next_action": "林在发群后20小时交无订单观察／公开证据12行比较；未知写未观察，不要求真实赔付到账。",
+            "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。"
           }
         }
       ]
@@ -337,9 +375,9 @@
       "owner": "李宗谦 · 网页开发",
       "owner_role": "member",
       "scope": "team",
-      "summary": "测试原表已核读，三问题有明确步骤，开发已接修复请求但修复未核。C说明与新工具B继续交。 本人已确认驳回后仅原因＋人工入口，不增二次申请；仍待实际修复／复测。",
+      "summary": "已收到4个新代码提交和开测信息，功能修复df65b5d、最新图片29171c8；测试组报过但运行版本未绑定，人工扩展边界待定。",
       "deliverable": "交本机可点通页面、开发分支、启动说明和同一工单的状态回显。",
-      "next_action": "第1天交三问题修复提交／线上版本／实际模型与自测；R01保留驳回记录并提供人工入口，不新增二次申请；原定工具B继续。",
+      "next_action": "固定演示／实验受测提交与线上对应版本、参数，补两段真实录屏；不因已自测就自动验收全部扩展。",
       "my_next_action": null,
       "depends_on": [
         "core"
@@ -386,9 +424,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-21",
+      "observed_on": "2026-11-22",
       "estimated_minutes": null,
-      "state_basis": "本人11/21确认驳回后范围及两天内群安排；群稿已备但未代发，成员可交时刻和修复验收仍待。",
+      "state_basis": "实际核读11/22群聊／新版表／远端代码与原件；区分开发自报、测试组报告和本会话未重跑。本人只确认考虑扩展方向，详细边界待定。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -413,6 +451,10 @@
         {
           "label": "本人确认范围及待本人发送的两天群稿",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/group-update-2026-11-21.md"
+        },
+        {
+          "label": "11月22日群进度与交件接收",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/progress-2026-11-22.md"
         }
       ],
       "history": [
@@ -500,6 +542,17 @@
             "next_action": "直接按P02／P03-04／P03-05复现修复，给新提交／线上版本和自测；补受测模型／环境，不再以缺原步骤等待。",
             "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。"
           }
+        },
+        {
+          "observed_on": "2026-11-22",
+          "status": "needs_review",
+          "note": "收4新代码提交、测试组8行过和Jacky新稿；正式对照／录屏／来源定位及扩展边界仍待。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "测试原表已核读，三问题有明确步骤，开发已接修复请求但修复未核。C说明与新工具B继续交。 本人已确认驳回后仅原因＋人工入口，不增二次申请；仍待实际修复／复测。",
+            "next_action": "第1天交三问题修复提交／线上版本／实际模型与自测；R01保留驳回记录并提供人工入口，不新增二次申请；原定工具B继续。",
+            "state_basis": "本人11/21确认驳回后范围及两天内群安排；群稿已备但未代发，成员可交时刻和修复验收仍待。"
+          }
         }
       ]
     },
@@ -510,9 +563,9 @@
       "owner": "测试组（A＋gaga老师）",
       "owner_role": "team",
       "scope": "team",
-      "summary": "已读汇总及问题1—3，组员7条标记4通过／3未通过；三个具体步骤已进入修复单，尚未独立重跑或收到修后复测。 本人已确认驳回后仅原因＋人工入口，不增二次申请；仍待实际修复／复测。",
+      "summary": "1122表8行标过，原3问题及2新问题在表中已有解决说明；本会话核读，未独立重跑，精确版本和新政策边界仍待。",
       "deliverable": "同一份测试组报告及原始记录；技术、网页和人类视觉分别注明方法与实际核验范围。",
-      "next_action": "拿第1天修复版本即测，第2天合交三个问题定向复测；R01看原因→点人工→同单续问，原申请保持驳回；保留旧失败和新证据。",
+      "next_action": "承接已有8行，只补受测版本／环境及原证据；新边界定后核受影响动作，完整视觉6项另交。",
       "my_next_action": null,
       "depends_on": [
         "web"
@@ -570,6 +623,14 @@
           "evidence": [
             "team-test-sheet-read-20261121"
           ]
+        },
+        {
+          "id": "retest_report_received_1122",
+          "label": "1122表8行通过标记及两个新问题文字已核读（不是独立重跑／版本绑定）",
+          "status": "pass",
+          "evidence": [
+            "group-progress-20261122"
+          ]
         }
       ],
       "target": {
@@ -579,9 +640,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-21",
+      "observed_on": "2026-11-22",
       "estimated_minutes": null,
-      "state_basis": "本人11/21确认驳回后范围及两天内群安排；群稿已备但未代发，成员可交时刻和修复验收仍待。",
+      "state_basis": "实际核读11/22群聊／新版表／远端代码与原件；区分开发自报、测试组报告和本会话未重跑。本人只确认考虑扩展方向，详细边界待定。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -606,6 +667,10 @@
         {
           "label": "本人确认范围及待本人发送的两天群稿",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/group-update-2026-11-21.md"
+        },
+        {
+          "label": "11月22日群进度与交件接收",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/progress-2026-11-22.md"
         }
       ],
       "history": [
@@ -692,6 +757,17 @@
             "summary": "已读汇总及问题1—3，组员7条标记4通过／3未通过；三个具体步骤已进入修复单，尚未独立重跑或收到修后复测。",
             "next_action": "承接7条现有记录，只补受测版本／模型／原证据，拿修复版本按三问题步骤定向复测，保留首轮失败。",
             "state_basis": "本人指引当前微信窗口，核原始链接并在侧栏实际读四张表；已收且核读组员记录，非独立重跑／修复通过。"
+          }
+        },
+        {
+          "observed_on": "2026-11-22",
+          "status": "in_progress",
+          "note": "收4新代码提交、测试组8行过和Jacky新稿；正式对照／录屏／来源定位及扩展边界仍待。",
+          "previous": {
+            "status": "in_progress",
+            "summary": "已读汇总及问题1—3，组员7条标记4通过／3未通过；三个具体步骤已进入修复单，尚未独立重跑或收到修后复测。 本人已确认驳回后仅原因＋人工入口，不增二次申请；仍待实际修复／复测。",
+            "next_action": "拿第1天修复版本即测，第2天合交三个问题定向复测；R01看原因→点人工→同单续问，原申请保持驳回；保留旧失败和新证据。",
+            "state_basis": "本人11/21确认驳回后范围及两天内群安排；群稿已备但未代发，成员可交时刻和修复验收仍待。"
           }
         }
       ]
@@ -858,9 +934,9 @@
       "owner": "本人 + 技术／测试组",
       "owner_role": "me",
       "scope": "team",
-      "summary": "正式基础B尚需实现，旧单轮实验只辅助；本轮试用原表已读7条4过3未过，具体三问题进入修复复测，非正式B/C结果或修复验收。",
+      "summary": "测试组定性迭代已有材料，正式工具B合同的新实现／新对照结果本批仍未见；范围扩展先待本人定边界。",
       "deliverable": "确认正式政策与公平对照范围，再用同模型、同规则、同题目比较 B/C。",
-      "next_action": "本人／Agent核基础B合同、组内原始结果与评分，确认真实支持的结论；不移植旧单轮分数。",
+      "next_action": "先定人工重审／改额范围、补版本绑定，再核正式对照的同条件和原始数据；不挪用8行试用当成绩。",
       "my_next_action": "协助核方法与真实结果、整理可用图表；PPT不预填优胜或100%。",
       "depends_on": [
         "p01",
@@ -892,9 +968,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-21",
+      "observed_on": "2026-11-22",
       "estimated_minutes": null,
-      "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
+      "state_basis": "实际核读11/22群聊／新版表／远端代码与原件；区分开发自报、测试组报告和本会话未重跑。本人只确认考虑扩展方向，详细边界待定。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -915,6 +991,10 @@
         {
           "label": "原表四工作表已核读与错链纠正",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md"
+        },
+        {
+          "label": "11月22日群进度与交件接收",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/progress-2026-11-22.md"
         }
       ],
       "history": [
@@ -989,6 +1069,17 @@
           "note": "原始链接已核实可访问，撤销权限待办；7条4过3未过为组员标记，三问题详细步骤已核读，复现修复尚待。",
           "previous": {
             "summary": "正式基础B尚需实现，当前没有该B的正式成绩；旧单轮报告仅辅助。demo-v1可先验证，不等待真实平台到账或正式生产政策。 11/21晚三个问题先纳修复复测，原表受限、验收仍待。",
+            "next_action": "本人／Agent核基础B合同、组内原始结果与评分，确认真实支持的结论；不移植旧单轮分数。",
+            "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。"
+          }
+        },
+        {
+          "observed_on": "2026-11-22",
+          "status": "needs_review",
+          "note": "收4新代码提交、测试组8行过和Jacky新稿；正式对照／录屏／来源定位及扩展边界仍待。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "正式基础B尚需实现，旧单轮实验只辅助；本轮试用原表已读7条4过3未过，具体三问题进入修复复测，非正式B/C结果或修复验收。",
             "next_action": "本人／Agent核基础B合同、组内原始结果与评分，确认真实支持的结论；不移植旧单轮分数。",
             "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。"
           }
@@ -1264,9 +1355,9 @@
       "owner": "全组；本人统筹",
       "owner_role": "team",
       "scope": "team",
-      "summary": "固定同一分支、政策和测试结果，准备正常、边界与异常演示。",
+      "summary": "开发文字自测已收到，本批未见固定版本的正常／异常实际录屏交件。",
       "deliverable": "准备稳定版本的演示素材的可核版本或结果记录",
-      "next_action": "开发／测试提供已跑通同一版本的正常及异常演示片段，第二天只拍已核主流程。",
+      "next_action": "新边界确认与版本固定后交两段实际片段及版本／模型／日期，PPT再填演示位置。",
       "my_next_action": null,
       "depends_on": [
         "web",
@@ -1288,9 +1379,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-21",
+      "observed_on": "2026-11-22",
       "estimated_minutes": null,
-      "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
+      "state_basis": "实际核读11/22群聊／新版表／远端代码与原件；区分开发自报、测试组报告和本会话未重跑。本人只确认考虑扩展方向，详细边界待定。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
@@ -1303,6 +1394,10 @@
         {
           "label": "本人确认的两天版任务与验收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
+        },
+        {
+          "label": "11月22日群进度与交件接收",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/progress-2026-11-22.md"
         }
       ],
       "history": [
@@ -1337,6 +1432,17 @@
             "next_action": "开发交录屏，接收方只把已复核的同一版本流程纳入演示；未测场景不当成功片段。",
             "owner": "全组；本人统筹"
           }
+        },
+        {
+          "observed_on": "2026-11-22",
+          "status": "planned",
+          "note": "收4新代码提交、测试组8行过和Jacky新稿；正式对照／录屏／来源定位及扩展边界仍待。",
+          "previous": {
+            "status": "planned",
+            "summary": "固定同一分支、政策和测试结果，准备正常、边界与异常演示。",
+            "next_action": "开发／测试提供已跑通同一版本的正常及异常演示片段，第二天只拍已核主流程。",
+            "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。"
+          }
         }
       ]
     },
@@ -1347,9 +1453,9 @@
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "PPT逐页内容框架已开工，结果页保持空白；正式排版、PPT／PDF与录像仍待，按原两天窗口。",
+      "summary": "13页框架已有，11/22可补业务与定性迭代；成品PPT／录屏／正式成绩和ROI仍待。",
       "deliverable": "合并 Slides 与录制演示的可核版本或结果记录",
-      "next_action": "素材到齐按框架填结果、统一英文文案与版式，再按核定要求录制；没有证据的数字不补猜测。",
+      "next_action": "填可核背景与方案，把新业务边界标待定；正式结果和视频等交件再填。",
       "my_next_action": "按已收证据填PPT结果页，约各人核事实和讲述段。",
       "depends_on": [
         "demo-record"
@@ -1369,9 +1475,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-21",
+      "observed_on": "2026-11-22",
       "estimated_minutes": null,
-      "state_basis": "本人确认已发群并要求先搭框架；实际已生成内容规划与清单，非已生成PPT／完成录制。",
+      "state_basis": "实际核读11/22群聊／新版表／远端代码与原件；区分开发自报、测试组报告和本会话未重跑。本人只确认考虑扩展方向，详细边界待定。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
@@ -1388,6 +1494,10 @@
         {
           "label": "13页逐页内容与材料框架",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md"
+        },
+        {
+          "label": "11月22日群进度与交件接收",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/progress-2026-11-22.md"
         }
       ],
       "history": [
@@ -1432,6 +1542,17 @@
             "summary": "解释业务目标、方法、实际效果与限制，录制同一版本的演示。",
             "next_action": "第二天前半本人填已核结果、各人核事实，约10页仅内部简化目标；未测结果留空。",
             "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。"
+          }
+        },
+        {
+          "observed_on": "2026-11-22",
+          "status": "planned",
+          "note": "收4新代码提交、测试组8行过和Jacky新稿；正式对照／录屏／来源定位及扩展边界仍待。",
+          "previous": {
+            "status": "planned",
+            "summary": "PPT逐页内容框架已开工，结果页保持空白；正式排版、PPT／PDF与录像仍待，按原两天窗口。",
+            "next_action": "素材到齐按框架填结果、统一英文文案与版式，再按核定要求录制；没有证据的数字不补猜测。",
+            "state_basis": "本人确认已发群并要求先搭框架；实际已生成内容规划与清单，非已生成PPT／完成录制。"
           }
         }
       ]
