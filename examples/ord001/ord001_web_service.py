@@ -30,6 +30,7 @@ ORDER_ID = re.compile(r"ORD[\s\-_]*[0-9OIL]{1,12}(?![0-9A-Z])", re.IGNORECASE)
 
 # Disambiguated human-handoff intent: catches "受不了要投诉" / "没完没了转人工", while respecting "虽然想投诉但不用转人工".
 HANDOFF_WORDS = re.compile(r"转人工|人工客服|找人工|要人工|人工服务|真人客服|活人客服|找真人|找活人|转真人|要真人|投诉")
+SECOND_APPEAL_RE = re.compile(r"二次申请|再次申请|重新申请|继续申请|申请复核|人工复核|复议|申诉|不服驳回|对驳回有疑问")
 BARE_HANDOFF = re.compile(r"\s*(?:转)?人工(?:客服|服务)?[\s!！。.~～]*")
 EXPLICIT_NO_HANDOFF_RE = re.compile(
     r"(?:不用|不要|无需|不必|先不|别|不找|不转|不需要)\s*(?:帮我|给我|替我)?\s*(?:转接?|找|联系)?\s*(?:人工|真人|活人|客服|专员)"
@@ -228,7 +229,32 @@ def handoff_copy(handoff: dict, thread_id: str | None) -> dict:
     )
     followups_raw = handoff.get("followups") or []
     reply_seq = handoff.get("reply_seq")
+    open_attachments = [a for a in attachments if not a.get("is_followup")]
+    followup_atts = [a for a in attachments if a.get("is_followup")]
+    msg_ids = {f.get("message_id") for f in followups_raw if f.get("message_id")}
+    by_msg: dict[int, list[dict]] = {}
+    loose_atts: list[dict] = []
+    for att in followup_atts:
+        seq = att.get("followup_seq")
+        if seq and seq in msg_ids:
+            by_msg.setdefault(seq, []).append(att)
+        else:
+            loose_atts.append(att)
+
     events: list[dict] = [{"kind": "open", "after": base_after, "at": handoff["created_at"]}]
+
+    def emit_followup(f: dict, default_after: int) -> None:
+        f_after = (f["after_index"] if f.get("after_index") is not None else default_after) if same_thread else 0
+        events.append({
+            "kind": "message",
+            "role": "customer" if f["sender_role"] == "customer" else ("system" if f["sender_role"] == "system" else "human"),
+            "text": f["text"],
+            "after": f_after,
+            "at": f["created_at"],
+        })
+        linked = by_msg.get(f.get("message_id") or -1)
+        if linked:
+            events.append({"kind": "attachment", "attachments": linked, "after": f_after, "at": linked[-1]["created_at"]})
 
     if handoff["status"] == "replied" and handoff.get("reply_text"):
         pre_f = [
@@ -239,14 +265,7 @@ def handoff_copy(handoff: dict, thread_id: str | None) -> dict:
         pre_ids = {id(f) for f in pre_f}
         post_f = [f for f in followups_raw if id(f) not in pre_ids]
         for f in pre_f:
-            f_after = (f["after_index"] if f.get("after_index") is not None else base_after) if same_thread else 0
-            events.append({
-                "kind": "message",
-                "role": "customer" if f["sender_role"] == "customer" else "human",
-                "text": f["text"],
-                "after": f_after,
-                "at": f["created_at"],
-            })
+            emit_followup(f, base_after)
         events.append({
             "kind": "message",
             "role": "human",
@@ -255,29 +274,21 @@ def handoff_copy(handoff: dict, thread_id: str | None) -> dict:
             "at": handoff.get("closed_at") or handoff["created_at"],
         })
         for f in post_f:
-            f_after = (f["after_index"] if f.get("after_index") is not None else rep_after) if same_thread else 0
-            events.append({
-                "kind": "message",
-                "role": "customer" if f["sender_role"] == "customer" else "human",
-                "text": f["text"],
-                "after": f_after,
-                "at": f["created_at"],
-            })
+            emit_followup(f, rep_after)
     else:
         for f in followups_raw:
-            f_after = (f["after_index"] if f.get("after_index") is not None else base_after) if same_thread else 0
-            events.append({
-                "kind": "message",
-                "role": "customer" if f["sender_role"] == "customer" else "human",
-                "text": f["text"],
-                "after": f_after,
-                "at": f["created_at"],
-            })
+            emit_followup(f, base_after)
+
+    for att in loose_atts:
+        a_after = (att["after_index"] if same_thread and att.get("after_index") is not None
+                   else (rep_after if handoff["status"] == "replied" else base_after))
+        events.append({"kind": "attachment", "attachments": [att], "after": a_after, "at": att["created_at"]})
 
     res = {
         **{key: handoff[key] for key in keys},
         "ended_at": handoff.get("ended_at"),
         "attachments": attachments,
+        "open_attachments": open_attachments,
         "after": base_after,
         "events": events,
     }
@@ -324,7 +335,10 @@ def review_handoff_copy(handoff: dict, order: dict | None = None, related_ticket
     if related_ticket:
         result["related_ticket"] = {
             k: related_ticket.get(k)
-            for k in ("ticket_id", "status", "review_note", "proposed_coupon_yuan", "coupon_issued_yuan")
+            for k in (
+                "ticket_id", "status", "review_note", "proposed_coupon_yuan", "coupon_issued_yuan",
+                "information_request", "customer_information", "is_expedited", "escalated_to", "assigned_reviewer_id"
+            )
         }
     return result
 
@@ -412,7 +426,19 @@ class DemoService:
         if rev_tenant != "*" and rev_tenant != target:
             raise ServiceError(403, "cross_tenant_forbidden", "无权访问或操作其他商户租户的工单数据。")
 
+    def _assert_action_permission(self, reviewer_id: str, permission: str | None = None) -> dict:
+        rev = self.data.reviewers.get(reviewer_id)
+        if rev is None:
+            raise ServiceError(403, "not_a_reviewer", "当前身份没有处理权限。")
+        if rev.get("can_handle") is False or rev.get("role") == "observer":
+            raise ServiceError(403, "permission_denied", "当前坐席角色为只读观察权限，无权执行业务处理操作。")
+        perms = rev.get("permissions")
+        if permission and isinstance(perms, list) and permission not in perms:
+            raise ServiceError(403, "permission_denied", f"当前坐席角色缺少 {permission} 操作权限。")
+        return rev
+
     def set_stp_mode(self, enabled: bool, reviewer_id: str) -> dict:
+        self._assert_action_permission(reviewer_id, "ticket_approve")
         self.stp_auto_approve = bool(enabled)
         auto_cleared = 0
         if self.stp_auto_approve and reviewer_id in self.data.reviewers:
@@ -559,6 +585,12 @@ class DemoService:
             "confirmation": None, "ticket": None, "handoff": handoff_copy(updated, thread_id), "created": False,
         }
 
+    @staticmethod
+    def _wants_human_or_second_appeal(text: str) -> bool:
+        if wants_person(text):
+            return True
+        return bool(SECOND_APPEAL_RE.search(text) and not EXPLICIT_NO_HANDOFF_RE.search(text))
+
     async def stream_message(self, thread_id: str, customer_id: str, text: str):
         """True async LangGraph astream with per-thread async lock, punctuation clause buffering & reply_risk guard."""
         async with self._async_lock(thread_id):
@@ -569,7 +601,7 @@ class DemoService:
                 self.store.end_handoff(active["handoff_id"], customer_id=customer_id)
                 active = None
             if active:
-                if active["status"] == "waiting" and wants_person(text):
+                if active["status"] == "waiting" and self._wants_human_or_second_appeal(text):
                     if pending_confirm:
                         await self.customer_graph.ainvoke(Command(resume="cancel"), self._thread(thread_id), context=CustomerContext(customer_id))
                         snapshot = self.customer_graph.get_state(self._thread(thread_id))
@@ -582,7 +614,7 @@ class DemoService:
                     snapshot = self.customer_graph.get_state(self._thread(thread_id))
                 yield {"type": "done", "result": self._route_to_active_handoff(active, thread_id, customer_id, text, snapshot)}
                 return
-            if wants_person(text):
+            if self._wants_human_or_second_appeal(text):
                 if pending_confirm:
                     await self.customer_graph.ainvoke(Command(resume="cancel"), self._thread(thread_id), context=CustomerContext(customer_id))
                     snapshot = self.customer_graph.get_state(self._thread(thread_id))
@@ -683,7 +715,7 @@ class DemoService:
                 self.store.end_handoff(active["handoff_id"], customer_id=customer_id)
                 active = None
             if active:
-                if active["status"] == "waiting" and wants_person(text):
+                if active["status"] == "waiting" and self._wants_human_or_second_appeal(text):
                     if pending_confirm:
                         self._run(thread_id, customer_id, Command(resume="cancel"), "customer_cancel", snapshot)
                         snapshot = self.customer_graph.get_state(self._thread(thread_id))
@@ -694,8 +726,8 @@ class DemoService:
                     self._run(thread_id, customer_id, Command(resume="cancel"), "customer_cancel", snapshot)
                     snapshot = self.customer_graph.get_state(self._thread(thread_id))
                 return self._route_to_active_handoff(active, thread_id, customer_id, text, snapshot)
-            # Emergency human-handoff & P0 food-safety escape hatches ALWAYS work, even if a confirmation card was open!
-            if wants_person(text):
+            # Emergency human-handoff, second-appeal & P0 food-safety escape hatches ALWAYS work, even if a confirmation card was open!
+            if self._wants_human_or_second_appeal(text):
                 if pending_confirm:
                     self._run(thread_id, customer_id, Command(resume="cancel"), "customer_cancel", snapshot)
                     snapshot = self.customer_graph.get_state(self._thread(thread_id))
@@ -846,10 +878,13 @@ class DemoService:
         # If an active replied human session already exists on this thread, continue seamlessly inside it!
         active = self.store.active_handoff(customer_id, thread_id)
         if active and active["status"] == "replied":
+            clean_text = text.strip() if text and text.strip() else None
+            if not clean_text and files:
+                clean_text = "🎤 已发送语音留言" if any(f.get("kind") == "audio" for f in files) else "📷 已上传补充凭证"
             try:
                 updated = self.store.append_handoff_followup(
                     active["handoff_id"], sender_role="customer", sender_id=customer_id,
-                    text=text.strip() if text and text.strip() else None,
+                    text=clean_text,
                     customer_id=customer_id, after_index=len(visible),
                     order_id=order_id, files=files or [],
                 )
@@ -876,10 +911,13 @@ class DemoService:
             raise
         if handoff is None:
             raise ServiceError(429, "handoff_limit", "当前人工排队人数已满，请稍后再试。")
-        if not created and text and text.strip() and not BARE_HANDOFF.fullmatch(text):
+        wait_followup = text.strip() if (text and text.strip() and not BARE_HANDOFF.fullmatch(text)) else None
+        if not wait_followup and not created and files:
+            wait_followup = "🎤 已发送语音留言" if any(f.get("kind") == "audio" for f in files) else "📷 已上传补充凭证"
+        if not created and wait_followup:
             handoff = self.store.append_handoff_followup(
                 handoff["handoff_id"], sender_role="customer", sender_id=customer_id,
-                text=text.strip(), customer_id=customer_id, after_index=len(visible), order_id=order_id,
+                text=wait_followup, customer_id=customer_id, after_index=len(visible), order_id=order_id,
             ) or handoff
         self._record(event="handoff_request", customer_id=customer_id, thread_id=thread_id,
                      outcome="waiting" if created else "already_waiting", order_id=handoff["order_id"],
@@ -981,8 +1019,7 @@ class DemoService:
 
     def batch_approve_green_stp(self, reviewer_id: str) -> dict:
         """One-click subrogation approval for all pending pure-logistics-delay (merchant ¥0) tickets."""
-        if reviewer_id not in self.data.reviewers:
-            raise ServiceError(403, "not_a_reviewer", "当前身份没有审批权限。")
+        self._assert_action_permission(reviewer_id, "ticket_approve")
         tenant_id = self._reviewer_tenant(reviewer_id)
         approved_ids: list[str] = []
         for raw_ticket in self.store.tickets(tenant_id=tenant_id):
@@ -1037,12 +1074,20 @@ class DemoService:
         copied = review_handoff_copy(item, self.data.orders.get(oid), rel_ticket)
         copied["attachments"] = [{**attachment, "url": f"/api/media/{attachment['attachment_id']}"}
                                  for attachment in copied.get("attachments", [])]
+        copied["action_logs"] = self.store.action_logs(
+            handoff_id=item["handoff_id"],
+            ticket_id=rel_ticket["ticket_id"] if rel_ticket else None,
+            include_internal=True,
+        )
         return copied
 
     def review_handoffs(self, reviewer_id: str | None = None) -> dict:
         tenant_id = self._reviewer_tenant(reviewer_id)
         items = [self._review_handoff_item(item) for item in self.store.handoffs(tenant_id=tenant_id)]
-        waiting = sorted(items, key=lambda x: (0 if x.get("priority") == "P0_FOOD_SAFETY" else 1, x["handoff_id"]))
+        waiting = sorted(
+            items,
+            key=lambda x: (0 if x.get("priority") == "P0_FOOD_SAFETY" else 1, 0 if x.get("is_expedited") else 1, x["handoff_id"]),
+        )
         return {
             "waiting": [item for item in waiting if item["status"] == "waiting"],
             "closed": [item for item in items if item["status"] != "waiting"][-50:],
@@ -1069,8 +1114,7 @@ class DemoService:
         text = text.strip()
         if len(text) > REPLY_LIMIT:
             raise ServiceError(400, "text_too_long", f"回复不能超过 {REPLY_LIMIT} 个字。")
-        if reviewer_id not in self.data.reviewers:
-            raise ServiceError(403, "not_a_reviewer", "当前身份没有处理权限。")
+        rev = self._assert_action_permission(reviewer_id, "handoff_reply")
         existing_h = self.store.get_handoff(handoff_id)
         if existing_h is None:
             raise ServiceError(404, "handoff_not_found", "没有这条人工咨询。")
@@ -1082,6 +1126,12 @@ class DemoService:
         )
         if handoff is None:
             raise ServiceError(409, "handoff_closed", "顾客已取消，或这条咨询已经回复。")
+        self.store.log_action(
+            handoff_id=handoff_id, order_id=handoff.get("order_id"), ticket_id=None,
+            actor_id=reviewer_id, actor_name=rev.get("display_name"), actor_role=rev.get("role"),
+            action="handoff_reply", action_label="首次回复顾客",
+            before_status="waiting", after_status="replied", note=text[:120],
+        )
         self._record(event="handoff_reply", reviewer_id=reviewer_id, customer_id=handoff["customer_id"],
                      outcome="replied", order_id=handoff["order_id"], handoff_id=handoff_id,
                      latency_ms=round((time.perf_counter() - started) * 1000))
@@ -1094,8 +1144,7 @@ class DemoService:
         text = text.strip()
         if len(text) > REPLY_LIMIT:
             raise ServiceError(400, "text_too_long", f"回复不能超过 {REPLY_LIMIT} 个字。")
-        if reviewer_id not in self.data.reviewers:
-            raise ServiceError(403, "not_a_reviewer", "当前身份没有处理权限。")
+        rev = self._assert_action_permission(reviewer_id, "handoff_reply")
         existing_h = self.store.get_handoff(handoff_id)
         if existing_h is None:
             raise ServiceError(404, "handoff_not_found", "没有这条人工咨询或顾客已取消。")
@@ -1106,28 +1155,308 @@ class DemoService:
         )
         if updated is None:
             raise ServiceError(404, "handoff_not_found", "没有这条人工咨询或顾客已取消。")
+        self.store.log_action(
+            handoff_id=handoff_id, order_id=updated.get("order_id"), ticket_id=None,
+            actor_id=reviewer_id, actor_name=rev.get("display_name"), actor_role=rev.get("role"),
+            action="handoff_followup", action_label="追加跟进回复",
+            before_status=existing_h.get("status"), after_status=updated.get("status"), note=text[:120],
+        )
         self._record(event="handoff_followup", reviewer_id=reviewer_id, customer_id=updated["customer_id"],
                      outcome="followup_sent", order_id=updated["order_id"], handoff_id=handoff_id)
         return {"handoff": self._review_handoff_item(updated)}
+
+    def _append_system_handoff_msg(self, handoff: dict, reviewer_id: str, text: str) -> None:
+        cur_after = self._visible_len(handoff.get("thread_id") or "")
+        self.store.append_handoff_followup(
+            handoff["handoff_id"], sender_role="system", sender_id=reviewer_id, text=text, after_index=cur_after
+        )
+
+    @staticmethod
+    def _parse_amount(raw_amount, default_amount: int | float = 10) -> int:
+        if raw_amount is None or raw_amount == "":
+            return int(round(default_amount))
+        if isinstance(raw_amount, bool) or not isinstance(raw_amount, (int, float)):
+            raise ServiceError(400, "invalid_amount", "补偿金额必须是有效数字。")
+        amt = int(round(float(raw_amount)))
+        if amt < 1 or amt > 500:
+            raise ServiceError(400, "invalid_amount", "补偿金额须在 1 到 500 元之间。")
+        return amt
+
+    @staticmethod
+    def _require_note(raw_note, err_msg: str, limit: int = 200) -> str:
+        if not isinstance(raw_note, str) or not raw_note.strip():
+            raise ServiceError(400, "note_required", err_msg)
+        cleaned = raw_note.strip()
+        if len(cleaned) > limit:
+            raise ServiceError(400, "note_too_long", f"说明内容不能超过 {limit} 个字。")
+        return cleaned
+
+    @staticmethod
+    def _optional_note(raw_note, default: str, limit: int = 200) -> str:
+        if not isinstance(raw_note, str) or not raw_note.strip():
+            return default
+        cleaned = raw_note.strip()
+        if len(cleaned) > limit:
+            raise ServiceError(400, "note_too_long", f"说明内容不能超过 {limit} 个字。")
+        return cleaned
+
+    def perform_handoff_action(self, handoff_id: str, reviewer_id: str, payload: dict) -> dict:
+        """Execute a closed-loop ticket or order handling action inside a human agent session."""
+        action = payload.get("action")
+        perm_map = {
+            "approve_compensation": ("ticket_approve", "同意补偿"),
+            "approve": ("ticket_approve", "通过申请"),
+            "uphold_reject": ("ticket_reject", "维持驳回"),
+            "reject": ("ticket_reject", "驳回申请"),
+            "request_info": ("ticket_request_info", "要求补充材料"),
+            "escalate": ("ticket_escalate", "升级主管"),
+            "expedite": ("ticket_expedite", "加急处理"),
+            "transfer": ("ticket_transfer", "转交他席"),
+            "reopen": ("ticket_reopen", "重新开启"),
+            "urge_or_reassign": ("order_urge", "催单/改派"),
+            "internal_note": ("order_note", "内部备注"),
+            "create_ticket": ("order_ticket", "创建工单"),
+            "close_session": ("handoff_close", "结束会话"),
+        }
+        if not isinstance(action, str) or action not in perm_map:
+            raise ServiceError(400, "invalid_action", "不支持这个处理动作。")
+        perm, action_label = perm_map[action]
+        rev = self._assert_action_permission(reviewer_id, perm)
+        actor_name = rev.get("display_name") or reviewer_id
+        actor_role = rev.get("role") or "agent"
+
+        with self._review_lock:
+            handoff = self.store.get_handoff(handoff_id)
+            if handoff is None:
+                raise ServiceError(404, "handoff_not_found", "没有这条人工咨询。")
+            self._assert_tenant_access(reviewer_id, handoff.get("tenant_id"))
+            if handoff["status"] == "cancelled":
+                raise ServiceError(409, "handoff_cancelled", "顾客已取消这条人工咨询。")
+
+            oid = handoff.get("order_id")
+            order = self.data.orders.get(oid) if oid else None
+            ticket = self.store.find(oid, self.policy.version) if oid else None
+            tid = ticket["ticket_id"] if ticket else None
+
+            sys_msg: str | None = None
+            before_st: str | None = None
+            after_st: str | None = None
+            amt_val: float | None = None
+            log_note: str | None = None
+            is_internal = False
+            transition_replied = False
+            close_session = False
+
+            if action in ("approve_compensation", "approve"):
+                if ticket is None:
+                    raise ServiceError(409, "ticket_required", "当前订单尚未创建申请单，请先点击「创建工单」。")
+                if ticket["status"] == "approved":
+                    raise ServiceError(409, "ticket_already_approved", "该申请单已通过补偿，请勿重复发放。")
+                amt_val = self._parse_amount(payload.get("amount_yuan"), ticket.get("proposed_coupon_yuan") or 10)
+                log_note = self._optional_note(payload.get("note"), f"人工客服核实通过，发放 ¥{amt_val} 无门槛补偿券。")
+                sub = compute_actuarial_subrogation(order, self.policy) if order else {}
+                orig_prop = max(1, float(ticket.get("proposed_coupon_yuan") or amt_val))
+                m_orig = float(sub.get("merchant_bear_yuan") or 0.0)
+                p_orig = float(sub.get("platform_bear_yuan") or orig_prop)
+                ratio = min(1.0, m_orig / orig_prop) if orig_prop > 0 else 0.0
+                m_bear = round(amt_val * ratio, 1)
+                p_bear = round(max(0.0, amt_val - m_bear), 1)
+                updated, before_st = self.store.decide_or_override_ticket(
+                    tid, target_status="approved", reviewer_id=reviewer_id, note=log_note,
+                    amount_yuan=amt_val, merchant_bear_yuan=m_bear, platform_bear_yuan=p_bear,
+                    action_name="approved",
+                )
+                ticket = updated
+                after_st = "approved"
+                sys_msg = f"系统通知：客服已通过补偿申请（{tid}），¥{amt_val} 无门槛补偿券已发放至您的账户（即时到账）。说明：{log_note}"
+                transition_replied = True
+
+            elif action in ("uphold_reject", "reject"):
+                if ticket is None:
+                    raise ServiceError(409, "ticket_required", "当前订单尚无关联申请单。")
+                if action == "reject" and ticket["status"] not in ("pending", "needs_info"):
+                    raise ServiceError(409, "invalid_ticket_state", "当前申请单状态不支持直接驳回。")
+                if action == "uphold_reject" and ticket["status"] != "rejected":
+                    raise ServiceError(409, "invalid_ticket_state", "仅「已驳回」状态的申请单可执行维持驳回。")
+                log_note = self._require_note(payload.get("note"), "驳回或维持驳回必须填写具体理由（顾客可见）。")
+                updated, before_st = self.store.decide_or_override_ticket(
+                    tid, target_status="rejected", reviewer_id=reviewer_id, note=log_note,
+                    action_name="uphold_rejected" if action == "uphold_reject" else "rejected",
+                )
+                ticket = updated
+                after_st = "rejected"
+                verb = "维持驳回" if action == "uphold_reject" else "驳回"
+                sys_msg = f"系统通知：客服已{verb}申请（{tid}），理由：{log_note}"
+                transition_replied = True
+
+            elif action == "request_info":
+                if ticket is None:
+                    raise ServiceError(409, "ticket_required", "当前订单尚无关联申请单。")
+                if ticket["status"] not in ("rejected", "pending"):
+                    raise ServiceError(409, "invalid_ticket_state", "当前申请单状态不支持要求补充材料。")
+                log_note = self._require_note(payload.get("note"), "请填写需要顾客补充的材料或说明。")
+                updated, before_st = self.store.decide_or_override_ticket(
+                    tid, target_status="needs_info", reviewer_id=reviewer_id, note=log_note,
+                    action_name="information_requested",
+                )
+                ticket = updated
+                after_st = "needs_info"
+                sys_msg = f"系统通知：客服已发起补充材料要求（{tid}）：{log_note}。请在右侧申请单卡片填写并提交。"
+                transition_replied = True
+
+            elif action == "escalate":
+                log_note = self._optional_note(payload.get("note"), "已升级主管专席复核处理")
+                before_st = ticket["status"] if ticket else handoff["status"]
+                after_st = f"{before_st}(已升级主管)"
+                self.store.update_handoff_flags(handoff_id, escalated_to="主管专席", is_expedited=1)
+                if ticket:
+                    ticket = self.store.update_ticket_flags(tid, escalated_to="主管专席", is_expedited=1)
+                    self.store._event(tid, f"reviewer:{reviewer_id}", "escalated", log_note, now_text(),
+                                      before_status=before_st, after_status=after_st)
+                sys_msg = f"系统通知：本次咨询已升级主管专席加急复核（{log_note}）。"
+
+            elif action == "expedite":
+                log_note = self._optional_note(payload.get("note"), "已标记为加急优先处理")
+                before_st = ticket["status"] if ticket else handoff["status"]
+                after_st = f"{before_st}(加急)"
+                self.store.update_handoff_flags(handoff_id, is_expedited=1)
+                if ticket:
+                    ticket = self.store.update_ticket_flags(tid, is_expedited=1)
+                    self.store._event(tid, f"reviewer:{reviewer_id}", "expedited", log_note, now_text(),
+                                      before_status=before_st, after_status=after_st)
+                sys_msg = f"系统通知：客服已将该处理申请标记为加急优先（{log_note}）。"
+
+            elif action == "transfer":
+                target_id = payload.get("target_reviewer_id")
+                if not target_id:
+                    target_id = "R002" if reviewer_id != "R002" else "R001"
+                target_rev = self.data.reviewers.get(target_id)
+                if not target_rev or target_rev.get("can_handle") is False:
+                    raise ServiceError(400, "invalid_transfer_target", "目标坐席不存在或无处理权限。")
+                log_note = self._optional_note(payload.get("note"), f"转交至 {target_rev['display_name']}")
+                before_st = handoff.get("assigned_reviewer_id") or handoff.get("reviewer_id") or reviewer_id
+                after_st = target_id
+                self.store.update_handoff_flags(handoff_id, assigned_reviewer_id=target_id)
+                if ticket:
+                    ticket = self.store.update_ticket_flags(tid, assigned_reviewer_id=target_id)
+                    self.store._event(tid, f"reviewer:{reviewer_id}", "transferred",
+                                      f"转交 {target_rev['display_name']}：{log_note}", now_text(),
+                                      before_status=before_st, after_status=after_st)
+                sys_msg = f"系统通知：会话已转交至 {target_rev['display_name']} 继续为您处理。"
+
+            elif action == "reopen":
+                if ticket is None:
+                    raise ServiceError(409, "ticket_required", "当前订单尚无关联申请单。")
+                if ticket["status"] not in ("approved", "rejected"):
+                    raise ServiceError(409, "invalid_ticket_state", "仅已完成的申请单可重新开启。")
+                log_note = self._optional_note(payload.get("note"), "坐席重新开启申请单进入待审核")
+                updated, before_st = self.store.decide_or_override_ticket(
+                    tid, target_status="pending", reviewer_id=reviewer_id, note=log_note, action_name="reopened"
+                )
+                ticket = updated
+                after_st = "pending"
+                self._open_review(tid)
+                sys_msg = f"系统通知：客服已重新开启申请单（{tid}），状态恢复为待审核。"
+
+            elif action == "urge_or_reassign":
+                if not order:
+                    raise ServiceError(400, "order_required", "当前会话未关联具体订单，无法执行催单/改派。")
+                mode = payload.get("mode") or "urge"
+                action_label = "改派运力" if mode == "reassign" else "催单提醒"
+                log_note = self._optional_note(
+                    payload.get("note"),
+                    f"已向配送站点发起{action_label}（订单 {oid}）",
+                )
+                before_st = order.get("status") or "delivered"
+                after_st = "已改派" if mode == "reassign" else "已催单"
+                sys_msg = f"系统通知：客服已对订单 {oid} 发起「{action_label}」，{log_note}。"
+
+            elif action == "internal_note":
+                log_note = self._require_note(payload.get("note"), "请填写内部备注内容。", limit=300)
+                before_st = ticket["status"] if ticket else handoff["status"]
+                after_st = before_st
+                is_internal = True
+
+            elif action == "create_ticket":
+                if not order:
+                    raise ServiceError(400, "order_required", "当前会话未关联具体订单，无法创建工单。")
+                if ticket is not None:
+                    raise ServiceError(409, "ticket_already_exists", f"该订单已存在申请单 {tid}，请直接处理。")
+                decision = evaluate_order(order_facts(order), self.policy)
+                sub = compute_actuarial_subrogation(order, self.policy)
+                default_amt = decision.get("proposed_coupon_yuan") or self.policy.coupon_yuan
+                amt_val = self._parse_amount(payload.get("amount_yuan"), default_amt)
+                log_note = self._optional_note(payload.get("note"), "人工客服在会话内为顾客创建售后申请单")
+                ticket, created = self.store.create_manual_ticket(
+                    customer_id=handoff["customer_id"], order=order, policy_version=self.policy.version,
+                    late_seconds=int(decision.get("late_seconds") or 0),
+                    proposed_coupon_yuan=amt_val, reviewer_id=reviewer_id,
+                    subrogation=sub, note=log_note,
+                )
+                tid = ticket["ticket_id"]
+                if created:
+                    self._open_review(tid)
+                before_st = "无工单"
+                after_st = ticket["status"]
+                sys_msg = f"系统通知：客服已为您创建售后申请单 {tid}（订单 {oid}，建议补偿 ¥{amt_val}），正在审核处理。"
+
+            elif action == "close_session":
+                if handoff.get("ended_at"):
+                    raise ServiceError(409, "handoff_already_closed", "该人工会话已经结束。")
+                log_note = self._optional_note(payload.get("note"), "问题已核实处理完毕，本次人工服务结束")
+                before_st = handoff["status"]
+                after_st = "ended"
+                sys_msg = f"系统通知：人工客服已结束本次服务（{log_note}）。如需继续咨询可随时发消息。"
+                transition_replied = True
+                close_session = True
+
+            if sys_msg:
+                self._append_system_handoff_msg(handoff, reviewer_id, sys_msg)
+            if transition_replied or close_session:
+                self.store.transition_handoff_status(handoff_id, reviewer_id=reviewer_id, close_session=close_session)
+
+            action_log = self.store.log_action(
+                handoff_id=handoff_id, order_id=oid, ticket_id=tid,
+                actor_id=reviewer_id, actor_name=actor_name, actor_role=actor_role,
+                action=action, action_label=action_label,
+                before_status=before_st, after_status=after_st,
+                amount_yuan=amt_val, note=log_note, is_internal=is_internal,
+            )
+            self._record(
+                event="handoff_action", reviewer_id=reviewer_id, customer_id=handoff["customer_id"],
+                handoff_id=handoff_id, order_id=oid, ticket_id=tid,
+                action=action, outcome=after_st, amount_yuan=amt_val, is_internal=is_internal,
+            )
+            refreshed = self.store.get_handoff(handoff_id)
+            return {
+                "handoff": self._review_handoff_item(refreshed),
+                "ticket": self._enrich_review_ticket(ticket) if ticket else None,
+                "action_log": action_log,
+            }
 
     def review_detail(self, ticket_id: str, reviewer_id: str | None = None) -> dict:
         raw = self._ticket_or_404(ticket_id)
         self._assert_tenant_access(reviewer_id, raw.get("tenant_id"))
         ticket = self._enrich_review_ticket(raw)
         request = self._open_review(ticket_id) if ticket["status"] == "pending" else None
-        return {"ticket": ticket, "events": self.store.events(ticket_id), "request": request}
+        return {
+            "ticket": ticket,
+            "events": self.store.events(ticket_id),
+            "action_logs": self.store.action_logs(ticket_id=ticket_id, include_internal=True),
+            "request": request,
+        }
 
     def decide(self, ticket_id: str, reviewer_id: str, decision: str, note: str | None) -> dict:
         if not isinstance(decision, str) or decision not in DECISION_STATUS:
             raise ServiceError(400, "invalid_decision", "不支持这个处理操作。")
+        perm_key = {"approve": "ticket_approve", "reject": "ticket_reject", "request_info": "ticket_request_info"}[decision]
+        rev = self._assert_action_permission(reviewer_id, perm_key)
         if decision == "request_info":
             if not isinstance(note, str) or not note.strip():
                 raise ServiceError(400, "information_question_required", "请填写需要顾客补充的内容。")
             note = note.strip()
             if len(note) > 200:
                 raise ServiceError(400, "note_too_long", "问题不能超过 200 个字。")
-        if reviewer_id not in self.data.reviewers:
-            raise ServiceError(403, "not_a_reviewer", "当前身份没有审批权限。")
         with self._review_lock:
             current = self._ticket_or_404(ticket_id)
             self._assert_tenant_access(reviewer_id, current.get("tenant_id"))
@@ -1150,6 +1479,14 @@ class DemoService:
             ticket = result.get("ticket")
             if ticket is None or ticket["status"] == "pending":
                 raise ServiceError(409, "ticket_already_decided", "这张工单已经处理过。")
+        label_map = {"approve": "审核通过", "reject": "审核驳回", "request_info": "要求补充材料"}
+        self.store.log_action(
+            handoff_id=None, order_id=ticket["order_id"], ticket_id=ticket_id,
+            actor_id=reviewer_id, actor_name=rev.get("display_name"), actor_role=rev.get("role"),
+            action=decision, action_label=label_map[decision],
+            before_status="pending", after_status=ticket["status"],
+            amount_yuan=ticket.get("coupon_issued_yuan"), note=note,
+        )
         self._record(event="review_decision", reviewer_id=reviewer_id, customer_id=ticket["customer_id"],
                      outcome=ticket["status"], order_id=ticket["order_id"], ticket_id=ticket_id,
                      latency_ms=latency_ms)

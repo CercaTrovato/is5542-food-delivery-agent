@@ -2,7 +2,7 @@
 # requires-python = ">=3.12,<3.14"
 # dependencies = [
 #   "langgraph==1.2.19", "langchain==1.4.9", "langchain-openai==1.7.4",
-#   "starlette==1.10.0", "uvicorn==0.54.0", "httpx==0.28.1"
+#   "starlette==1.10.0", "uvicorn==0.54.0", "httpx==0.28.1", "python-multipart==0.0.20"
 # ]
 # ///
 
@@ -126,6 +126,35 @@ def run_checks():
                                 headers={"Content-Type": "application/json", "Origin": BASE})
         assert oversized.status_code == 413
         passed("模型请求速率和请求体大小限制实际生效")
+
+        webm_clip = b"\x1a\x45\xdf\xa3" + b"\x00" * 30000
+        voice_resp = client.post(
+            "/api/customer/handoff",
+            data={"order_id": "ORD008"},
+            files={"attachment": ("voice-test.webm", webm_clip, "audio/webm")},
+            headers={"Origin": BASE},
+        )
+        assert voice_resp.status_code == 200, voice_resp.text
+        voice_handoff = voice_resp.json()["handoff"]
+        assert len(voice_handoff["attachments"]) == 1 and voice_handoff["attachments"][0]["kind"] == "audio"
+        att_id = voice_handoff["attachments"][0]["attachment_id"]
+        media_resp = client.get(f"/api/media/{att_id}")
+        assert media_resp.status_code == 200 and media_resp.headers["content-type"].startswith("audio/webm")
+        post(f"/api/review/handoffs/{voice_handoff['handoff_id']}/reply", {"text": "已收到您的语音留言，正在跟进。"})
+        followup_voice = client.post(
+            "/api/customer/handoff",
+            data={"order_id": "ORD008"},
+            files={"attachment": ("voice-followup.webm", webm_clip + b"\x01", "audio/webm")},
+            headers={"Origin": BASE},
+        )
+        assert followup_voice.status_code == 200, followup_voice.text
+        fh = followup_voice.json()["handoff"]
+        assert len(fh["attachments"]) == 2 and len(fh["open_attachments"]) == 1
+        assert fh["events"][-2]["kind"] == "message" and "语音留言" in fh["events"][-2]["text"]
+        assert fh["events"][-1]["kind"] == "attachment"
+        review_queue = client.get("/api/review/handoffs").json()["closed"]
+        assert review_queue[-1]["needs_specialist_reply"] is True
+        passed("公网网关放行大于16KB的WebM语音留言与多轮人工追发语音并支持回放")
 
     def unavailable(request):
         raise httpx.ConnectError("synthetic-private-error-marker", request=request)

@@ -52,7 +52,27 @@ CREATE TABLE IF NOT EXISTS ticket_events (
     at TEXT NOT NULL,
     actor TEXT NOT NULL,
     action TEXT NOT NULL,
-    note TEXT
+    note TEXT,
+    before_status TEXT,
+    after_status TEXT,
+    amount_yuan REAL
+);
+CREATE TABLE IF NOT EXISTS action_logs (
+    log_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    handoff_id TEXT,
+    order_id TEXT,
+    ticket_id TEXT,
+    at TEXT NOT NULL,
+    actor_id TEXT NOT NULL,
+    actor_name TEXT,
+    actor_role TEXT,
+    action TEXT NOT NULL,
+    action_label TEXT NOT NULL,
+    before_status TEXT,
+    after_status TEXT,
+    amount_yuan REAL,
+    note TEXT,
+    is_internal INTEGER NOT NULL DEFAULT 0
 );
 CREATE TABLE IF NOT EXISTS handoffs (
     handoff_id TEXT PRIMARY KEY,
@@ -128,6 +148,10 @@ LEDGER_TICKET_COLUMNS = (
     ("stp_tier", "TEXT"),
     ("merchant_bear_yuan", "REAL"),
     ("platform_bear_yuan", "REAL"),
+    ("is_expedited", "INTEGER DEFAULT 0"),
+    ("escalated_to", "TEXT"),
+    ("escalated_at", "TEXT"),
+    ("assigned_reviewer_id", "TEXT"),
 )
 LEDGER_HANDOFF_COLUMNS = (
     ("tenant_id", "TEXT DEFAULT 'M_67REST'"),
@@ -135,6 +159,15 @@ LEDGER_HANDOFF_COLUMNS = (
     ("reply_seq", "INTEGER"),
     ("ended_at", "TEXT"),
     ("initial_appeal", "TEXT"),
+    ("is_expedited", "INTEGER DEFAULT 0"),
+    ("escalated_to", "TEXT"),
+    ("escalated_at", "TEXT"),
+    ("assigned_reviewer_id", "TEXT"),
+)
+ACTION_EVENT_COLUMNS = (
+    ("before_status", "TEXT"),
+    ("after_status", "TEXT"),
+    ("amount_yuan", "REAL"),
 )
 
 
@@ -367,7 +400,9 @@ class TicketStore:
         t_cols = {row["name"] for row in self._db.execute("PRAGMA table_info(tickets)")}
         h_cols = {row["name"] for row in self._db.execute("PRAGMA table_info(handoffs)")}
         m_cols = {row["name"] for row in self._db.execute("PRAGMA table_info(handoff_messages)")}
+        a_cols = {row["name"] for row in self._db.execute("PRAGMA table_info(attachments)")}
         f_cols = {row["name"] for row in self._db.execute("PRAGMA table_info(attachment_forensics)")}
+        e_cols = {row["name"] for row in self._db.execute("PRAGMA table_info(ticket_events)")}
         with self._db:
             for name, kind in LEDGER_TICKET_COLUMNS:
                 if name not in t_cols:
@@ -375,8 +410,15 @@ class TicketStore:
             for name, kind in LEDGER_HANDOFF_COLUMNS:
                 if name not in h_cols:
                     self._db.execute(f"ALTER TABLE handoffs ADD COLUMN {name} {kind}")
+            for name, kind in ACTION_EVENT_COLUMNS:
+                if name not in e_cols:
+                    self._db.execute(f"ALTER TABLE ticket_events ADD COLUMN {name} {kind}")
             if "after_index" not in m_cols:
                 self._db.execute("ALTER TABLE handoff_messages ADD COLUMN after_index INTEGER")
+            if "after_index" not in a_cols:
+                self._db.execute("ALTER TABLE attachments ADD COLUMN after_index INTEGER")
+            if "is_followup" not in a_cols:
+                self._db.execute("ALTER TABLE attachments ADD COLUMN is_followup INTEGER NOT NULL DEFAULT 0")
             if "perceptual_sig" not in f_cols:
                 self._db.execute("ALTER TABLE attachment_forensics ADD COLUMN perceptual_sig TEXT")
 
@@ -511,14 +553,20 @@ class TicketStore:
     def _attachment_rows(self, handoff_id: str) -> list[dict]:
         rows = self._db.execute(
             "SELECT a.attachment_id, a.handoff_id, a.kind, a.original_name, a.media_type, a.size_bytes, a.created_at, "
+            "a.after_index, COALESCE(a.is_followup, 0) AS is_followup, "
             "f.sha256_hash, f.duplicate_of, f.forensic_note "
             "FROM attachments a LEFT JOIN attachment_forensics f ON a.attachment_id = f.attachment_id "
-            "WHERE a.handoff_id = ? ORDER BY a.created_at, a.attachment_id",
+            "WHERE a.handoff_id = ? ORDER BY a.created_at, a.rowid, a.attachment_id",
             (handoff_id,),
         ).fetchall()
         out = []
         for row in rows:
             item = {k: row[k] for k in ("attachment_id", "handoff_id", "kind", "original_name", "media_type", "size_bytes", "created_at")}
+            if row["is_followup"]:
+                item["is_followup"] = True
+                item["followup_seq"] = int(row["is_followup"])
+                if row["after_index"] is not None:
+                    item["after_index"] = row["after_index"]
             if row["forensic_note"]:
                 item["forensic_note"] = row["forensic_note"]
                 item["duplicate_alert"] = bool(row["duplicate_of"])
@@ -533,7 +581,8 @@ class TicketStore:
         with self._lock:
             return self._one("SELECT * FROM attachments WHERE attachment_id = ?", (attachment_id,))
 
-    def _store_files(self, handoff_id: str, customer_id: str, files: list[dict]) -> None:
+    def _store_files(self, handoff_id: str, customer_id: str, files: list[dict], *,
+                     after_index: int | None = None, is_followup: int | bool = 0) -> None:
         if not files:
             return
         existing_cnt = self._db.execute(
@@ -576,10 +625,10 @@ class TicketStore:
             if dup_of:
                 base_note = f"⚠️ 重复图预警（与历史凭证 {dup_of[:8]} {dup_reason}） · {base_note}"
             self._db.execute(
-                "INSERT INTO attachments (attachment_id, handoff_id, kind, original_name, media_type, size_bytes, storage_name, created_at) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO attachments (attachment_id, handoff_id, kind, original_name, media_type, size_bytes,"
+                " storage_name, created_at, after_index, is_followup) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (attachment_id, handoff_id, item["kind"], item["original_name"], item["media_type"],
-                 len(item["content"]), storage_name, at),
+                 len(item["content"]), storage_name, at, after_index, int(is_followup)),
             )
             self._db.execute(
                 "INSERT INTO attachment_forensics (attachment_id, sha256_hash, perceptual_sig, duplicate_of, forensic_note, created_at) "
@@ -591,11 +640,52 @@ class TicketStore:
         row = self._db.execute(sql, params).fetchone()
         return dict(row) if row else None
 
-    def _event(self, ticket_id: str, actor: str, action: str, note: str | None, at: str) -> None:
+    def _event(self, ticket_id: str, actor: str, action: str, note: str | None, at: str,
+               *, before_status: str | None = None, after_status: str | None = None,
+               amount_yuan: float | None = None) -> None:
         self._db.execute(
-            "INSERT INTO ticket_events (ticket_id, at, actor, action, note) VALUES (?, ?, ?, ?, ?)",
-            (ticket_id, at, actor, action, note),
+            "INSERT INTO ticket_events (ticket_id, at, actor, action, note, before_status, after_status, amount_yuan)"
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            (ticket_id, at, actor, action, note, before_status, after_status, amount_yuan),
         )
+
+    def log_action(self, *, handoff_id: str | None, order_id: str | None, ticket_id: str | None,
+                   actor_id: str, actor_name: str | None, actor_role: str | None,
+                   action: str, action_label: str, before_status: str | None = None,
+                   after_status: str | None = None, amount_yuan: float | None = None,
+                   note: str | None = None, is_internal: bool = False, at: str | None = None) -> dict:
+        ts = at or now_text()
+        with self._lock, self._db:
+            cur = self._db.execute(
+                "INSERT INTO action_logs (handoff_id, order_id, ticket_id, at, actor_id, actor_name, actor_role,"
+                " action, action_label, before_status, after_status, amount_yuan, note, is_internal)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (handoff_id, order_id, ticket_id, ts, actor_id, actor_name, actor_role,
+                 action, action_label, before_status, after_status, amount_yuan, note, 1 if is_internal else 0),
+            )
+            return self._one("SELECT * FROM action_logs WHERE log_id = ?", (cur.lastrowid,))
+
+    def action_logs(self, *, handoff_id: str | None = None, ticket_id: str | None = None,
+                    order_id: str | None = None, include_internal: bool = True) -> list[dict]:
+        clauses, params = [], []
+        if handoff_id is not None and ticket_id is not None:
+            clauses.append("(handoff_id = ? OR ticket_id = ?)")
+            params.extend([handoff_id, ticket_id])
+        elif handoff_id is not None:
+            clauses.append("handoff_id = ?")
+            params.append(handoff_id)
+        elif ticket_id is not None:
+            clauses.append("ticket_id = ?")
+            params.append(ticket_id)
+        elif order_id is not None:
+            clauses.append("order_id = ?")
+            params.append(order_id)
+        if not include_internal:
+            clauses.append("is_internal = 0")
+        where = (" WHERE " + " AND ".join(clauses)) if clauses else ""
+        with self._lock:
+            rows = self._db.execute(f"SELECT * FROM action_logs{where} ORDER BY log_id", tuple(params)).fetchall()
+            return [{**dict(r), "is_internal": bool(r["is_internal"])} for r in rows]
 
     def get(self, ticket_id: str) -> dict | None:
         with self._lock:
@@ -622,7 +712,8 @@ class TicketStore:
     def events(self, ticket_id: str) -> list[dict]:
         with self._lock:
             rows = self._db.execute(
-                "SELECT at, actor, action, note FROM ticket_events WHERE ticket_id = ? ORDER BY event_id",
+                "SELECT at, actor, action, note, before_status, after_status, amount_yuan"
+                " FROM ticket_events WHERE ticket_id = ? ORDER BY event_id",
                 (ticket_id,),
             ).fetchall()
         return [dict(row) for row in rows]
@@ -674,6 +765,9 @@ class TicketStore:
         status = DECISION_STATUS[decision]
         at = now_text()
         with self._lock, self._db:
+            existing = self._one("SELECT status, proposed_coupon_yuan FROM tickets WHERE ticket_id = ?", (ticket_id,))
+            if not existing or existing["status"] != "pending":
+                return None
             if status == "needs_info":
                 cursor = self._db.execute(
                     "UPDATE tickets SET status = 'needs_info', reviewer_id = ?, information_request = ?,"
@@ -683,6 +777,7 @@ class TicketStore:
                     (reviewer_id, note, at, ticket_id),
                 )
                 action = "information_requested"
+                amt = None
             else:
                 cursor = self._db.execute(
                     "UPDATE tickets SET status = ?, decided_at = ?, reviewer_id = ?, review_note = ?,"
@@ -691,9 +786,114 @@ class TicketStore:
                     (status, at, reviewer_id, note, status, ticket_id),
                 )
                 action = status
+                amt = existing["proposed_coupon_yuan"] if status == "approved" else None
             if cursor.rowcount != 1:
                 return None
-            self._event(ticket_id, f"reviewer:{reviewer_id}", action, note, at)
+            self._event(ticket_id, f"reviewer:{reviewer_id}", action, note, at,
+                        before_status="pending", after_status=status, amount_yuan=amt)
+            return self._one("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,))
+
+    def decide_or_override_ticket(self, ticket_id: str, *, target_status: str, reviewer_id: str,
+                                  note: str | None, amount_yuan: int | float | None = None,
+                                  merchant_bear_yuan: float | None = None,
+                                  platform_bear_yuan: float | None = None,
+                                  action_name: str | None = None) -> tuple[dict, str] | None:
+        """Update ticket status from agent handoff action (supports rejected->approved, uphold, needs_info, reopen)."""
+        at = now_text()
+        with self._lock, self._db:
+            current = self._one("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,))
+            if not current:
+                return None
+            before_status = current["status"]
+            if target_status == "approved":
+                issued = int(round(amount_yuan)) if amount_yuan is not None else current["proposed_coupon_yuan"]
+                m_bear = current.get("merchant_bear_yuan") if merchant_bear_yuan is None else merchant_bear_yuan
+                p_bear = current.get("platform_bear_yuan") if platform_bear_yuan is None else platform_bear_yuan
+                self._db.execute(
+                    "UPDATE tickets SET status = 'approved', decided_at = ?, reviewer_id = ?, review_note = ?,"
+                    " coupon_issued_yuan = ?, merchant_bear_yuan = ?, platform_bear_yuan = ? WHERE ticket_id = ?",
+                    (at, reviewer_id, note, issued, m_bear, p_bear, ticket_id),
+                )
+                self._event(ticket_id, f"reviewer:{reviewer_id}", action_name or "approved", note, at,
+                            before_status=before_status, after_status="approved", amount_yuan=issued)
+            elif target_status == "rejected":
+                self._db.execute(
+                    "UPDATE tickets SET status = 'rejected', decided_at = ?, reviewer_id = ?, review_note = ?,"
+                    " coupon_issued_yuan = NULL WHERE ticket_id = ?",
+                    (at, reviewer_id, note, ticket_id),
+                )
+                self._event(ticket_id, f"reviewer:{reviewer_id}", action_name or "rejected", note, at,
+                            before_status=before_status, after_status="rejected")
+            elif target_status == "needs_info":
+                self._db.execute(
+                    "UPDATE tickets SET status = 'needs_info', reviewer_id = ?, information_request = ?,"
+                    " information_requested_at = ?, customer_information = NULL, information_submitted_at = NULL,"
+                    " decided_at = NULL, review_note = NULL, coupon_issued_yuan = NULL WHERE ticket_id = ?",
+                    (reviewer_id, note, at, ticket_id),
+                )
+                self._event(ticket_id, f"reviewer:{reviewer_id}", action_name or "information_requested", note, at,
+                            before_status=before_status, after_status="needs_info")
+            elif target_status == "pending":
+                self._db.execute(
+                    "UPDATE tickets SET status = 'pending', decided_at = NULL, reviewer_id = NULL, review_note = NULL,"
+                    " coupon_issued_yuan = NULL WHERE ticket_id = ?",
+                    (ticket_id,),
+                )
+                self._event(ticket_id, f"reviewer:{reviewer_id}", action_name or "reopened", note, at,
+                            before_status=before_status, after_status="pending")
+            else:
+                return None
+            return self._one("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,)), before_status
+
+    def create_manual_ticket(self, *, customer_id: str, order: dict, policy_version: str,
+                             late_seconds: int, proposed_coupon_yuan: int, reviewer_id: str,
+                             subrogation: dict | None = None, note: str | None = None) -> tuple[dict, bool]:
+        """Create a pending ticket from the agent handoff workbench when no ticket exists for the order."""
+        key = (order["order_id"], policy_version)
+        tenant_id = str(order.get("tenant_id") or "M_67REST")
+        sub = subrogation or {}
+        stp_tier = sub.get("stp_tier")
+        m_bear = sub.get("merchant_bear_yuan")
+        p_bear = sub.get("platform_bear_yuan")
+        expected_at = str(order.get("expected_at") or "—")
+        delivered_at = str(order.get("delivered_at") or ("配送中" if order.get("status") == "delivering" else "待核验"))
+        with self._lock, self._db:
+            existing = self._one("SELECT * FROM tickets WHERE order_id = ? AND policy_version = ?", key)
+            if existing:
+                return existing, False
+            next_num = self._db.execute(
+                "SELECT COALESCE(MAX(CAST(SUBSTR(ticket_id, 2) AS INTEGER)), 0) + 1 FROM tickets"
+            ).fetchone()[0]
+            ticket_id = f"T{next_num:04d}"
+            created_at = now_text()
+            self._db.execute(
+                "INSERT INTO tickets (ticket_id, customer_id, order_id, policy_version, expected_at, delivered_at,"
+                " late_seconds, proposed_coupon_yuan, status, created_at, tenant_id, stp_tier,"
+                " merchant_bear_yuan, platform_bear_yuan, assigned_reviewer_id)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?, ?, ?, ?)",
+                (ticket_id, customer_id, *key, expected_at, delivered_at,
+                 int(late_seconds or 0), int(proposed_coupon_yuan), created_at,
+                 tenant_id, stp_tier, m_bear, p_bear, reviewer_id),
+            )
+            self._event(ticket_id, f"reviewer:{reviewer_id}", "created_by_agent", note, created_at,
+                        before_status="无工单", after_status="pending", amount_yuan=proposed_coupon_yuan)
+            return self._one("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,)), True
+
+    def update_ticket_flags(self, ticket_id: str, *, is_expedited: int | None = None,
+                            escalated_to: str | None = None, assigned_reviewer_id: str | None = None) -> dict | None:
+        at = now_text()
+        with self._lock, self._db:
+            row = self._one("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,))
+            if not row:
+                return None
+            if is_expedited is not None:
+                self._db.execute("UPDATE tickets SET is_expedited = ? WHERE ticket_id = ?", (is_expedited, ticket_id))
+            if escalated_to is not None:
+                self._db.execute("UPDATE tickets SET escalated_to = ?, escalated_at = ? WHERE ticket_id = ?",
+                                 (escalated_to, at, ticket_id))
+            if assigned_reviewer_id is not None:
+                self._db.execute("UPDATE tickets SET assigned_reviewer_id = ? WHERE ticket_id = ?",
+                                 (assigned_reviewer_id, ticket_id))
             return self._one("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,))
 
     def submit_information(self, ticket_id: str, *, customer_id: str, text: str) -> dict | None:
@@ -706,7 +906,8 @@ class TicketStore:
             )
             if cursor.rowcount != 1:
                 return None
-            self._event(ticket_id, f"customer:{customer_id}", "information_submitted", text, at)
+            self._event(ticket_id, f"customer:{customer_id}", "information_submitted", text, at,
+                        before_status="needs_info", after_status="pending")
             return self._one("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,))
 
     def rate(self, ticket_id: str, *, customer_id: str, rating: int) -> dict | None:
@@ -779,7 +980,10 @@ class TicketStore:
                     self._db.execute("UPDATE handoffs SET initial_appeal = ? WHERE handoff_id = ?",
                                      (initial_appeal, waiting["handoff_id"]))
                 if files:
-                    self._store_files(waiting["handoff_id"], customer_id, files)
+                    has_prior = bool(waiting.get("request_text") or self._handoff_followups(waiting["handoff_id"])
+                                     or self._attachment_rows(waiting["handoff_id"]))
+                    self._store_files(waiting["handoff_id"], customer_id, files,
+                                      after_index=after_index, is_followup=has_prior)
                 refreshed = self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (waiting["handoff_id"],))
                 return self.handoff_with_attachments(refreshed), False
             active_waiting = self._db.execute("SELECT COUNT(*) FROM handoffs WHERE status = 'waiting'").fetchone()[0]
@@ -795,7 +999,7 @@ class TicketStore:
                 (handoff_id, customer_id, thread_id, order_id, after_index, request_text,
                  json.dumps(excerpt, ensure_ascii=False), now_text(), tenant_id, initial_appeal),
             )
-            self._store_files(handoff_id, customer_id, files)
+            self._store_files(handoff_id, customer_id, files, after_index=after_index, is_followup=False)
             return self.handoff_with_attachments(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,))), True
 
     def handoffs(self, *, customer_id: str | None = None, tenant_id: str | None = None) -> list[dict]:
@@ -866,14 +1070,55 @@ class TicketStore:
             if row.get("ended_at") and sender_role == "reviewer":
                 # Re-activate human session if specialist sends a follow-up message!
                 self._db.execute("UPDATE handoffs SET ended_at = NULL WHERE handoff_id = ?", (handoff_id,))
-            if files:
-                self._store_files(handoff_id, row["customer_id"], files)
+            msg_seq = 1
             if text:
-                self._db.execute(
+                cur = self._db.execute(
                     "INSERT INTO handoff_messages (handoff_id, sender_role, sender_id, text, created_at, after_index)"
                     " VALUES (?, ?, ?, ?, ?, ?)",
                     (handoff_id, sender_role, sender_id, text, now_text(), after_index),
                 )
+                msg_seq = int(cur.lastrowid or 1)
+            if files:
+                self._store_files(handoff_id, row["customer_id"], files, after_index=after_index, is_followup=msg_seq)
+            return self.handoff_with_attachments(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,)))
+
+    def update_handoff_flags(self, handoff_id: str, *, is_expedited: int | None = None,
+                             escalated_to: str | None = None, assigned_reviewer_id: str | None = None) -> dict | None:
+        at = now_text()
+        with self._lock, self._db:
+            row = self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,))
+            if not row:
+                return None
+            if is_expedited is not None:
+                self._db.execute("UPDATE handoffs SET is_expedited = ? WHERE handoff_id = ?", (is_expedited, handoff_id))
+            if escalated_to is not None:
+                self._db.execute("UPDATE handoffs SET escalated_to = ?, escalated_at = ? WHERE handoff_id = ?",
+                                 (escalated_to, at, handoff_id))
+            if assigned_reviewer_id is not None:
+                self._db.execute("UPDATE handoffs SET assigned_reviewer_id = ?, reviewer_id = COALESCE(reviewer_id, ?) WHERE handoff_id = ?",
+                                 (assigned_reviewer_id, assigned_reviewer_id, handoff_id))
+            return self.handoff_with_attachments(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,)))
+
+    def transition_handoff_status(self, handoff_id: str, *, reviewer_id: str,
+                                  close_session: bool = False) -> dict | None:
+        """Transition a waiting handoff to replied (and optionally mark ended_at) without requiring text reply."""
+        at = now_text()
+        with self._lock, self._db:
+            row = self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,))
+            if not row or row["status"] == "cancelled":
+                return None
+            if row["status"] == "waiting":
+                reply_seq = self._db.execute(
+                    "SELECT COALESCE(MAX(message_id), 0) FROM handoff_messages WHERE handoff_id = ?", (handoff_id,)
+                ).fetchone()[0]
+                self._db.execute(
+                    "UPDATE handoffs SET status = 'replied', reviewer_id = COALESCE(reviewer_id, ?),"
+                    " closed_at = COALESCE(closed_at, ?), reply_seq = COALESCE(reply_seq, ?),"
+                    " reply_after_index = COALESCE(reply_after_index, after_index) WHERE handoff_id = ?",
+                    (reviewer_id, at, reply_seq, handoff_id),
+                )
+            if close_session and not row.get("ended_at"):
+                self._db.execute("UPDATE handoffs SET ended_at = ? WHERE handoff_id = ?", (at, handoff_id))
             return self.handoff_with_attachments(self._one("SELECT * FROM handoffs WHERE handoff_id = ?", (handoff_id,)))
 
     def reset(self) -> list[str]:
@@ -883,6 +1128,7 @@ class TicketStore:
                 r["sha256_hash"][:16]
                 for r in self._db.execute("SELECT sha256_hash FROM attachment_forensics").fetchall()
             ]
+            self._db.execute("DELETE FROM action_logs")
             self._db.execute("DELETE FROM ticket_events")
             self._db.execute("DELETE FROM tickets")
             self._db.execute("DELETE FROM goodwill_grants")

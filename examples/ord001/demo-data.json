@@ -6,8 +6,38 @@
     {"customer_id": "U002", "display_name": "模拟顾客 U002"}
   ],
   "reviewers": [
-    {"reviewer_id": "R001", "display_name": "模拟审批员 R001", "tenant_id": "M_67REST"},
-    {"reviewer_id": "R002", "display_name": "平台食安品控专员 R002", "tenant_id": "*"}
+    {
+      "reviewer_id": "R001",
+      "display_name": "模拟审批员 R001",
+      "tenant_id": "M_67REST",
+      "role": "agent",
+      "can_handle": true,
+      "permissions": [
+        "ticket_approve", "ticket_reject", "ticket_request_info",
+        "ticket_escalate", "ticket_expedite", "ticket_transfer", "ticket_reopen",
+        "order_urge", "order_note", "order_ticket", "handoff_close", "handoff_reply"
+      ]
+    },
+    {
+      "reviewer_id": "R002",
+      "display_name": "平台食安品控专员 R002",
+      "tenant_id": "*",
+      "role": "supervisor",
+      "can_handle": true,
+      "permissions": [
+        "ticket_approve", "ticket_reject", "ticket_request_info",
+        "ticket_escalate", "ticket_expedite", "ticket_transfer", "ticket_reopen",
+        "order_urge", "order_note", "order_ticket", "handoff_close", "handoff_reply"
+      ]
+    },
+    {
+      "reviewer_id": "R003",
+      "display_name": "只读观察员 R003",
+      "tenant_id": "M_67REST",
+      "role": "observer",
+      "can_handle": false,
+      "permissions": []
+    }
   ],
   "orders": [
     {

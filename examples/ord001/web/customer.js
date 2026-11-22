@@ -185,7 +185,8 @@ function attachmentBubble(item) {
 function handoffOpenNodes(item) {
   const nodes = [];
   if (item.request_text) nodes.push(bubble("customer", item.request_text));
-  if (item.attachments && item.attachments.length) nodes.push(attachmentBubble(item));
+  const openAtts = Array.isArray(item.open_attachments) ? item.open_attachments : item.attachments;
+  if (openAtts && openAtts.length) nodes.push(attachmentBubble({ attachments: openAtts }));
   const note = el("div", `handoff-note note-${item.status}`);
   note.dataset.handoffId = item.handoff_id;
   const orderTag = item.order_id ? `（关联订单 ${item.order_id}）` : "";
@@ -303,7 +304,15 @@ function renderMessages(messages, handoffs) {
       if (entry.evt.kind === "open") {
         nodes.push(...handoffOpenNodes(entry.item));
       } else if (entry.evt.kind === "message") {
-        nodes.push(bubble(entry.evt.role, entry.evt.text, entry.evt.role === "human" ? "人工客服" : ""));
+        if (entry.evt.role === "system") {
+          const sysNode = el("div", "handoff-note note-system");
+          sysNode.append(icon("info"), el("span", "", entry.evt.text));
+          nodes.push(sysNode);
+        } else {
+          nodes.push(bubble(entry.evt.role, entry.evt.text, entry.evt.role === "human" ? "人工客服" : ""));
+        }
+      } else if (entry.evt.kind === "attachment" && entry.evt.attachments && entry.evt.attachments.length) {
+        nodes.push(attachmentBubble({ attachments: entry.evt.attachments }));
       }
       if (entry.isLast && entry.item.status === "replied" && entry.item.ended_at) {
         const endNote = el("div", "handoff-note note-ended");
@@ -502,15 +511,15 @@ function ticketCard(ticket) {
     card.append(note);
     const nextBox = el("div", "rejected-next-step");
     nextBox.append(
-      el("p", "rejected-next-hint", "原申请保留「已驳回」（本轮不新增二次申请流程）。如需继续沟通这张订单，请进入人工服务：")
+      el("p", "rejected-next-hint", "原申请保留「已驳回」，二次申请将直接进入人工客服专席处理（不再走自动驳回）：")
     );
-    const consultHuman = button("转人工继续咨询此订单", "primary small", () => act(async () => {
+    const consultHuman = button("二次申请 · 转人工处理", "primary small", () => act(async () => {
       await api("/api/customer/handoff", {
         order_id: ticket.order_id,
-        text: `咨询订单 ${ticket.order_id}（已驳回申请 ${ticket.ticket_id}）：对驳回原因有疑问，请人工客服继续协助说明`,
+        text: `二次申请订单 ${ticket.order_id}（已驳回申请 ${ticket.ticket_id}）：请人工客服继续协助复核`,
       });
       $("input").focus();
-      return `已为您接入人工客服并关联订单 ${ticket.order_id}，可直接在对话框继续发送消息`;
+      return `二次申请已直连人工客服并关联订单 ${ticket.order_id}，可在对话流查看处理进度`;
     }));
     consultHuman.dataset.action = "rejected-handoff";
     consultHuman.prepend(icon("person"));
@@ -897,8 +906,17 @@ function renderOrderSheet() {
     const timeRow = el("div", "sheet-order-foot");
     const timeStr = order.delivered_at ? `预计 ${order.expected_at} → 实际 ${order.delivered_at}` : `预计 ${order.expected_at}`;
     const actBtns = el("div", "sheet-order-actions");
+    const rejectedTicket = ((state && state.tickets) || []).find((t) => t.order_id === order.order_id && t.status === "rejected");
     actBtns.append(button("详情", "small secondary", () => { $("order-sheet-dialog").close(); showOrderDetail(order); }));
-    if (order.status === "delivering") {
+    if (rejectedTicket) {
+      actBtns.append(button("二次申请(转人工)", "small primary", () => {
+        $("order-sheet-dialog").close();
+        act(() => api("/api/customer/handoff", {
+          order_id: order.order_id,
+          text: `二次申请订单 ${order.order_id}（已驳回申请 ${rejectedTicket.ticket_id}）：申请人工复核`,
+        }));
+      }));
+    } else if (order.status === "delivering") {
       actBtns.append(button("查配送进度", "small primary", () => pickOrderAction(order, "lookup")));
     } else {
       actBtns.append(
@@ -906,6 +924,13 @@ function renderOrderSheet() {
         button("超时补偿", "small primary", () => pickOrderAction(order, "default"))
       );
     }
+    actBtns.append(button("转人工", "small secondary", () => {
+      $("order-sheet-dialog").close();
+      act(() => api("/api/customer/handoff", {
+        order_id: order.order_id,
+        text: `咨询订单 ${order.order_id}：请人工客服协助处理`,
+      }));
+    }));
     timeRow.append(el("span", "sheet-order-time", timeStr), actBtns);
     card.append(top, gallery, timeRow);
     list.append(card);
@@ -1021,7 +1046,7 @@ function renderPanel() {
   renderTickets(state, ticket);
   renderOthers(state, ticket);
   renderJourney(state, ticket);
-  markOrders();
+  renderOrders();
   renderPicks(state);
   handoffWaiting = state.handoff_mode === "waiting" || state.handoffs.some((item) => item.status === "waiting");
   handoffMode = state.handoff_mode || (handoffWaiting ? "waiting" : "none");
@@ -1050,7 +1075,11 @@ function renderOrders() {
     const row = el("div", "order");
     row.dataset.orderId = order.order_id;
     row.addEventListener("click", (event) => {
-      if (!event.target.closest("button")) switchMjByOrder(order.order_id);
+      if (!event.target.closest("button")) {
+        shownOrder = order.order_id;
+        markOrders();
+        switchMjByOrder(order.order_id);
+      }
     });
     const text = el("div", "order-text");
     const topLine = el("div", "order-top-line");
@@ -1061,8 +1090,14 @@ function renderOrders() {
     const bottom = el("div", "order-bottom");
     const time = order.delivered_at ? `${order.expected_at} → ${order.delivered_at}` : `预计 ${order.expected_at}`;
     const actions = el("span", "order-actions");
-    actions.append(button("详情", "small detail-button", () => { switchMjByOrder(order.order_id); showOrderDetail(order); }));
-    if (order.status === "delivered") {
+    const rejectedTicket = ((latest && latest.tickets) || []).find((t) => t.order_id === order.order_id && t.status === "rejected");
+    actions.append(button("详情", "small detail-button", () => { shownOrder = order.order_id; markOrders(); switchMjByOrder(order.order_id); showOrderDetail(order); }));
+    if (rejectedTicket) {
+      actions.append(button("二次申请", "small secondary", () => act(() => api("/api/customer/handoff", {
+        order_id: order.order_id,
+        text: `二次申请订单 ${order.order_id}（已驳回申请 ${rejectedTicket.ticket_id}）：申请人工复核`,
+      }))));
+    } else if (order.status === "delivered") {
       actions.append(button("餐损", "small secondary", () => pickOrderAction(order, "issue")));
     }
     actions.append(button("咨询", "small", () => pickOrderAction(order)));
@@ -1103,7 +1138,7 @@ function notifyChanges(state) {
       const curr = `${item.status}:${(item.followups || []).length}`;
       const lastFollow = (item.followups || [])[item.followups ? item.followups.length - 1 : -1];
       if (prev && prev !== curr && item.status === "replied" && (!lastFollow || lastFollow.sender_role !== "customer")) {
-        toast("人工客服已回复");
+        toast(lastFollow && lastFollow.sender_role === "system" ? lastFollow.text : "人工客服已回复");
       }
     }
   }
@@ -1188,7 +1223,11 @@ function send(raw, fromInput) {
       pendingUserText = "";
       lastState = "";
     }
-    if (media) return "凭证已加密提交至人工客服专席，回复将显示在上方对话流中。";
+    if (media) {
+      return media.kind === "audio"
+        ? "语音留言已提交至人工客服专席，客服可直接收听并在上方对话流中回复。"
+        : "凭证已加密提交至人工客服专席，回复将显示在上方对话流中。";
+    }
     if (result.outcome === "handoff_message_sent") return "消息已发送给人工客服，请留意对话流内回复";
     return result.outcome === "handoff_waiting" ? "已在人工专席排队中，回复将显示在对话流内" : "";
   });

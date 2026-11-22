@@ -24,6 +24,8 @@ from starlette.routing import Route
 
 COOKIE = "__Host-ord001_access"
 SESSION_SECONDS = 8 * 60 * 60
+MAX_JSON_BODY = 16 * 1024
+MAX_UPLOAD_BODY = 6 * 1024 * 1024
 HOP_HEADERS = {"connection", "keep-alive", "proxy-authenticate", "proxy-authorization",
                "te", "trailer", "transfer-encoding", "upgrade"}
 ACCESS_PAGE = Path(__file__).with_name("share") / "access.html"
@@ -152,7 +154,15 @@ def create_app(*, password=None, public_host, upstream="http://127.0.0.1:8024", 
         if is_message:
             inflight += 1
         try:
+            ctype = request.headers.get("content-type", "").split(";", 1)[0].strip().lower()
+            is_media_upload = (
+                path.rstrip("/") == "/api/customer/handoff"
+                and request.method == "POST"
+                and ctype == "multipart/form-data"
+            )
             body = await request.body()
+            if not is_media_upload and len(body) > MAX_JSON_BODY:
+                return problem("payload_too_large", "请求内容过大。", 413)
             headers = {key: value for key, value in request.headers.items()
                        if key.lower() not in HOP_HEADERS | {"host", "origin", "content-length", "accept-encoding"}
                        and not key.lower().startswith(("x-forwarded-", "cf-"))}
@@ -182,7 +192,7 @@ def create_app(*, password=None, public_host, upstream="http://127.0.0.1:8024", 
                 inflight -= 1
 
     return Starlette(routes=[Route("/{path:path}", gateway, methods=["GET", "HEAD", "POST", "OPTIONS"])],
-                     lifespan=lifespan, max_body_size=16 * 1024)
+                     lifespan=lifespan, max_body_size=MAX_UPLOAD_BODY)
 
 
 def main():

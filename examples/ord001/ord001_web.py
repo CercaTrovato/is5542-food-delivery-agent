@@ -42,8 +42,11 @@ MAX_MEDIA_BYTES = 5 * 1024 * 1024
 MAX_SESSIONS = 512
 MEDIA_TYPES = {
     "image/jpeg": ("image", "jpg"), "image/png": ("image", "png"), "image/webp": ("image", "webp"),
-    "audio/webm": ("audio", "webm"), "audio/ogg": ("audio", "ogg"), "audio/mp4": ("audio", "m4a"),
-    "audio/mpeg": ("audio", "mp3"),
+    "audio/webm": ("audio", "webm"), "video/webm": ("audio", "webm"),
+    "audio/ogg": ("audio", "ogg"),
+    "audio/mp4": ("audio", "m4a"), "audio/x-m4a": ("audio", "m4a"), "audio/mp4a-latm": ("audio", "m4a"),
+    "audio/mpeg": ("audio", "mp3"), "audio/mp3": ("audio", "mp3"),
+    "audio/wav": ("audio", "wav"), "audio/wave": ("audio", "wav"), "audio/x-wav": ("audio", "wav"),
 }
 LOCAL_HOSTS = ("127.0.0.1", "localhost", "testserver")
 CSP = "default-src 'self'; base-uri 'none'; form-action 'self'; img-src 'self' blob:; media-src 'self' blob:"
@@ -61,12 +64,14 @@ def verify_media_magic(content: bytes, media_type: str) -> bool:
         return len(content) >= 12 and content[:4] == b"RIFF" and content[8:12] == b"WEBP"
     if media_type == "audio/ogg":
         return content.startswith(b"OggS")
-    if media_type == "audio/webm":
+    if media_type in ("audio/webm", "video/webm"):
         return content.startswith(b"\x1a\x45\xdf\xa3")
-    if media_type == "audio/mp4":
+    if media_type in ("audio/mp4", "audio/x-m4a", "audio/mp4a-latm"):
         return len(content) >= 8 and b"ftyp" in content[:16]
-    if media_type == "audio/mpeg":
+    if media_type in ("audio/mpeg", "audio/mp3"):
         return content.startswith(b"ID3") or (content[0] == 0xFF and (content[1] & 0xE0) == 0xE0)
+    if media_type in ("audio/wav", "audio/wave", "audio/x-wav"):
+        return len(content) >= 12 and content[:4] == b"RIFF" and content[8:12] == b"WAVE"
     return False
 
 
@@ -423,6 +428,12 @@ def create_app(service: DemoService | None = None, allowed_hosts=LOCAL_HOSTS) ->
         return JSONResponse(await run_in_threadpool(service.followup_handoff, request.path_params["handoff_id"],
                                                     ident["reviewer_id"], text))
 
+    async def review_handoff_action(request: Request) -> JSONResponse:
+        ident = identity(request, "reviewer")
+        body = await read_json(request)
+        return JSONResponse(await run_in_threadpool(service.perform_handoff_action, request.path_params["handoff_id"],
+                                                    ident["reviewer_id"], body))
+
     async def review_reset(request: Request) -> JSONResponse:
         identity(request, "reviewer")
         _check_origin_and_secret(request, check_review_secret=True)
@@ -465,6 +476,7 @@ def create_app(service: DemoService | None = None, allowed_hosts=LOCAL_HOSTS) ->
         Route("/api/review/handoffs", review_handoffs),
         Route("/api/review/handoffs/{handoff_id}/reply", review_handoff_reply, methods=["POST"]),
         Route("/api/review/handoffs/{handoff_id}/followup", review_handoff_followup, methods=["POST"]),
+        Route("/api/review/handoffs/{handoff_id}/action", review_handoff_action, methods=["POST"]),
         Route("/api/review/runs", review_runs),
         Route("/api/review/reset", review_reset, methods=["POST"]),
         Mount("/static", StaticFiles(directory=WEB_DIR), name="static"),

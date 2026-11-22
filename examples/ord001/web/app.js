@@ -331,6 +331,7 @@ function renderLogin(people, idKey, onPick) {
     U002: "顾客 02（对照号 · 仅含 ORD101 跨账号测试单）",
     R001: "67餐厅（门店履约核损台 · 租户 M_67REST）",
     R002: "平台食安品控专席（独立全平台监管 · 跨租户 *）",
+    R003: "只读质检观察坐席（无处理权限 · 仅查看会话）",
   };
   const consentBox = $("pics-consent");
   $("login-choices").replaceChildren(...people.map((person) => {
@@ -406,13 +407,31 @@ function ticketHistory(ticketId) {
       const role = document.body.dataset.page === "review" ? "review" : "customer";
       const data = await api(`/api/${role}/tickets/${encodeURIComponent(ticketId)}`);
       if (!details.open || !details.isConnected) return;
-      const entries = data.timeline || data.events || [];
-      const labels = { submitted: "已提交", information_requested: "专员提问", information_submitted: "已补充", approved: "审核通过", rejected: "已驳回", rated: "顾客评价" };
+      const entries = (role === "review" && Array.isArray(data.action_logs) && data.action_logs.length)
+        ? data.action_logs
+        : (data.timeline || data.events || []);
+      const labels = {
+        submitted: "已提交", information_requested: "专员提问", information_submitted: "已补充",
+        approved: "审核通过", rejected: "已驳回", uphold_rejected: "维持驳回",
+        escalated: "升级主管", expedited: "加急处理", transferred: "转交他席",
+        reopened: "重新开启", created_by_agent: "坐席建单", rated: "顾客评价"
+      };
       list.replaceChildren(...entries.map((entry) => {
         const row = el("li", "history-event");
         const head = el("div", "history-event-head");
-        head.append(el("strong", "", labels[entry.action] || "更新"), el("time", "", clock(entry.at)));
+        const title = entry.action_label || labels[entry.action] || "更新";
+        head.append(el("strong", "", title), el("time", "", clock(entry.at)));
         row.append(head);
+        if (role === "review") {
+          const metaParts = [];
+          if (entry.actor_name || entry.actor_id) metaParts.push(`操作人：${entry.actor_name || entry.actor_id}`);
+          if (entry.before_status || entry.after_status) {
+            metaParts.push(`${STATUS_TEXT[entry.before_status] || entry.before_status || "—"} → ${STATUS_TEXT[entry.after_status] || entry.after_status || "—"}`);
+          }
+          if (typeof entry.amount_yuan === "number") metaParts.push(`¥${entry.amount_yuan}`);
+          if (entry.is_internal) metaParts.push("仅内部");
+          if (metaParts.length) row.append(el("small", "history-meta", metaParts.join(" · ")));
+        }
         if (entry.note) row.append(el("p", "", entry.note));
         return row;
       }));
