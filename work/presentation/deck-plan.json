@@ -620,5 +620,12 @@
     "slide_count": 15,
     "status": "DRAFT",
     "local_pptx_created": false
+  },
+  "visual_revision": {
+    "revision": "v2",
+    "status": "redesigned_visual_review_complete_user_review_pending",
+    "artifact_ref": "artifact_external_2d3d9a3f-796e-4766-9241-deca7a6a8029",
+    "saved_state_version": 14,
+    "manifest": "redesign-20261123/artifact-manifest.json"
   }
 }

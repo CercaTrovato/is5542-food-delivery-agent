@@ -7,14 +7,14 @@
   "board_scope": "active",
   "group": "Group 24",
   "my_role": "本人统一PPT／录制与结论把关，Agent可协助核方法和数据；开发由李宗谦主做，A＋gaga作为测试组整体交件。",
-  "summary": "11/23已完成13页正文＋2附录的可编辑演示初稿，填入Jacky业务背景、流程、数据规则与架构；两段录屏、正式B/C、市场比较和成本ROI仍待补。15页已逐页渲染查看并修正排版，human-review-v1为已确认规范、运行对齐仍待验。",
-  "stage": "15页可编辑初稿已完成 · 录屏与结果待补",
-  "updated_at": "2026-11-23T01:00:38+08:00",
+  "summary": "11/23按本人反馈完成15页视觉改版：深蓝暖黄配色、外卖情境主视觉、官方图标、职责流程与架构、评测分支和路线图；已逐页查看实际渲染并修正。原生文字／流程／表格可编辑，录屏、正式B/C、市场比较、成本ROI与实名缺口继续保留，当前仍为DRAFT。",
+  "stage": "15页视觉改版 v2 已完成 · 待本人核阅与补结果",
+  "updated_at": "2026-11-23T01:37:04+08:00",
   "reviewed_at": "2026-11-23",
   "progress_as_of": "2026-11-23",
   "task_scope_complete": false,
   "next_action": {
-    "title": "本人查看可编辑初稿；开发／测试交同版录屏、规则对齐证据与正式B/C，研究补出处和市场比较后再填结果",
+    "title": "本人查看视觉改版v2；保留当前业务边界，收同版录屏与正式对照／市场／成本证据后再填结果",
     "owner": "李宗谦／测试组／本人",
     "basis": "proposed"
   },
@@ -158,7 +158,7 @@
       "title": "Slides 与 Demo 叙事",
       "status": "in_progress",
       "owner": "本人",
-      "note": "11/23已完成13页正文＋2附录的可编辑演示初稿，填入Jacky业务背景、流程、数据规则与架构；两段录屏、正式B/C、市场比较和成本ROI仍待补。15页已逐页渲染查看并修正排版，human-review-v1为已确认规范、运行对齐仍待验。 本人未核阅／定稿，录像未完成；原两天窗口不重置。",
+      "note": "11/23按本人反馈完成15页视觉改版：深蓝暖黄配色、外卖情境主视觉、官方图标、职责流程与架构、评测分支和路线图；已逐页查看实际渲染并修正。原生文字／流程／表格可编辑，录屏、正式B/C、市场比较、成本ROI与实名缺口继续保留，当前仍为DRAFT。",
       "evidence": [
         "owner-final-week-20261121",
         "final-week-task-pack",
@@ -168,7 +168,8 @@
         "owner-dispatch-ppt-framework-20261121",
         "group-progress-20261122",
         "owner-human-review-four-boundaries-20261123",
-        "editable-presentation-draft-20261123"
+        "editable-presentation-draft-20261123",
+        "presentation-visual-redesign-20261123"
       ]
     },
     {
@@ -569,6 +570,14 @@
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/work/presentation/draft-20261123/artifact-manifest.json",
       "observed_at": "2026-11-23",
       "sha256": "594ba5da4d9787fabdbb1e3ac81a3ad79c4208533f5825acd3290c8af56b9d84"
+    },
+    {
+      "id": "presentation-visual-redesign-20261123",
+      "kind": "local",
+      "label": "本人视觉反馈后的15页重排、实际渲染检查与素材出处",
+      "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/work/presentation/redesign-20261123/artifact-manifest.json",
+      "observed_at": "2026-11-23",
+      "sha256": "533b2df5eb44e162952fa5bec1e42633db4c9222bfc2d9839bec879ae81c676b"
     }
   ]
 }

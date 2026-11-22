@@ -4,7 +4,7 @@
   "course": "IS5542",
   "as_of": "2026-11-23",
   "timezone": "Asia/Shanghai",
-  "source_revision": "f6a6222ad2a60af496002199f60269fce9af9bf77e47a6bd5445e7b78d7ea6f7",
+  "source_revision": "2f7fee972dc4f5e7e03fa50fc0e50a9457d15ae270aae34ad774bb5c73b31555",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -37,7 +37,7 @@
       "title": "本人下一步：受测版本、评分口径与PPT",
       "owner": "本人 · 统筹",
       "status": "needs_review",
-      "personal_action": "查看可编辑DRAFT及中文逐页说明，按缺素材清单接收证据后继续同稿编辑。",
+      "personal_action": "打开同一份演示稿查看v2，按原缺素材清单继续接收材料。",
       "readiness": "ready",
       "target": {
         "value": null,
@@ -54,7 +54,7 @@
       "title": "本人先搭PPT骨架并核提交要求",
       "owner": "李宾雄／全组核事实",
       "status": "needs_review",
-      "personal_action": "查看可编辑DRAFT及中文逐页说明，按缺素材清单接收证据后继续同稿编辑。",
+      "personal_action": "打开同一份演示稿查看v2，按原缺素材清单继续接收材料。",
       "readiness": "ready",
       "target": {
         "value": null,
@@ -110,7 +110,7 @@
       "title": "本人整合PPT初稿与讲述核对",
       "owner": "李宾雄／全组核事实",
       "status": "in_progress",
-      "personal_action": "查看可编辑DRAFT及中文逐页说明，按缺素材清单接收证据后继续同稿编辑。",
+      "personal_action": "打开同一份演示稿查看v2，按原缺素材清单继续接收材料。",
       "readiness": "waiting_dependency",
       "target": {
         "value": null,

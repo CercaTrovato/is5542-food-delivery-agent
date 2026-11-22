@@ -5,8 +5,8 @@
   "root_thread_id": "01a1b491-403e-7651-9aba-13e5b647af93",
   "model": "gpt-6.1-sol",
   "status": "ready_for_review",
-  "updated_at": "2026-11-23T01:00:38+08:00",
-  "summary": "11/23已完成13页正文＋2附录的可编辑演示初稿，填入Jacky业务背景、流程、数据规则与架构；两段录屏、正式B/C、市场比较和成本ROI仍待补。15页已逐页渲染查看并修正排版，human-review-v1为已确认规范、运行对齐仍待验。",
+  "updated_at": "2026-11-23T01:37:04+08:00",
+  "summary": "11/23按本人反馈完成15页视觉改版：深蓝暖黄配色、外卖情境主视觉、官方图标、职责流程与架构、评测分支和路线图；已逐页查看实际渲染并修正。原生文字／流程／表格可编辑，录屏、正式B/C、市场比较、成本ROI与实名缺口继续保留，当前仍为DRAFT。",
   "report_path": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/supervision-report.md",
   "decisions": [
     {
@@ -222,6 +222,15 @@
       "status": "decided",
       "answer": "本人要求先做可编辑PPT初稿给本人看；Jacky材料填背景，方案与架构先写，测试和对比结果留空；新会话按指定模型制作，不擅自派代理或发消息。",
       "answer_source": "2026-11-23来自课程主会话01a1b4b5-357e-7762-84f1-ae8ff400cba3的本人明确指令及创建会话交接。"
+    },
+    {
+      "id": "IS5542-D23",
+      "question": "如何处理初稿视觉观感？",
+      "recommendation": "在原稿上重做层次和流程图，用专业主视觉与官方图标，并逐页检查渲染。",
+      "options": [],
+      "status": "decided",
+      "answer": "本人明确初版观感差，要求美化、视觉检查，并建议更多流程结构图、真实图标、照片或专业图片。允许使用OfficeCLI，未要求更改业务方向或补造结果。",
+      "answer_source": "2026-11-23 本演示稿会话中的本人直接反馈。"
     }
   ]
 }

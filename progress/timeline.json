@@ -4,9 +4,9 @@
   "course": "IS5542",
   "timezone": "Asia/Shanghai",
   "as_of": "2026-11-23",
-  "basis_revision": "af2287c64ea559c076faefa204fb8e0ff81b834988e7d8432afa32f67514fae1",
+  "basis_revision": "5ff6bf0f197a06f611240ac2b86aee8e42161b7d7b779b92bec3e49fb07d9245",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
-  "summary": "11/23已完成13页正文＋2附录的可编辑演示初稿，填入Jacky业务背景、流程、数据规则与架构；两段录屏、正式B/C、市场比较和成本ROI仍待补。15页已逐页渲染查看并修正排版，human-review-v1为已确认规范、运行对齐仍待验。",
+  "summary": "11/23按本人反馈完成15页视觉改版：深蓝暖黄配色、外卖情境主视觉、官方图标、职责流程与架构、评测分支和路线图；已逐页查看实际渲染并修正。原生文字／流程／表格可编辑，录屏、正式B/C、市场比较、成本ROI与实名缺口继续保留，当前仍为DRAFT。",
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "items": [
     {
@@ -1257,10 +1257,10 @@
       "owner": "本人 · 统筹",
       "owner_role": "me",
       "scope": "team",
-      "summary": "11/23已完成13页正文＋2附录的可编辑演示初稿，填入Jacky业务背景、流程、数据规则与架构；两段录屏、正式B/C、市场比较和成本ROI仍待补。15页已逐页渲染查看并修正排版，human-review-v1为已确认规范、运行对齐仍待验。 其他工程／评测待办按原任务继续，不因成稿升级运行状态。",
+      "summary": "11/23按本人反馈完成15页视觉改版：深蓝暖黄配色、外卖情境主视觉、官方图标、职责流程与架构、评测分支和路线图；已逐页查看实际渲染并修正。原生文字／流程／表格可编辑，录屏、正式B/C、市场比较、成本ROI与实名缺口继续保留，当前仍为DRAFT。",
       "deliverable": "完成核对或交接，并将实际答复更新回任务记录。",
-      "next_action": "本人查看演示初稿；收同版录屏与正式对照／市场证据、成本输入，再填结果并核最终提交条件。",
-      "my_next_action": "查看可编辑DRAFT及中文逐页说明，按缺素材清单接收证据后继续同稿编辑。",
+      "next_action": "本人核阅视觉改版v2，收齐同版运行证据后填录屏、正式结果与成本；最终Canvas条件仍待核。",
+      "my_next_action": "打开同一份演示稿查看v2，按原缺素材清单继续接收材料。",
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
@@ -1279,7 +1279,7 @@
       "completed_on": null,
       "observed_on": "2026-11-23",
       "estimated_minutes": null,
-      "state_basis": "本批实际保存15页原生可编辑演示稿并逐页查看渲染；未运行应用／模型，未补正式结果或录制，未核Canvas最新行政条件。",
+      "state_basis": "本批实际在原Page重排15页并逐页查看渲染；没有运行项目模型、应用测试或新增正式结果。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -1300,6 +1300,10 @@
         {
           "label": "15页可编辑初稿及取材检查记录",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md"
+        },
+        {
+          "label": "视觉改版v2与来源／检查记录",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/redesign-20261123/README.md"
         }
       ],
       "history": [
@@ -1379,6 +1383,17 @@
             "next_action": "本人已发安排；现先按逐页内容框架开工并收缺材料，原48小时不重置，不等待学习或看板会话。",
             "my_next_action": "先拿固定受测版本和模型说明，确定共同预期；同时搭好PPT骨架。",
             "state_basis": "本人确认已发群并要求先搭框架；实际已生成内容规划与清单，非已生成PPT／完成录制。"
+          }
+        },
+        {
+          "observed_on": "2026-11-23",
+          "status": "needs_review",
+          "note": "本人否定首版观感后重做视觉；保留空结果和录屏位置，不升级业务验收或提交状态。",
+          "previous": {
+            "summary": "11/23已完成13页正文＋2附录的可编辑演示初稿，填入Jacky业务背景、流程、数据规则与架构；两段录屏、正式B/C、市场比较和成本ROI仍待补。15页已逐页渲染查看并修正排版，human-review-v1为已确认规范、运行对齐仍待验。 其他工程／评测待办按原任务继续，不因成稿升级运行状态。",
+            "next_action": "本人查看演示初稿；收同版录屏与正式对照／市场证据、成本输入，再填结果并核最终提交条件。",
+            "my_next_action": "查看可编辑DRAFT及中文逐页说明，按缺素材清单接收证据后继续同稿编辑。",
+            "state_basis": "本批实际保存15页原生可编辑演示稿并逐页查看渲染；未运行应用／模型，未补正式结果或录制，未核Canvas最新行政条件。"
           }
         }
       ]
@@ -1533,10 +1548,10 @@
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "11/23已完成13页正文＋2附录的可编辑演示初稿，填入Jacky业务背景、流程、数据规则与架构；两段录屏、正式B/C、市场比较和成本ROI仍待补。15页已逐页渲染查看并修正排版，human-review-v1为已确认规范、运行对齐仍待验。",
+      "summary": "11/23按本人反馈完成15页视觉改版：深蓝暖黄配色、外卖情境主视觉、官方图标、职责流程与架构、评测分支和路线图；已逐页查看实际渲染并修正。原生文字／流程／表格可编辑，录屏、正式B/C、市场比较、成本ROI与实名缺口继续保留，当前仍为DRAFT。",
       "deliverable": "合并 Slides 与录制演示的可核版本或结果记录",
-      "next_action": "本人查看演示初稿；收同版录屏与正式对照／市场证据、成本输入，再填结果并核最终提交条件。",
-      "my_next_action": "查看可编辑DRAFT及中文逐页说明，按缺素材清单接收证据后继续同稿编辑。",
+      "next_action": "本人核阅视觉改版v2，收齐同版运行证据后填录屏、正式结果与成本；最终Canvas条件仍待核。",
+      "my_next_action": "打开同一份演示稿查看v2，按原缺素材清单继续接收材料。",
       "depends_on": [
         "demo-record"
       ],
@@ -1554,6 +1569,14 @@
           "evidence": [
             "editable-presentation-draft-20261123"
           ]
+        },
+        {
+          "id": "visual-v2",
+          "label": "15页视觉改版已保存并逐页检查，待本人核阅",
+          "status": "pass",
+          "evidence": [
+            "presentation-visual-redesign-20261123"
+          ]
         }
       ],
       "target": {
@@ -1565,7 +1588,7 @@
       "completed_on": null,
       "observed_on": "2026-11-23",
       "estimated_minutes": null,
-      "state_basis": "本批实际保存15页原生可编辑演示稿并逐页查看渲染；未运行应用／模型，未补正式结果或录制，未核Canvas最新行政条件。",
+      "state_basis": "本批实际在原Page重排15页并逐页查看渲染；没有运行项目模型、应用测试或新增正式结果。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
@@ -1594,6 +1617,10 @@
         {
           "label": "15页可编辑初稿及取材检查记录",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md"
+        },
+        {
+          "label": "视觉改版v2与来源／检查记录",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/redesign-20261123/README.md"
         }
       ],
       "history": [
@@ -1671,6 +1698,17 @@
             "next_action": "S04／S05／S08／S09按human-review-v1整理内容，运行画面及成绩等同版已核材料；不预填通过数。",
             "my_next_action": "按已收证据填PPT结果页，约各人核事实和讲述段。",
             "state_basis": "本人四项直接确认，规范与验收清单已形成；未改运行代码或执行测试。"
+          }
+        },
+        {
+          "observed_on": "2026-11-23",
+          "status": "in_progress",
+          "note": "本人否定首版观感后重做视觉；保留空结果和录屏位置，不升级业务验收或提交状态。",
+          "previous": {
+            "summary": "11/23已完成13页正文＋2附录的可编辑演示初稿，填入Jacky业务背景、流程、数据规则与架构；两段录屏、正式B/C、市场比较和成本ROI仍待补。15页已逐页渲染查看并修正排版，human-review-v1为已确认规范、运行对齐仍待验。",
+            "next_action": "本人查看演示初稿；收同版录屏与正式对照／市场证据、成本输入，再填结果并核最终提交条件。",
+            "my_next_action": "查看可编辑DRAFT及中文逐页说明，按缺素材清单接收证据后继续同稿编辑。",
+            "state_basis": "本批实际保存15页原生可编辑演示稿并逐页查看渲染；未运行应用／模型，未补正式结果或录制，未核Canvas最新行政条件。"
           }
         }
       ]
@@ -1860,10 +1898,10 @@
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "13页正文＋2附录已做成可编辑DRAFT并逐页检查；本人核阅、最新Canvas条件、真实录屏和最终结果待补。",
+      "summary": "11/23按本人反馈完成15页视觉改版：深蓝暖黄配色、外卖情境主视觉、官方图标、职责流程与架构、评测分支和路线图；已逐页查看实际渲染并修正。原生文字／流程／表格可编辑，录屏、正式B/C、市场比较、成本ROI与实名缺口继续保留，当前仍为DRAFT。",
       "deliverable": "待填结果的PPT骨架、缺素材清单和准确提交要求核对。",
-      "next_action": "本人查看演示初稿；收同版录屏与正式对照／市场证据、成本输入，再填结果并核最终提交条件。",
-      "my_next_action": "查看可编辑DRAFT及中文逐页说明，按缺素材清单接收证据后继续同稿编辑。",
+      "next_action": "本人核阅视觉改版v2，收齐同版运行证据后填录屏、正式结果与成本；最终Canvas条件仍待核。",
+      "my_next_action": "打开同一份演示稿查看v2，按原缺素材清单继续接收材料。",
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
@@ -1901,7 +1939,7 @@
       "completed_on": null,
       "observed_on": "2026-11-23",
       "estimated_minutes": null,
-      "state_basis": "本批实际保存15页原生可编辑演示稿并逐页查看渲染；未运行应用／模型，未补正式结果或录制，未核Canvas最新行政条件。",
+      "state_basis": "本批实际在原Page重排15页并逐页查看渲染；没有运行项目模型、应用测试或新增正式结果。",
       "evidence": [
         {
           "label": "本人确认PPT与任务",
@@ -1918,6 +1956,10 @@
         {
           "label": "15页可编辑初稿及取材检查记录",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md"
+        },
+        {
+          "label": "视觉改版v2与来源／检查记录",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/redesign-20261123/README.md"
         }
       ],
       "history": [
@@ -1961,6 +2003,17 @@
             "next_action": "先据框架写可核背景／方案，收原工作包材料；取得Canvas最新提交条件后核时长／入口，再排版与录制。",
             "my_next_action": "查看逐页内容和材料清单；先填业务／方案，后填有证据的结果；不等待补学代码。",
             "state_basis": "本人确认已发群并要求先搭框架；实际已生成内容规划与清单，非已生成PPT／完成录制。"
+          }
+        },
+        {
+          "observed_on": "2026-11-23",
+          "status": "needs_review",
+          "note": "本人否定首版观感后重做视觉；保留空结果和录屏位置，不升级业务验收或提交状态。",
+          "previous": {
+            "summary": "13页正文＋2附录已做成可编辑DRAFT并逐页检查；本人核阅、最新Canvas条件、真实录屏和最终结果待补。",
+            "next_action": "本人查看演示初稿；收同版录屏与正式对照／市场证据、成本输入，再填结果并核最终提交条件。",
+            "my_next_action": "查看可编辑DRAFT及中文逐页说明，按缺素材清单接收证据后继续同稿编辑。",
+            "state_basis": "本批实际保存15页原生可编辑演示稿并逐页查看渲染；未运行应用／模型，未补正式结果或录制，未核Canvas最新行政条件。"
           }
         }
       ]

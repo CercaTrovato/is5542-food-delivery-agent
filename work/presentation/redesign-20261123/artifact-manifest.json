@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "status": "DRAFT",
+  "visual_revision": "v2",
+  "created_on": "2026-11-23",
+  "page_id": "page_f38c3a93a3c88191b00a5db63884cb6d",
+  "artifact_ref": "artifact_external_2d3d9a3f-796e-4766-9241-deca7a6a8029",
+  "slide_count": 15,
+  "saved_state_version": 14,
+  "native_tables": 6,
+  "native_connectors": 19,
+  "all_slides_have_notes": true,
+  "visual_review": {
+    "saved_state_version": 14,
+    "reviewed_slides": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "rechecked_slides": [
+      2,
+      3,
+      12,
+      13
+    ],
+    "native_tables": 6,
+    "native_connectors": 19,
+    "image_instances": 46,
+    "all_notes_preserved": true,
+    "all_slide_ids_preserved": true,
+    "frames_checked": 328,
+    "off_slide_frames": 0,
+    "review_method": "Main agent inspected each full-size 1280x720 render; geometry check assisted, no subagent review",
+    "repairs": [
+      "Shortened architecture headings to separate titles from descriptions",
+      "Clarified illustrative complaint source and aligned the connector labels",
+      "Replaced mid-word wrapping in Customer-purchased with a deliberate two-line label",
+      "Changed cost-input heading to value inputs because the table includes benefits",
+      "Top-aligned roadmap descriptions and used a direct subject title"
+    ],
+    "results_blank_verified": true,
+    "recording_slots_unfilled": true,
+    "desktop_powerpoint_export_tested": false,
+    "user_acceptance": "pending",
+    "render_directory": "C:/Users/BenLi/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Roaming/Codex/web/Codex/artifact-sessions/exports/latest/f54b231e399c00f6bed1f4c4411c76a91a8f42f753c95532a57e4454403a9e5f"
+  },
+  "local_pptx_created": false,
+  "source_main_before": "1d594dabdfa49b8d640a87641ff2954d4f31ee17",
+  "business_policy_changed": false,
+  "result_values_added": false,
+  "recordings_added": false,
+  "sources": {
+    "icons": "https://lucide.dev/icons/",
+    "icon_license": "https://github.com/lucide-icons/lucide/blob/main/LICENSE",
+    "hero": "Built-in OpenAI ImageGen; illustrative still life, not operational evidence"
+  },
+  "source_hashes": {
+    "redesign.mjs": "96ce6fd261cb3afd47ae7db5e9c3062736df0c057a4d6e0c8c3a27d1d0596ad2",
+    "delivery-hero.png": "c353afa3239cd330e52d4819cccf19bcce568e6318872d728ee5d16e61c2ab39"
+  }
+}
