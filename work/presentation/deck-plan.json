@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "content_framework_draft",
+  "status": "editable_draft_created_results_pending",
   "as_of": "2026-11-23",
   "not_a_finished_ppt_or_submission": true,
   "main_slides": [
@@ -612,5 +612,13 @@
     "source": "../spec/human-review-policy.json",
     "boundary_retest": "../eval/human-review-boundary-checks.md",
     "actual_results": null
+  },
+  "editable_draft": {
+    "page_id": "page_f38c3a93a3c88191b00a5db63884cb6d",
+    "artifact_ref": "artifact_external_2d3d9a3f-796e-4766-9241-deca7a6a8029",
+    "saved_state_version": 6,
+    "slide_count": 15,
+    "status": "DRAFT",
+    "local_pptx_created": false
   }
 }

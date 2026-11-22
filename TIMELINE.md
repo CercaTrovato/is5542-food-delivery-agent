@@ -1,6 +1,6 @@
 # IS5542 · 项目时间线
 
-11/23本人逐项确认human-review-v1四项：未补偿的已驳回申请有新信息／原处理错误可重审并记原因，R002独占改额，1—20元整数不超实付且留原因，同单只成功补偿一次、发后不补差价。规范与九组待执行复测已建；未改代码或运行测试，旧8行报告不自动认证新边界。
+11/23已完成13页正文＋2附录的可编辑演示初稿，填入Jacky业务背景、流程、数据规则与架构；两段录屏、正式B/C、市场比较和成本ROI仍待补。15页已逐页渲染查看并修正排版，human-review-v1为已确认规范、运行对齐仍待验。
 
 进度依据截至 2026-11-23；时区 Asia/Shanghai。完成日期未知时只记录核实日期。
 
@@ -105,29 +105,43 @@ Jacky11/22业务说明、5项保障和3要点已收到并读完；条款定位�
 
 **待核阅或修订** · 负责人：本人 · 统筹 · 尚未安排 · 日期未定
 
-三平台首轮观察已收核，15 张表、26 张截图的有限比较成立；真实超时赔付、真人接通与工单闭环仍待补。远端 feat/ord001-local-web 已有开发代码及 11 月 10–11 日历史自检／共享入口记录，最新已见提交 9c8fdbc（11 月 18 日）；本次只核分支与报告，未重跑当前服务、真实模型或接收验收，不将历史自检升级为当前团队 P01 通过。
+11/23已完成13页正文＋2附录的可编辑演示初稿，填入Jacky业务背景、流程、数据规则与架构；两段录屏、正式B/C、市场比较和成本ROI仍待补。15页已逐页渲染查看并修正排版，human-review-v1为已确认规范、运行对齐仍待验。 其他工程／评测待办按原任务继续，不因成稿升级运行状态。
 
 - 本环节交付：完成核对或交接，并将实际答复更新回任务记录。
-- 下一步：本人已发安排；现先按逐页内容框架开工并收缺材料，原48小时不重置，不等待学习或看板会话。
+- 下一步：本人查看演示初稿；收同版录屏与正式对照／市场证据、成本输入，再填结果并核最终提交条件。
 - 前置依赖：无已登记前置
-- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
-- 总监督可做：先拿固定受测版本和模型说明，确定共同预期；同时搭好PPT骨架。
+- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-23
+- 总监督可做：查看可编辑DRAFT及中文逐页说明，按缺素材清单接收证据后继续同稿编辑。
 - 验收：待核 已核对并登记实际结果或待回复内容
-- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)
+- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)；[15页可编辑初稿及取材检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md)
 
-### 本人先搭PPT骨架并核提交要求 · `ppt-outline`
+### 本人整合PPT初稿与讲述核对 · `slides-video`
 
 **正在推进** · 负责人：李宾雄／全组核事实 · 尚未安排 · 日期未定
 
-教师9页模板与19:03转录已核，13页正文＋2附录逐页内容框架和14项材料清单已建；未排版PPT。Canvas最新复核停在SSO，提交条件仍待。
+11/23已完成13页正文＋2附录的可编辑演示初稿，填入Jacky业务背景、流程、数据规则与架构；两段录屏、正式B/C、市场比较和成本ROI仍待补。15页已逐页渲染查看并修正排版，human-review-v1为已确认规范、运行对齐仍待验。
+
+- 本环节交付：合并 Slides 与录制演示的可核版本或结果记录
+- 下一步：本人查看演示初稿；收同版录屏与正式对照／市场证据、成本输入，再填结果并核最终提交条件。
+- 前置依赖：demo-record
+- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-23
+- 总监督可做：查看可编辑DRAFT及中文逐页说明，按缺素材清单接收证据后继续同稿编辑。
+- 验收：待核 合并 Slides 与录制演示有实际产物和核验记录；✓ 15页可编辑初稿已保存并逐页渲染核对（结果及录像仍待）
+- 依据：组员续作核查与开发交接（脱敏）；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)；[11月22日群进度与交件接收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/progress-2026-11-22.md)；[本人确认的人工重审与改额四项规范](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/human-review-boundaries.md)；[15页可编辑初稿及取材检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md)
+
+### 本人先搭PPT骨架并核提交要求 · `ppt-outline`
+
+**待核阅或修订** · 负责人：李宾雄／全组核事实 · 尚未安排 · 日期未定
+
+13页正文＋2附录已做成可编辑DRAFT并逐页检查；本人核阅、最新Canvas条件、真实录屏和最终结果待补。
 
 - 本环节交付：待填结果的PPT骨架、缺素材清单和准确提交要求核对。
-- 下一步：先据框架写可核背景／方案，收原工作包材料；取得Canvas最新提交条件后核时长／入口，再排版与录制。
+- 下一步：本人查看演示初稿；收同版录屏与正式对照／市场证据、成本输入，再填结果并核最终提交条件。
 - 前置依赖：无已登记前置
-- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-21
-- 总监督可做：查看逐页内容和材料清单；先填业务／方案，后填有证据的结果；不等待补学代码。
-- 验收：✓ 逐页内容框架和缺材料清单已形成（非PPT成品）；待核 最新Canvas入口／截止时刻／视频限制已复核；待核 正式可编辑PPT已制作并核对
-- 依据：[本人确认PPT与任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)
+- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-23
+- 总监督可做：查看可编辑DRAFT及中文逐页说明，按缺素材清单接收证据后继续同稿编辑。
+- 验收：✓ 逐页内容框架和缺材料清单已形成（非PPT成品）；待核 最新Canvas入口／截止时刻／视频限制已复核；✓ 可编辑DRAFT已制作并逐页核对，未标正式可提交
+- 依据：[本人确认PPT与任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)；[15页可编辑初稿及取材检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md)
 
 ## 未来安排
 
@@ -156,20 +170,6 @@ Jacky11/22业务说明、5项保障和3要点已收到并读完；条款定位�
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-22
 - 验收：待核 准备稳定版本的演示素材有实际产物和核验记录
 - 依据：组员续作核查与开发交接（脱敏）；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[11月22日群进度与交件接收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/progress-2026-11-22.md)
-
-### 本人整合PPT初稿与讲述核对 · `slides-video`
-
-**后续计划** · 负责人：李宾雄／全组核事实 · 尚未安排 · 日期未定
-
-13页框架已有，11/22可补业务与定性迭代；成品PPT／录屏／正式成绩和ROI仍待。 11/23四项human-review-v1已确认，代码对齐／新边界复测未验。
-
-- 本环节交付：合并 Slides 与录制演示的可核版本或结果记录
-- 下一步：S04／S05／S08／S09按human-review-v1整理内容，运行画面及成绩等同版已核材料；不预填通过数。
-- 前置依赖：demo-record
-- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-23
-- 总监督可做：按已收证据填PPT结果页，约各人核事实和讲述段。
-- 验收：待核 合并 Slides 与录制演示有实际产物和核验记录
-- 依据：组员续作核查与开发交接（脱敏）；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)；[11月22日群进度与交件接收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/progress-2026-11-22.md)；[本人确认的人工重审与改额四项规范](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/human-review-boundaries.md)
 
 ### 核对最终文件与视频链接 · `delivery-check`
 
