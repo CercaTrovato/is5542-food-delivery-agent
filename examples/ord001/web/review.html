@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffd000">
   <title>配送关怀 · 67餐厅核损工作台</title>
-  <link rel="stylesheet" href="/static/app.css?v=20261122-v16">
-  <script src="/static/app.js?v=20261122-v16" defer></script>
-  <script src="/static/review.js?v=20261122-v16" defer></script>
+  <link rel="stylesheet" href="/static/app.css?v=20261122-v17">
+  <script src="/static/app.js?v=20261122-v17" defer></script>
+  <script src="/static/review.js?v=20261122-v17" defer></script>
 </head>
 <body data-page="review">
   <a class="skip-link" href="#main">跳到主要内容</a>
   <div class="ambient" aria-hidden="true"></div>
   <header class="topbar">
-    <a class="brand" href="/" aria-label="配送关怀首页"><span class="brand-symbol" data-icon="spidey"></span><span>配送关怀</span><span class="brand-badge" id="brand-badge">商家核损台</span></a>
+    <a class="brand" href="/" aria-label="配送关怀首页"><span class="brand-symbol" data-icon="spidey"></span><span>配送关怀</span><span class="brand-badge" id="brand-badge">小丑</span></a>
     <nav class="role-switch" aria-label="切换入口"><a href="/"><span data-icon="chat"></span>顾客</a><a class="active" href="/review" aria-current="page"><span data-icon="inbox"></span>商家</a></nav>
     <div class="topbar-actions">
       <button class="demo-chip" type="button" id="meta" data-open-demo aria-label="演示与合规说明">演示</button>
@@ -32,7 +32,7 @@
         <div class="floating-receipt">
           <span class="receipt-kicker">67餐厅</span>
           <span class="receipt-symbol" data-icon="spidey"></span>
-          <span class="receipt-badge">SUBROGATION · STP</span>
+          <span class="receipt-badge">小丑专席</span>
           <span class="receipt-check" data-icon="check"></span>
         </div>
         <div class="floating-coupon"><span class="coupon-tag">准时保代偿</span><strong>¥0 自付</strong></div>
@@ -55,10 +55,10 @@
     <div id="app" hidden>
       <div class="page-heading">
         <div class="heading-with-icon">
-          <span class="service-avatar merchant-emblem" data-icon="spidey"></span>
+          <span class="service-avatar joker-avatar merchant-emblem" data-icon="spidey"></span>
           <div>
-            <h1>67餐厅 · 履约核损台</h1>
-            <span class="heading-caption">租户 M_67REST · T1 出餐 / T2 运力智能清分与人工客服专席</span>
+            <h1>67餐厅 · 小丑核损与客服专席</h1>
+            <span class="heading-caption">小丑专员 · T1 出餐 / T2 运力清分与一单一编号人工工作台</span>
           </div>
         </div>
         <div class="inbox-tabs">
@@ -92,7 +92,7 @@
         <section class="review-list" id="handoffs-panel" aria-label="人工咨询" hidden><div id="handoffs"></div></section>
         <aside class="compensation-card">
           <div class="coupon-art" aria-hidden="true"><span data-icon="spidey"></span></div>
-          <span class="compensation-label">准时保 · 赔付标准</span>
+          <span class="compensation-label">小丑 · 赔付标准</span>
           <strong class="compensation-amount" id="guide-amount"></strong>
           <p id="guide-policy"></p>
           <p class="subrogation-aside-note">按时出餐订单由平台准时保池 100% 代偿，本店 ¥0 承担且自动豁免骑手恶劣天气/压单扣款。</p>
@@ -106,10 +106,6 @@
     <h2 id="demo-title">核损清分与演示说明</h2>
     <p>系统自动比对「T1 餐厅实际出餐」与「T2 骑手交接送达」时间戳，计算平台准时保池与餐厅的分摊金额，并对上传图片执行二进制魔数及 SHA-256 重复图哈希鉴伪。</p>
     <dl class="facts" id="policy-details"></dl>
-    <label class="brand-safe-row" for="brand-safe-toggle">
-      <input type="checkbox" id="brand-safe-toggle" checked>
-      <span>使用原创零版权纯矢量图标模式（Brand-Safe SVG · 默认开启）</span>
-    </label>
     <p class="dialog-note">支持批量留在当前队列连续审单、人工咨询多轮追加回复；演示重置仅在非生产模式下清空工单，底层 SHA-256 审计链永久只追加保留。</p>
     <button type="button" class="secondary" id="reset" hidden><span data-icon="reset"></span>重置演示数据</button>
   </dialog>

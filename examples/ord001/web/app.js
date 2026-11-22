@@ -42,56 +42,67 @@ const ICONS = {
   yen: ["M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z", "m8 7 4 5 4-5M8 12h8M8 15h8M12 12v6"],
 };
 
-// 100% commercial-safe original pure SVG vector icons (zero third-party IP files or external dependencies).
+// Customer interface (/) uses Chubby Spider-Man MJ balancing items on his head (banana, toilet paper, dinner plate, cola).
+// Customer-service / merchant review interface (/review) uses Chubby Joker (肥胖版小丑客服).
+const MJ_HEAD_ITEMS = [
+  { key: "banana", src: "/static/mj-spidey-banana.png" },
+  { key: "tissue", src: "/static/mj-spidey-tissue.png" },
+  { key: "plate", src: "/static/mj-spidey-plate.png" },
+  { key: "cola", src: "/static/mj-spidey-cola.png" },
+];
+const JOKER_MASCOT_SRC = "/static/chubby-joker.png";
 let mjHeadIndex = 0;
 let lastMjOrderKey = "";
-let brandSafeMode = true;
 
 function isReviewPage() {
   return Boolean(document.body && document.body.dataset.page === "review");
 }
 
-function makeBrandSafeSvgAvatar(isSpecialist) {
-  const propIdx = mjHeadIndex % 3;
-  const wrap = el("span", `brand-safe-avatar ${isSpecialist ? "is-specialist" : `is-assistant prop-${propIdx}`}`);
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("viewBox", "0 0 24 24");
-  svg.setAttribute("aria-hidden", "true");
-  const paths = isSpecialist
-    ? ICONS.shield
-    : (propIdx === 0 ? ICONS.bowl : propIdx === 1 ? ICONS.sparkles : ICONS.heart);
-  for (const d of paths) {
-    const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    p.setAttribute("d", d);
-    svg.append(p);
-  }
-  wrap.append(svg);
-  return wrap;
+function currentMjItem() {
+  return MJ_HEAD_ITEMS[mjHeadIndex % MJ_HEAD_ITEMS.length];
 }
 
 function mascotImg(extraClass = "") {
-  const safeNode = makeBrandSafeSvgAvatar(isReviewPage());
-  if (extraClass) safeNode.classList.add(...extraClass.split(/\s+/).filter(Boolean));
-  return safeNode;
+  const img = document.createElement("img");
+  img.className = `mascot-img ${extraClass}`.trim();
+  img.alt = "";
+  img.decoding = "async";
+  if (isReviewPage()) {
+    img.src = JOKER_MASCOT_SRC;
+    img.dataset.mascot = "joker";
+  } else {
+    const item = currentMjItem();
+    img.src = item.src;
+    img.dataset.mascot = "mj";
+    img.dataset.headItem = item.key;
+  }
+  return img;
 }
 
 function updateMjMascots() {
   if (isReviewPage()) return;
-  const idx = mjHeadIndex % 3;
+  const idx = mjHeadIndex % MJ_HEAD_ITEMS.length;
+  const item = MJ_HEAD_ITEMS[idx];
+  for (const img of document.querySelectorAll('img[data-mascot="mj"]')) {
+    if (img.dataset.headItem !== item.key) {
+      img.src = item.src;
+      img.dataset.headItem = item.key;
+      img.classList.remove("mascot-pop");
+      void img.offsetWidth;
+      img.classList.add("mascot-pop");
+    }
+  }
   for (const dot of document.querySelectorAll("#mj-dots .mj-dot")) {
     dot.classList.toggle("active", Number(dot.dataset.mjIdx) === idx);
   }
-  for (const node of document.querySelectorAll(".brand-safe-avatar.is-assistant")) {
-    const fresh = makeBrandSafeSvgAvatar(false);
-    fresh.className = node.className.replace(/\bprop-\d\b/g, "").trim() + ` prop-${idx}`;
-    node.replaceWith(fresh);
-  }
+  const badge = $("brand-badge");
+  if (badge) badge.textContent = "MJ";
 }
 
 function switchMjByOrder(orderKey = "", explicitIdx = null) {
   if (isReviewPage()) return;
   if (typeof explicitIdx === "number" && explicitIdx >= 0) {
-    mjHeadIndex = explicitIdx % 3;
+    mjHeadIndex = explicitIdx % MJ_HEAD_ITEMS.length;
     updateMjMascots();
     return;
   }
@@ -100,7 +111,7 @@ function switchMjByOrder(orderKey = "", explicitIdx = null) {
     if (normalized === lastMjOrderKey) return;
     lastMjOrderKey = normalized;
   }
-  mjHeadIndex = (mjHeadIndex + 1) % 3;
+  mjHeadIndex = (mjHeadIndex + 1) % MJ_HEAD_ITEMS.length;
   updateMjMascots();
 }
 
@@ -484,11 +495,6 @@ function bootUI() {
     }
     const entryCard = $("entry-mascot-card");
     if (entryCard) entryCard.addEventListener("click", () => switchMjByOrder());
-  }
-  const safeToggle = $("brand-safe-toggle");
-  if (safeToggle) {
-    safeToggle.checked = true;
-    safeToggle.disabled = true;
   }
   let theme;
   try { theme = localStorage.getItem("delivery-care-theme"); } catch (_) {}

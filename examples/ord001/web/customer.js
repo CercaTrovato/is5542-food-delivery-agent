@@ -99,11 +99,14 @@ function bubble(role, text, tag, isNew = false) {
   if (role === "assistant" || role === "human") {
     const head = el("div", "bubble-sender-head");
     if (role === "human") {
-      const specialistIcon = icon("person", "bubble-specialist-icon");
-      head.append(specialistIcon, el("span", "bubble-tag", tag || "人工客服"));
+      const jokerAvatar = document.createElement("img");
+      jokerAvatar.className = "bubble-avatar-img";
+      jokerAvatar.src = JOKER_MASCOT_SRC;
+      jokerAvatar.alt = "人工客服小丑专员";
+      head.append(jokerAvatar, el("span", "bubble-tag", tag || "小丑专员"));
     } else {
       const avatar = mascotImg("bubble-avatar-img");
-      head.append(avatar, el("span", "bubble-tag", tag || "AI"));
+      head.append(avatar, el("span", "bubble-tag", tag || "MJ"));
     }
     row.append(head);
   } else if (tag) {
@@ -249,15 +252,22 @@ function welcome() {
   const copy = el("div", "welcome-copy");
   const badgeRow = el("div", "welcome-badge-row");
   badgeRow.append(
-    el("span", "welcome-kicker", "AI 智能客服"),
-    el("span", "welcome-kicker specialist-kicker", "值班人工专席")
+    el("span", "welcome-kicker", "在线客服 MJ"),
+    el("span", "welcome-kicker joker-kicker", "人工客服 · 小丑专员")
   );
   copy.append(
     badgeRow,
-    el("h3", "", "你好！我是 AI 订单客服，想咨询哪笔订单？"),
-    el("p", "welcome-note", "我是生成式 AI 客服（不是真人坐席）。您可以从左侧「我的订单」选择咨询，支持多单同时对比；涉及餐损异物可点下方图片按钮上传照片直连人工专席。")
+    el("h3", "", "嗨！我是 MJ，想咨询哪一笔外卖订单？"),
+    el("p", "welcome-note", "您可以从左侧「我的订单」选择咨询（切换订单时 MJ 会切换头顶道具），支持多单同时对比；复杂或争议问题可随时转小丑专员人工处理。")
   );
-  hero.append(careBuddy("buddy-welcome"), copy);
+  const mascotPair = el("div", "welcome-mascot-pair");
+  const jokerCard = el("div", "joker-side-badge");
+  const jokerImg = document.createElement("img");
+  jokerImg.src = JOKER_MASCOT_SRC;
+  jokerImg.alt = "小丑专员";
+  jokerCard.append(jokerImg, el("small", "", "小丑专员"));
+  mascotPair.append(careBuddy("buddy-welcome"), jokerCard);
+  hero.append(mascotPair, copy);
 
   const suggestions = el("div", "suggestion-row");
   suggestions.append(el("span", "suggestion-title", "常见场景一键体验"));
@@ -279,7 +289,7 @@ function typingBubble() {
   const row = el("div", "bubble-row assistant typing-row");
   const head = el("div", "bubble-sender-head");
   const avatar = mascotImg("bubble-avatar-img");
-  head.append(avatar, el("span", "bubble-tag", "AI"));
+  head.append(avatar, el("span", "bubble-tag", "MJ"));
   const bub = el("div", "bubble typing-bubble");
   bub.append(el("span", "typing-text", "正在核实订单记录"), el("span", "typing-dots", "···"));
   row.append(head, bub);
@@ -1141,10 +1151,10 @@ function renderPanel() {
   const pill = $("mj-head-pill");
   if (caption) {
     caption.textContent = handoffMode === "active"
-      ? `人工客服服务中${curTag} · 换单咨询自动生成独立处理编号`
-      : (handoffMode === "waiting" ? `人工排队中${curTag} · 换单咨询自动生成独立处理编号` : "AI 客服 · 非真人");
+      ? `小丑人工专员服务中${curTag} · 换单咨询自动生成独立处理编号`
+      : (handoffMode === "waiting" ? `小丑专员排队中${curTag} · 换单咨询自动生成独立处理编号` : "在线客服 MJ · 随时为您处理订单问题");
   }
-  if (pill) pill.textContent = handoffMode === "none" ? "AI" : "人工";
+  if (pill) pill.textContent = handoffMode === "none" ? "MJ" : "小丑";
   $("input").placeholder = handoffMode !== "none"
     ? `当前沟通${curTag || "人工专席"}；输入新订单号将自动建立独立人工处理单…`
     : "输入订单号或问题，如：ORD001 晚到了能赔吗？";
