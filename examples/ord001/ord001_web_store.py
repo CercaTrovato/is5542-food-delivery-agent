@@ -182,8 +182,13 @@ def normalize_order_id(raw: str) -> str:
     cleaned = re.sub(r"[\s\-_#:：]+", "", str(raw).strip()).upper()
     if cleaned.startswith("ORD") and len(cleaned) > 3:
         suffix = cleaned[3:].translate(ORDER_TYPO_MAP)
-        if suffix.isdigit() and len(suffix) < 3:
-            suffix = suffix.zfill(3)
+        if suffix.isdigit():
+            if len(suffix) < 3:
+                suffix = suffix.zfill(3)
+            elif len(suffix) > 3 and suffix.startswith("0"):
+                stripped = suffix.lstrip("0") or "0"
+                if len(stripped) <= 3:
+                    suffix = stripped.zfill(3)
         return "ORD" + suffix
     return cleaned
 
@@ -950,28 +955,96 @@ class TicketStore:
             row["followups"] = followups
         return row
 
-    def active_handoff(self, customer_id: str, thread_id: str) -> dict | None:
-        """Return the customer's active human consultation (waiting, or replied & not ended on this thread)."""
+    def active_handoffs(self, customer_id: str, thread_id: str | None = None) -> list[dict]:
+        """Return all active human consultations for a customer (each distinct order has its own handoff_id)."""
         with self._lock:
-            waiting = self._one(
-                "SELECT * FROM handoffs WHERE customer_id = ? AND status = 'waiting' ORDER BY handoff_id DESC LIMIT 1",
+            if thread_id:
+                rows = self._db.execute(
+                    "SELECT * FROM handoffs WHERE customer_id = ?"
+                    " AND (status = 'waiting' OR (thread_id = ? AND status = 'replied' AND ended_at IS NULL))"
+                    " ORDER BY CAST(SUBSTR(handoff_id, 2) AS INTEGER) ASC",
+                    (customer_id, thread_id),
+                ).fetchall()
+            else:
+                rows = self._db.execute(
+                    "SELECT * FROM handoffs WHERE customer_id = ?"
+                    " AND (status = 'waiting' OR (status = 'replied' AND ended_at IS NULL))"
+                    " ORDER BY CAST(SUBSTR(handoff_id, 2) AS INTEGER) ASC",
+                    (customer_id,),
+                ).fetchall()
+            return [self.handoff_with_attachments(dict(r)) for r in rows]
+
+    def active_handoff_for_order(self, customer_id: str, order_id: str, thread_id: str | None = None) -> dict | None:
+        """Find the active human consultation dedicated to a specific (customer_id, order_id)."""
+        with self._lock:
+            if thread_id:
+                row = self._one(
+                    "SELECT * FROM handoffs WHERE customer_id = ? AND order_id = ?"
+                    " AND (status = 'waiting' OR (thread_id = ? AND status = 'replied' AND ended_at IS NULL))"
+                    " ORDER BY CAST(SUBSTR(handoff_id, 2) AS INTEGER) DESC LIMIT 1",
+                    (customer_id, order_id, thread_id),
+                )
+            else:
+                row = self._one(
+                    "SELECT * FROM handoffs WHERE customer_id = ? AND order_id = ?"
+                    " AND (status = 'waiting' OR (status = 'replied' AND ended_at IS NULL))"
+                    " ORDER BY CAST(SUBSTR(handoff_id, 2) AS INTEGER) DESC LIMIT 1",
+                    (customer_id, order_id),
+                )
+            return self.handoff_with_attachments(row) if row else None
+
+    def unbound_active_handoff(self, customer_id: str, thread_id: str | None = None) -> dict | None:
+        """Find a freshly waiting unbound handoff on the same thread (never reuse an old replied unbound session)."""
+        with self._lock:
+            latest = self._one(
+                "SELECT * FROM handoffs WHERE customer_id = ? ORDER BY CAST(SUBSTR(handoff_id, 2) AS INTEGER) DESC LIMIT 1",
                 (customer_id,),
             )
-            if waiting:
-                return self.handoff_with_attachments(waiting)
-            replied = self._one(
-                "SELECT * FROM handoffs WHERE customer_id = ? AND thread_id = ? AND status = 'replied'"
-                " AND ended_at IS NULL ORDER BY handoff_id DESC LIMIT 1",
+            if (
+                latest
+                and latest.get("order_id") is None
+                and latest.get("status") == "waiting"
+                and (not thread_id or latest.get("thread_id") == thread_id)
+            ):
+                return self.handoff_with_attachments(latest)
+            return None
+
+    def active_handoff(self, customer_id: str, thread_id: str, order_id: str | None = None) -> dict | None:
+        """Return the customer's active human consultation (for order_id if given, else latest active on thread)."""
+        if order_id:
+            return self.active_handoff_for_order(customer_id, order_id, thread_id)
+        with self._lock:
+            latest = self._one(
+                "SELECT * FROM handoffs WHERE customer_id = ?"
+                " AND (status = 'waiting' OR (thread_id = ? AND status = 'replied' AND ended_at IS NULL))"
+                " ORDER BY CAST(SUBSTR(handoff_id, 2) AS INTEGER) DESC LIMIT 1",
                 (customer_id, thread_id),
             )
-            return self.handoff_with_attachments(replied) if replied else None
+            return self.handoff_with_attachments(latest) if latest else None
 
     def create_handoff(self, *, customer_id: str, thread_id: str, order_id: str | None, after_index: int,
                        request_text: str | None, excerpt: list, files: list[dict], limit: int,
                        tenant_id: str = "M_67REST", initial_appeal: str | None = None) -> tuple[dict | None, bool]:
-        """Open one waiting handoff per customer. Counts ONLY active waiting handoffs against limit (prevents DoS)."""
+        """One-Order-One-Handoff ('一单一编号'): each distinct order_id gets its own independent handoff_id."""
         with self._lock, self._db:
-            waiting = self._one("SELECT * FROM handoffs WHERE customer_id = ? AND status = 'waiting'", (customer_id,))
+            if order_id:
+                waiting = self._one(
+                    "SELECT * FROM handoffs WHERE customer_id = ? AND order_id = ? AND status = 'waiting'"
+                    " ORDER BY CAST(SUBSTR(handoff_id, 2) AS INTEGER) DESC LIMIT 1",
+                    (customer_id, order_id),
+                )
+                if waiting is None:
+                    waiting = self._one(
+                        "SELECT * FROM handoffs WHERE customer_id = ? AND thread_id = ? AND order_id IS NULL AND status = 'waiting'"
+                        " ORDER BY CAST(SUBSTR(handoff_id, 2) AS INTEGER) DESC LIMIT 1",
+                        (customer_id, thread_id),
+                    )
+            else:
+                waiting = self._one(
+                    "SELECT * FROM handoffs WHERE customer_id = ? AND status = 'waiting'"
+                    " ORDER BY CAST(SUBSTR(handoff_id, 2) AS INTEGER) DESC LIMIT 1",
+                    (customer_id,),
+                )
             if waiting:
                 if order_id and not waiting.get("order_id"):
                     self._db.execute("UPDATE handoffs SET order_id = ?, tenant_id = ? WHERE handoff_id = ?",

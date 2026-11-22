@@ -186,6 +186,58 @@ def run_all(base_url: str | None = None) -> dict:
             "coupon_issued_yuan": app2["ticket"]["coupon_issued_yuan"],
             "timeline_actions": [e["action"] for e in logs2],
         }
+
+        # --- Path 3: Multi-order 1-order-1-handoff ("一单一编号") exact 6-step bug reproduction ---
+        # Step 1 & 2: Order A (ORD001) refund/compensation + transfer to human -> generates H_A
+        turn_a = post(c, "/api/customer/messages", {"text": "我的外卖 ORD001 迟到了，可以申请补偿吗？"})
+        assert turn_a["confirmation"]["order_id"] == "ORD001"
+        t_a = post(c, "/api/customer/confirm", {"answer": "confirm"})["ticket"]
+        h_a = post(c, "/api/customer/handoff", {"order_id": "ORD001", "text": "申请订单 ORD001 人工处理"})["handoff"]
+        hid_a = h_a["handoff_id"]
+        assert h_a["order_id"] == "ORD001" and h_a["status"] == "waiting"
+
+        # Step 3: While H_A is STILL waiting, customer initiates Order B (ORD002 via chat) & Order C (ord0004 with leading-zero typo!)
+        turn_b = post(c, "/api/customer/messages", {"text": "我的外卖 ORD002 迟到了，可以申请补偿吗？"})
+        assert turn_b["outcome"] == "handoff_requested", turn_b
+        hid_b = turn_b["handoff"]["handoff_id"]
+        assert hid_b != hid_a and turn_b["handoff"]["order_id"] == "ORD002"
+
+        # Repeated click on same Order B reuses hid_b without creating duplicate handoff
+        turn_b_dup = post(c, "/api/customer/messages", {"text": "我的外卖 ORD002 迟到了，可以申请补偿吗？"})
+        assert turn_b_dup["handoff"]["handoff_id"] == hid_b
+
+        turn_c = post(c, "/api/customer/messages", {"text": ">????现在要处理ord0004"})
+        assert turn_c["outcome"] == "handoff_requested", turn_c
+        hid_c = turn_c["handoff"]["handoff_id"]
+        assert len({hid_a, hid_b, hid_c}) == 3 and turn_c["handoff"]["order_id"] == "ORD004"
+
+        # Step 4 & 5: Specialist checks waiting queue -> sees 3 independent processing IDs (H_A, H_B, H_C)
+        q_before = get(r1, "/api/review/handoffs")["waiting"]
+        waiting_map = {item["order_id"]: item["handoff_id"] for item in q_before}
+        assert waiting_map == {"ORD001": hid_a, "ORD002": hid_b, "ORD004": hid_c}, waiting_map
+
+        # Step 6: Specialist completes Order A (ORD001) -> Order B & Order C remain independent & individually actionable!
+        done_a = post(r1, f"/api/review/handoffs/{hid_a}/action", {"action": "approve", "amount_yuan": 10})
+        assert done_a["ticket"]["ticket_id"] == t_a["ticket_id"] and done_a["ticket"]["status"] == "approved"
+
+        q_after_a = get(r1, "/api/review/handoffs")["waiting"]
+        assert {item["handoff_id"] for item in q_after_a} == {hid_b, hid_c}
+
+        # Direct 1-click approve on Order B (auto-creates ticket for ORD002!) & 1-click reject on Order C (ORD004)
+        done_b = post(r1, f"/api/review/handoffs/{hid_b}/action", {"action": "approve_compensation", "amount_yuan": 10})
+        assert done_b["ticket"]["order_id"] == "ORD002" and done_b["ticket"]["status"] == "approved"
+        assert done_b["ticket"]["coupon_issued_yuan"] == 10
+
+        done_c = post(r1, f"/api/review/handoffs/{hid_c}/action", {"action": "reject", "note": "ORD004 晚到未满30分钟"})
+        assert done_c["ticket"]["order_id"] == "ORD004" and done_c["ticket"]["status"] == "rejected"
+
+        c_final = get(c, "/api/customer/state")
+        assert len(c_final["active_handoffs"]) == 3
+        results["path3_multi_order_one_to_one"] = {
+            "order_a": {"order_id": "ORD001", "handoff_id": hid_a, "ticket_id": done_a["ticket"]["ticket_id"], "status": "approved"},
+            "order_b": {"order_id": "ORD002", "handoff_id": hid_b, "ticket_id": done_b["ticket"]["ticket_id"], "status": "approved"},
+            "order_c": {"order_id": "ORD004", "handoff_id": hid_c, "ticket_id": done_c["ticket"]["ticket_id"], "status": "rejected"},
+        }
     return results
 
 

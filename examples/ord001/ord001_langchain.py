@@ -55,8 +55,13 @@ def build_agent(model):
 def _normalize_id(raw_match: str) -> str:
     raw_id = re.sub(r"[\s\-_]+", "", raw_match.upper())
     suffix = raw_id[3:].translate(str.maketrans({"O": "0", "I": "1", "L": "1"}))
-    if suffix.isdigit() and len(suffix) < 3:
-        suffix = suffix.zfill(3)
+    if suffix.isdigit():
+        if len(suffix) < 3:
+            suffix = suffix.zfill(3)
+        elif len(suffix) > 3 and suffix.startswith("0"):
+            stripped = suffix.lstrip("0") or "0"
+            if len(stripped) <= 3:
+                suffix = stripped.zfill(3)
     return "ORD" + suffix
 
 

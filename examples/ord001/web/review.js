@@ -251,10 +251,10 @@ function handoffActionZone(item) {
   zone.setAttribute("aria-label", "处理动作区");
 
   const header = el("div", "action-zone-head");
-  const stLabel = rt ? (TICKET_STATE_LABELS[rt.status] || rt.status) : "暂无关联申请单";
+  const stLabel = rt ? (TICKET_STATE_LABELS[rt.status] || rt.status) : "独立处理单待办";
   header.append(
-    el("strong", "", "处理动作区"),
-    el("span", `badge badge-${rt ? rt.status : "waiting"}`, rt ? `${rt.ticket_id} · ${stLabel}` : "订单维度处理")
+    el("strong", "", `处理动作区（人工处理单 ${hid}${item.order_id ? ` · ${item.order_id}` : ""}）`),
+    el("span", `badge badge-${rt ? rt.status : "waiting"}`, rt ? `${rt.ticket_id} · ${stLabel}` : `${hid} · 一单一编号`)
   );
   zone.append(header);
 
@@ -441,6 +441,36 @@ function handoffActionZone(item) {
     }
     tGroup.append(tBtns);
     zone.append(tGroup);
+  } else if (item.order_id) {
+    const tGroup = el("div", "action-group");
+    tGroup.append(el("span", "action-group-label", `本单补偿/退款独立处理（订单 ${item.order_id} · 处理单 ${hid}）`));
+    const tBtns = el("div", "actions action-btn-row");
+    const directApprove = button(`同意补偿（默认¥${defaultAmt}）`, "primary small", () => {
+      const amt = readAmount();
+      openActionConfirm({
+        handoffId: hid,
+        title: "确认同意本单补偿？",
+        desc: "将自动为该订单生成独立售后申请单并立即发放补偿券，不影响该顾客其他订单的处理单。",
+        rows: [["人工处理单 / 订单", `${hid} · ${item.order_id}`], ["状态变更", "待处理 → 已通过"], ["发放金额", `¥${amt}`], ["说明", readNote() || `人工客服核实通过，发放 ¥${amt} 无门槛补偿券。`]],
+        payload: { action: "approve_compensation", amount_yuan: amt, note: readNote() },
+      });
+    });
+    directApprove.dataset.handoffAction = "approve_compensation";
+    const directReject = button("驳回本单", "danger small", () => {
+      const reason = requireNote("驳回必须填写具体理由（顾客可见）。");
+      if (!reason) return;
+      openActionConfirm({
+        handoffId: hid, danger: true,
+        title: "确认驳回本单申请？",
+        desc: "将为该订单登记驳回结果并向顾客同步理由，不影响该顾客其他订单的处理单。",
+        rows: [["人工处理单 / 订单", `${hid} · ${item.order_id}`], ["状态变更", "待处理 → 已驳回"], ["驳回理由（顾客可见）", reason]],
+        payload: { action: "reject", note: reason },
+      });
+    });
+    directReject.dataset.handoffAction = "reject";
+    tBtns.append(directApprove, directReject);
+    tGroup.append(tBtns);
+    zone.append(tGroup);
   }
 
   const oGroup = el("div", "action-group");
@@ -502,7 +532,7 @@ function handoffCard(item) {
   card.dataset.handoffId = item.handoff_id;
   const head = el("div", "ticket-head");
   const heading = el("strong", "", item.order_id || "未指明订单");
-  heading.append(el("small", "", item.handoff_id));
+  heading.append(el("small", "", `人工处理单 ${item.handoff_id}`));
   const badgeWrap = el("div", "handoff-badges");
   if (isP0) badgeWrap.append(el("span", "p0-badge", "P0 食安紧急专案"));
   if (item.is_expedited) badgeWrap.append(el("span", "badge badge-expedited", "加急"));

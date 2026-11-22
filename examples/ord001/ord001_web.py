@@ -279,17 +279,21 @@ def create_app(service: DemoService | None = None, allowed_hosts=LOCAL_HOSTS) ->
 
     async def customer_message(request: Request) -> JSONResponse:
         ident = identity(request, "customer")
-        text = text_field(await read_json(request), "text", MAX_TEXT)
-        return JSONResponse(await run_in_threadpool(service.send_message, ident["thread_id"], ident["customer_id"], text))
+        body = await read_json(request)
+        text = text_field(body, "text", MAX_TEXT)
+        focus_oid = text_field(body, "order_id", MAX_ID, required=False)
+        return JSONResponse(await run_in_threadpool(service.send_message, ident["thread_id"], ident["customer_id"], text, focus_oid))
 
     async def customer_message_stream(request: Request) -> StreamingResponse:
         """True async LangGraph SSE streaming endpoint with real-time token-level clause buffering & reply_risk guard."""
         ident = identity(request, "customer")
-        text = text_field(await read_json(request), "text", MAX_TEXT)
+        body = await read_json(request)
+        text = text_field(body, "text", MAX_TEXT)
+        focus_oid = text_field(body, "order_id", MAX_ID, required=False)
 
         async def event_gen():
             try:
-                async for evt in service.stream_message(ident["thread_id"], ident["customer_id"], text):
+                async for evt in service.stream_message(ident["thread_id"], ident["customer_id"], text, focus_oid):
                     yield f"data: {json.dumps(evt, ensure_ascii=False)}\n\n"
             except ServiceError as exc:
                 yield f"data: {json.dumps({'type': 'error', 'error': exc.code, 'message': exc.message}, ensure_ascii=False)}\n\n"

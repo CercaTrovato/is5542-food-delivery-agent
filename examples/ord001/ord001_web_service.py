@@ -39,7 +39,7 @@ LOCAL_NEGATION_RE = re.compile(
     r"(?:不是要|并非|不是|不要|不用|无需|不必|先不|不找|不转|不需要|别(?!废话|啰嗦|磨叽|扯))[^，。！？；,.!?;\n]{0,4}$"
 )
 QUESTION_FORMS = ("能不能", "可不可以", "可以不可以", "是不是", "要不要")
-HANDOFF_LIMIT, HANDOFF_SHOWN = 500, 5
+HANDOFF_LIMIT, HANDOFF_SHOWN = 500, 20
 EXCERPT_LINES, EXCERPT_CHARS = 6, 160
 REPLY_LIMIT = 500
 MAX_LOCK_ENTRIES = 512
@@ -505,6 +505,7 @@ class DemoService:
         visible = visible_messages(messages)
         confirmation = first_request(snapshot.interrupts, "confirm_submission")
         handoffs = self.store.handoffs(customer_id=customer_id)
+        active_list = self.store.active_handoffs(customer_id, thread_id)
         active = self.store.active_handoff(customer_id, thread_id)
         own = [item for item in handoffs if item["thread_id"] == thread_id]
         handoff_order = (
@@ -520,6 +521,10 @@ class DemoService:
             "goodwill_grants": self.store.goodwill_grants(customer_id=customer_id),
             "focus": self._focus(customer_id, order_id),
             "active_handoff_id": active["handoff_id"] if active else None,
+            "active_handoffs": [
+                {"handoff_id": h["handoff_id"], "order_id": h.get("order_id"), "status": h["status"]}
+                for h in active_list
+            ],
             "handoff_mode": ("waiting" if active["status"] == "waiting" else "active") if active else "none",
             "handoffs": [handoff_copy(item, thread_id) for item in handoffs[-HANDOFF_SHOWN:]
                          if item["thread_id"] == thread_id or item["status"] != "cancelled"],
@@ -562,20 +567,36 @@ class DemoService:
         )
         return {"grant": grant, "created": created}
 
-    def _route_to_active_handoff(self, active: dict, thread_id: str, customer_id: str, text: str, snapshot) -> dict:
+    def _extract_verified_orders(self, customer_id: str, text: str | None) -> list[str]:
+        out: list[str] = []
+        for raw in ORDER_ID.findall(text or ""):
+            norm = normalize_order_id(raw)
+            if norm and norm not in out and self.data.lookup_for_customer(norm, customer_id)[1] is not None:
+                out.append(norm)
+        return out
+
+    def _route_to_active_handoff(self, active: dict, thread_id: str, customer_id: str, text: str, snapshot,
+                                 *, bind_order_id: str | None = None) -> dict:
         messages = (snapshot.values or {}).get("messages", [])
         visible = visible_messages(messages)
-        named = ORDER_ID.findall(text or "")
-        verified_oid = None
-        if named:
-            cand = normalize_order_id(named[-1])
-            if self.data.lookup_for_customer(cand, customer_id)[1] is not None:
-                verified_oid = cand
-        updated = self.store.append_handoff_followup(
-            active["handoff_id"], sender_role="customer", sender_id=customer_id,
-            text=text.strip(), customer_id=customer_id, after_index=len(visible),
-            order_id=verified_oid if not active.get("order_id") else None,
+        clean_text = text.strip()
+        followups = active.get("followups") or []
+        is_dup_waiting = (
+            active.get("status") == "waiting"
+            and not bind_order_id
+            and (
+                (not followups and active.get("request_text") == clean_text)
+                or (followups and followups[-1].get("sender_role") == "customer" and followups[-1].get("text") == clean_text)
+            )
         )
+        if is_dup_waiting:
+            updated = active
+        else:
+            updated = self.store.append_handoff_followup(
+                active["handoff_id"], sender_role="customer", sender_id=customer_id,
+                text=clean_text, customer_id=customer_id, after_index=len(visible),
+                order_id=bind_order_id if not active.get("order_id") else None,
+            )
         self._record(
             event="customer_handoff_message", customer_id=customer_id, thread_id=thread_id,
             outcome="handoff_message_sent", order_id=updated["order_id"], handoff_id=active["handoff_id"],
@@ -585,40 +606,86 @@ class DemoService:
             "confirmation": None, "ticket": None, "handoff": handoff_copy(updated, thread_id), "created": False,
         }
 
+    def _handle_active_handoff_turn(self, active: dict, thread_id: str, customer_id: str, text: str, snapshot,
+                                    focus_order_id: str | None = None) -> dict:
+        """Route within the same order's handoff, or automatically split a new order into its own independent Hxxxx ID."""
+        explicit_orders = self._extract_verified_orders(customer_id, text)
+        explicit_focus = normalize_order_id(focus_order_id) if focus_order_id else None
+        if explicit_focus and self.data.lookup_for_customer(explicit_focus, customer_id)[1] is None:
+            explicit_focus = None
+        target_orders = explicit_orders if explicit_orders else ([explicit_focus] if explicit_focus else [])
+        wants_h = self._wants_human_or_second_appeal(text)
+
+        if not target_orders:
+            if active["status"] == "waiting" and wants_h:
+                res = self._open_handoff(thread_id, customer_id, text, snapshot)
+                return {"outcome": "handoff_requested" if res["created"] else "handoff_waiting",
+                        "reason_code": None, "messages": [], "confirmation": None, "ticket": None, **res}
+            return self._route_to_active_handoff(active, thread_id, customer_id, text, snapshot)
+
+        if len(target_orders) == 1 and active.get("order_id") is None:
+            oid = target_orders[0]
+            if active["status"] == "waiting" and wants_h:
+                res = self._open_handoff(thread_id, customer_id, text, snapshot, focus_order_id=oid, single_order=True)
+                return {"outcome": "handoff_requested" if res["created"] else "handoff_waiting",
+                        "reason_code": None, "messages": [], "confirmation": None, "ticket": None, **res}
+            return self._route_to_active_handoff(active, thread_id, customer_id, text, snapshot, bind_order_id=oid)
+
+        if target_orders == [active.get("order_id")]:
+            if active["status"] == "waiting" and wants_h:
+                res = self._open_handoff(thread_id, customer_id, text, snapshot, focus_order_id=target_orders[0], single_order=True)
+                return {"outcome": "handoff_requested" if res["created"] else "handoff_waiting",
+                        "reason_code": None, "messages": [], "confirmation": None, "ticket": None, **res}
+            return self._route_to_active_handoff(active, thread_id, customer_id, text, snapshot)
+
+        last_out: dict | None = None
+        for oid in target_orders:
+            existing_h = self.store.active_handoff_for_order(customer_id, oid, thread_id)
+            if existing_h is None:
+                unbound_h = self.store.unbound_active_handoff(customer_id, thread_id)
+                if unbound_h is not None:
+                    existing_h = unbound_h
+            if existing_h is not None:
+                if existing_h["status"] == "waiting" and wants_h:
+                    res = self._open_handoff(thread_id, customer_id, text, snapshot, focus_order_id=oid, single_order=True)
+                    last_out = {"outcome": "handoff_requested" if res["created"] else "handoff_waiting",
+                                "reason_code": None, "messages": [], "confirmation": None, "ticket": None, **res}
+                else:
+                    bind_oid = oid if not existing_h.get("order_id") else None
+                    last_out = self._route_to_active_handoff(existing_h, thread_id, customer_id, text, snapshot, bind_order_id=bind_oid)
+            else:
+                res = self._open_handoff(thread_id, customer_id, text, snapshot, focus_order_id=oid, single_order=True)
+                last_out = {"outcome": "handoff_requested" if res["created"] else "handoff_waiting",
+                            "reason_code": None, "messages": [], "confirmation": None, "ticket": None, **res}
+        return last_out
+
     @staticmethod
     def _wants_human_or_second_appeal(text: str) -> bool:
         if wants_person(text):
             return True
         return bool(SECOND_APPEAL_RE.search(text) and not EXPLICIT_NO_HANDOFF_RE.search(text))
 
-    async def stream_message(self, thread_id: str, customer_id: str, text: str):
+    async def stream_message(self, thread_id: str, customer_id: str, text: str, focus_order_id: str | None = None):
         """True async LangGraph astream with per-thread async lock, punctuation clause buffering & reply_risk guard."""
         async with self._async_lock(thread_id):
             snapshot = self.customer_graph.get_state(self._thread(thread_id))
             pending_confirm = first_request(snapshot.interrupts, "confirm_submission")
             active = self.store.active_handoff(customer_id, thread_id)
             if active and EXPLICIT_NO_HANDOFF_RE.search(text):
-                self.store.end_handoff(active["handoff_id"], customer_id=customer_id)
+                for h in self.store.active_handoffs(customer_id, thread_id):
+                    self.store.end_handoff(h["handoff_id"], customer_id=customer_id)
                 active = None
             if active:
-                if active["status"] == "waiting" and self._wants_human_or_second_appeal(text):
-                    if pending_confirm:
-                        await self.customer_graph.ainvoke(Command(resume="cancel"), self._thread(thread_id), context=CustomerContext(customer_id))
-                        snapshot = self.customer_graph.get_state(self._thread(thread_id))
-                    res = self._open_handoff(thread_id, customer_id, text, snapshot)
-                    yield {"type": "done", "result": {"outcome": "handoff_requested" if res["created"] else "handoff_waiting",
-                                                     "reason_code": None, "messages": [], "confirmation": None, "ticket": None, **res}}
-                    return
                 if pending_confirm:
                     await self.customer_graph.ainvoke(Command(resume="cancel"), self._thread(thread_id), context=CustomerContext(customer_id))
                     snapshot = self.customer_graph.get_state(self._thread(thread_id))
-                yield {"type": "done", "result": self._route_to_active_handoff(active, thread_id, customer_id, text, snapshot)}
+                yield {"type": "done", "result": self._handle_active_handoff_turn(active, thread_id, customer_id, text, snapshot, focus_order_id=focus_order_id)}
                 return
             if self._wants_human_or_second_appeal(text):
                 if pending_confirm:
                     await self.customer_graph.ainvoke(Command(resume="cancel"), self._thread(thread_id), context=CustomerContext(customer_id))
                     snapshot = self.customer_graph.get_state(self._thread(thread_id))
-                res = self._open_handoff(thread_id, customer_id, text, snapshot)
+                res = self._open_handoff(thread_id, customer_id, text, snapshot, focus_order_id=focus_order_id)
                 yield {"type": "done", "result": {"outcome": "handoff_requested" if res["created"] else "handoff_waiting",
                                                  "reason_code": None, "messages": [], "confirmation": None, "ticket": None, **res}}
                 return
@@ -706,32 +773,28 @@ class DemoService:
                 },
             }
 
-    def send_message(self, thread_id: str, customer_id: str, text: str) -> dict:
+    def send_message(self, thread_id: str, customer_id: str, text: str, focus_order_id: str | None = None) -> dict:
         with self._lock(thread_id):
             snapshot = self.customer_graph.get_state(self._thread(thread_id))
             pending_confirm = first_request(snapshot.interrupts, "confirm_submission")
             active = self.store.active_handoff(customer_id, thread_id)
             if active and EXPLICIT_NO_HANDOFF_RE.search(text):
-                self.store.end_handoff(active["handoff_id"], customer_id=customer_id)
+                for h in self.store.active_handoffs(customer_id, thread_id):
+                    self.store.end_handoff(h["handoff_id"], customer_id=customer_id)
                 active = None
             if active:
-                if active["status"] == "waiting" and self._wants_human_or_second_appeal(text):
-                    if pending_confirm:
-                        self._run(thread_id, customer_id, Command(resume="cancel"), "customer_cancel", snapshot)
-                        snapshot = self.customer_graph.get_state(self._thread(thread_id))
-                    result = self._open_handoff(thread_id, customer_id, text, snapshot)
-                    return {"outcome": "handoff_requested" if result["created"] else "handoff_waiting",
-                            "reason_code": None, "messages": [], "confirmation": None, "ticket": None, **result}
                 if pending_confirm:
                     self._run(thread_id, customer_id, Command(resume="cancel"), "customer_cancel", snapshot)
                     snapshot = self.customer_graph.get_state(self._thread(thread_id))
-                return self._route_to_active_handoff(active, thread_id, customer_id, text, snapshot)
+                return self._handle_active_handoff_turn(
+                    active, thread_id, customer_id, text, snapshot, focus_order_id=focus_order_id
+                )
             # Emergency human-handoff, second-appeal & P0 food-safety escape hatches ALWAYS work, even if a confirmation card was open!
             if self._wants_human_or_second_appeal(text):
                 if pending_confirm:
                     self._run(thread_id, customer_id, Command(resume="cancel"), "customer_cancel", snapshot)
                     snapshot = self.customer_graph.get_state(self._thread(thread_id))
-                result = self._open_handoff(thread_id, customer_id, text, snapshot)
+                result = self._open_handoff(thread_id, customer_id, text, snapshot, focus_order_id=focus_order_id)
                 return {"outcome": "handoff_requested" if result["created"] else "handoff_waiting",
                         "reason_code": None, "messages": [], "confirmation": None, "ticket": None, **result}
             if pending_confirm and SPECIAL_ISSUE_RE.search(text):
@@ -849,13 +912,20 @@ class DemoService:
         return self._open_handoff(thread_id, customer_id, text, snapshot, files or [], focus_order_id=focus_order_id)
 
     def _resolve_handoff_order(self, customer_id: str, text: str | None, confirmation: dict | None,
-                               messages, focus_order_id: str | None = None) -> str | None:
-        named = ORDER_ID.findall(text or "")
+                               messages, focus_order_id: str | None = None,
+                               thread_id: str | None = None) -> str | None:
+        explicit = self._extract_verified_orders(customer_id, text)
+        if explicit:
+            return explicit[-1]
+        if focus_order_id:
+            norm_focus = normalize_order_id(focus_order_id)
+            if norm_focus and self.data.lookup_for_customer(norm_focus, customer_id)[1] is not None:
+                return norm_focus
+        cur_active = self.store.active_handoff(customer_id, thread_id) if thread_id else None
         candidates = [
-            normalize_order_id(named[-1]) if named else None,
             (confirmation or {}).get("order_id"),
+            cur_active.get("order_id") if cur_active else None,
             last_verified_order(messages, customer_id, self.data),
-            normalize_order_id(focus_order_id) if focus_order_id else None,
         ]
         for cand in candidates:
             if cand and self.data.lookup_for_customer(cand, customer_id)[1] is not None:
@@ -865,18 +935,40 @@ class DemoService:
         return cust_tickets[-1]["order_id"] if cust_tickets else None
 
     def _open_handoff(self, thread_id: str, customer_id: str, text: str | None, snapshot,
-                      files: list[dict] | None = None, focus_order_id: str | None = None) -> dict:
+                      files: list[dict] | None = None, focus_order_id: str | None = None,
+                      *, single_order: bool = False) -> dict:
+        if not single_order:
+            explicit_orders = self._extract_verified_orders(customer_id, text)
+            if len(explicit_orders) > 1:
+                last_res: dict | None = None
+                for idx, oid in enumerate(explicit_orders):
+                    batch_files = (files or []) if idx == len(explicit_orders) - 1 else []
+                    last_res = self._open_handoff(
+                        thread_id, customer_id, text, snapshot, batch_files,
+                        focus_order_id=oid, single_order=True,
+                    )
+                return last_res
+
         messages = (snapshot.values or {}).get("messages", [])
         visible = visible_messages(messages)
         confirmation = first_request(snapshot.interrupts, "confirm_submission")
-        order_id = self._resolve_handoff_order(customer_id, text, confirmation, messages, focus_order_id)
+        if single_order and focus_order_id:
+            order_id = normalize_order_id(focus_order_id)
+        else:
+            order_id = self._resolve_handoff_order(customer_id, text, confirmation, messages, focus_order_id, thread_id=thread_id)
         initial_appeal = extract_initial_appeal(visible, order_id, text)
         excerpt = build_handoff_excerpt(visible, order_id)
         order_obj = self.data.orders.get(order_id or "") or {}
         tenant_id = str(order_obj.get("tenant_id") or "M_67REST")
 
-        # If an active replied human session already exists on this thread, continue seamlessly inside it!
-        active = self.store.active_handoff(customer_id, thread_id)
+        # One-Order-One-Handoff ("一单一编号"): only continue a replied session if it belongs to THIS SAME order!
+        if order_id:
+            active = self.store.active_handoff_for_order(customer_id, order_id, thread_id)
+            if active is None:
+                active = self.store.unbound_active_handoff(customer_id, thread_id)
+        else:
+            active = self.store.active_handoff(customer_id, thread_id)
+
         if active and active["status"] == "replied":
             clean_text = text.strip() if text and text.strip() else None
             if not clean_text and files:
@@ -886,7 +978,7 @@ class DemoService:
                     active["handoff_id"], sender_role="customer", sender_id=customer_id,
                     text=clean_text,
                     customer_id=customer_id, after_index=len(visible),
-                    order_id=order_id, files=files or [],
+                    order_id=order_id if not active.get("order_id") else None, files=files or [],
                 )
             except ValueError as exc:
                 if "attachment_quota_exceeded" in str(exc):
@@ -915,10 +1007,17 @@ class DemoService:
         if not wait_followup and not created and files:
             wait_followup = "🎤 已发送语音留言" if any(f.get("kind") == "audio" for f in files) else "📷 已上传补充凭证"
         if not created and wait_followup:
-            handoff = self.store.append_handoff_followup(
-                handoff["handoff_id"], sender_role="customer", sender_id=customer_id,
-                text=wait_followup, customer_id=customer_id, after_index=len(visible), order_id=order_id,
-            ) or handoff
+            prior_f = handoff.get("followups") or []
+            is_dup = (
+                (not prior_f and handoff.get("request_text") == wait_followup)
+                or (prior_f and prior_f[-1].get("sender_role") == "customer" and prior_f[-1].get("text") == wait_followup)
+            )
+            if not is_dup or files:
+                handoff = self.store.append_handoff_followup(
+                    handoff["handoff_id"], sender_role="customer", sender_id=customer_id,
+                    text=wait_followup, customer_id=customer_id, after_index=len(visible),
+                    order_id=order_id if not handoff.get("order_id") else None,
+                ) or handoff
         self._record(event="handoff_request", customer_id=customer_id, thread_id=thread_id,
                      outcome="waiting" if created else "already_waiting", order_id=handoff["order_id"],
                      handoff_id=handoff["handoff_id"], via="keyword" if text else "button")
@@ -1249,7 +1348,18 @@ class DemoService:
 
             if action in ("approve_compensation", "approve"):
                 if ticket is None:
-                    raise ServiceError(409, "ticket_required", "当前订单尚未创建申请单，请先点击「创建工单」。")
+                    if not order:
+                        raise ServiceError(409, "ticket_required", "当前会话未关联具体订单，无法执行补偿审批。")
+                    decision = evaluate_order(order_facts(order), self.policy)
+                    sub_init = compute_actuarial_subrogation(order, self.policy)
+                    init_amt = self._parse_amount(payload.get("amount_yuan"), decision.get("proposed_coupon_yuan") or self.policy.coupon_yuan)
+                    ticket, _ = self.store.create_manual_ticket(
+                        customer_id=handoff["customer_id"], order=order, policy_version=self.policy.version,
+                        late_seconds=int(decision.get("late_seconds") or 0),
+                        proposed_coupon_yuan=init_amt, reviewer_id=reviewer_id,
+                        subrogation=sub_init, note="人工客服审批补偿时自动补建订单申请单",
+                    )
+                    tid = ticket["ticket_id"]
                 if ticket["status"] == "approved":
                     raise ServiceError(409, "ticket_already_approved", "该申请单已通过补偿，请勿重复发放。")
                 amt_val = self._parse_amount(payload.get("amount_yuan"), ticket.get("proposed_coupon_yuan") or 10)
@@ -1268,17 +1378,28 @@ class DemoService:
                 )
                 ticket = updated
                 after_st = "approved"
-                sys_msg = f"系统通知：客服已通过补偿申请（{tid}），¥{amt_val} 无门槛补偿券已发放至您的账户（即时到账）。说明：{log_note}"
+                sys_msg = f"系统通知：客服已通过补偿申请（订单 {oid} · 申请单 {tid} · 人工处理单 {handoff_id}），¥{amt_val} 无门槛补偿券已发放至您的账户（即时到账）。说明：{log_note}"
                 transition_replied = True
 
             elif action in ("uphold_reject", "reject"):
+                log_note = self._require_note(payload.get("note"), "驳回或维持驳回必须填写具体理由（顾客可见）。")
                 if ticket is None:
-                    raise ServiceError(409, "ticket_required", "当前订单尚无关联申请单。")
+                    if action == "reject" and order:
+                        decision = evaluate_order(order_facts(order), self.policy)
+                        sub_init = compute_actuarial_subrogation(order, self.policy)
+                        ticket, _ = self.store.create_manual_ticket(
+                            customer_id=handoff["customer_id"], order=order, policy_version=self.policy.version,
+                            late_seconds=int(decision.get("late_seconds") or 0),
+                            proposed_coupon_yuan=int(decision.get("proposed_coupon_yuan") or self.policy.coupon_yuan),
+                            reviewer_id=reviewer_id, subrogation=sub_init, note="人工客服驳回时自动补建订单申请单",
+                        )
+                        tid = ticket["ticket_id"]
+                    else:
+                        raise ServiceError(409, "ticket_required", "当前订单尚无关联申请单。")
                 if action == "reject" and ticket["status"] not in ("pending", "needs_info"):
                     raise ServiceError(409, "invalid_ticket_state", "当前申请单状态不支持直接驳回。")
                 if action == "uphold_reject" and ticket["status"] != "rejected":
                     raise ServiceError(409, "invalid_ticket_state", "仅「已驳回」状态的申请单可执行维持驳回。")
-                log_note = self._require_note(payload.get("note"), "驳回或维持驳回必须填写具体理由（顾客可见）。")
                 updated, before_st = self.store.decide_or_override_ticket(
                     tid, target_status="rejected", reviewer_id=reviewer_id, note=log_note,
                     action_name="uphold_rejected" if action == "uphold_reject" else "rejected",
@@ -1286,7 +1407,7 @@ class DemoService:
                 ticket = updated
                 after_st = "rejected"
                 verb = "维持驳回" if action == "uphold_reject" else "驳回"
-                sys_msg = f"系统通知：客服已{verb}申请（{tid}），理由：{log_note}"
+                sys_msg = f"系统通知：客服已{verb}申请（订单 {oid} · 申请单 {tid} · 人工处理单 {handoff_id}），理由：{log_note}"
                 transition_replied = True
 
             elif action == "request_info":

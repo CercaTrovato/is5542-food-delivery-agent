@@ -34,6 +34,8 @@ let othersOpen = null;
 let handoffWaiting = false;
 let handoffMode = "none";
 let activeHandoffId = null;
+let selectedHandoffId = null;
+let selectedHandoffOrder = null;
 let seen = null;
 let toastTimer = 0;
 let urgeCooldownUntil = 0;
@@ -189,10 +191,11 @@ function handoffOpenNodes(item) {
   if (openAtts && openAtts.length) nodes.push(attachmentBubble({ attachments: openAtts }));
   const note = el("div", `handoff-note note-${item.status}`);
   note.dataset.handoffId = item.handoff_id;
-  const orderTag = item.order_id ? `（关联订单 ${item.order_id}）` : "";
+  const idPrefix = `人工处理单 ${item.handoff_id}`;
+  const orderTag = item.order_id ? ` · 关联订单 ${item.order_id}` : "";
   const noteLabel = item.status === "replied" && !item.ended_at
-    ? `人工客服正在为您服务${orderTag}，直接发消息即可继续沟通`
-    : `${HANDOFF_NOTE[item.status] || item.status}${orderTag}`;
+    ? `${idPrefix}${orderTag} · 人工客服正在为您服务，直接发消息即可继续沟通`
+    : `${idPrefix}${orderTag} · ${HANDOFF_NOTE[item.status] || item.status}`;
   note.append(icon(item.status === "cancelled" ? "close" : "person"), el("span", "", noteLabel));
   if (item.status === "waiting") {
     note.append(button("取消", "handoff-cancel", () => act(() => api(`/api/customer/handoffs/${encodeURIComponent(item.handoff_id)}/cancel`, {}))));
@@ -477,6 +480,11 @@ function ticketCard(ticket) {
   const head = el("div", "ticket-head");
   const heading = el("strong", "", ticket.order_id);
   heading.append(el("small", "", ticket.ticket_id));
+  const linkedHandoff = ((latest && latest.handoffs) || []).slice().reverse()
+    .find((h) => h.order_id === ticket.order_id && h.status !== "cancelled");
+  if (linkedHandoff) {
+    heading.append(el("small", "handoff-id-chip", ` · 人工单 ${linkedHandoff.handoff_id}`));
+  }
   head.append(heading, badge(ticket.status));
   const highlight = el("div", "ticket-highlight");
   const text = el("div");
@@ -534,6 +542,17 @@ function ticketCard(ticket) {
     const information = el("div", "customer-information");
     information.append(el("span", "", "你的补充"), el("p", "", ticket.customer_information));
     card.append(information);
+  }
+  if (ticket.status === "pending" && !linkedHandoff) {
+    const humanBtn = button("转人工客服跟进此单（独立处理编号）", "secondary small", () => act(async () => {
+      const res = await api("/api/customer/handoff", {
+        order_id: ticket.order_id,
+        text: `跟进订单 ${ticket.order_id}（申请单 ${ticket.ticket_id}）：请人工客服协助核实处理`,
+      });
+      return `已生成独立人工处理单 ${res.handoff.handoff_id}（关联订单 ${ticket.order_id}）`;
+    }));
+    humanBtn.prepend(icon("person"));
+    card.append(humanBtn);
   }
   if (complete) card.append(ratingBlock(ticket));
   card.append(ticketHistory(ticket.ticket_id));
@@ -844,6 +863,9 @@ function setPlusTray(open) {
 }
 
 function pickOrderAction(order, intent = "default") {
+  selectedHandoffId = null;
+  selectedHandoffOrder = null;
+  shownOrder = order.order_id;
   switchMjByOrder(order.order_id);
   setPlusTray(false);
   const sheet = $("order-sheet-dialog");
@@ -994,6 +1016,37 @@ function renderTicketSheet() {
     card.append(top, meta, foot);
     list.append(card);
   }
+
+  for (const h of handoffs) {
+    const card = el("article", "sheet-order-card");
+    const top = el("div", "sheet-order-top");
+    const titleWrap = el("div", "sheet-order-shop");
+    const stText = h.ended_at ? "已结束" : (h.status === "waiting" ? "排队待接入" : "人工处理中");
+    titleWrap.append(icon("person", "sheet-shop-icon"), el("strong", "", `人工处理单 ${h.handoff_id} · ${h.order_id || "未绑定订单"}`));
+    top.append(titleWrap, el("span", "order-case-pill", stText));
+    const meta = el("dl", "waimai-meta-grid");
+    const rows = [
+      ["处理编号：", `${h.handoff_id}（一单一编号独立处理）`],
+      ["关联订单：", h.order_id || "待指明订单"],
+      ["当前状态：", stText],
+    ];
+    for (const [k, v] of rows) meta.append(el("dt", "", k), el("dd", "", v));
+    const foot = el("div", "sheet-order-foot");
+    const actBtns = el("div", "sheet-order-actions");
+    if (!h.ended_at && h.order_id) {
+      actBtns.append(button("切换至此人工单沟通", "small primary", () => {
+        selectedHandoffId = h.handoff_id;
+        selectedHandoffOrder = h.order_id;
+        shownOrder = h.order_id;
+        $("ticket-sheet-dialog").close();
+        renderPanel();
+        $("input").focus();
+      }));
+    }
+    foot.append(el("span", "sheet-order-time", `创建于 ${clock(h.created_at)}`), actBtns);
+    card.append(top, meta, foot);
+    list.append(card);
+  }
 }
 
 function openTicketSheet() {
@@ -1003,9 +1056,33 @@ function openTicketSheet() {
   if (dialog && !dialog.open) dialog.showModal();
 }
 
-// Contextual order-picker bar: appears ONLY when the customer asked a question without a verified order (zero permanent clutter!).
+// Contextual order-picker OR multi-order active human handoff switcher bar:
 function renderPicks(state) {
   const box = $("order-picks");
+  const activeList = Array.isArray(state.active_handoffs) ? state.active_handoffs : [];
+  if (activeList.length > 1) {
+    box.hidden = false;
+    const bar = el("div", "waimai-floating-pills");
+    bar.append(el("span", "picks-prompt", "一单一编号 · 切换当前人工单："));
+    const curId = selectedHandoffId && activeList.some((h) => h.handoff_id === selectedHandoffId)
+      ? selectedHandoffId
+      : state.active_handoff_id;
+    for (const h of activeList) {
+      const active = h.handoff_id === curId;
+      const label = `${h.handoff_id} · ${h.order_id || "未绑单"}${active ? " ✓" : ""}`;
+      const btn = button(label, `waimai-pill${active ? " waimai-pill-primary" : ""}`, () => {
+        selectedHandoffId = h.handoff_id;
+        selectedHandoffOrder = h.order_id || null;
+        if (h.order_id) shownOrder = h.order_id;
+        renderPanel();
+        $("input").focus();
+      });
+      btn.dataset.handoffSwitch = h.handoff_id;
+      bar.append(btn);
+    }
+    box.replaceChildren(bar);
+    return;
+  }
   const hasMessages = state.messages && state.messages.length > 0;
   const needsOrderChoice = hasMessages && !state.confirmation && (!state.focus || !state.focus.verified) && orders.length > 0;
   box.hidden = !needsOrderChoice;
@@ -1031,11 +1108,16 @@ function renderPicks(state) {
 function renderPanel() {
   const state = latest;
   if (!state) return;
+  const activeList = Array.isArray(state.active_handoffs) ? state.active_handoffs : [];
+  if (selectedHandoffId && !activeList.some((h) => h.handoff_id === selectedHandoffId)) {
+    selectedHandoffId = null;
+    selectedHandoffOrder = null;
+  }
   const focusTicket = state.focus && state.focus.ticket_id ? state.tickets.find((item) => item.ticket_id === state.focus.ticket_id) : null;
   const picked = viewTicket ? state.tickets.find((item) => item.ticket_id === viewTicket) : null;
   if (!picked) viewTicket = null;
   const ticket = picked || focusTicket || null;
-  shownOrder = ticket ? ticket.order_id : state.focus ? state.focus.order_id : null;
+  shownOrder = selectedHandoffOrder || (ticket ? ticket.order_id : state.focus ? state.focus.order_id : null);
   if (shownOrder) switchMjByOrder(shownOrder);
   const badgeNode = $("tray-ticket-badge");
   if (badgeNode) {
@@ -1050,19 +1132,21 @@ function renderPanel() {
   renderPicks(state);
   handoffWaiting = state.handoff_mode === "waiting" || state.handoffs.some((item) => item.status === "waiting");
   handoffMode = state.handoff_mode || (handoffWaiting ? "waiting" : "none");
-  activeHandoffId = state.active_handoff_id || null;
+  activeHandoffId = selectedHandoffId || state.active_handoff_id || null;
+  const curActiveObj = activeList.find((h) => h.handoff_id === activeHandoffId) || null;
+  const curTag = curActiveObj ? ` · ${curActiveObj.handoff_id}${curActiveObj.order_id ? `(${curActiveObj.order_id})` : ""}` : "";
   $("handoff-label").textContent = handoffMode === "waiting" ? "人工排队中" : (handoffMode === "active" ? "人工服务中" : "转人工");
   $("handoff").classList.toggle("waiting", handoffMode !== "none");
   const caption = document.querySelector(".chat-caption");
   const pill = $("mj-head-pill");
   if (caption) {
     caption.textContent = handoffMode === "active"
-      ? "人工客服服务中 · 直接发消息即可继续沟通"
-      : (handoffMode === "waiting" ? "人工排队中 · 可直接发消息补充说明" : "AI 客服 · 非真人");
+      ? `人工客服服务中${curTag} · 换单咨询自动生成独立处理编号`
+      : (handoffMode === "waiting" ? `人工排队中${curTag} · 换单咨询自动生成独立处理编号` : "AI 客服 · 非真人");
   }
   if (pill) pill.textContent = handoffMode === "none" ? "AI" : "人工";
   $("input").placeholder = handoffMode !== "none"
-    ? "正在与人工客服沟通，直接输入内容回车发送（无需再点转人工）…"
+    ? `当前沟通${curTag || "人工专席"}；输入新订单号将自动建立独立人工处理单…`
     : "输入订单号或问题，如：ORD001 晚到了能赔吗？";
   updateControls();
 }
@@ -1155,6 +1239,8 @@ function signOut() {
   seen = null;
   lastFocus = null;
   viewTicket = null;
+  selectedHandoffId = null;
+  selectedHandoffOrder = null;
   othersOpen = null;
   clearTimeout(toastTimer);
   $("toast").classList.remove("show");
@@ -1217,7 +1303,14 @@ function send(raw, fromInput) {
         result = await api("/api/customer/handoff", body);
         clearDraftMedia();
       } else {
-        result = await api("/api/customer/messages", { text });
+        const msgPayload = { text };
+        if (selectedHandoffOrder && !/ORD[\s\-_]*[0-9OIL]+/i.test(text)) {
+          msgPayload.order_id = selectedHandoffOrder;
+        } else if (/ORD[\s\-_]*[0-9OIL]+/i.test(text)) {
+          selectedHandoffId = null;
+          selectedHandoffOrder = null;
+        }
+        result = await api("/api/customer/messages", msgPayload);
       }
     } finally {
       pendingUserText = "";
