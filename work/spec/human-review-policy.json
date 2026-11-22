@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "policy_version": "human-review-v1",
+  "confirmed_on": "2026-11-23",
+  "status": "user_confirmed_spec_not_runtime_verified",
+  "scope": "course prototype, simulated compensation coupons",
+  "base_policy": {
+    "version": "demo-v1",
+    "delivered_required": true,
+    "delay_strictly_greater_than_minutes": 30,
+    "default_coupon_yuan": 10,
+    "note": "保留既有演示资格口径；本批未修改平台条款或原运行配置。"
+  },
+  "reconsideration": {
+    "required_ticket_status": "rejected",
+    "must_have_no_successful_compensation": true,
+    "allowed_reasons": [
+      "verifiable_relevant_new_information",
+      "prior_processing_error"
+    ],
+    "reason_note_required": true,
+    "reuse_original_ticket": true,
+    "dissatisfaction_alone_is_insufficient": true,
+    "approval_is_not_automatic": true
+  },
+  "amount_permissions": {
+    "standard_amount_role_ids": [
+      "R001",
+      "R002"
+    ],
+    "custom_amount_role_ids": [
+      "R002"
+    ],
+    "observer_role_ids": [
+      "R003"
+    ],
+    "customer_and_ai_may_not_directly_set_amount": true,
+    "server_must_verify_role_and_order_scope": true
+  },
+  "amount_limits": {
+    "default_yuan": 10,
+    "min_yuan": 1,
+    "max_yuan": 20,
+    "integer_yuan_only": true,
+    "cap_at_trusted_order_paid_amount": true,
+    "change_reason_required": true,
+    "standard_amount_must_also_pass_cap": true,
+    "if_standard_amount_not_valid": "do_not_auto_reduce; refer_to_supervisor",
+    "invalid_input_action": "reject_without_issuing; do_not_silently_clamp"
+  },
+  "duplicate_prevention": {
+    "one_successful_compensation_per_order": true,
+    "reuse_original_ticket_and_compensation_record": true,
+    "post_issue_reconsideration_or_amount_change": false,
+    "top_up_after_issue": false,
+    "repeated_or_inflight_request": "return_existing_status_without_another_issue",
+    "cross_session_and_reviewer_duplicate_guard": true,
+    "policy_version_change_does_not_reset_issued_record": true,
+    "independent_orders": true,
+    "server_side_atomic_issue_guard_required": true
+  },
+  "confirmation_source": {
+    "thread_id": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
+    "decision_ids": [
+      "IS5542-D18",
+      "IS5542-D19",
+      "IS5542-D20",
+      "IS5542-D21"
+    ]
+  },
+  "implementation_status": "not implemented or retested by this documentation batch",
+  "runtime_config_modified": false,
+  "formal_comparison": "Both basic tool agent B and rule-based C use this same shared execution boundary and base policy."
+}

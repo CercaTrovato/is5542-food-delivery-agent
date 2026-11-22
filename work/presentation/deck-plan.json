@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "status": "content_framework_draft",
-  "as_of": "2026-11-22",
+  "as_of": "2026-11-23",
   "not_a_finished_ppt_or_submission": true,
   "main_slides": [
     {
@@ -105,7 +105,7 @@
       "content": [
         "输入是顾客的自然语言和已授权订单；先查单、核事实，再给资格与处理建议。",
         "顾客确认后提交，人工审批后回显实际状态；异常诉求进入人工。",
-        "驳回后显示具体原因并提供人工咨询入口，保留原驳回记录；本轮不新增二次申请。"
+        "驳回后显示原因并提供人工入口；未补偿且有新信息／原处理错误可按条件重审，沿用原工单，发过后不再重审改额。"
       ],
       "visual": "一张业务流程图；模型理解、程序判断、人工决定使用清楚的图例。注明这是方案图，运行证据由演示页提供。",
       "materials": [
@@ -134,7 +134,8 @@
       "content": [
         "分开写模拟订单、公开平台研究材料、顾客会话和审批状态；不要把研究数据当成真实客服训练语料。",
         "demo-v1：已送达且延误严格超过30分钟，顾客可申请10元模拟券，经确认后人工审核。",
-        "解释预计／实际送达时间、延误、订单归属和工单状态；30分钟整不符合。正式平台规则与本组demo规则分开。"
+        "解释预计／实际送达时间、延误、订单归属和工单状态；30分钟整不符合。正式平台规则与本组demo规则分开。",
+        "human-review-v1：仅主管改额，1—20元整数且不超实付、写原因；默认10元仍受上限校验；同单最多成功补偿一次。"
       ],
       "visual": "一张匿名示例订单和一条阈值说明；标明预训练模型通过提示／工具取数，是否训练或微调按真实情况填写。",
       "materials": [
@@ -224,11 +225,11 @@
       ],
       "purpose": "证明异常时顾客仍有明确下一步，人工拿得到上下文。",
       "content": [
-        "展示驳回原因和人工入口，原申请仍为已驳回，没有第二笔补偿申请。",
-        "人工回复按当前聊天时间顺序出现，顾客继续说话时保留人工状态。",
-        "多轮后商家仍能看到正确订单与最初诉求。这三点是本轮修复目标，需复测后才作为已实现演示。"
+        "展示符合已定条件的重审及原因；保持原工单、旧驳回与后续流水可追踪。",
+        "普通客服按标准金额处理，主管改额受1—20元／实付／原因约束；发过后不改额或补差价。",
+        "人工回复与订单上下文保持连续。演示只能使用按新规则已对齐且复测通过的真实版本。"
       ],
-      "visual": "留出一段修复后真实片段／两个关键帧，另给三个可观察的验收点。",
+      "visual": "预留同一工单重审／改额的真实片段和历史记录，配条件、角色与防重三个定位点。",
       "materials": [
         "M08",
         "M10",
@@ -240,9 +241,9 @@
         "李宾雄"
       ],
       "blank": [
-        "修复后的真实片段",
-        "三问题的新版本复测证据",
-        "是否已经全部满足目标"
+        "按human-review-v1对齐后真实片段",
+        "原三问题与九组边界的新版本证据",
+        "实际修复和通过情况"
       ],
       "ready": "已确认的目标可写，修复和通过数不预填。"
     },
@@ -258,7 +259,7 @@
       "purpose": "先解释比较什么和怎样判定，再展示成绩。",
       "content": [
         "内部比较：基本工具型客服B与显式规则客服C，均有工具、多轮、确认、工单和人工审批。",
-        "保持模型、合法订单事实、工具、权限、demo规则与共同安全边界一致，只比较业务判断实现。",
+        "保持模型、合法订单事实、工具、权限、demo规则与共同安全边界一致，只比较业务判断实现。 两边共同执行human-review-v1，不把保护层差异当模型业务判断收益。",
         "主计划为10场景、两模式、每题3次，共60次系统试跑；记录每次是否调用模型。500模拟回归、首轮7条试用和正式对照分开。"
       ],
       "visual": "B／C差异与共同条件的对照表，另列主指标及数据采集方式。",
@@ -497,8 +498,9 @@
       "rows_marked_pass": 8,
       "independent_rerun_by_this_chat": false,
       "pinned_runtime_commit": null,
-      "policy_scope_pending": "D17",
-      "formal_BC_results": false
+      "formal_BC_results": false,
+      "scope_at_report_time": "D17 was pending on 2026-11-22",
+      "applicability_to_human_review_v1": "not retested under the confirmed boundaries"
     },
     "market_comparison": null,
     "business_value": null,
@@ -594,7 +596,7 @@
     "developer_branch_head": "29171c8c42671e3de84f2f0940a85867fa98ce1a",
     "functional_fix": "df65b5d",
     "research_doc_sha256": "682e20e3125ec63a1d3d73104b5a8d31091cffd5ec084f07bf157b03046f98ab",
-    "policy_direction": "consider human reconsideration and amount changes; detailed boundaries pending",
+    "policy_direction": "four boundaries user-confirmed; implementation alignment and new-boundary retesting pending",
     "next_inputs": [
       "fixed tested version and configuration",
       "normal and exception recordings",
@@ -602,5 +604,13 @@
       "Lin market flow comparison",
       "Jacky source locators"
     ]
+  },
+  "human_review_policy": {
+    "version": "human-review-v1",
+    "confirmed_on": "2026-11-23",
+    "status": "confirmed_spec_not_runtime_verified",
+    "source": "../spec/human-review-policy.json",
+    "boundary_retest": "../eval/human-review-boundary-checks.md",
+    "actual_results": null
   }
 }
