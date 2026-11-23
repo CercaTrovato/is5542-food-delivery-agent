@@ -34,6 +34,7 @@ from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
 
 from ord001_web_service import DemoService, ServiceError
+from ord001_web_store import DemoData
 
 WEB_DIR = Path(__file__).with_name("web")
 CUSTOMER_COOKIE, REVIEWER_COOKIE = "ord001_customer", "ord001_reviewer"
@@ -173,7 +174,7 @@ def text_field(body: dict, key: str, limit: int, *, required: bool = True) -> st
 
 
 async def service_error(request: Request, exc: ServiceError) -> JSONResponse:
-    return JSONResponse({"error": exc.code, "message": exc.message}, status_code=exc.status)
+    return JSONResponse({**(exc.extra or {}), "error": exc.code, "message": exc.message}, status_code=exc.status)
 
 
 async def read_handoff(request: Request) -> tuple[str | None, list[dict], str | None]:
@@ -409,8 +410,20 @@ def create_app(service: DemoService | None = None, allowed_hosts=LOCAL_HOSTS) ->
         body = await read_json(request)
         note = text_field(body, "note", MAX_NOTE, required=False)
         ticket_id = request.path_params["ticket_id"]
-        return JSONResponse(await run_in_threadpool(service.decide, ticket_id, ident["reviewer_id"],
-                                                    body.get("decision"), note))
+        return JSONResponse(await run_in_threadpool(
+            service.decide, ticket_id, ident["reviewer_id"],
+            body.get("decision"), note, body.get("amount_yuan"),
+        ))
+
+    async def review_reopen(request: Request) -> JSONResponse:
+        ident = identity(request, "reviewer")
+        body = await read_json(request)
+        note = text_field(body, "note", MAX_NOTE, required=False)
+        reason_type = text_field(body, "reason_type", 64, required=False)
+        ticket_id = request.path_params["ticket_id"]
+        return JSONResponse(await run_in_threadpool(
+            service.reopen_ticket, ticket_id, ident["reviewer_id"], note, reason_type,
+        ))
 
     async def review_runs(request: Request) -> JSONResponse:
         identity(request, "reviewer")
@@ -477,6 +490,7 @@ def create_app(service: DemoService | None = None, allowed_hosts=LOCAL_HOSTS) ->
         Route("/api/review/stp-batch", review_stp_batch, methods=["POST"]),
         Route("/api/review/tickets/{ticket_id}", review_ticket),
         Route("/api/review/tickets/{ticket_id}/decision", review_decision, methods=["POST"]),
+        Route("/api/review/tickets/{ticket_id}/reopen", review_reopen, methods=["POST"]),
         Route("/api/review/handoffs", review_handoffs),
         Route("/api/review/handoffs/{handoff_id}/reply", review_handoff_reply, methods=["POST"]),
         Route("/api/review/handoffs/{handoff_id}/followup", review_handoff_followup, methods=["POST"]),
@@ -499,6 +513,13 @@ def main():
     parser.add_argument("--db", default=":memory:", help="工单与状态机 SQLite 文件。指定路径即可跨重启持久化")
     parser.add_argument("--log-file", help="把每轮运行记录按 JSON 行追加到这个文件")
     parser.add_argument("--model-config", help="本机私有模型 JSON 配置路径；不要把含密钥的文件放进仓库")
+    parser.add_argument(
+        "--agent-mode",
+        choices=("C", "B"),
+        default=(os.getenv("ORD001_AGENT_MODE") or "C").strip().upper(),
+        help="客服方案模式：C=显式业务规则型（默认），B=基础工具型内部对照版",
+    )
+    parser.add_argument("--data-file", help="可选隔离测试订单 JSON 文件路径（默认使用内置 demo-data.json）")
     args = parser.parse_args()
 
     import uvicorn
@@ -508,14 +529,21 @@ def main():
     run_log.setLevel(logging.INFO)
     if args.log_file:
         run_log.addHandler(logging.FileHandler(args.log_file, encoding="utf-8"))
-    service = DemoService(db_path=args.db, model_config_path=args.model_config)
+    custom_data = DemoData(Path(args.data_file)) if args.data_file else None
+    service = DemoService(
+        db_path=args.db,
+        model_config_path=args.model_config,
+        data=custom_data,
+        agent_mode=args.agent_mode,
+    )
     policy = service.policy
     local = args.host in LOCAL_HOSTS
     base = f"http://{args.host}:{args.port}"
     print(f"顾客入口：{base}/")
     print(f"审批入口：{base}/review")
-    print(f"规则版本：{policy.version}（threshold_minutes={policy.threshold_minutes}，"
-          f"include_threshold={policy.include_threshold}，coupon_yuan={policy.coupon_yuan}）")
+    print(f"规则版本：{policy.version} + human-review-v1（agent_mode={service.agent_mode}，"
+          f"threshold_minutes={policy.threshold_minutes}，include_threshold={policy.include_threshold}，"
+          f"coupon_yuan={policy.coupon_yuan}）")
     print(f"模型：{service.model_label}　订单数据：{service.data.version}")
     if not local:
         if not os.getenv("ORD001_REVIEW_SECRET"):

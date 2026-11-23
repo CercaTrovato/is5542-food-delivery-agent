@@ -325,10 +325,14 @@ function showStatus(text, isError) {
 function renderMeta(info) {
   const policy = info.policy;
   const rule = policy.include_threshold ? `晚到 ${policy.threshold_minutes} 分钟及以上` : `晚到超过 ${policy.threshold_minutes} 分钟`;
-  $("meta").textContent = "演示";
+  const revVer = info.review_policy_version || "human-review-v1";
+  const modeDesc = info.agent_mode === "B" ? "B（基础工具型对照）" : "C（显式业务规则型）";
+  $("meta").textContent = info.agent_mode === "B" ? "演示 · B对照" : "演示";
   $("policy-details").replaceChildren(...factRows([
-    ["规则版本", policy.version], ["申请条件", `已送达且${rule}`],
-    ["建议补偿", `¥${policy.coupon_yuan} 模拟券（按 T1/T2 规则清分）`],
+    ["规则版本", `${policy.version} + ${revVer}`],
+    ["客服架构", modeDesc],
+    ["申请条件", `已送达且${rule}`],
+    ["补偿边界", `默认 ¥${policy.coupon_yuan}（主管 R002 可审 1–20 整数元且 ≤ 实付；一单一赔）`],
     ["对话模式", info.model_mode === "live" ? "在线模型" : "固定脚本"],
     ["模型", info.model], ["订单版本", info.data_version], ["模拟日期", info.service_date],
   ]));

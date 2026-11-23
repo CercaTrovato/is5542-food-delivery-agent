@@ -25,7 +25,7 @@
       "role": "supervisor",
       "can_handle": true,
       "permissions": [
-        "ticket_approve", "ticket_reject", "ticket_request_info",
+        "ticket_approve", "ticket_custom_amount", "ticket_reject", "ticket_request_info",
         "ticket_escalate", "ticket_expedite", "ticket_transfer", "ticket_reopen",
         "order_urge", "order_note", "order_ticket", "handoff_close", "handoff_reply"
       ]

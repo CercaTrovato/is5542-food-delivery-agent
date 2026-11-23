@@ -14,7 +14,7 @@ from langgraph.prebuilt import ToolNode
 from langgraph.runtime import Runtime
 from langgraph.types import interrupt
 
-from ord001_policy import compute_actuarial_subrogation, evaluate_order
+from ord001_policy import compute_actuarial_subrogation, evaluate_order, measure_order
 from ord001_web_store import DECISION_STATUS, normalize_order_id, order_facts
 from ord001_web_texts import (CANCELLED, GUARDED_REPLY, NOT_VERIFIED, QUERY_FAILED, confirm_text, delay_text,
                               outcome_text, ticket_text)
@@ -191,6 +191,9 @@ class CustomerState(MessagesState, total=False):
     claim: dict | None
     ticket_id: str | None
     guarded: dict | None
+    raw_proposal: dict | None
+    unsafe_proposal: str | None
+    safety_intercept: str | None
 
 
 class ReviewState(TypedDict, total=False):
@@ -199,6 +202,9 @@ class ReviewState(TypedDict, total=False):
     decision: str
     reviewer_id: str
     note: str | None
+    amount_yuan: int | None
+    merchant_bear_yuan: float | None
+    platform_bear_yuan: float | None
 
 
 def current_customer(runtime) -> str | None:
@@ -215,6 +221,11 @@ def make_order_tool(data):
         if order is None:
             # Oracle blindness: missing order and another customer's order return identical text to the model.
             return TOOL_NOT_VERIFIED, {"outcome": found, "order_id": normalized_id, "raw_order_id": order_id}
+        measured = measure_order(order_facts(order))
+        timing_extra = (
+            {"late_seconds": measured["late_seconds"], "late_minutes": measured["late_minutes"]}
+            if "late_seconds" in measured else {}
+        )
         facts = {
             "found": True,
             "order_id": order["order_id"],
@@ -226,6 +237,7 @@ def make_order_tool(data):
             "picked_up_at": order.get("picked_up_at"),
             "customer_progress_note": order.get("customer_progress_note"),
             **order_facts(order),
+            **timing_extra,
         }
         return json.dumps(facts, ensure_ascii=False), {
             "outcome": "found", "order": order, "purpose": purpose, "raw_order_id": order_id
@@ -327,7 +339,50 @@ def build_followup_answer(user_text: str, order: dict, policy, store) -> str:
     return f"{timeline_str}{outcome_text(order, decision, policy)}"
 
 
-def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enabled_getter=None):
+BASIC_TOOL_PROMPT_B = (
+    "你是「配送关怀」的 AI 智能客服助手 MJ（生成式人工智能，非真人坐席）。\n"
+    "请遵循以下固定业务规则（demo-v1 + human-review-v1）：\n"
+    "1. 当顾客提到具体订单号时，必须调用 query_order 工具查询该顾客名下订单事实；未提供订单号而要求查单或补偿时，先礼貌追问订单号。\n"
+    "2. 延误补偿资格规则（由你根据工具返回事实判断）：\n"
+    "   - 订单必须已送达（status == 'delivered'），且有有效的 expected_at 和 delivered_at；\n"
+    "   - 延误时长必须严格超过 30 分钟（late_seconds > 1800；恰好 30 分钟即 1800 秒不符合）；\n"
+    "   - 符合条件时，标准建议补偿为 10 元模拟补偿券（你与顾客均无权改成其他金额），须请顾客先在页面确认提交，经人工审批后才生效；\n"
+    "   - 若该订单已有工单记录，如实告知现有工单状态，不重复建单；\n"
+    "   - 涉及餐品异物/洒漏/缺少签收时间或争议时，不走延误券确认，说明原因并引导点击「转人工」。\n"
+    "3. 严禁编造订单事实，严禁承诺一定通过、免单、退款或超额赔付，严禁声称已代顾客提交或已发券（除非工单状态确为 approved）。"
+)
+
+BASIC_ASSESS_PROMPT_B = (
+    "你是「配送关怀」基础工具型客服（Agent B）。你刚刚通过 query_order 工具拿到了订单查询结果。\n"
+    "请严格依据业务规则（demo-v1：status=='delivered' 且 late_seconds > 1800 才符合申请 10 元模拟券条件；恰好 1800 秒或未送达或缺少送达时间均不符合；已有工单则汇报工单状态；餐损异物引导转人工）独立判断资格与下一步。\n"
+    "只输出一个合法 JSON 对象（不要输出 Markdown 代码块以外的多余解释），字段固定为：\n"
+    '{\n'
+    '  "eligible": true 或 false,\n'
+    '  "next_action": "propose_confirm" | "explain_ineligible" | "report_existing_ticket" | "order_lookup" | "suggest_handoff" | "unverified_order",\n'
+    '  "order_id": "ORDxxx" 或 null,\n'
+    '  "proposed_coupon_yuan": 10 或 null,\n'
+    '  "reason": "简短判断依据",\n'
+    '  "reply": "直接展示给顾客的中文回复（2~4句，包含核实到的时间/状态事实；不得承诺保证通过、免单、退款或非授权金额）"\n'
+    '}'
+)
+
+
+def _parse_b_proposal(raw_text: str) -> dict | None:
+    cleaned = (raw_text or "").strip()
+    if cleaned.startswith("```"):
+        cleaned = re.sub(r"^```(?:json)?\s*|\s*```$", "", cleaned, flags=re.IGNORECASE | re.DOTALL).strip()
+    match = re.search(r"\{.*\}", cleaned, flags=re.DOTALL)
+    candidate = match.group(0) if match else cleaned
+    try:
+        parsed = json.loads(candidate)
+        return parsed if isinstance(parsed, dict) else None
+    except ValueError:
+        return None
+
+
+def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enabled_getter=None,
+                         agent_mode: Literal["C", "B"] = "C"):
+    is_mode_b = str(agent_mode).upper() == "B"
     query_order = make_order_tool(data)
     model_with_tools = model.bind_tools([query_order], parallel_tool_calls=True)
     model_type = getattr(model, "_llm_type", "")
@@ -335,6 +390,8 @@ def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enab
     is_scripted_model = model_type == "ord001-scripted-model"
 
     def agent(state: CustomerState, runtime: Runtime[CustomerContext]) -> dict:
+        if is_mode_b and not is_live_model and not getattr(model, "supports_mode_b", False):
+            raise RuntimeError("Agent mode B requires a live LLM (cannot fall back to ScriptedOrderModel).")
         customer_id = current_customer(runtime)
         tickets = store.tickets(customer_id=customer_id) if customer_id else []
         # Strip untrusted free-text fields (customer_information, review_note) before sending to LLM (PDPO + Anti-Injection).
@@ -349,7 +406,7 @@ def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enab
             f"当前账号最近工单状态摘要（只读结构化数据）：{json.dumps(summary, ensure_ascii=False)}"
         )
         if active_order:
-            active_decision = evaluate_order(order_facts(active_order), policy)
+            measured_active = measure_order(order_facts(active_order))
             active_info = {
                 "order_id": active_order["order_id"],
                 "merchant": active_order.get("merchant"),
@@ -362,8 +419,7 @@ def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enab
                 "expected_at": active_order.get("expected_at"),
                 "delivered_at": active_order.get("delivered_at"),
                 "customer_progress_note": active_order.get("customer_progress_note"),
-                "late_seconds": active_decision.get("late_seconds"),
-                "reason_code": active_decision.get("reason_code"),
+                "late_seconds": measured_active.get("late_seconds"),
             }
             ephemeral_ctx += (
                 "\n当前会话已核实焦点订单（若顾客本轮未提新单号而追问进度、餐品、实付金额或差多久达标，可直接基于此数据回答）："
@@ -371,19 +427,23 @@ def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enab
             )
         ephemeral_ctx += f"\n</readonly_context_{nonce}>"
 
+        sys_prompt = BASIC_TOOL_PROMPT_B if is_mode_b else SYSTEM_PROMPT
         history = compact_messages(state["messages"], max_messages=12)
         if is_live_model and history:
             invoke_msgs = [
-                SystemMessage(content=SYSTEM_PROMPT),
+                SystemMessage(content=sys_prompt),
                 *history[:-1],
                 SystemMessage(content=ephemeral_ctx),
                 history[-1],
             ]
         else:
-            invoke_msgs = [SystemMessage(content=SYSTEM_PROMPT), *history]
+            invoke_msgs = [SystemMessage(content=sys_prompt), *history]
 
         response = model_with_tools.invoke(invoke_msgs)
-        turn = {"outcome": "not_selected", "reason_code": None, "claim": None, "ticket_id": None, "guarded": None}
+        turn = {
+            "outcome": "not_selected", "reason_code": None, "claim": None, "ticket_id": None,
+            "guarded": None, "raw_proposal": None, "unsafe_proposal": None, "safety_intercept": None,
+        }
 
         if response.tool_calls:
             for tc in response.tool_calls:
@@ -391,51 +451,56 @@ def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enab
                     tc["args"]["order_id"] = normalize_order_id(tc["args"]["order_id"])
             return {**turn, "messages": [response], "outcome": "lookup_requested"}
 
-        user_text = latest_human_text(state["messages"])
-        found_ids: list[str] = []
-        for raw_m in ORDER_ID_RE.findall(user_text):
-            nid = normalize_order_id(raw_m)
-            if nid not in found_ids:
-                found_ids.append(nid)
+        if not is_mode_b:
+            user_text = latest_human_text(state["messages"])
+            found_ids: list[str] = []
+            for raw_m in ORDER_ID_RE.findall(user_text):
+                nid = normalize_order_id(raw_m)
+                if nid not in found_ids:
+                    found_ids.append(nid)
 
-        if is_live_model and found_ids:
-            is_praise_or_lookup = bool(PRAISE_NO_CLAIM_RE.search(user_text))
-            purpose = "lookup" if is_praise_or_lookup else "compensation"
-            forced = AIMessage(
-                content="",
-                tool_calls=[
-                    {"name": "query_order", "args": {"order_id": nid, "purpose": purpose},
-                     "id": f"call_auto_{idx}_{nid}", "type": "tool_call"}
-                    for idx, nid in enumerate(found_ids[:4])
-                ],
-                usage_metadata=getattr(response, "usage_metadata", None),
-            )
-            return {**turn, "messages": [forced], "outcome": "lookup_requested"}
-
-        # Multi-turn follow-up memory when no explicit order ID was typed in this turn
-        # (skip generic new openers like "我的外卖迟到了，可以申请补偿吗？" that lack demonstrative reference).
-        is_generic_new_opener = bool(
-            re.search(r"我的外卖|我有笔?外卖|外卖迟到", user_text)
-            and not re.search(r"这单|那单|这笔|那笔|这个订单|刚才", user_text)
-        )
-        if not found_ids and active_order and not is_generic_new_opener and FOLLOWUP_ORDER_RE.search(user_text):
-            if (
-                FOLLOWUP_CLAIM_RE.search(user_text)
-                and re.search(r"这单|那单|这笔|那笔|这个订单|刚才|那就|还是", user_text)
-                and not re.search(r"为什么|怎么|差多少|多久", user_text)
-                and not PRAISE_NO_CLAIM_RE.search(user_text)
-            ):
+            if is_live_model and found_ids:
+                is_praise_or_lookup = bool(PRAISE_NO_CLAIM_RE.search(user_text))
+                purpose = "lookup" if is_praise_or_lookup else "compensation"
                 forced = AIMessage(
                     content="",
-                    tool_calls=[{"name": "query_order", "args": {"order_id": active_order["order_id"], "purpose": "compensation"},
-                                 "id": "call_followup_ord001", "type": "tool_call"}],
+                    tool_calls=[
+                        {"name": "query_order", "args": {"order_id": nid, "purpose": purpose},
+                         "id": f"call_auto_{idx}_{nid}", "type": "tool_call"}
+                        for idx, nid in enumerate(found_ids[:4])
+                    ],
                     usage_metadata=getattr(response, "usage_metadata", None),
+                    response_metadata=getattr(response, "response_metadata", {}),
                 )
                 return {**turn, "messages": [forced], "outcome": "lookup_requested"}
-            if is_scripted_model or re.search(r"提供订单号|选择.*订单|哪一?笔订单", response.text or ""):
-                followup_text = build_followup_answer(user_text, active_order, policy, store)
-                msg = AIMessage(content=followup_text, usage_metadata=getattr(response, "usage_metadata", None))
-                return {**turn, "messages": [msg], "outcome": "order_followup"}
+
+            is_generic_new_opener = bool(
+                re.search(r"我的外卖|我有笔?外卖|外卖迟到", user_text)
+                and not re.search(r"这单|那单|这笔|那笔|这个订单|刚才", user_text)
+            )
+            if not found_ids and active_order and not is_generic_new_opener and FOLLOWUP_ORDER_RE.search(user_text):
+                if (
+                    FOLLOWUP_CLAIM_RE.search(user_text)
+                    and re.search(r"这单|那单|这笔|那笔|这个订单|刚才|那就|还是", user_text)
+                    and not re.search(r"为什么|怎么|差多少|多久", user_text)
+                    and not PRAISE_NO_CLAIM_RE.search(user_text)
+                ):
+                    forced = AIMessage(
+                        content="",
+                        tool_calls=[{"name": "query_order", "args": {"order_id": active_order["order_id"], "purpose": "compensation"},
+                                     "id": "call_followup_ord001", "type": "tool_call"}],
+                        usage_metadata=getattr(response, "usage_metadata", None),
+                        response_metadata=getattr(response, "response_metadata", {}),
+                    )
+                    return {**turn, "messages": [forced], "outcome": "lookup_requested"}
+                if is_scripted_model or re.search(r"提供订单号|选择.*订单|哪一?笔订单", response.text or ""):
+                    followup_text = build_followup_answer(user_text, active_order, policy, store)
+                    msg = AIMessage(
+                        content=followup_text,
+                        usage_metadata=getattr(response, "usage_metadata", None),
+                        response_metadata=getattr(response, "response_metadata", {}),
+                    )
+                    return {**turn, "messages": [msg], "outcome": "order_followup"}
 
         allowed = {float(policy.coupon_yuan)}
         named = {normalize_order_id(ref) for ref in TICKET_REF.findall(response.text)}
@@ -448,12 +513,22 @@ def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enab
         statuses = {ticket["status"] for ticket in scoped}
         order_prices = {float(active_order["amount_yuan"])} if (active_order and active_order.get("amount_yuan")) else set()
 
+        raw_agent_prop = {"stage": "agent_direct", "reply": response.text[:300]} if is_mode_b else None
         rule = reply_risk(response.text, allowed_amounts=allowed, statuses=statuses, order_prices=order_prices)
         if rule is None:
-            return {**turn, "messages": [response]}
-        safe = AIMessage(content=GUARDED_REPLY, id=response.id, usage_metadata=response.usage_metadata)
-        return {**turn, "messages": [safe], "reason_code": "reply_guarded",
-                "guarded": {"rule": rule, "text": response.text[:300]}}
+            return {**turn, "messages": [response], "raw_proposal": raw_agent_prop}
+        safe = AIMessage(
+            content=GUARDED_REPLY, id=response.id,
+            usage_metadata=response.usage_metadata,
+            response_metadata=getattr(response, "response_metadata", {}),
+        )
+        return {
+            **turn, "messages": [safe], "reason_code": "reply_guarded",
+            "raw_proposal": raw_agent_prop,
+            "unsafe_proposal": f"reply_risk:{rule}",
+            "safety_intercept": f"reply_guarded:{rule}",
+            "guarded": {"rule": rule, "text": response.text[:300]},
+        }
 
     def judge(order: dict) -> dict:
         """Reuse the ticket kept for this order and rule version, otherwise apply the rule."""
@@ -475,9 +550,9 @@ def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enab
 
     def synthesize_with_llm(history_msgs: list[BaseMessage], user_text: str, orders_list: list[dict],
                             base_text: str, allowed_amounts: set, statuses: set,
-                            order_prices: set) -> tuple[str, dict | None]:
+                            order_prices: set) -> tuple[str, dict | None, dict]:
         if not is_live_model or not user_text:
-            return base_text, None
+            return base_text, None, {}
         sanitized_user = re.sub(r"[<>【】]", " ", user_text)[:400]
         nonce = secrets.token_hex(3)
         summaries = [
@@ -515,6 +590,7 @@ def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enab
                 HumanMessage(content=prompt),
             ])
             usage = getattr(res, "usage_metadata", None)
+            res_meta = getattr(res, "response_metadata", {}) or {}
             text = (res.text or "").strip()
             # Anchor verification across all ineligible / needs_info / delivered branches.
             anchors_ok = all(o["order_id"] in text for o in orders_list)
@@ -525,11 +601,199 @@ def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enab
             if "暂缺签收时间" in base_text and not re.search(r"暂缺|未同步|签收时间|缺少|核实", text):
                 anchors_ok = False
             if text and anchors_ok and reply_risk(text, allowed_amounts=allowed_amounts, statuses=statuses, order_prices=order_prices) is None:
-                return text, usage
-            return base_text, usage
+                return text, usage, res_meta
+            return base_text, usage, res_meta
         except Exception as exc:
             log.warning(json.dumps({"event": "synthesis_fallback", "error": type(exc).__name__}, ensure_ascii=False))
-            return base_text, None
+            return base_text, None, {}
+
+    def assess_mode_b(state: CustomerState, runtime: Runtime[CustomerContext],
+                      tool_msgs: list[ToolMessage], user_text: str) -> dict:
+        """Basic Tool Agent B: LLM judges eligibility & next action directly from tool facts without C's rule node."""
+        tool_records: list[dict] = []
+        verified_by_id: dict[str, dict] = {}
+        for tm in tool_msgs:
+            art = tm.artifact if isinstance(tm.artifact, dict) else {}
+            try:
+                fact_obj = json.loads(tm.content) if isinstance(tm.content, str) else {"text": str(tm.content)}
+            except ValueError:
+                fact_obj = {"text": str(tm.content)}
+            existing_summary = None
+            if art.get("outcome") == "found" and isinstance(art.get("order"), dict):
+                ord_obj = art["order"]
+                verified_by_id[ord_obj["order_id"]] = ord_obj
+                ex = store.find(ord_obj["order_id"], policy.version)
+                if ex:
+                    existing_summary = {
+                        "ticket_id": ex["ticket_id"],
+                        "order_id": ex["order_id"],
+                        "status": ex["status"],
+                        "proposed_coupon_yuan": ex.get("proposed_coupon_yuan"),
+                        "coupon_issued_yuan": ex.get("coupon_issued_yuan"),
+                        "review_note": ex.get("review_note"),
+                    }
+            tool_records.append({
+                "tool_result": fact_obj,
+                "existing_ticket": existing_summary,
+            })
+
+        prior_dialogue = [
+            (HumanMessage(content=re.sub(r"[<>【】]", " ", m.text)[:300]) if isinstance(m, HumanMessage)
+             else AIMessage(content=re.sub(r"[<>【】]", " ", m.text)[:300]))
+            for m in state["messages"][:-2]
+            if isinstance(m, (HumanMessage, AIMessage)) and (m.text or "").strip() and not getattr(m, "tool_calls", None)
+        ][-4:]
+        nonce = secrets.token_hex(3)
+        sanitized_user = re.sub(r"[<>【】]", " ", user_text)[:400]
+        b_prompt = (
+            f"<customer_utterance_{nonce}>{sanitized_user}</customer_utterance_{nonce}>\n"
+            f"<query_order_results_{nonce}>{json.dumps(tool_records, ensure_ascii=False)}</query_order_results_{nonce}>"
+        )
+        try:
+            res = model.invoke([
+                SystemMessage(content=BASIC_ASSESS_PROMPT_B),
+                *prior_dialogue,
+                HumanMessage(content=b_prompt),
+            ])
+        except Exception as exc:
+            log.warning(json.dumps({"event": "mode_b_assess_error", "error": type(exc).__name__}, ensure_ascii=False))
+            return {
+                "outcome": "model_error",
+                "reason_code": "llm_assess_error",
+                "messages": [AIMessage(content=QUERY_FAILED)],
+                "claim": None,
+                "ticket_id": None,
+                "guarded": None,
+                "raw_proposal": {"source": "model_b", "error": type(exc).__name__},
+                "unsafe_proposal": "llm_invocation_failed",
+                "safety_intercept": "model_error_handled",
+            }
+
+        usage = getattr(res, "usage_metadata", None)
+        res_meta = getattr(res, "response_metadata", {}) or {}
+        raw_text = (res.text or "").strip()
+        parsed = _parse_b_proposal(raw_text)
+        if parsed is None:
+            return {
+                "outcome": "proposal_format_error",
+                "reason_code": "invalid_json_proposal",
+                "messages": [AIMessage(content=GUARDED_REPLY, usage_metadata=usage, response_metadata=res_meta)],
+                "claim": None,
+                "ticket_id": None,
+                "guarded": {"rule": "invalid_json_proposal", "text": raw_text[:300]},
+                "raw_proposal": {"source": "model_b", "parse_error": True, "raw_text": raw_text[:300]},
+                "unsafe_proposal": "invalid_json_proposal",
+                "safety_intercept": "invalid_proposal_blocked",
+            }
+
+        raw_proposal = {
+            "source": "model_b",
+            "eligible": parsed.get("eligible"),
+            "next_action": parsed.get("next_action"),
+            "order_id": parsed.get("order_id"),
+            "proposed_coupon_yuan": parsed.get("proposed_coupon_yuan"),
+            "reason": parsed.get("reason"),
+            "reply": (str(parsed.get("reply") or ""))[:300],
+        }
+        b_eligible = parsed.get("eligible") is True
+        b_action = str(parsed.get("next_action") or "").strip()
+        b_oid = normalize_order_id(str(parsed.get("order_id") or "")) if parsed.get("order_id") else ""
+        b_amt = parsed.get("proposed_coupon_yuan")
+        b_reply = str(parsed.get("reply") or "").strip()
+
+        target_order = verified_by_id.get(b_oid)
+        if target_order is None and len(verified_by_id) == 1:
+            target_order = next(iter(verified_by_id.values()))
+
+        unsafe_list: list[str] = []
+        intercept_list: list[str] = []
+        ticket_id = None
+        claim = None
+        outcome = b_action or "b_explained"
+        reason_code = str(parsed.get("reason") or "")[:80] or None
+
+        # Shared Execution Guard 1: Cannot confirm unverified / unowned order
+        if target_order is None:
+            if b_eligible or b_action == "propose_confirm":
+                unsafe_list.append("propose_confirm_on_unverified_order")
+                intercept_list.append("unverified_order_blocked")
+            b_eligible = False
+            outcome = tool_msgs[0].artifact.get("outcome", "not_found")
+            reason_code = "order_not_verified"
+            if not b_reply:
+                b_reply = NOT_VERIFIED
+        else:
+            existing = store.find(target_order["order_id"], policy.version)
+            # Shared Execution Guard 2: One ticket / compensation per order deduplication
+            if existing is not None:
+                ticket_id = existing["ticket_id"]
+                if b_eligible or b_action == "propose_confirm":
+                    unsafe_list.append("duplicate_confirm_on_existing_ticket")
+                    intercept_list.append("existing_ticket_reuse_enforced")
+                    b_eligible = False
+                    outcome = "ticket_reused"
+                elif b_action == "report_existing_ticket":
+                    outcome = "ticket_reused"
+
+            # Shared Execution Guard 3: Customer / AI cannot set custom compensation amounts
+            if b_amt is not None:
+                if isinstance(b_amt, bool) or not isinstance(b_amt, (int, float)) or float(b_amt) != float(policy.coupon_yuan):
+                    unsafe_list.append(f"unauthorized_ai_amount:{b_amt}")
+                    intercept_list.append("unauthorized_amount_blocked")
+                    b_eligible = False
+                    if outcome == "propose_confirm":
+                        outcome = "explain_ineligible"
+
+        # Shared Execution Guard 4: Output safety guard (no false promises, wrong amounts, or leaked prompts)
+        customer_id = current_customer(runtime)
+        tickets = store.tickets(customer_id=customer_id) if customer_id else []
+        allowed: set[float] = set()
+        if b_eligible or ticket_id:
+            allowed.add(float(policy.coupon_yuan))
+        if target_order:
+            for t in tickets:
+                if t.get("order_id") == target_order["order_id"]:
+                    for k in ("proposed_coupon_yuan", "coupon_issued_yuan"):
+                        if t.get(k) is not None:
+                            allowed.add(float(t[k]))
+        statuses = {t["status"] for t in tickets if target_order and t.get("order_id") == target_order["order_id"]}
+        prices = {float(o["amount_yuan"]) for o in verified_by_id.values() if o.get("amount_yuan") is not None}
+
+        if not b_reply:
+            b_reply = NOT_VERIFIED if target_order is None else GUARDED_REPLY
+        guarded_info = None
+        risk = reply_risk(b_reply, allowed_amounts=allowed, statuses=statuses, order_prices=prices)
+        if risk is not None:
+            unsafe_list.append(f"reply_risk:{risk}")
+            intercept_list.append(f"reply_guarded:{risk}")
+            guarded_info = {"rule": risk, "text": b_reply[:300]}
+            b_reply = GUARDED_REPLY
+            b_eligible = False
+
+        if b_eligible and b_action == "propose_confirm" and not intercept_list and target_order is not None:
+            measured = measure_order(order_facts(target_order))
+            claim = {
+                "order_id": target_order["order_id"],
+                "expected_at": target_order.get("expected_at"),
+                "delivered_at": target_order.get("delivered_at"),
+                "late_seconds": measured.get("late_seconds", 0),
+                "proposed_coupon_yuan": policy.coupon_yuan,
+                "policy_version": policy.version,
+            }
+            outcome = "awaiting_confirmation"
+            reason_code = "b_proposed_confirm"
+
+        return {
+            "outcome": outcome,
+            "reason_code": reason_code,
+            "messages": [AIMessage(content=b_reply, usage_metadata=usage, response_metadata=res_meta)],
+            "claim": claim,
+            "ticket_id": ticket_id,
+            "guarded": guarded_info,
+            "raw_proposal": raw_proposal,
+            "unsafe_proposal": ";".join(unsafe_list) if unsafe_list else None,
+            "safety_intercept": ";".join(intercept_list) if intercept_list else None,
+        }
 
     def assess(state: CustomerState, runtime: Runtime[CustomerContext]) -> dict:
         # Collect all consecutive ToolMessages produced in this turn (supports parallel multi-order comparison!).
@@ -548,6 +812,9 @@ def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enab
                 return reply("query_failed", "query_failed", QUERY_FAILED)
 
         user_text = latest_human_text(state["messages"])
+        if is_mode_b:
+            return assess_mode_b(state, runtime, tool_msgs, user_text)
+
         is_food_safety = bool(SPECIAL_ISSUE_RE.search(user_text))
 
         # Multi-order comparison turn (2+ orders queried in parallel)
@@ -574,24 +841,40 @@ def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enab
                 chosen_claim = eligible_claims[0]
                 outcome = "awaiting_confirmation"
                 reason_code = "eligible_for_review"
-            base_turn = reply(outcome, reason_code, combined_text, claim=chosen_claim)
+            raw_c = {
+                "source": "rule_node_c",
+                "eligible": chosen_claim is not None,
+                "next_action": "propose_confirm" if chosen_claim else outcome,
+                "order_id": chosen_claim["order_id"] if chosen_claim else None,
+                "proposed_coupon_yuan": chosen_claim["proposed_coupon_yuan"] if chosen_claim else None,
+                "reason": reason_code,
+            }
+            base_turn = reply(outcome, reason_code, combined_text, claim=chosen_claim, raw_proposal=raw_c)
             if not is_live_model or not verified_orders:
                 return base_turn
             allowed = {float(policy.coupon_yuan)}
             prices = {float(o["amount_yuan"]) for o in verified_orders if o.get("amount_yuan")}
-            smart_text, syn_usage = synthesize_with_llm(state["messages"], user_text, verified_orders, combined_text, allowed, set(), prices)
-            return {**base_turn, "messages": [AIMessage(content=smart_text, usage_metadata=syn_usage)]}
+            smart_text, syn_usage, syn_meta = synthesize_with_llm(state["messages"], user_text, verified_orders, combined_text, allowed, set(), prices)
+            return {**base_turn, "messages": [AIMessage(content=smart_text, usage_metadata=syn_usage, response_metadata=syn_meta)]}
 
         # Single-order turn
         artifact = tool_msgs[0].artifact
         if artifact["outcome"] != "found":
+            raw_unverified = {
+                "source": "rule_node_c",
+                "eligible": False,
+                "next_action": "unverified_order",
+                "order_id": artifact.get("order_id"),
+                "proposed_coupon_yuan": None,
+                "reason": "order_not_verified",
+            }
             if is_food_safety:
                 extra = (
                     "非常抱歉让您遇到餐品异常问题！请先暂停食用并保留原貌拍照取证；"
                     "涉及食品安全或餐损问题，可点击下方「相册」上传照片凭证或点击右上角「转人工」直连食安专席。"
                 )
-                return reply(artifact["outcome"], "order_not_verified", f"{extra}{NOT_VERIFIED}")
-            return reply(artifact["outcome"], "order_not_verified", NOT_VERIFIED)
+                return reply(artifact["outcome"], "order_not_verified", f"{extra}{NOT_VERIFIED}", raw_proposal=raw_unverified)
+            return reply(artifact["outcome"], "order_not_verified", NOT_VERIFIED, raw_proposal=raw_unverified)
 
         order = artifact["order"]
 
@@ -614,12 +897,20 @@ def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enab
                 f"{status_line}"
                 "由于自助延误券通道不适用于食品安全与餐损理赔，系统已为您熔断普通超时流程——请点击下方「相册」上传异物照片凭证，或点击右上角「转人工」直连 P0 食安应急专席优先处理。"
             )
-            base_turn = reply("food_safety_escalated", "food_safety_p0", safety_text, claim=None)
+            raw_fs = {
+                "source": "rule_node_c",
+                "eligible": False,
+                "next_action": "suggest_handoff",
+                "order_id": order["order_id"],
+                "proposed_coupon_yuan": None,
+                "reason": "food_safety_p0",
+            }
+            base_turn = reply("food_safety_escalated", "food_safety_p0", safety_text, claim=None, raw_proposal=raw_fs)
             if not is_live_model:
                 return base_turn
             prices = {float(order["amount_yuan"])} if order.get("amount_yuan") else set()
-            smart_text, syn_usage = synthesize_with_llm(state["messages"], user_text, [order], safety_text, set(), set(), prices)
-            return {**base_turn, "messages": [AIMessage(content=smart_text, usage_metadata=syn_usage)]}
+            smart_text, syn_usage, syn_meta = synthesize_with_llm(state["messages"], user_text, [order], safety_text, set(), set(), prices)
+            return {**base_turn, "messages": [AIMessage(content=smart_text, usage_metadata=syn_usage, response_metadata=syn_meta)]}
 
         if artifact.get("purpose") == "lookup" or PRAISE_NO_CLAIM_RE.search(user_text):
             facts = evaluate_order(order_facts(order), policy)
@@ -638,9 +929,29 @@ def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enab
             existing = store.find(order["order_id"], policy.version)
             if existing:
                 text += ticket_text(existing, created=False)
-            base_turn = reply("order_queried", None, text, ticket_id=existing["ticket_id"] if existing else None)
+            raw_lookup = {
+                "source": "rule_node_c",
+                "eligible": False,
+                "next_action": "order_lookup",
+                "order_id": order["order_id"],
+                "proposed_coupon_yuan": None,
+                "reason": "order_lookup",
+            }
+            base_turn = reply("order_queried", None, text, ticket_id=existing["ticket_id"] if existing else None, raw_proposal=raw_lookup)
         else:
             base_turn = judge(order)
+            raw_judge = {
+                "source": "rule_node_c",
+                "eligible": bool(base_turn.get("claim")),
+                "next_action": (
+                    "propose_confirm" if base_turn.get("claim")
+                    else ("report_existing_ticket" if base_turn.get("outcome") == "ticket_reused" else "explain_ineligible")
+                ),
+                "order_id": order["order_id"],
+                "proposed_coupon_yuan": base_turn["claim"]["proposed_coupon_yuan"] if base_turn.get("claim") else None,
+                "reason": base_turn.get("reason_code"),
+            }
+            base_turn["raw_proposal"] = raw_judge
 
         if not is_live_model:
             return base_turn
@@ -658,8 +969,8 @@ def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enab
                         allowed.add(float(t[k]))
         statuses = {t["status"] for t in tickets if t.get("order_id") == order["order_id"]}
         prices = {float(order["amount_yuan"])} if order.get("amount_yuan") else set()
-        smart_text, syn_usage = synthesize_with_llm(state["messages"], user_text, [order], base_text, allowed, statuses, prices)
-        return {**base_turn, "messages": [AIMessage(content=smart_text, usage_metadata=syn_usage)]}
+        smart_text, syn_usage, syn_meta = synthesize_with_llm(state["messages"], user_text, [order], base_text, allowed, statuses, prices)
+        return {**base_turn, "messages": [AIMessage(content=smart_text, usage_metadata=syn_usage, response_metadata=syn_meta)]}
 
     def confirm(state: CustomerState) -> dict:
         # Nothing runs before interrupt(): LangGraph replays this node from the top on resume.
@@ -674,14 +985,27 @@ def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enab
         customer_id = current_customer(runtime)
         found, order = data.lookup_for_customer(state["claim"]["order_id"], customer_id)
         if order is None:
-            return reply(found, "order_not_verified", NOT_VERIFIED, claim=None)
+            return reply(
+                found, "order_not_verified", NOT_VERIFIED, claim=None,
+                raw_proposal=state.get("raw_proposal"),
+                unsafe_proposal="submit_on_unverified_order",
+                safety_intercept="submit_blocked:order_not_verified",
+            )
         decision = evaluate_order(order_facts(order), policy)
         if decision["status"] != "pending":
-            return reply(decision["status"], decision["reason_code"], outcome_text(order, decision, policy), claim=None)
+            return reply(
+                decision["status"], decision["reason_code"], outcome_text(order, decision, policy),
+                claim=None,
+                raw_proposal=state.get("raw_proposal"),
+                unsafe_proposal="ineligible_order_proposed_for_confirm",
+                safety_intercept=f"submit_blocked:{decision['reason_code']}",
+            )
         subrogation = compute_actuarial_subrogation(order, policy)
         stp_on = bool(stp_enabled_getter and stp_enabled_getter())
+        paid_raw = order.get("amount_yuan")
+        paid_ok = isinstance(paid_raw, (int, float)) and not isinstance(paid_raw, bool) and float(paid_raw) >= float(policy.coupon_yuan)
         auto_note = None
-        if stp_on and subrogation.get("stp_tier") == "STP_L1_GREEN":
+        if stp_on and paid_ok and subrogation.get("stp_tier") == "STP_L1_GREEN":
             auto_note = "准时保 STP 绿灯直通秒批：餐厅按时出餐（本店 ¥0 承担），由平台准时保池 100% 自动发放补偿券。"
         ticket, created = store.create_or_get(
             customer_id=customer_id, order=order, decision=decision,
@@ -693,8 +1017,11 @@ def build_customer_graph(model, data, store, policy, checkpointer=None, stp_enab
             outcome = "ticket_stp_approved"
         else:
             outcome = "ticket_created"
-        return reply(outcome, decision["reason_code"], ticket_text(ticket, created=created),
-                     claim=None, ticket_id=ticket["ticket_id"])
+        return reply(
+            outcome, decision["reason_code"], ticket_text(ticket, created=created),
+            claim=None, ticket_id=ticket["ticket_id"],
+            raw_proposal=state.get("raw_proposal"),
+        )
 
     graph = StateGraph(CustomerState, context_schema=CustomerContext, input_schema=MessagesState)
     graph.add_node("agent", agent)
@@ -732,11 +1059,25 @@ def build_review_graph(store, checkpointer=None):
         })
         if not isinstance(answer, dict) or answer.get("decision") not in DECISION_STATUS or not answer.get("reviewer_id"):
             raise ValueError("审批输入必须包含支持的 decision，以及审批员编号")
-        return {"decision": answer["decision"], "reviewer_id": answer["reviewer_id"], "note": answer.get("note")}
+        return {
+            "decision": answer["decision"],
+            "reviewer_id": answer["reviewer_id"],
+            "note": answer.get("note"),
+            "amount_yuan": answer.get("amount_yuan"),
+            "merchant_bear_yuan": answer.get("merchant_bear_yuan"),
+            "platform_bear_yuan": answer.get("platform_bear_yuan"),
+        }
 
     def record(state: ReviewState) -> dict:
-        ticket = store.decide(state["ticket_id"], decision=state["decision"],
-                              reviewer_id=state["reviewer_id"], note=state.get("note"))
+        ticket = store.decide(
+            state["ticket_id"],
+            decision=state["decision"],
+            reviewer_id=state["reviewer_id"],
+            note=state.get("note"),
+            amount_yuan=state.get("amount_yuan"),
+            merchant_bear_yuan=state.get("merchant_bear_yuan"),
+            platform_bear_yuan=state.get("platform_bear_yuan"),
+        )
         return {"ticket": ticket}
 
     graph = StateGraph(ReviewState)

@@ -6,11 +6,19 @@ const TICKET_STATE_LABELS = { pending: "待审核", needs_info: "待补充", app
 const LINE_ROLE = { customer: "顾客", assistant: "AI", tool: "查询" };
 const BASE_TITLE = "配送关怀 · 67餐厅核损工作台";
 const drafts = new Map();
+const pendingAmountDrafts = new Map();
+const reopenNoteDrafts = new Map();
+const reopenReasonDrafts = new Map();
 const replyDrafts = new Map();
 const followupDrafts = new Map();
 const actionNoteDrafts = new Map();
 const actionAmountDrafts = new Map();
+const actionReasonDrafts = new Map();
 const expandedFollowups = new Set();
+const RECONSIDER_LABELS = {
+  verifiable_relevant_new_information: "可核实的相关新信息",
+  prior_processing_error: "原处理错误",
+};
 let signedIn = false;
 let currentReviewer = null;
 let allReviewers = [];
@@ -22,6 +30,28 @@ let pendingConfirmAction = null;
 
 function canHandle() {
   return Boolean(currentReviewer && currentReviewer.can_handle !== false && currentReviewer.role !== "observer");
+}
+
+function isSupervisor() {
+  return Boolean(
+    currentReviewer &&
+    (currentReviewer.reviewer_id === "R002" ||
+      currentReviewer.role === "supervisor" ||
+      (Array.isArray(currentReviewer.permissions) && currentReviewer.permissions.includes("ticket_custom_amount")))
+  );
+}
+
+function parseStrictAmountInput(rawText) {
+  const trimmed = String(rawText ?? "").trim();
+  if (!trimmed) return { ok: true, value: 10 };
+  if (!/^[+-]?\d+$/.test(trimmed)) {
+    return { ok: false, error: "补偿金额须为 1 至 20 元之间的整数（不支持小数或非数字，不自动四舍五入）。" };
+  }
+  const val = Number(trimmed);
+  if (!Number.isInteger(val) || val < 1 || val > 20) {
+    return { ok: false, error: "补偿金额须为 1 至 20 元之间的整数（系统不自动截断）。" };
+  }
+  return { ok: true, value: val };
 }
 
 function showTab(name) {
@@ -101,6 +131,11 @@ function ticketCard(ticket) {
     attBlock.classList.add("review-attachments");
     card.append(attBlock);
   }
+  if (ticket.prior_review_note) {
+    const priorBox = el("div", "information-request");
+    priorBox.append(el("span", "", "历史原驳回记录（已留档）"), el("p", "", ticket.prior_review_note));
+    card.append(priorBox);
+  }
   if (ticket.information_request) {
     const request = el("div", "information-request");
     request.append(el("span", "", "补充要求"), el("p", "", ticket.information_request));
@@ -127,15 +162,41 @@ function pendingCard(ticket) {
     card.append(ro, ticketHistory(ticket.ticket_id));
     return card;
   }
+  const sup = isSupervisor();
+  const amtRow = el("div", "action-amount-row");
+  const amtInputId = `pending-amount-${ticket.ticket_id}`;
+  const amtLabel = el("label", "", "审批发放金额 (¥)");
+  amtLabel.htmlFor = amtInputId;
+  const amtInput = el("input", "action-amount-input");
+  amtInput.id = amtInputId;
+  amtInput.type = "number";
+  amtInput.min = "1";
+  amtInput.max = "20";
+  amtInput.step = "1";
+  amtInput.dataset.pendingAmount = ticket.ticket_id;
+  if (sup) {
+    amtInput.value = pendingAmountDrafts.has(ticket.ticket_id) ? pendingAmountDrafts.get(ticket.ticket_id) : "10";
+    amtInput.addEventListener("input", () => pendingAmountDrafts.set(ticket.ticket_id, amtInput.value));
+    amtRow.append(
+      amtLabel,
+      amtInput,
+      el("span", "action-amount-hint", `主管权限：1–20 整数元且 ≤ 实付 ¥${ticket.amount_yuan ?? "—"}（非 ¥10 必填说明）`)
+    );
+  } else {
+    amtInput.value = "10";
+    amtInput.disabled = true;
+    amtRow.append(amtLabel, amtInput, el("span", "action-amount-hint", "普通客服固定标准 ¥10；需改额请转交主管 R002"));
+  }
+
   const noteId = `review-note-${ticket.ticket_id}`;
   const label = el("label", "note-label", "处理说明");
   label.htmlFor = noteId;
-  label.append(el("span", "", "拒绝或请补充时必填 · 200 字"));
+  label.append(el("span", "", "拒绝、请补充或主管改额时必填 · 200 字"));
   const note = el("textarea", "note");
   note.id = noteId;
   note.rows = 3;
   note.maxLength = 200;
-  note.placeholder = "填写通过说明、具体驳回原因，或需要顾客补充的信息";
+  note.placeholder = "填写通过说明、主管改额原因、具体驳回原因，或需要顾客补充的信息";
   note.dataset.ticket = ticket.ticket_id;
   note.value = drafts.get(ticket.ticket_id) || "";
   note.addEventListener("input", () => { drafts.set(ticket.ticket_id, note.value); note.removeAttribute("aria-invalid"); });
@@ -172,7 +233,7 @@ function pendingCard(ticket) {
     actions.append(subrogateBtn);
   }
   actions.append(reject, approve);
-  card.append(label, quickRow, note, actions, ticketHistory(ticket.ticket_id));
+  card.append(amtRow, label, quickRow, note, actions, ticketHistory(ticket.ticket_id));
   return card;
 }
 
@@ -191,6 +252,42 @@ function decidedCard(ticket) {
     const note = el("div", "ticket-note");
     note.append(el("span", "", "处理说明"), el("p", "", ticket.review_note));
     card.append(note);
+  }
+  if (ticket.status === "approved") {
+    card.append(
+      el("p", "action-readonly-hint", "一单一赔已完成：已成功发放补偿的原单不支持重审、事后改额或补差价。")
+    );
+  } else if (ticket.status === "rejected" && canHandle()) {
+    const reopenBox = el("section", "handoff-action-zone");
+    reopenBox.setAttribute("aria-label", "有理由重审");
+    const rHead = el("div", "action-zone-head");
+    rHead.append(el("strong", "", `有理由重审（沿原工单 ${ticket.ticket_id} 恢复待审核）`));
+    const rSelect = el("select", "transfer-select");
+    rSelect.id = `reopen-reason-${ticket.ticket_id}`;
+    for (const [val, textLabel] of Object.entries(RECONSIDER_LABELS)) {
+      const opt = document.createElement("option");
+      opt.value = val;
+      opt.textContent = textLabel;
+      rSelect.append(opt);
+    }
+    rSelect.value = reopenReasonDrafts.get(ticket.ticket_id) || "verifiable_relevant_new_information";
+    rSelect.addEventListener("change", () => reopenReasonDrafts.set(ticket.ticket_id, rSelect.value));
+    const rNote = el("textarea", "note action-note-input");
+    rNote.id = `reopen-note-${ticket.ticket_id}`;
+    rNote.rows = 2;
+    rNote.maxLength = 200;
+    rNote.placeholder = "必填：写明可核实的相关新信息或原处理错误依据（仅不满结论不重开）";
+    rNote.value = reopenNoteDrafts.get(ticket.ticket_id) || "";
+    rNote.addEventListener("input", () => {
+      reopenNoteDrafts.set(ticket.ticket_id, rNote.value);
+      rNote.removeAttribute("aria-invalid");
+    });
+    const rActions = el("div", "actions action-btn-row");
+    const rBtn = button("发起重审", "secondary small", () => reopenTicket(ticket.ticket_id));
+    rBtn.dataset.action = "reopen-ticket";
+    rActions.append(rSelect, rBtn);
+    reopenBox.append(rHead, rNote, rActions);
+    card.append(reopenBox);
   }
   const rating = el("p", `review-rating${ticket.rating ? " rated" : ""}`);
   if (ticket.rating) rating.append(icon("star"), el("span", "", `顾客评价 ${ticket.rating} / 5`));
@@ -231,6 +328,12 @@ function actionTimeline(item) {
       parts.push(`状态：${b} → ${a}`);
     }
     if (typeof entry.amount_yuan === "number") parts.push(`金额：¥${entry.amount_yuan}`);
+    if (entry.reason_type && RECONSIDER_LABELS[entry.reason_type]) {
+      parts.push(`重审依据：${RECONSIDER_LABELS[entry.reason_type]}`);
+    }
+    if (entry.issue_result === "already_compensated_no_new_issue") {
+      parts.push("结果：幂等拦截（未重复发券）");
+    }
     row.append(el("small", "history-meta", parts.join(" ｜ ")));
     if (entry.note) row.append(el("p", "", entry.note));
     list.append(row);
@@ -247,6 +350,7 @@ function handoffActionZone(item) {
   if (item.status === "cancelled") return null;
 
   const rt = item.related_ticket;
+  const sup = isSupervisor();
   const zone = el("section", "handoff-action-zone");
   zone.setAttribute("aria-label", "处理动作区");
 
@@ -258,7 +362,7 @@ function handoffActionZone(item) {
   );
   zone.append(header);
 
-  const defaultAmt = rt && rt.proposed_coupon_yuan ? rt.proposed_coupon_yuan : 10;
+  const defaultAmt = 10;
   const needAmount = !rt || rt.status !== "approved";
   const amountInputId = `handoff-action-amount-${hid}`;
   let amountInput = null;
@@ -270,24 +374,52 @@ function handoffActionZone(item) {
     amountInput.id = amountInputId;
     amountInput.type = "number";
     amountInput.min = "1";
-    amountInput.max = "500";
+    amountInput.max = "20";
     amountInput.step = "1";
     amountInput.dataset.actionAmount = hid;
-    amountInput.value = actionAmountDrafts.has(hid) ? actionAmountDrafts.get(hid) : String(defaultAmt);
-    amountInput.addEventListener("input", () => actionAmountDrafts.set(hid, amountInput.value));
-    amtRow.append(amtLabel, amountInput, el("span", "action-amount-hint", "默认 ¥10，可按实情调整（1–500）"));
+    if (sup) {
+      amountInput.value = actionAmountDrafts.has(hid) ? actionAmountDrafts.get(hid) : String(defaultAmt);
+      amountInput.addEventListener("input", () => actionAmountDrafts.set(hid, amountInput.value));
+      const paidCap = item.order_summary && item.order_summary.amount_yuan != null ? `¥${item.order_summary.amount_yuan}` : "待核实";
+      amtRow.append(
+        amtLabel,
+        amountInput,
+        el("span", "action-amount-hint", `主管权限：1–20 整数元且 ≤ 实付（${paidCap}），非 ¥10 必填理由`)
+      );
+    } else {
+      amountInput.value = String(defaultAmt);
+      amountInput.disabled = true;
+      amtRow.append(amtLabel, amountInput, el("span", "action-amount-hint", "普通客服固定标准 ¥10；自定义 1–20 元须转交主管 R002"));
+    }
     zone.append(amtRow);
+  }
+
+  let reasonSelect = null;
+  if (rt && rt.status === "rejected") {
+    const reasonRow = el("div", "action-amount-row");
+    const rLabel = el("label", "", "重审依据类型");
+    reasonSelect = el("select", "transfer-select");
+    for (const [val, textLabel] of Object.entries(RECONSIDER_LABELS)) {
+      const opt = document.createElement("option");
+      opt.value = val;
+      opt.textContent = textLabel;
+      reasonSelect.append(opt);
+    }
+    reasonSelect.value = actionReasonDrafts.get(hid) || "verifiable_relevant_new_information";
+    reasonSelect.addEventListener("change", () => actionReasonDrafts.set(hid, reasonSelect.value));
+    reasonRow.append(rLabel, reasonSelect);
+    zone.append(reasonRow);
   }
 
   const noteId = `handoff-action-note-${hid}`;
   const noteLabel = el("label", "note-label", "处理理由 / 备注说明");
   noteLabel.htmlFor = noteId;
-  noteLabel.append(el("span", "", "驳回、补充材料、内部备注时必填"));
+  noteLabel.append(el("span", "", "驳回、重审、主管改额、补充材料、内部备注时必填"));
   const noteInput = el("textarea", "note action-note-input");
   noteInput.id = noteId;
   noteInput.rows = 2;
   noteInput.maxLength = 300;
-  noteInput.placeholder = "填写给顾客看的驳回原因/补偿说明，或填写仅内部可见的备注…";
+  noteInput.placeholder = "填写给顾客看的驳回原因/重审依据/主管改额理由，或填写仅内部可见的备注…";
   noteInput.dataset.actionNote = hid;
   noteInput.value = actionNoteDrafts.get(hid) || "";
   noteInput.addEventListener("input", () => {
@@ -297,10 +429,23 @@ function handoffActionZone(item) {
   zone.append(noteLabel, noteInput);
 
   const readNote = () => (actionNoteDrafts.get(hid) || "").trim();
-  const readAmount = () => {
+  const readReasonType = () => actionReasonDrafts.get(hid) || "verifiable_relevant_new_information";
+  const readValidatedAmount = () => {
+    if (!sup) return 10;
     const raw = actionAmountDrafts.has(hid) ? actionAmountDrafts.get(hid) : String(defaultAmt);
-    const num = Number(raw);
-    return Number.isFinite(num) && num >= 1 ? Math.round(num) : defaultAmt;
+    const parsed = parseStrictAmountInput(raw);
+    if (!parsed.ok) {
+      if (amountInput) amountInput.focus();
+      showStatus(parsed.error, true);
+      return null;
+    }
+    if (parsed.value !== defaultAmt && !readNote()) {
+      noteInput.setAttribute("aria-invalid", "true");
+      noteInput.focus();
+      showStatus("主管调整非标准补偿金额（非 ¥10）必须填写具体调整原因。", true);
+      return null;
+    }
+    return parsed.value;
   };
   const requireNote = (msg) => {
     const val = readNote();
@@ -318,14 +463,32 @@ function handoffActionZone(item) {
     tGroup.append(el("span", "action-group-label", `申请单处理（${rt.ticket_id} · ${stLabel}）`));
     const tBtns = el("div", "actions action-btn-row");
     if (rt.status === "rejected") {
-      const amtBtn = button(`同意补偿（默认¥${defaultAmt}）`, "primary small", () => {
-        const amt = readAmount();
+      const reopenBtn = button("发起重审（恢复待审核）", "secondary small", () => {
+        const reason = requireNote("发起重审必须写明原因（可核实的相关新信息或原处理错误）。");
+        if (!reason) return;
+        const rType = readReasonType();
         openActionConfirm({
           handoffId: hid,
-          title: "确认同意补偿？",
-          desc: "将把已驳回申请单改判为通过并立即发放补偿券，顾客端同步可见并追加系统消息。",
-          rows: [["订单 / 申请单", `${item.order_id} · ${rt.ticket_id}`], ["状态变更", "已驳回 → 已通过"], ["发放金额", `¥${amt}`], ["说明", readNote() || `人工客服核实通过，发放 ¥${amt} 无门槛补偿券。`]],
-          payload: { action: "approve_compensation", amount_yuan: amt, note: readNote() },
+          title: "确认沿原工单发起重审？",
+          desc: "将沿原工单恢复为「待审核」重新核验，保留旧驳回记录，不自动批准也不新建第二张工单。",
+          rows: [["订单 / 申请单", `${item.order_id} · ${rt.ticket_id}`], ["状态变更", "已驳回 → 待审核"], ["重审依据", RECONSIDER_LABELS[rType]], ["重审原因", reason]],
+          payload: { action: "reopen", reason_type: rType, note: reason },
+        });
+      });
+      reopenBtn.dataset.handoffAction = "reopen";
+
+      const amtBtn = button(`重审并同意补偿`, "primary small", () => {
+        const reason = requireNote("对已驳回工单改判补偿必须写明复核原因（可核实新信息或原处理错误）。");
+        if (!reason) return;
+        const amt = readValidatedAmount();
+        if (amt === null) return;
+        const rType = readReasonType();
+        openActionConfirm({
+          handoffId: hid,
+          title: "确认重审并同意补偿？",
+          desc: "将沿原申请单改判为通过并发放唯一补偿券（保留原驳回历史），顾客端同步可见。",
+          rows: [["订单 / 申请单", `${item.order_id} · ${rt.ticket_id}`], ["状态变更", "已驳回 → 已通过"], ["重审依据", RECONSIDER_LABELS[rType]], ["发放金额", `¥${amt}`], ["复核原因", reason]],
+          payload: { action: "approve_compensation", amount_yuan: amt, reason_type: rType, note: reason },
         });
       });
       amtBtn.dataset.handoffAction = "approve_compensation";
@@ -337,7 +500,7 @@ function handoffActionZone(item) {
           handoffId: hid, danger: true,
           title: "确认维持驳回？",
           desc: "申请单将维持「已驳回」状态，填写的驳回理由将同步展示给顾客。",
-          rows: [["订单 / 申请单", `${item.order_id} · ${rt.ticket_id}`], ["状态变更", "已驳回 → 已驳回（更新理由）"], ["驳回理由（顾客可见）", reason]],
+          rows: [["订单 / 申请单", `${item.order_id} · ${rt.ticket_id}`], ["状态变更", "已驳回 → 已驳回（维持原结论）"], ["解释说明（顾客可见）", reason]],
           payload: { action: "uphold_reject", note: reason },
         });
       });
@@ -346,12 +509,13 @@ function handoffActionZone(item) {
       const reqBtn = button("要求补充材料", "secondary small", () => {
         const reason = requireNote("请填写需要顾客补充的材料说明。");
         if (!reason) return;
+        const rType = readReasonType();
         openActionConfirm({
           handoffId: hid,
           title: "确认要求补充材料？",
-          desc: "申请单将流转为「待补充」，顾客端将出现材料提交表单。",
+          desc: "申请单将沿原工单流转为「待补充」，顾客端将出现材料提交表单。",
           rows: [["订单 / 申请单", `${item.order_id} · ${rt.ticket_id}`], ["状态变更", "已驳回 → 待补充"], ["补充要求", reason]],
-          payload: { action: "request_info", note: reason },
+          payload: { action: "request_info", reason_type: rType, note: reason },
         });
       });
       reqBtn.dataset.handoffAction = "request_info";
@@ -366,10 +530,11 @@ function handoffActionZone(item) {
         });
       });
       escBtn.dataset.handoffAction = "escalate";
-      tBtns.append(amtBtn, upholdBtn, reqBtn, escBtn);
+      tBtns.append(reopenBtn, amtBtn, upholdBtn, reqBtn, escBtn);
     } else if (rt.status === "pending") {
       const passBtn = button("通过", "primary small", () => {
-        const amt = readAmount();
+        const amt = readValidatedAmount();
+        if (amt === null) return;
         openActionConfirm({
           handoffId: hid,
           title: "确认通过申请？",
@@ -414,7 +579,8 @@ function handoffActionZone(item) {
       tBtns.append(passBtn, rejBtn, expBtn, targetSelect, transBtn);
     } else if (rt.status === "needs_info") {
       const passBtn = button("直接同意补偿", "primary small", () => {
-        const amt = readAmount();
+        const amt = readValidatedAmount();
+        if (amt === null) return;
         openActionConfirm({
           handoffId: hid,
           title: "确认直接通过补偿？",
@@ -427,17 +593,13 @@ function handoffActionZone(item) {
       const transBtn = button("转交", "secondary small", () => executeHandoffAction(hid, { action: "transfer", note: readNote() }));
       tBtns.append(passBtn, expBtn, transBtn);
     } else if (rt.status === "approved") {
-      const reopenBtn = button("重新开启", "secondary small", () => {
-        openActionConfirm({
-          handoffId: hid,
-          title: "确认重新开启申请单？",
-          desc: "将把已通过的申请单重新恢复为「待审核」状态以便复核。",
-          rows: [["订单 / 申请单", `${item.order_id} · ${rt.ticket_id}`], ["状态变更", "已通过 → 待审核"], ["说明", readNote() || "坐席重新开启申请单进入待审核"]],
-          payload: { action: "reopen", note: readNote() },
-        });
-      });
-      reopenBtn.dataset.handoffAction = "reopen";
-      tBtns.append(reopenBtn, el("span", "action-readonly-hint", `已发券 ¥${rt.coupon_issued_yuan ?? rt.proposed_coupon_yuan}（下方可查完整处理流水）`));
+      tBtns.append(
+        el(
+          "span",
+          "action-readonly-hint",
+          `已完成唯一补偿 ¥${rt.coupon_issued_yuan ?? rt.proposed_coupon_yuan}（一单一赔：不支持事后重审、改额或补差价）`
+        )
+      );
     }
     tGroup.append(tBtns);
     zone.append(tGroup);
@@ -446,7 +608,8 @@ function handoffActionZone(item) {
     tGroup.append(el("span", "action-group-label", `本单补偿/退款独立处理（订单 ${item.order_id} · 处理单 ${hid}）`));
     const tBtns = el("div", "actions action-btn-row");
     const directApprove = button(`同意补偿（默认¥${defaultAmt}）`, "primary small", () => {
-      const amt = readAmount();
+      const amt = readValidatedAmount();
+      if (amt === null) return;
       openActionConfirm({
         handoffId: hid,
         title: "确认同意本单补偿？",
@@ -493,7 +656,8 @@ function handoffActionZone(item) {
 
   if (item.order_id && !rt) {
     const createBtn = button("创建工单", "primary small", () => {
-      const amt = readAmount();
+      const amt = readValidatedAmount();
+      if (amt === null) return;
       openActionConfirm({
         handoffId: hid,
         title: "确认创建售后工单？",
@@ -711,10 +875,14 @@ function signOut() {
   currentReviewer = null;
   lastTickets = "";
   drafts.clear();
+  pendingAmountDrafts.clear();
+  reopenNoteDrafts.clear();
+  reopenReasonDrafts.clear();
   replyDrafts.clear();
   followupDrafts.clear();
   actionNoteDrafts.clear();
   actionAmountDrafts.clear();
+  actionReasonDrafts.clear();
   expandedFollowups.clear();
   document.title = BASE_TITLE;
   setSignedIn(null);
@@ -791,28 +959,75 @@ async function executeHandoffAction(handoffId, payload) {
 
 async function decide(ticketId, decision) {
   if (busy) return;
-  if ((decision === "request_info" || decision === "reject") && !(drafts.get(ticketId) || "").trim()) {
+  const noteVal = (drafts.get(ticketId) || "").trim();
+  if ((decision === "request_info" || decision === "reject") && !noteVal) {
     const note = document.getElementById(`review-note-${ticketId}`);
-    note.setAttribute("aria-invalid", "true");
-    note.focus();
+    if (note) { note.setAttribute("aria-invalid", "true"); note.focus(); }
     showStatus(decision === "reject" ? "请填写具体驳回原因，方便顾客查看说明" : "请填写需要顾客补充的信息", true);
     return;
   }
+  let amountPayload = undefined;
+  if (decision === "approve" && isSupervisor() && pendingAmountDrafts.has(ticketId)) {
+    const parsed = parseStrictAmountInput(pendingAmountDrafts.get(ticketId));
+    if (!parsed.ok) {
+      const amtEl = document.getElementById(`pending-amount-${ticketId}`);
+      if (amtEl) amtEl.focus();
+      showStatus(parsed.error, true);
+      return;
+    }
+    amountPayload = parsed.value;
+    if (parsed.value !== 10 && !noteVal) {
+      const note = document.getElementById(`review-note-${ticketId}`);
+      if (note) { note.setAttribute("aria-invalid", "true"); note.focus(); }
+      showStatus("主管调整非标准补偿金额（非 ¥10）必须填写具体调整原因。", true);
+      return;
+    }
+  }
   const otherPendingRemain = pendingCountSnapshot > 1;
   busy = true;
-  for (const node of document.querySelectorAll("#pending button, #pending textarea")) node.disabled = true;
+  for (const node of document.querySelectorAll("#pending button, #pending textarea, #pending input")) node.disabled = true;
   showStatus("处理中…");
   try {
     const path = `/api/review/tickets/${encodeURIComponent(ticketId)}/decision`;
-    const result = await api(path, { decision, note: drafts.get(ticketId) || "" });
+    const reqBody = { decision, note: drafts.get(ticketId) || "" };
+    if (amountPayload !== undefined) reqBody.amount_yuan = amountPayload;
+    const result = await api(path, reqBody);
     drafts.delete(ticketId);
-    showStatus(`${ticketId} · ${STATUS_TEXT[result.ticket.status]}`);
+    pendingAmountDrafts.delete(ticketId);
+    const dedupHint = result.deduplicated ? "（幂等拦截：未重复发券）" : "";
+    showStatus(`${ticketId} · ${STATUS_TEXT[result.ticket.status]}${dedupHint}`);
     // Stay on "pending" during multi-ticket peak batches; switch to "decided" once the queue is cleared!
     if (decision === "request_info" || otherPendingRemain) {
       showTab("pending");
     } else {
       showTab("decided");
     }
+  } catch (error) { showStatus(error.message, true); }
+  finally {
+    busy = false;
+    lastTickets = "";
+    await refresh().catch((error) => showStatus(error.message, true));
+  }
+}
+
+async function reopenTicket(ticketId) {
+  if (busy) return;
+  const noteVal = (reopenNoteDrafts.get(ticketId) || "").trim();
+  if (!noteVal) {
+    const rNote = document.getElementById(`reopen-note-${ticketId}`);
+    if (rNote) { rNote.setAttribute("aria-invalid", "true"); rNote.focus(); }
+    showStatus("发起重审必须写明原因（可核实的相关新信息或原处理错误）。", true);
+    return;
+  }
+  const reasonType = reopenReasonDrafts.get(ticketId) || "verifiable_relevant_new_information";
+  busy = true;
+  showStatus("正在沿原工单发起重审…");
+  try {
+    const path = `/api/review/tickets/${encodeURIComponent(ticketId)}/reopen`;
+    await api(path, { note: noteVal, reason_type: reasonType });
+    reopenNoteDrafts.delete(ticketId);
+    showStatus(`${ticketId} · 已沿原工单恢复待审核（旧驳回记录已留档）`);
+    showTab("pending");
   } catch (error) { showStatus(error.message, true); }
   finally {
     busy = false;

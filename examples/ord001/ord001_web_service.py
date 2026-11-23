@@ -48,12 +48,16 @@ MAX_LOCK_ENTRIES = 512
 class ServiceError(Exception):
     """An expected refusal that the web layer turns into an HTTP status."""
 
-    def __init__(self, status: int, code: str, message: str):
+    def __init__(self, status: int, code: str, message: str, *, extra: dict | None = None):
         super().__init__(message)
-        self.status, self.code, self.message = status, code, message
+        self.status, self.code, self.message, self.extra = status, code, message, (extra or {})
 
 
-def default_model(config_path=None):
+REVIEW_POLICY_VERSION = "human-review-v1"
+VALID_RECONSIDER_REASONS = ("verifiable_relevant_new_information", "prior_processing_error")
+
+
+def build_model_bundle(config_path=None):
     config_path = config_path or os.getenv("ORD001_MODEL_CONFIG")
     if config_path:
         config = json.loads(Path(config_path).expanduser().read_text(encoding="utf-8"))
@@ -70,9 +74,21 @@ def default_model(config_path=None):
             "base_url": config["base_url"].rstrip("/"), "api_key": config["api_key"].strip(),
             "temperature": 0.35, "max_tokens": 800, "timeout": 30, "max_retries": 0,
         }
+        thinking_mode = "default"
         if base.hostname == "api.deepseek.com":
             options["extra_body"] = {"thinking": {"type": "disabled"}}
-        return init_chat_model(**options), f"openai:{options['model']}"
+            thinking_mode = "disabled"
+        redacted_params = {
+            "provider": "openai_compatible",
+            "requested_model": options["model"],
+            "base_url": options["base_url"],
+            "temperature": options["temperature"],
+            "max_tokens": options["max_tokens"],
+            "timeout_seconds": options["timeout"],
+            "max_retries": options["max_retries"],
+            "thinking": thinking_mode,
+        }
+        return init_chat_model(**options), f"openai:{options['model']}", redacted_params
     ds_key = os.getenv("DEEPSEEK_API_KEY")
     if ds_key and ds_key.strip():
         model_name = (os.getenv("DEEPSEEK_MODEL") or "deepseek-chat").strip()
@@ -83,11 +99,34 @@ def default_model(config_path=None):
             "temperature": 0.35, "max_tokens": 800, "timeout": 30, "max_retries": 0,
             "extra_body": {"thinking": {"type": "disabled"}},
         }
-        return init_chat_model(**options), f"openai:{model_name}"
+        redacted_params = {
+            "provider": "openai_compatible",
+            "requested_model": model_name,
+            "base_url": base_url,
+            "temperature": 0.35,
+            "max_tokens": 800,
+            "timeout_seconds": 30,
+            "max_retries": 0,
+            "thinking": "disabled",
+        }
+        return init_chat_model(**options), f"openai:{model_name}", redacted_params
     model_id = os.getenv("ORD001_CHAT_MODEL")
     if model_id:
-        return init_chat_model(model_id, timeout=30, max_retries=0), model_id
-    return ScriptedOrderModel(), "ord001-scripted-model"
+        return init_chat_model(model_id, timeout=30, max_retries=0), model_id, {
+            "provider": "langchain_init_chat_model",
+            "requested_model": model_id,
+            "timeout_seconds": 30,
+            "max_retries": 0,
+        }
+    return ScriptedOrderModel(), "ord001-scripted-model", {
+        "provider": "local_scripted_mock",
+        "requested_model": "ord001-scripted-model",
+    }
+
+
+def default_model(config_path=None):
+    model, label, _ = build_model_bundle(config_path)
+    return model, label
 
 
 def visible_messages(messages) -> list[dict]:
@@ -336,7 +375,7 @@ def review_handoff_copy(handoff: dict, order: dict | None = None, related_ticket
         result["related_ticket"] = {
             k: related_ticket.get(k)
             for k in (
-                "ticket_id", "status", "review_note", "proposed_coupon_yuan", "coupon_issued_yuan",
+                "ticket_id", "status", "review_note", "prior_review_note", "proposed_coupon_yuan", "coupon_issued_yuan",
                 "information_request", "customer_information", "is_expedited", "escalated_to", "assigned_reviewer_id"
             )
         }
@@ -350,6 +389,22 @@ def token_usage(messages) -> dict | None:
             if isinstance(value, int):
                 total[key] = total.get(key, 0) + value
     return total or None
+
+
+def extract_returned_model(messages) -> tuple[str | None, int]:
+    """Return (provider_returned_model_id, llm_call_count) from AIMessage metadata."""
+    ret_model = None
+    calls = 0
+    for message in messages:
+        if isinstance(message, AIMessage):
+            meta = getattr(message, "response_metadata", None) or {}
+            usage = getattr(message, "usage_metadata", None)
+            if meta or usage:
+                calls += 1
+            cand = meta.get("model_name") or meta.get("model")
+            if isinstance(cand, str) and cand.strip():
+                ret_model = cand.strip()
+    return ret_model, calls
 
 
 CUSTOMER_INTERNAL_TICKET_KEYS = {"reviewer_id", "tenant_id", "stp_tier", "merchant_bear_yuan", "platform_bear_yuan"}
@@ -373,11 +428,20 @@ class DemoService:
     """Customer turns, confirmations and reviews. Identity always comes from the caller's server session."""
 
     def __init__(self, *, model=None, model_label=None, model_config_path=None,
-                 data=None, policy=None, db_path=":memory:", stp_auto_approve: bool = False):
+                 data=None, policy=None, db_path=":memory:", stp_auto_approve: bool = False,
+                 agent_mode: str | None = None):
         if model is None:
-            model, model_label = default_model(model_config_path)
+            model, model_label, model_params = build_model_bundle(model_config_path)
+        else:
+            model_params = {"provider": "injected_model", "requested_model": model_label or type(model).__name__}
         self.model = model
         self.model_label = model_label or getattr(model, "_llm_type", type(model).__name__)
+        self.model_params = model_params
+        self.last_returned_model: str | None = None
+        mode_raw = (agent_mode or os.getenv("ORD001_AGENT_MODE") or "C").strip().upper()
+        if mode_raw not in ("C", "B"):
+            raise ValueError("agent_mode 仅支持 'C'（显式业务规则型）或 'B'（基础工具型对照）。")
+        self.agent_mode = mode_raw
         self.data = data or DemoData()
         self.policy = policy or load_policy()
         self.store = TicketStore(db_path)
@@ -396,16 +460,21 @@ class DemoService:
             self.model, self.data, self.store, self.policy,
             checkpointer=self._customer_ckpt,
             stp_enabled_getter=lambda: self.stp_auto_approve,
+            agent_mode=self.agent_mode,
         )
         self.review_graph = build_review_graph(self.store, checkpointer=self._review_ckpt)
 
     def info(self) -> dict:
         return {
             "policy": asdict(self.policy),
+            "review_policy_version": REVIEW_POLICY_VERSION,
+            "agent_mode": self.agent_mode,
             "stp_auto_approve": self.stp_auto_approve,
             "data_version": self.data.version,
             "service_date": self.data.service_date,
             "model": self.model_label,
+            "model_params": self.model_params,
+            "last_returned_model": self.last_returned_model,
             "model_mode": "scripted" if isinstance(self.model, ScriptedOrderModel) else "live",
             "customers": list(self.data.customers.values()),
             "reviewers": list(self.data.reviewers.values()),
@@ -451,7 +520,13 @@ class DemoService:
         return {"stp_auto_approve": self.stp_auto_approve, "auto_cleared_count": auto_cleared}
 
     def _record(self, **entry) -> None:
-        entry = {"at": now_text(), **entry, "policy_version": self.policy.version, "model": self.model_label}
+        entry = {
+            "at": now_text(), **entry,
+            "policy_version": self.policy.version,
+            "review_policy_version": REVIEW_POLICY_VERSION,
+            "agent_mode": self.agent_mode,
+            "model": self.model_label,
+        }
         chained = self.store.append_audit_log(entry)
         self.run_log.append(chained)
         log.info(json.dumps(chained, ensure_ascii=False))
@@ -704,9 +779,13 @@ class DemoService:
             retracted = False
             final_values = None
             cust_prices = {float(o["amount_yuan"]) for o in self.data.orders_for_customer(customer_id) if o.get("amount_yuan")}
-            existing_statuses = {t["status"] for t in self.store.tickets(customer_id=customer_id)} | {"pending"}
+            cust_tickets = self.store.tickets(customer_id=customer_id)
+            existing_statuses = {t["status"] for t in cust_tickets} | {"pending"}
             allowed = {float(self.policy.coupon_yuan)} | {
-                round(min(float(self.policy.coupon_yuan), max(2.0, p * 0.40)), 1) for p in cust_prices
+                float(t[k])
+                for t in cust_tickets
+                for k in ("proposed_coupon_yuan", "coupon_issued_yuan")
+                if t.get(k) is not None
             }
 
             yield {"type": "ack", "status": "verifying"}
@@ -720,7 +799,8 @@ class DemoService:
                     if mode == "messages":
                         msg_chunk, meta = chunk
                         node_name = (meta or {}).get("langgraph_node", "")
-                        if node_name in ("agent", "assess") and getattr(msg_chunk, "content", None) and not getattr(msg_chunk, "tool_calls", None):
+                        stream_nodes = ("agent",) if self.agent_mode == "B" else ("agent", "assess")
+                        if node_name in stream_nodes and getattr(msg_chunk, "content", None) and not getattr(msg_chunk, "tool_calls", None):
                             piece = str(msg_chunk.content)
                             clause_buf += piece
                             if not retracted and any(p in piece for p in ("，", "。", "！", "？", "；", "\n")):
@@ -745,6 +825,10 @@ class DemoService:
             end_snap = self.customer_graph.get_state(config)
             latency_ms = round((time.perf_counter() - started) * 1000)
             new_messages = result.get("messages", [])[before:]
+            ret_model, llm_calls = extract_returned_model(new_messages)
+            if ret_model:
+                self.last_returned_model = ret_model
+            usage = token_usage(new_messages)
             ticket = self.store.get(result["ticket_id"]) if result.get("ticket_id") else None
             if result.get("outcome") == "ticket_created":
                 self._open_review(ticket["ticket_id"])
@@ -758,10 +842,15 @@ class DemoService:
                 elif len(final_txt) > emitted_len:
                     yield {"type": "delta", "text": final_txt[emitted_len:]}
             order_id = requested_order(new_messages) or (confirmation or ticket or {}).get("order_id")
-            self._record(event="customer_message_stream", customer_id=customer_id, thread_id=thread_id,
-                         outcome=result.get("outcome"), reason_code=result.get("reason_code"),
-                         order_id=order_id, ticket_id=ticket["ticket_id"] if ticket else None,
-                         latency_ms=latency_ms, usage=token_usage(new_messages))
+            self._record(
+                event="customer_message_stream", customer_id=customer_id, thread_id=thread_id,
+                outcome=result.get("outcome"), reason_code=result.get("reason_code"),
+                order_id=order_id, ticket_id=ticket["ticket_id"] if ticket else None,
+                latency_ms=latency_ms, llm_calls=llm_calls, returned_model_id=ret_model, usage=usage,
+                raw_proposal=result.get("raw_proposal"),
+                unsafe_proposal=result.get("unsafe_proposal"),
+                safety_intercept=result.get("safety_intercept"),
+            )
             yield {
                 "type": "done",
                 "result": {
@@ -770,6 +859,13 @@ class DemoService:
                     "messages": vis,
                     "confirmation": confirmation,
                     "ticket": customer_copy(ticket) if ticket else None,
+                    "raw_proposal": result.get("raw_proposal"),
+                    "unsafe_proposal": result.get("unsafe_proposal"),
+                    "safety_intercept": result.get("safety_intercept"),
+                    "latency_ms": latency_ms,
+                    "llm_calls": llm_calls,
+                    "returned_model_id": ret_model,
+                    "usage": usage,
                 },
             }
 
@@ -838,22 +934,39 @@ class DemoService:
             raise ServiceError(503, "model_unavailable", "客服连接超时或中断，请重试。你的输入已保留。") from None
         latency_ms = round((time.perf_counter() - started) * 1000)
         new_messages = result.get("messages", [])[before:]
+        ret_model, llm_calls = extract_returned_model(new_messages)
+        if ret_model:
+            self.last_returned_model = ret_model
+        usage = token_usage(new_messages)
         ticket = self.store.get(result["ticket_id"]) if result.get("ticket_id") else None
         if result.get("outcome") == "ticket_created":
             self._open_review(ticket["ticket_id"])
         confirmation = first_request(result.get("__interrupt__"), "confirm_submission")
         order_id = requested_order(new_messages) or (confirmation or waiting or ticket or {}).get("order_id")
         guarded = {"guarded": result.get("guarded")} if result.get("reason_code") == "reply_guarded" else {}
-        self._record(event=event, customer_id=customer_id, thread_id=thread_id, outcome=result.get("outcome"),
-                     reason_code=result.get("reason_code"), order_id=order_id,
-                     ticket_id=ticket["ticket_id"] if ticket else None,
-                     latency_ms=latency_ms, usage=token_usage(new_messages), **guarded)
+        self._record(
+            event=event, customer_id=customer_id, thread_id=thread_id, outcome=result.get("outcome"),
+            reason_code=result.get("reason_code"), order_id=order_id,
+            ticket_id=ticket["ticket_id"] if ticket else None,
+            latency_ms=latency_ms, llm_calls=llm_calls, returned_model_id=ret_model, usage=usage,
+            raw_proposal=result.get("raw_proposal"),
+            unsafe_proposal=result.get("unsafe_proposal"),
+            safety_intercept=result.get("safety_intercept"),
+            **guarded,
+        )
         return {
             "outcome": result.get("outcome"),
             "reason_code": result.get("reason_code"),
             "messages": visible_messages(new_messages),
             "confirmation": confirmation,
             "ticket": customer_copy(ticket) if ticket else None,
+            "raw_proposal": result.get("raw_proposal"),
+            "unsafe_proposal": result.get("unsafe_proposal"),
+            "safety_intercept": result.get("safety_intercept"),
+            "latency_ms": latency_ms,
+            "llm_calls": llm_calls,
+            "returned_model_id": ret_model,
+            "usage": usage,
         }
 
     def customer_orders(self, customer_id: str) -> list[dict]:
@@ -1121,15 +1234,22 @@ class DemoService:
         self._assert_action_permission(reviewer_id, "ticket_approve")
         tenant_id = self._reviewer_tenant(reviewer_id)
         approved_ids: list[str] = []
+        skipped_ids: list[str] = []
         for raw_ticket in self.store.tickets(tenant_id=tenant_id):
             if raw_ticket["status"] != "pending":
                 continue
             enriched = self._enrich_review_ticket(raw_ticket)
             if enriched.get("stp_tier") == "STP_L1_GREEN" or enriched.get("merchant_bear_yuan") == 0:
+                order = self.data.orders.get(raw_ticket["order_id"])
+                try:
+                    self._validate_issue_amount_and_role(reviewer_id, order, None, None, check_paid_cap=True)
+                except ServiceError:
+                    skipped_ids.append(raw_ticket["ticket_id"])
+                    continue
                 note = "平台准时保池 100% 直赔（本店按时出餐 ¥0 承担）"
                 self.decide(raw_ticket["ticket_id"], reviewer_id, "approve", note)
                 approved_ids.append(raw_ticket["ticket_id"])
-        return {"approved_ticket_ids": approved_ids, "count": len(approved_ids)}
+        return {"approved_ticket_ids": approved_ids, "skipped_ticket_ids": skipped_ids, "count": len(approved_ids)}
 
     def analytics(self, reviewer_id: str | None = None) -> dict:
         """Real-time Unit Economics, Subrogation Recovery, Guardrail & CSAT Flywheel dashboard for /review."""
@@ -1271,17 +1391,6 @@ class DemoService:
         )
 
     @staticmethod
-    def _parse_amount(raw_amount, default_amount: int | float = 10) -> int:
-        if raw_amount is None or raw_amount == "":
-            return int(round(default_amount))
-        if isinstance(raw_amount, bool) or not isinstance(raw_amount, (int, float)):
-            raise ServiceError(400, "invalid_amount", "补偿金额必须是有效数字。")
-        amt = int(round(float(raw_amount)))
-        if amt < 1 or amt > 500:
-            raise ServiceError(400, "invalid_amount", "补偿金额须在 1 到 500 元之间。")
-        return amt
-
-    @staticmethod
     def _require_note(raw_note, err_msg: str, limit: int = 200) -> str:
         if not isinstance(raw_note, str) or not raw_note.strip():
             raise ServiceError(400, "note_required", err_msg)
@@ -1299,9 +1408,145 @@ class DemoService:
             raise ServiceError(400, "note_too_long", f"说明内容不能超过 {limit} 个字。")
         return cleaned
 
+    def _validate_issue_amount_and_role(
+        self,
+        reviewer_id: str,
+        order: dict | None,
+        raw_amount,
+        raw_note,
+        *,
+        check_paid_cap: bool = True,
+    ) -> tuple[int, str | None]:
+        """Enforce human-review-v1 HR04 (role), HR05 (1..20 integer + custom reason), HR06 (<= trusted paid amount)."""
+        default_amt = int(self.policy.coupon_yuan)
+        rev = self.data.reviewers.get(reviewer_id) or {}
+        is_supervisor = (reviewer_id == "R002") or (rev.get("role") == "supervisor") or (
+            "ticket_custom_amount" in (rev.get("permissions") or [])
+        )
+
+        if raw_amount is None or raw_amount == "":
+            amt = default_amt
+            explicit_custom = False
+        else:
+            if isinstance(raw_amount, bool):
+                raise ServiceError(400, "invalid_amount", "补偿金额须为 1 至 20 元之间的整数。")
+            if isinstance(raw_amount, int):
+                amt = raw_amount
+            elif isinstance(raw_amount, float):
+                if not raw_amount.is_integer():
+                    raise ServiceError(
+                        400,
+                        "non_integer_amount",
+                        "补偿金额须为 1 至 20 元之间的整数，不支持小数金额（不自动四舍五入）。",
+                    )
+                amt = int(raw_amount)
+            elif isinstance(raw_amount, str):
+                s = raw_amount.strip()
+                if not re.fullmatch(r"[+-]?\d+", s):
+                    raise ServiceError(
+                        400,
+                        "non_integer_amount",
+                        "补偿金额须为 1 至 20 元之间的整数，不支持小数或非数字输入。",
+                    )
+                amt = int(s)
+            else:
+                raise ServiceError(400, "invalid_amount", "补偿金额须为 1 至 20 元之间的整数。")
+            explicit_custom = (amt != default_amt)
+
+        if explicit_custom and not is_supervisor:
+            raise ServiceError(
+                403,
+                "custom_amount_supervisor_only",
+                f"普通客服仅可按标准 ¥{default_amt} 处理；自定义补偿金额须由主管专席（R002）审批。",
+            )
+
+        if amt < 1 or amt > 20:
+            raise ServiceError(
+                400,
+                "amount_out_of_range",
+                "补偿金额须为 1 至 20 元之间的整数，系统不会自动截断为边界值。",
+            )
+
+        cleaned_note: str | None = None
+        if isinstance(raw_note, str) and raw_note.strip():
+            cleaned_note = raw_note.strip()
+            if len(cleaned_note) > 200:
+                raise ServiceError(400, "note_too_long", "说明内容不能超过 200 个字。")
+        if explicit_custom and not cleaned_note:
+            raise ServiceError(
+                400,
+                "custom_amount_reason_required",
+                f"主管调整非标准补偿金额（非 ¥{default_amt}）必须填写具体调整原因。",
+            )
+
+        if check_paid_cap:
+            if not isinstance(order, dict):
+                raise ServiceError(409, "unverified_paid_amount", "订单实付金额无法核实，暂不可发放补偿。")
+            paid_raw = order.get("amount_yuan")
+            if paid_raw is None or isinstance(paid_raw, bool) or not isinstance(paid_raw, (int, float)) or float(paid_raw) <= 0:
+                raise ServiceError(
+                    409,
+                    "unverified_paid_amount",
+                    "该订单缺少可信实付金额记录，系统不凭聊天自报金额发放补偿，请先核实订单实付。",
+                )
+            paid_val = float(paid_raw)
+            if float(amt) > paid_val:
+                if not explicit_custom:
+                    raise ServiceError(
+                        409,
+                        "standard_amount_exceeds_paid",
+                        f"标准补偿 ¥{amt} 超过订单可信实付金额 ¥{paid_raw:g}，系统不自动降额，请转交主管（R002）在实付上限内审批。",
+                    )
+                raise ServiceError(
+                    409,
+                    "amount_exceeds_paid",
+                    f"补偿金额 ¥{amt} 不可超过订单可信实付金额 ¥{paid_raw:g}。",
+                )
+
+        return amt, cleaned_note
+
+    def _validate_reconsideration(
+        self,
+        ticket: dict,
+        raw_note,
+        raw_reason_type=None,
+    ) -> tuple[str, str]:
+        """Enforce human-review-v1 HR01/HR02/HR03 reconsideration rules."""
+        if self.store.compensated_for_order(ticket["order_id"]) is not None or ticket["status"] == "approved":
+            raise ServiceError(
+                409,
+                "already_compensated_no_reconsider",
+                "该订单已完成唯一补偿发放（一单一赔），不支持重审、改额或补差价。",
+            )
+        if ticket["status"] != "rejected":
+            raise ServiceError(
+                409,
+                "invalid_ticket_state",
+                "仅「已驳回且未发放补偿」的原申请单允许发起重审。",
+            )
+        cleaned_note = self._require_note(
+            raw_note,
+            "发起重审或改判已驳回申请必须写明原因（可核实的相关新信息或原处理错误）。",
+        )
+        rt = str(raw_reason_type).strip() if raw_reason_type is not None else ""
+        if rt and rt not in VALID_RECONSIDER_REASONS:
+            raise ServiceError(
+                400,
+                "invalid_reconsider_reason_type",
+                "重审原因类型须为 verifiable_relevant_new_information（可核实的新信息）或 prior_processing_error（原处理错误）；仅因不满结论不得重审。",
+            )
+        return cleaned_note, (rt or "verifiable_relevant_new_information")
+
     def perform_handoff_action(self, handoff_id: str, reviewer_id: str, payload: dict) -> dict:
         """Execute a closed-loop ticket or order handling action inside a human agent session."""
         action = payload.get("action")
+        if action in ("change_amount", "top_up"):
+            self._assert_action_permission(reviewer_id, "ticket_approve")
+            raise ServiceError(
+                409,
+                "post_issue_amount_change_disallowed",
+                "已成功发放补偿的订单遵循一单一赔，不支持事后改额或补差价。",
+            )
         perm_map = {
             "approve_compensation": ("ticket_approve", "同意补偿"),
             "approve": ("ticket_approve", "通过申请"),
@@ -1311,7 +1556,7 @@ class DemoService:
             "escalate": ("ticket_escalate", "升级主管"),
             "expedite": ("ticket_expedite", "加急处理"),
             "transfer": ("ticket_transfer", "转交他席"),
-            "reopen": ("ticket_reopen", "重新开启"),
+            "reopen": ("ticket_reopen", "发起重审"),
             "urge_or_reassign": ("order_urge", "催单/改派"),
             "internal_note": ("order_note", "内部备注"),
             "create_ticket": ("order_ticket", "创建工单"),
@@ -1340,48 +1585,102 @@ class DemoService:
             sys_msg: str | None = None
             before_st: str | None = None
             after_st: str | None = None
+            before_amt: float | None = ticket.get("coupon_issued_yuan") if ticket else None
             amt_val: float | None = None
             log_note: str | None = None
+            reason_type: str | None = None
+            issue_result: str | None = None
+            deduplicated = False
             is_internal = False
             transition_replied = False
             close_session = False
 
             if action in ("approve_compensation", "approve"):
+                if not order:
+                    raise ServiceError(409, "ticket_required", "当前会话未关联具体订单，无法执行补偿审批。")
+                if payload.get("intent") in ("change_amount", "top_up"):
+                    raise ServiceError(
+                        409,
+                        "post_issue_amount_change_disallowed",
+                        "已成功发放补偿的订单不支持事后改额或补差价。",
+                    )
+                amt_val, cleaned_note = self._validate_issue_amount_and_role(
+                    reviewer_id, order, payload.get("amount_yuan"), payload.get("note"), check_paid_cap=True
+                )
+                existing_comp = self.store.compensated_for_order(oid) if oid else None
+                if existing_comp is not None or (ticket and ticket["status"] == "approved" and ticket.get("coupon_issued_yuan") is not None):
+                    comp_ticket = existing_comp or ticket
+                    self.store.log_action(
+                        handoff_id=handoff_id, order_id=oid, ticket_id=comp_ticket["ticket_id"],
+                        actor_id=reviewer_id, actor_name=actor_name, actor_role=actor_role,
+                        action=action, action_label="重复审批拦截",
+                        before_status="approved", after_status="approved",
+                        before_amount_yuan=comp_ticket.get("coupon_issued_yuan"),
+                        amount_yuan=comp_ticket.get("coupon_issued_yuan"),
+                        note=cleaned_note or "已有唯一补偿记录，返回原状态未重复发券",
+                        issue_result="already_compensated_no_new_issue",
+                    )
+                    raise ServiceError(
+                        409,
+                        "ticket_already_approved",
+                        f"该订单已完成唯一补偿发放（¥{comp_ticket.get('coupon_issued_yuan')}），返回已有结果且不重复发券。",
+                        extra={
+                            "deduplicated": True,
+                            "issue_result": "already_compensated_no_new_issue",
+                            "existing_status": comp_ticket["status"],
+                            "ticket": self._enrich_review_ticket(comp_ticket),
+                        },
+                    )
+                if ticket is not None and ticket["status"] == "rejected":
+                    cleaned_note, reason_type = self._validate_reconsideration(
+                        ticket, payload.get("note"), payload.get("reason_type")
+                    )
                 if ticket is None:
-                    if not order:
-                        raise ServiceError(409, "ticket_required", "当前会话未关联具体订单，无法执行补偿审批。")
                     decision = evaluate_order(order_facts(order), self.policy)
                     sub_init = compute_actuarial_subrogation(order, self.policy)
-                    init_amt = self._parse_amount(payload.get("amount_yuan"), decision.get("proposed_coupon_yuan") or self.policy.coupon_yuan)
                     ticket, _ = self.store.create_manual_ticket(
                         customer_id=handoff["customer_id"], order=order, policy_version=self.policy.version,
                         late_seconds=int(decision.get("late_seconds") or 0),
-                        proposed_coupon_yuan=init_amt, reviewer_id=reviewer_id,
+                        proposed_coupon_yuan=amt_val, reviewer_id=reviewer_id,
                         subrogation=sub_init, note="人工客服审批补偿时自动补建订单申请单",
                     )
                     tid = ticket["ticket_id"]
-                if ticket["status"] == "approved":
-                    raise ServiceError(409, "ticket_already_approved", "该申请单已通过补偿，请勿重复发放。")
-                amt_val = self._parse_amount(payload.get("amount_yuan"), ticket.get("proposed_coupon_yuan") or 10)
-                log_note = self._optional_note(payload.get("note"), f"人工客服核实通过，发放 ¥{amt_val} 无门槛补偿券。")
+                log_note = cleaned_note or f"人工客服核实通过，发放 ¥{amt_val} 无门槛补偿券。"
                 sub = compute_actuarial_subrogation(order, self.policy) if order else {}
-                orig_prop = max(1, float(ticket.get("proposed_coupon_yuan") or amt_val))
+                orig_prop = max(1.0, float(ticket.get("proposed_coupon_yuan") or amt_val))
                 m_orig = float(sub.get("merchant_bear_yuan") or 0.0)
-                p_orig = float(sub.get("platform_bear_yuan") or orig_prop)
                 ratio = min(1.0, m_orig / orig_prop) if orig_prop > 0 else 0.0
                 m_bear = round(amt_val * ratio, 1)
                 p_bear = round(max(0.0, amt_val - m_bear), 1)
                 updated, before_st = self.store.decide_or_override_ticket(
                     tid, target_status="approved", reviewer_id=reviewer_id, note=log_note,
                     amount_yuan=amt_val, merchant_bear_yuan=m_bear, platform_bear_yuan=p_bear,
-                    action_name="approved",
+                    action_name="approved", reason_type=reason_type, issue_result="issued",
                 )
+                if updated and updated.pop("_deduplicated", False):
+                    raise ServiceError(
+                        409,
+                        "ticket_already_approved",
+                        f"该订单已完成唯一补偿发放（¥{updated.get('coupon_issued_yuan')}），返回已有结果且不重复发券。",
+                        extra={
+                            "deduplicated": True,
+                            "issue_result": "already_compensated_no_new_issue",
+                            "existing_status": updated["status"],
+                            "ticket": self._enrich_review_ticket(updated),
+                        },
+                    )
                 ticket = updated
                 after_st = "approved"
-                sys_msg = f"系统通知：客服已通过补偿申请（订单 {oid} · 申请单 {tid} · 人工处理单 {handoff_id}），¥{amt_val} 无门槛补偿券已发放至您的账户（即时到账）。说明：{log_note}"
+                issue_result = "issued"
+                sys_msg = (
+                    f"系统通知：客服已通过补偿申请（订单 {oid} · 申请单 {tid} · 人工处理单 {handoff_id}），"
+                    f"¥{amt_val} 无门槛补偿券已发放至您的账户（即时到账）。说明：{log_note}"
+                )
                 transition_replied = True
 
             elif action in ("uphold_reject", "reject"):
+                if oid and self.store.compensated_for_order(oid) is not None:
+                    raise ServiceError(409, "already_compensated_immutable", "该订单已完成补偿发放，不可改为驳回。")
                 log_note = self._require_note(payload.get("note"), "驳回或维持驳回必须填写具体理由（顾客可见）。")
                 if ticket is None:
                     if action == "reject" and order:
@@ -1403,9 +1702,11 @@ class DemoService:
                 updated, before_st = self.store.decide_or_override_ticket(
                     tid, target_status="rejected", reviewer_id=reviewer_id, note=log_note,
                     action_name="uphold_rejected" if action == "uphold_reject" else "rejected",
+                    issue_result="no_issue",
                 )
                 ticket = updated
                 after_st = "rejected"
+                issue_result = "no_issue"
                 verb = "维持驳回" if action == "uphold_reject" else "驳回"
                 sys_msg = f"系统通知：客服已{verb}申请（订单 {oid} · 申请单 {tid} · 人工处理单 {handoff_id}），理由：{log_note}"
                 transition_replied = True
@@ -1413,15 +1714,23 @@ class DemoService:
             elif action == "request_info":
                 if ticket is None:
                     raise ServiceError(409, "ticket_required", "当前订单尚无关联申请单。")
+                if self.store.compensated_for_order(ticket["order_id"]) is not None or ticket["status"] == "approved":
+                    raise ServiceError(409, "already_compensated_immutable", "该订单已完成补偿发放，不支持要求补充材料。")
                 if ticket["status"] not in ("rejected", "pending"):
                     raise ServiceError(409, "invalid_ticket_state", "当前申请单状态不支持要求补充材料。")
-                log_note = self._require_note(payload.get("note"), "请填写需要顾客补充的材料或说明。")
+                if ticket["status"] == "rejected":
+                    log_note, reason_type = self._validate_reconsideration(
+                        ticket, payload.get("note"), payload.get("reason_type")
+                    )
+                else:
+                    log_note = self._require_note(payload.get("note"), "请填写需要顾客补充的材料或说明。")
                 updated, before_st = self.store.decide_or_override_ticket(
                     tid, target_status="needs_info", reviewer_id=reviewer_id, note=log_note,
-                    action_name="information_requested",
+                    action_name="information_requested", reason_type=reason_type, issue_result="no_issue",
                 )
                 ticket = updated
                 after_st = "needs_info"
+                issue_result = "no_issue"
                 sys_msg = f"系统通知：客服已发起补充材料要求（{tid}）：{log_note}。请在右侧申请单卡片填写并提交。"
                 transition_replied = True
 
@@ -1468,16 +1777,18 @@ class DemoService:
             elif action == "reopen":
                 if ticket is None:
                     raise ServiceError(409, "ticket_required", "当前订单尚无关联申请单。")
-                if ticket["status"] not in ("approved", "rejected"):
-                    raise ServiceError(409, "invalid_ticket_state", "仅已完成的申请单可重新开启。")
-                log_note = self._optional_note(payload.get("note"), "坐席重新开启申请单进入待审核")
+                log_note, reason_type = self._validate_reconsideration(
+                    ticket, payload.get("note"), payload.get("reason_type")
+                )
                 updated, before_st = self.store.decide_or_override_ticket(
-                    tid, target_status="pending", reviewer_id=reviewer_id, note=log_note, action_name="reopened"
+                    tid, target_status="pending", reviewer_id=reviewer_id, note=log_note,
+                    action_name="reopened", reason_type=reason_type, issue_result="reconsidered_to_pending",
                 )
                 ticket = updated
                 after_st = "pending"
+                issue_result = "reconsidered_to_pending"
                 self._open_review(tid)
-                sys_msg = f"系统通知：客服已重新开启申请单（{tid}），状态恢复为待审核。"
+                sys_msg = f"系统通知：客服已沿原申请单（{tid}）发起重审，状态恢复为待审核。重审原因：{log_note}"
 
             elif action == "urge_or_reassign":
                 if not order:
@@ -1502,12 +1813,15 @@ class DemoService:
                 if not order:
                     raise ServiceError(400, "order_required", "当前会话未关联具体订单，无法创建工单。")
                 if ticket is not None:
-                    raise ServiceError(409, "ticket_already_exists", f"该订单已存在申请单 {tid}，请直接处理。")
+                    raise ServiceError(409, "ticket_already_exists", f"该订单已存在申请单 {tid}，请直接沿原单处理。")
+                raw_prop = payload.get("amount_yuan")
+                amt_val, cleaned_note = self._validate_issue_amount_and_role(
+                    reviewer_id, order, raw_prop, payload.get("note"),
+                    check_paid_cap=(raw_prop is not None and raw_prop != ""),
+                )
                 decision = evaluate_order(order_facts(order), self.policy)
                 sub = compute_actuarial_subrogation(order, self.policy)
-                default_amt = decision.get("proposed_coupon_yuan") or self.policy.coupon_yuan
-                amt_val = self._parse_amount(payload.get("amount_yuan"), default_amt)
-                log_note = self._optional_note(payload.get("note"), "人工客服在会话内为顾客创建售后申请单")
+                log_note = cleaned_note or "人工客服在会话内为顾客创建售后申请单"
                 ticket, created = self.store.create_manual_ticket(
                     customer_id=handoff["customer_id"], order=order, policy_version=self.policy.version,
                     late_seconds=int(decision.get("late_seconds") or 0),
@@ -1519,6 +1833,7 @@ class DemoService:
                     self._open_review(tid)
                 before_st = "无工单"
                 after_st = ticket["status"]
+                issue_result = "pending_review"
                 sys_msg = f"系统通知：客服已为您创建售后申请单 {tid}（订单 {oid}，建议补偿 ¥{amt_val}），正在审核处理。"
 
             elif action == "close_session":
@@ -1541,18 +1856,23 @@ class DemoService:
                 actor_id=reviewer_id, actor_name=actor_name, actor_role=actor_role,
                 action=action, action_label=action_label,
                 before_status=before_st, after_status=after_st,
-                amount_yuan=amt_val, note=log_note, is_internal=is_internal,
+                before_amount_yuan=before_amt, amount_yuan=amt_val, note=log_note,
+                reason_type=reason_type, issue_result=issue_result, is_internal=is_internal,
             )
             self._record(
                 event="handoff_action", reviewer_id=reviewer_id, customer_id=handoff["customer_id"],
                 handoff_id=handoff_id, order_id=oid, ticket_id=tid,
-                action=action, outcome=after_st, amount_yuan=amt_val, is_internal=is_internal,
+                action=action, outcome=after_st, amount_yuan=amt_val,
+                reason_type=reason_type, issue_result=issue_result,
+                deduplicated=deduplicated, is_internal=is_internal,
             )
             refreshed = self.store.get_handoff(handoff_id)
             return {
                 "handoff": self._review_handoff_item(refreshed),
                 "ticket": self._enrich_review_ticket(ticket) if ticket else None,
                 "action_log": action_log,
+                "deduplicated": deduplicated,
+                "issue_result": issue_result,
             }
 
     def review_detail(self, ticket_id: str, reviewer_id: str | None = None) -> dict:
@@ -1567,7 +1887,52 @@ class DemoService:
             "request": request,
         }
 
-    def decide(self, ticket_id: str, reviewer_id: str, decision: str, note: str | None) -> dict:
+    def reopen_ticket(
+        self,
+        ticket_id: str,
+        reviewer_id: str,
+        note: str | None,
+        reason_type: str | None = None,
+    ) -> dict:
+        """Reopen a rejected, uncompensated ticket along its original ticket_id with mandatory written reason."""
+        rev = self._assert_action_permission(reviewer_id, "ticket_reopen")
+        with self._review_lock:
+            current = self._ticket_or_404(ticket_id)
+            self._assert_tenant_access(reviewer_id, current.get("tenant_id"))
+            cleaned_note, validated_rt = self._validate_reconsideration(current, note, reason_type)
+            updated, before_st = self.store.decide_or_override_ticket(
+                ticket_id,
+                target_status="pending",
+                reviewer_id=reviewer_id,
+                note=cleaned_note,
+                action_name="reopened",
+                reason_type=validated_rt,
+                issue_result="reconsidered_to_pending",
+            )
+            self._open_review(ticket_id)
+        self.store.log_action(
+            handoff_id=None, order_id=updated["order_id"], ticket_id=ticket_id,
+            actor_id=reviewer_id, actor_name=rev.get("display_name"), actor_role=rev.get("role"),
+            action="reopen", action_label="发起重审",
+            before_status=before_st, after_status="pending",
+            before_amount_yuan=current.get("coupon_issued_yuan"), amount_yuan=None,
+            note=cleaned_note, reason_type=validated_rt, issue_result="reconsidered_to_pending",
+        )
+        self._record(
+            event="review_reopen", reviewer_id=reviewer_id, customer_id=updated["customer_id"],
+            outcome="pending", order_id=updated["order_id"], ticket_id=ticket_id,
+            reason_type=validated_rt, issue_result="reconsidered_to_pending",
+        )
+        return {"ticket": self._enrich_review_ticket(updated), "events": self.store.events(ticket_id)}
+
+    def decide(
+        self,
+        ticket_id: str,
+        reviewer_id: str,
+        decision: str,
+        note: str | None,
+        amount_yuan=None,
+    ) -> dict:
         if not isinstance(decision, str) or decision not in DECISION_STATUS:
             raise ServiceError(400, "invalid_decision", "不支持这个处理操作。")
         perm_key = {"approve": "ticket_approve", "reject": "ticket_reject", "request_info": "ticket_request_info"}[decision]
@@ -1578,13 +1943,62 @@ class DemoService:
             note = note.strip()
             if len(note) > 200:
                 raise ServiceError(400, "note_too_long", "问题不能超过 200 个字。")
+
+        amt_val: int | None = None
+        m_bear: float | None = None
+        p_bear: float | None = None
         with self._review_lock:
             current = self._ticket_or_404(ticket_id)
             self._assert_tenant_access(reviewer_id, current.get("tenant_id"))
+            order = self.data.orders.get(current["order_id"])
+
+            if decision == "approve":
+                amt_val, cleaned_note = self._validate_issue_amount_and_role(
+                    reviewer_id, order, amount_yuan, note, check_paid_cap=True
+                )
+                existing_comp = self.store.compensated_for_order(current["order_id"])
+                if existing_comp is not None:
+                    self.store.log_action(
+                        handoff_id=None, order_id=existing_comp["order_id"], ticket_id=existing_comp["ticket_id"],
+                        actor_id=reviewer_id, actor_name=rev.get("display_name"), actor_role=rev.get("role"),
+                        action="approve_deduplicated", action_label="重复审批拦截",
+                        before_status="approved", after_status="approved",
+                        before_amount_yuan=existing_comp.get("coupon_issued_yuan"),
+                        amount_yuan=existing_comp.get("coupon_issued_yuan"),
+                        note=cleaned_note or "已有唯一补偿记录，返回原状态未重复发券",
+                        issue_result="already_compensated_no_new_issue",
+                    )
+                    raise ServiceError(
+                        409,
+                        "ticket_already_decided",
+                        f"该订单已完成唯一补偿发放（¥{existing_comp.get('coupon_issued_yuan')}），返回已有状态且不重复发券。",
+                        extra={
+                            "deduplicated": True,
+                            "issue_result": "already_compensated_no_new_issue",
+                            "existing_status": existing_comp["status"],
+                            "ticket": self._enrich_review_ticket(existing_comp),
+                        },
+                    )
+                note = cleaned_note or f"人工审核通过，按标准发放 ¥{amt_val} 无门槛补偿券。"
+                sub = compute_actuarial_subrogation(order, self.policy) if order else {}
+                orig_prop = max(1.0, float(current.get("proposed_coupon_yuan") or amt_val))
+                m_orig = float(sub.get("merchant_bear_yuan") or 0.0)
+                ratio = min(1.0, m_orig / orig_prop) if orig_prop > 0 else 0.0
+                m_bear = round(amt_val * ratio, 1)
+                p_bear = round(max(0.0, amt_val - m_bear), 1)
+            else:
+                if self.store.compensated_for_order(current["order_id"]) is not None:
+                    raise ServiceError(409, "already_compensated_immutable", "该订单已完成唯一补偿发放，不支持撤回或变更状态。")
+
             if current["status"] == "needs_info":
                 raise ServiceError(409, "customer_information_pending", "正在等待顾客补充信息。")
             if current["status"] != "pending":
-                raise ServiceError(409, "ticket_already_decided", "这张工单已经处理过。")
+                raise ServiceError(
+                    409,
+                    "ticket_already_decided",
+                    "这张工单已经处理过（已驳回工单需先填写原因发起重审后再审批）。",
+                    extra={"existing_status": current["status"], "ticket": self._enrich_review_ticket(current)},
+                )
             if decision == "reject":
                 if isinstance(note, str) and note.strip():
                     note = note.strip()
@@ -1594,24 +2008,55 @@ class DemoService:
                     note = "经人工复核暂不符合本次补偿条件，如有疑问可转人工继续咨询此订单。"
             self._open_review(ticket_id)
             started = time.perf_counter()
-            answer = {"decision": decision, "reviewer_id": reviewer_id, "note": note}
+            answer = {
+                "decision": decision,
+                "reviewer_id": reviewer_id,
+                "note": note,
+                "amount_yuan": amt_val,
+                "merchant_bear_yuan": m_bear,
+                "platform_bear_yuan": p_bear,
+            }
             result = self.review_graph.invoke(Command(resume=answer), self._review_thread(ticket_id))
             latency_ms = round((time.perf_counter() - started) * 1000)
             ticket = result.get("ticket")
             if ticket is None or ticket["status"] == "pending":
                 raise ServiceError(409, "ticket_already_decided", "这张工单已经处理过。")
+            was_dedup = bool(ticket.pop("_deduplicated", False))
+        if was_dedup:
+            raise ServiceError(
+                409,
+                "ticket_already_decided",
+                f"该订单已完成唯一补偿发放（¥{ticket.get('coupon_issued_yuan')}），返回已有状态且不重复发券。",
+                extra={
+                    "deduplicated": True,
+                    "issue_result": "already_compensated_no_new_issue",
+                    "existing_status": ticket["status"],
+                    "ticket": self._enrich_review_ticket(ticket),
+                },
+            )
         label_map = {"approve": "审核通过", "reject": "审核驳回", "request_info": "要求补充材料"}
+        issue_res = "issued" if decision == "approve" else "no_issue"
         self.store.log_action(
             handoff_id=None, order_id=ticket["order_id"], ticket_id=ticket_id,
             actor_id=reviewer_id, actor_name=rev.get("display_name"), actor_role=rev.get("role"),
             action=decision, action_label=label_map[decision],
             before_status="pending", after_status=ticket["status"],
+            before_amount_yuan=current.get("coupon_issued_yuan"),
             amount_yuan=ticket.get("coupon_issued_yuan"), note=note,
+            issue_result=issue_res,
         )
-        self._record(event="review_decision", reviewer_id=reviewer_id, customer_id=ticket["customer_id"],
-                     outcome=ticket["status"], order_id=ticket["order_id"], ticket_id=ticket_id,
-                     latency_ms=latency_ms)
-        return {"ticket": self._enrich_review_ticket(ticket), "events": self.store.events(ticket_id)}
+        self._record(
+            event="review_decision", reviewer_id=reviewer_id, customer_id=ticket["customer_id"],
+            outcome=ticket["status"], order_id=ticket["order_id"], ticket_id=ticket_id,
+            amount_yuan=ticket.get("coupon_issued_yuan"), issue_result=issue_res,
+            latency_ms=latency_ms,
+        )
+        return {
+            "ticket": self._enrich_review_ticket(ticket),
+            "events": self.store.events(ticket_id),
+            "deduplicated": False,
+            "issue_result": issue_res,
+        }
 
     def reset(self) -> None:
         """Clear demo tickets, handoffs and conversations (blocked in prod/legal-hold; audit_logs stays append-only)."""

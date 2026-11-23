@@ -72,10 +72,6 @@ def policy_outcome(facts: dict, policy: CompensationPolicy, *, eligible: bool, a
         minutes, seconds = divmod(facts["late_seconds"], 60)
         delay = f"{minutes} 分钟 {seconds} 秒" if seconds else f"{minutes} 分钟"
         proposed = policy.coupon_yuan
-        if amount_yuan is not None and amount_yuan > 0:
-            margin_cap = round(max(2.0, float(amount_yuan) * 0.40), 1)
-            if margin_cap < proposed:
-                proposed = margin_cap
         return {
             **outcome,
             "status": "pending",

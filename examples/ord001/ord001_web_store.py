@@ -152,6 +152,7 @@ LEDGER_TICKET_COLUMNS = (
     ("escalated_to", "TEXT"),
     ("escalated_at", "TEXT"),
     ("assigned_reviewer_id", "TEXT"),
+    ("prior_review_note", "TEXT"),
 )
 LEDGER_HANDOFF_COLUMNS = (
     ("tenant_id", "TEXT DEFAULT 'M_67REST'"),
@@ -167,7 +168,10 @@ LEDGER_HANDOFF_COLUMNS = (
 ACTION_EVENT_COLUMNS = (
     ("before_status", "TEXT"),
     ("after_status", "TEXT"),
+    ("before_amount_yuan", "REAL"),
     ("amount_yuan", "REAL"),
+    ("reason_type", "TEXT"),
+    ("issue_result", "TEXT"),
 )
 
 
@@ -408,6 +412,7 @@ class TicketStore:
         a_cols = {row["name"] for row in self._db.execute("PRAGMA table_info(attachments)")}
         f_cols = {row["name"] for row in self._db.execute("PRAGMA table_info(attachment_forensics)")}
         e_cols = {row["name"] for row in self._db.execute("PRAGMA table_info(ticket_events)")}
+        l_cols = {row["name"] for row in self._db.execute("PRAGMA table_info(action_logs)")}
         with self._db:
             for name, kind in LEDGER_TICKET_COLUMNS:
                 if name not in t_cols:
@@ -418,6 +423,9 @@ class TicketStore:
             for name, kind in ACTION_EVENT_COLUMNS:
                 if name not in e_cols:
                     self._db.execute(f"ALTER TABLE ticket_events ADD COLUMN {name} {kind}")
+            for name, kind in (("before_amount_yuan", "REAL"), ("reason_type", "TEXT"), ("issue_result", "TEXT")):
+                if name not in l_cols:
+                    self._db.execute(f"ALTER TABLE action_logs ADD COLUMN {name} {kind}")
             if "after_index" not in m_cols:
                 self._db.execute("ALTER TABLE handoff_messages ADD COLUMN after_index INTEGER")
             if "after_index" not in a_cols:
@@ -426,6 +434,10 @@ class TicketStore:
                 self._db.execute("ALTER TABLE attachments ADD COLUMN is_followup INTEGER NOT NULL DEFAULT 0")
             if "perceptual_sig" not in f_cols:
                 self._db.execute("ALTER TABLE attachment_forensics ADD COLUMN perceptual_sig TEXT")
+            self._db.execute(
+                "CREATE UNIQUE INDEX IF NOT EXISTS idx_one_compensated_per_order "
+                "ON tickets (order_id) WHERE status = 'approved' AND coupon_issued_yuan IS NOT NULL"
+            )
 
     def close(self) -> None:
         with self._lock:
@@ -647,26 +659,32 @@ class TicketStore:
 
     def _event(self, ticket_id: str, actor: str, action: str, note: str | None, at: str,
                *, before_status: str | None = None, after_status: str | None = None,
-               amount_yuan: float | None = None) -> None:
+               before_amount_yuan: float | None = None, amount_yuan: float | None = None,
+               reason_type: str | None = None, issue_result: str | None = None) -> None:
         self._db.execute(
-            "INSERT INTO ticket_events (ticket_id, at, actor, action, note, before_status, after_status, amount_yuan)"
-            " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            (ticket_id, at, actor, action, note, before_status, after_status, amount_yuan),
+            "INSERT INTO ticket_events (ticket_id, at, actor, action, note, before_status, after_status,"
+            " before_amount_yuan, amount_yuan, reason_type, issue_result) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (ticket_id, at, actor, action, note, before_status, after_status,
+             before_amount_yuan, amount_yuan, reason_type, issue_result),
         )
 
     def log_action(self, *, handoff_id: str | None, order_id: str | None, ticket_id: str | None,
                    actor_id: str, actor_name: str | None, actor_role: str | None,
                    action: str, action_label: str, before_status: str | None = None,
-                   after_status: str | None = None, amount_yuan: float | None = None,
-                   note: str | None = None, is_internal: bool = False, at: str | None = None) -> dict:
+                   after_status: str | None = None, before_amount_yuan: float | None = None,
+                   amount_yuan: float | None = None, reason_type: str | None = None,
+                   issue_result: str | None = None, note: str | None = None,
+                   is_internal: bool = False, at: str | None = None) -> dict:
         ts = at or now_text()
         with self._lock, self._db:
             cur = self._db.execute(
                 "INSERT INTO action_logs (handoff_id, order_id, ticket_id, at, actor_id, actor_name, actor_role,"
-                " action, action_label, before_status, after_status, amount_yuan, note, is_internal)"
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                " action, action_label, before_status, after_status, before_amount_yuan, amount_yuan,"
+                " reason_type, issue_result, note, is_internal)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (handoff_id, order_id, ticket_id, ts, actor_id, actor_name, actor_role,
-                 action, action_label, before_status, after_status, amount_yuan, note, 1 if is_internal else 0),
+                 action, action_label, before_status, after_status, before_amount_yuan, amount_yuan,
+                 reason_type, issue_result, note, 1 if is_internal else 0),
             )
             return self._one("SELECT * FROM action_logs WHERE log_id = ?", (cur.lastrowid,))
 
@@ -696,10 +714,34 @@ class TicketStore:
         with self._lock:
             return self._one("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,))
 
-    def find(self, order_id: str, policy_version: str) -> dict | None:
+    def compensated_for_order(self, order_id: str) -> dict | None:
+        """Return any already-compensated ticket for this order across ALL policy versions (human-review-v1 D21)."""
         with self._lock:
             return self._one(
-                "SELECT * FROM tickets WHERE order_id = ? AND policy_version = ?", (order_id, policy_version)
+                "SELECT * FROM tickets WHERE order_id = ? AND status = 'approved' AND coupon_issued_yuan IS NOT NULL"
+                " ORDER BY CAST(SUBSTR(ticket_id, 2) AS INTEGER) ASC LIMIT 1",
+                (order_id,),
+            )
+
+    def find(self, order_id: str, policy_version: str | None = None) -> dict | None:
+        """Find existing ticket for order_id; a compensated or original ticket is reused across policy versions."""
+        with self._lock:
+            comp = self._one(
+                "SELECT * FROM tickets WHERE order_id = ? AND status = 'approved' AND coupon_issued_yuan IS NOT NULL"
+                " ORDER BY CAST(SUBSTR(ticket_id, 2) AS INTEGER) ASC LIMIT 1",
+                (order_id,),
+            )
+            if comp:
+                return comp
+            if policy_version:
+                exact = self._one(
+                    "SELECT * FROM tickets WHERE order_id = ? AND policy_version = ?", (order_id, policy_version)
+                )
+                if exact:
+                    return exact
+            return self._one(
+                "SELECT * FROM tickets WHERE order_id = ? ORDER BY CAST(SUBSTR(ticket_id, 2) AS INTEGER) DESC LIMIT 1",
+                (order_id,),
             )
 
     def tickets(self, *, customer_id: str | None = None, tenant_id: str | None = None) -> list[dict]:
@@ -717,15 +759,15 @@ class TicketStore:
     def events(self, ticket_id: str) -> list[dict]:
         with self._lock:
             rows = self._db.execute(
-                "SELECT at, actor, action, note, before_status, after_status, amount_yuan"
-                " FROM ticket_events WHERE ticket_id = ? ORDER BY event_id",
+                "SELECT at, actor, action, note, before_status, after_status, before_amount_yuan,"
+                " amount_yuan, reason_type, issue_result FROM ticket_events WHERE ticket_id = ? ORDER BY event_id",
                 (ticket_id,),
             ).fetchall()
         return [dict(row) for row in rows]
 
     def create_or_get(self, *, customer_id: str, order: dict, decision: dict,
                       subrogation: dict | None = None, auto_approve_note: str | None = None) -> tuple[dict, bool]:
-        """Create a pending (or STP auto-approved) ticket with immutable persisted ledger split."""
+        """Create a pending (or STP auto-approved) ticket; reuses original ticket across policy versions (D21)."""
         key = (order["order_id"], decision["policy_version"])
         tenant_id = str(order.get("tenant_id") or "M_67REST")
         sub = subrogation or {}
@@ -733,7 +775,12 @@ class TicketStore:
         m_bear = sub.get("merchant_bear_yuan")
         p_bear = sub.get("platform_bear_yuan")
         with self._lock, self._db:
-            existing = self._one("SELECT * FROM tickets WHERE order_id = ? AND policy_version = ?", key)
+            existing = self._one(
+                "SELECT * FROM tickets WHERE order_id = ?"
+                " ORDER BY CASE WHEN status = 'approved' AND coupon_issued_yuan IS NOT NULL THEN 0 ELSE 1 END,"
+                " CAST(SUBSTR(ticket_id, 2) AS INTEGER) ASC LIMIT 1",
+                (order["order_id"],),
+            )
             if existing:
                 return existing, False
             next_num = self._db.execute(
@@ -752,7 +799,9 @@ class TicketStore:
                      created_at, created_at, auto_approve_note, tenant_id, stp_tier, m_bear, p_bear),
                 )
                 self._event(ticket_id, f"customer:{customer_id}", "submitted", None, created_at)
-                self._event(ticket_id, "system:STP_ENGINE", "approved", auto_approve_note, created_at)
+                self._event(ticket_id, "system:STP_ENGINE", "approved", auto_approve_note, created_at,
+                            before_status="pending", after_status="approved",
+                            amount_yuan=decision["proposed_coupon_yuan"], issue_result="issued")
             else:
                 self._db.execute(
                     "INSERT INTO tickets (ticket_id, customer_id, order_id, policy_version, expected_at, delivered_at,"
@@ -762,16 +811,29 @@ class TicketStore:
                      decision["late_seconds"], decision["proposed_coupon_yuan"], created_at,
                      tenant_id, stp_tier, m_bear, p_bear),
                 )
-                self._event(ticket_id, f"customer:{customer_id}", "submitted", None, created_at)
+                self._event(ticket_id, f"customer:{customer_id}", "submitted", None, created_at,
+                            before_status=None, after_status="pending", amount_yuan=decision["proposed_coupon_yuan"])
             return self._one("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,)), True
 
-    def decide(self, ticket_id: str, *, decision: str, reviewer_id: str, note: str | None) -> dict | None:
-        """Act on a pending ticket once; asking for information is not a final decision."""
+    def decide(self, ticket_id: str, *, decision: str, reviewer_id: str, note: str | None,
+               amount_yuan: int | None = None, merchant_bear_yuan: float | None = None,
+               platform_bear_yuan: float | None = None) -> dict | None:
+        """Act on a pending ticket atomically; enforces 1-compensation-per-order idempotency (human-review-v1)."""
         status = DECISION_STATUS[decision]
         at = now_text()
         with self._lock, self._db:
-            existing = self._one("SELECT status, proposed_coupon_yuan FROM tickets WHERE ticket_id = ?", (ticket_id,))
-            if not existing or existing["status"] != "pending":
+            existing = self._one("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,))
+            if not existing:
+                return None
+            already_comp = self._one(
+                "SELECT * FROM tickets WHERE order_id = ? AND status = 'approved' AND coupon_issued_yuan IS NOT NULL LIMIT 1",
+                (existing["order_id"],),
+            )
+            if already_comp:
+                if status == "approved":
+                    return {**already_comp, "_deduplicated": True}
+                return None
+            if existing["status"] != "pending":
                 return None
             if status == "needs_info":
                 cursor = self._db.execute(
@@ -783,35 +845,67 @@ class TicketStore:
                 )
                 action = "information_requested"
                 amt = None
+                issue_res = "needs_info"
+            elif status == "approved":
+                amt = int(amount_yuan) if amount_yuan is not None else int(existing["proposed_coupon_yuan"])
+                m_bear = existing.get("merchant_bear_yuan") if merchant_bear_yuan is None else merchant_bear_yuan
+                p_bear = existing.get("platform_bear_yuan") if platform_bear_yuan is None else platform_bear_yuan
+                cursor = self._db.execute(
+                    "UPDATE tickets SET status = 'approved', decided_at = ?, reviewer_id = ?, review_note = ?,"
+                    " coupon_issued_yuan = ?, merchant_bear_yuan = ?, platform_bear_yuan = ?"
+                    " WHERE ticket_id = ? AND status = 'pending'",
+                    (at, reviewer_id, note, amt, m_bear, p_bear, ticket_id),
+                )
+                action = "approved"
+                issue_res = "issued"
             else:
                 cursor = self._db.execute(
-                    "UPDATE tickets SET status = ?, decided_at = ?, reviewer_id = ?, review_note = ?,"
-                    " coupon_issued_yuan = CASE WHEN ? = 'approved' THEN proposed_coupon_yuan END"
-                    " WHERE ticket_id = ? AND status = 'pending'",
-                    (status, at, reviewer_id, note, status, ticket_id),
+                    "UPDATE tickets SET status = 'rejected', decided_at = ?, reviewer_id = ?, review_note = ?,"
+                    " coupon_issued_yuan = NULL WHERE ticket_id = ? AND status = 'pending'",
+                    (at, reviewer_id, note, ticket_id),
                 )
-                action = status
-                amt = existing["proposed_coupon_yuan"] if status == "approved" else None
+                action = "rejected"
+                amt = None
+                issue_res = "rejected_no_issue"
             if cursor.rowcount != 1:
+                comp_race = self._one(
+                    "SELECT * FROM tickets WHERE order_id = ? AND status = 'approved' AND coupon_issued_yuan IS NOT NULL LIMIT 1",
+                    (existing["order_id"],),
+                )
+                if comp_race and status == "approved":
+                    return {**comp_race, "_deduplicated": True}
                 return None
             self._event(ticket_id, f"reviewer:{reviewer_id}", action, note, at,
-                        before_status="pending", after_status=status, amount_yuan=amt)
+                        before_status="pending", after_status=status,
+                        before_amount_yuan=existing.get("coupon_issued_yuan"),
+                        amount_yuan=amt, issue_result=issue_res)
             return self._one("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,))
 
     def decide_or_override_ticket(self, ticket_id: str, *, target_status: str, reviewer_id: str,
                                   note: str | None, amount_yuan: int | float | None = None,
                                   merchant_bear_yuan: float | None = None,
                                   platform_bear_yuan: float | None = None,
-                                  action_name: str | None = None) -> tuple[dict, str] | None:
-        """Update ticket status from agent handoff action (supports rejected->approved, uphold, needs_info, reopen)."""
+                                  action_name: str | None = None,
+                                  reason_type: str | None = None,
+                                  issue_result: str | None = None) -> tuple[dict, str] | None:
+        """Atomically update ticket from review/handoff action while enforcing human-review-v1 deduplication & history preservation."""
         at = now_text()
         with self._lock, self._db:
             current = self._one("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,))
             if not current:
                 return None
+            already_comp = self._one(
+                "SELECT * FROM tickets WHERE order_id = ? AND status = 'approved' AND coupon_issued_yuan IS NOT NULL LIMIT 1",
+                (current["order_id"],),
+            )
+            if already_comp:
+                if target_status == "approved":
+                    return {**already_comp, "_deduplicated": True}, "approved"
+                return None
             before_status = current["status"]
+            before_amt = current.get("coupon_issued_yuan")
             if target_status == "approved":
-                issued = int(round(amount_yuan)) if amount_yuan is not None else current["proposed_coupon_yuan"]
+                issued = int(amount_yuan) if amount_yuan is not None else int(current["proposed_coupon_yuan"])
                 m_bear = current.get("merchant_bear_yuan") if merchant_bear_yuan is None else merchant_bear_yuan
                 p_bear = current.get("platform_bear_yuan") if platform_bear_yuan is None else platform_bear_yuan
                 self._db.execute(
@@ -820,7 +914,9 @@ class TicketStore:
                     (at, reviewer_id, note, issued, m_bear, p_bear, ticket_id),
                 )
                 self._event(ticket_id, f"reviewer:{reviewer_id}", action_name or "approved", note, at,
-                            before_status=before_status, after_status="approved", amount_yuan=issued)
+                            before_status=before_status, after_status="approved",
+                            before_amount_yuan=before_amt, amount_yuan=issued,
+                            reason_type=reason_type, issue_result=issue_result or "issued")
             elif target_status == "rejected":
                 self._db.execute(
                     "UPDATE tickets SET status = 'rejected', decided_at = ?, reviewer_id = ?, review_note = ?,"
@@ -828,24 +924,33 @@ class TicketStore:
                     (at, reviewer_id, note, ticket_id),
                 )
                 self._event(ticket_id, f"reviewer:{reviewer_id}", action_name or "rejected", note, at,
-                            before_status=before_status, after_status="rejected")
+                            before_status=before_status, after_status="rejected",
+                            before_amount_yuan=before_amt, reason_type=reason_type,
+                            issue_result=issue_result or "rejected_no_issue")
             elif target_status == "needs_info":
                 self._db.execute(
-                    "UPDATE tickets SET status = 'needs_info', reviewer_id = ?, information_request = ?,"
-                    " information_requested_at = ?, customer_information = NULL, information_submitted_at = NULL,"
+                    "UPDATE tickets SET status = 'needs_info', prior_review_note = COALESCE(prior_review_note, review_note),"
+                    " reviewer_id = ?, information_request = ?, information_requested_at = ?,"
+                    " customer_information = NULL, information_submitted_at = NULL,"
                     " decided_at = NULL, review_note = NULL, coupon_issued_yuan = NULL WHERE ticket_id = ?",
                     (reviewer_id, note, at, ticket_id),
                 )
                 self._event(ticket_id, f"reviewer:{reviewer_id}", action_name or "information_requested", note, at,
-                            before_status=before_status, after_status="needs_info")
+                            before_status=before_status, after_status="needs_info",
+                            before_amount_yuan=before_amt, reason_type=reason_type,
+                            issue_result=issue_result or "needs_info")
             elif target_status == "pending":
+                if before_status != "rejected" or before_amt is not None:
+                    return None
                 self._db.execute(
-                    "UPDATE tickets SET status = 'pending', decided_at = NULL, reviewer_id = NULL, review_note = NULL,"
-                    " coupon_issued_yuan = NULL WHERE ticket_id = ?",
+                    "UPDATE tickets SET status = 'pending', prior_review_note = COALESCE(prior_review_note, review_note),"
+                    " decided_at = NULL, reviewer_id = NULL, review_note = NULL, coupon_issued_yuan = NULL WHERE ticket_id = ?",
                     (ticket_id,),
                 )
                 self._event(ticket_id, f"reviewer:{reviewer_id}", action_name or "reopened", note, at,
-                            before_status=before_status, after_status="pending")
+                            before_status=before_status, after_status="pending",
+                            before_amount_yuan=before_amt, reason_type=reason_type,
+                            issue_result=issue_result or "reopened_for_review")
             else:
                 return None
             return self._one("SELECT * FROM tickets WHERE ticket_id = ?", (ticket_id,)), before_status
@@ -853,7 +958,7 @@ class TicketStore:
     def create_manual_ticket(self, *, customer_id: str, order: dict, policy_version: str,
                              late_seconds: int, proposed_coupon_yuan: int, reviewer_id: str,
                              subrogation: dict | None = None, note: str | None = None) -> tuple[dict, bool]:
-        """Create a pending ticket from the agent handoff workbench when no ticket exists for the order."""
+        """Create a pending ticket from the agent handoff workbench; reuses any existing ticket for the order."""
         key = (order["order_id"], policy_version)
         tenant_id = str(order.get("tenant_id") or "M_67REST")
         sub = subrogation or {}
@@ -863,7 +968,12 @@ class TicketStore:
         expected_at = str(order.get("expected_at") or "—")
         delivered_at = str(order.get("delivered_at") or ("配送中" if order.get("status") == "delivering" else "待核验"))
         with self._lock, self._db:
-            existing = self._one("SELECT * FROM tickets WHERE order_id = ? AND policy_version = ?", key)
+            existing = self._one(
+                "SELECT * FROM tickets WHERE order_id = ?"
+                " ORDER BY CASE WHEN status = 'approved' AND coupon_issued_yuan IS NOT NULL THEN 0 ELSE 1 END,"
+                " CAST(SUBSTR(ticket_id, 2) AS INTEGER) ASC LIMIT 1",
+                (order["order_id"],),
+            )
             if existing:
                 return existing, False
             next_num = self._db.execute(
