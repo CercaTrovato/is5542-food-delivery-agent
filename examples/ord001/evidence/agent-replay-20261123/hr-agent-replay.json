@@ -1,0 +1,178 @@
+{
+  "checked_at": "2026-11-23T12:42:33+08:00",
+  "run_category": "agent_independent_replay",
+  "policy_combination": "demo-v1 + human-review-v1",
+  "model_mode": "scripted_plus_mode_b_adapter",
+  "summary": {
+    "total_groups": 9,
+    "passed": 9,
+    "failed": 0
+  },
+  "results": [
+    {
+      "group": "HR01",
+      "title": "有理由重审（可核实新信息 / 原处理错误，沿原工单恢复待审并保留历史）",
+      "status": "passed",
+      "evidence": {
+        "ticket_id": "T0001",
+        "handoff_id": "H0001",
+        "total_tickets_for_order": 1,
+        "prior_review_note_preserved": "首次判断：临时交通管制不予补偿",
+        "event_actions": [
+          "submitted",
+          "rejected",
+          "reopened",
+          "rejected",
+          "reopened"
+        ],
+        "reason_types_recorded": [
+          "verifiable_relevant_new_information",
+          "prior_processing_error"
+        ]
+      }
+    },
+    {
+      "group": "HR02",
+      "title": "无理由／空原因拦截（仅不满意不自动重开，空原因与非法类型拒绝）",
+      "status": "passed",
+      "evidence": {
+        "auto_reopened_on_dissatisfaction": false,
+        "ticket_status_after_complaints": "rejected",
+        "empty_direct_reopen_http": 400,
+        "empty_handoff_reopen_http": 400,
+        "dissatisfaction_reason_type_http": 400,
+        "empty_override_approve_http": 400
+      }
+    },
+    {
+      "group": "HR03",
+      "title": "状态与已发限制（非已驳回禁重审，已发券禁重审／改额／补差价）",
+      "status": "passed",
+      "evidence": {
+        "reopen_on_pending_http": 409,
+        "reopen_on_needs_info_http": 409,
+        "reopen_on_approved_http": [
+          409,
+          409
+        ],
+        "change_amount_http": 409,
+        "top_up_http": 409,
+        "supervisor_post_issue_18_http": 409,
+        "final_coupon_issued_yuan": 10
+      }
+    },
+    {
+      "group": "HR04",
+      "title": "角色权限（仅R002可改额，R001标准10元，R003只读，顾客／AI禁改额）",
+      "status": "passed",
+      "evidence": {
+        "r001_custom_15_http": [
+          403,
+          403,
+          403
+        ],
+        "r003_write_http": [
+          403,
+          403
+        ],
+        "customer_write_http": 401,
+        "r001_standard_10_issued": 10,
+        "r002_custom_15_issued": 15,
+        "ai_custom_amount_intercept": "unauthorized_amount_blocked"
+      }
+    },
+    {
+      "group": "HR05",
+      "title": "金额范围与原因（1-20整数元且非10必填说明，0/21/1.5拒绝不静默截断）",
+      "status": "passed",
+      "evidence": {
+        "invalid_inputs_http": {
+          "zero": 400,
+          "twenty_one": 400,
+          "float_1_5": 400,
+          "str_decimal": 400,
+          "empty_reason_custom_15": 400
+        },
+        "valid_supervisor_min_1": 1,
+        "valid_supervisor_max_20": 20,
+        "valid_agent_std_10": 10
+      }
+    },
+    {
+      "group": "HR06",
+      "title": "可信实付上限（隔离8元单拒10与9、准主管8元；实付缺失拒发）",
+      "status": "passed",
+      "evidence": {
+        "ord009_paid_8": {
+          "proposed_not_auto_reduced": 10,
+          "default_10_http": 409,
+          "supervisor_9_http": 409,
+          "supervisor_8_issued": 8
+        },
+        "ord010_missing_paid": {
+          "default_10_http": 409,
+          "supervisor_5_http": 409,
+          "coupon_issued_yuan": null
+        }
+      }
+    },
+    {
+      "group": "HR07",
+      "title": "重复与换会话／换客服／换规则版本去重（同单唯一成功补偿）",
+      "status": "passed",
+      "evidence": {
+        "ticket_id": "T0001",
+        "double_click_dedup": true,
+        "reviewer_switch_dedup": true,
+        "handoff_switch_dedup": true,
+        "policy_v2_outcome": "ticket_reused",
+        "policy_v2_approve_dedup": true,
+        "total_tickets_in_db": 1,
+        "final_coupon_issued_yuan": 10
+      }
+    },
+    {
+      "group": "HR08",
+      "title": "并发同时批准（R001 10元 vs R002 15元原子互斥，不叠加）",
+      "status": "passed",
+      "evidence": {
+        "concurrent_http_codes": [
+          200,
+          409
+        ],
+        "single_final_amount_yuan": 15,
+        "approved_event_count": 1,
+        "outcomes": [
+          [
+            409,
+            15,
+            true
+          ],
+          [
+            200,
+            15,
+            false
+          ]
+        ]
+      }
+    },
+    {
+      "group": "HR09",
+      "title": "同一顾客不同订单独立处理及 B/C 共享执行保护一致",
+      "status": "passed",
+      "evidence": {
+        "ord001_ticket": {
+          "ticket_id": "T0001",
+          "coupon_issued_yuan": 10
+        },
+        "ord005_ticket": {
+          "ticket_id": "T0002",
+          "coupon_issued_yuan": 12
+        },
+        "repeat_ord001_outcome": "ticket_reused",
+        "mode_b_dup_intercept": "existing_ticket_reuse_enforced",
+        "mode_b_other_order_independent": true
+      }
+    }
+  ]
+}

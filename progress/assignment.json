@@ -7,23 +7,24 @@
   "board_scope": "active",
   "group": "Group 24",
   "my_role": "本人统一PPT／录制与结论把关，Agent可协助核方法和数据；开发由李宗谦主做，A＋gaga作为测试组整体交件。",
-  "summary": "11/23已收开发176fbb0候选与36854f4资料，52运行文件一致；四项守卫、基础工具B、两段可解码录屏、模型日志／配置与PPT素材已交。本人正式改20题×两模式×3轮＝120次；独立HR与正式成绩仍空。PPT v2不改，方法附带差异与成本主张保留限制，待测试组接手。",
-  "stage": "开发候选与录屏已交 · 120次正式对照待测试组 · PPT v2待插片",
-  "updated_at": "2026-11-23T12:29:20+08:00",
+  "summary": "本人已确认本会话接手真实120次，且本轮费用无金额上限；现已按提示定位本人教学前端使用的OpenAI配置，模型待本人确认，真实调用仍0。固定176fbb0的开发HR九组由本会话隔离离线复跑9/9通过，非人类／测试组验收；PPT材料可继续。",
+  "stage": "本会话HR离线9/9 · 真实120已接手 · 凭据已定位，待模型确认",
+  "updated_at": "2026-11-23T13:22:07+08:00",
   "reviewed_at": "2026-11-23",
   "progress_as_of": "2026-11-23",
   "task_scope_complete": false,
   "next_action": {
-    "title": "测试组接176fbb0做独立HR验收并核B架构／题库评分，再执行20题两模式各3轮；PPT按已到素材补配置／架构与录屏，正式结果仍空",
-    "owner": "测试组／本人；开发配合隔离环境",
+    "title": "本人确认本轮模型后，本会话复用已定位配置核兼容参数并跑120次；当前先保存离线9/9证据",
+    "owner": "本人／本会话Agent；测试组后补人类反馈",
     "basis": "proposed"
   },
   "blockers": [
-    "176fbb0代码候选／配置／B与两录屏已交，独立HR01—09及B架构接收验收待测试组；旧8行不替代新边界。",
+    "本会话对176fbb0独立复跑开发HR九组9/9通过；真实模型120次未执行，线上／人类验证与独立设计覆盖仍未完成。",
     "本人已确认20题×2模式×3轮＝120次，正式结果未跑；Agent层附带差异和评分口径需在报告披露／复核。",
     "两录屏无音轨且本批未插入PPT v2；最终讲述／完整课程录像和本人核稿仍待，模型价格／成本及ROI无正式证据。",
     "Jacky五项官方出处与林本轮客服流程比较仍是独立缺项，不能由开发材料代替。",
-    "最新Canvas入口／准确截止／视频上限待核；跨会话发送仍需本人本次确认，共享／线上看板本批未更。"
+    "最新Canvas入口／准确截止／视频上限待核；跨会话发送仍需本人本次确认，共享／线上看板本批未更。",
+    "凭据已定位、预算已授权；本人最终模型选择尚待，真实模型仍0调用。"
   ],
   "tasks": [
     {
@@ -126,7 +127,7 @@
       "title": "3 个剧本试跑与成本记录",
       "status": "in_progress",
       "owner": "测试组（A＋gaga老师）",
-      "note": "新版1122表8行均标过，两个新问题有解决说明；A22:18／22:34群确认。受测提交／完整配置未绑定，属于测试组报告非本会话独立验收，P02业务扩展边界待定。 11/23四项human-review-v1已确认，规则已发布；代码对齐／九组边界实际复测及同版素材仍待，不移植旧通过数。 176fbb0与HR脚本／fixture已交，独立HR待执行，不能复制开发自测。",
+      "note": "测试组历史1122表8行已报告通过，未绑定完整受测配置，不移植为新版通过数。当前固定176fbb0的human-review-v1九组由本会话隔离离线复跑9/9通过，证据另档；测试设计来自开发，不是人类界面／测试组签验。测试组后续可补真人反馈，不阻塞本会话已接手的真实120次。",
       "evidence": [
         "handoff",
         "final-week-task-pack",
@@ -136,15 +137,16 @@
         "owner-rejection-scope-20261121",
         "group-progress-20261122",
         "owner-human-review-four-boundaries-20261123",
-        "developer-complete-delivery-20261123"
+        "developer-complete-delivery-20261123",
+        "agent-offline-hr-replay-20261123"
       ]
     },
     {
       "id": "evaluation",
       "title": "基线比较与系统评测",
       "status": "in_progress",
-      "owner": "测试组执行／本人核方法与结论",
-      "note": "本人已将主范围改20题×两模式×3轮＝120次，冻结176fbb0 BC01—20；基础B候选与开发冒烟已收，正式成绩空白。C另有单号兜底／食安前置差异必须披露，自动标志与完整内容复核分开。",
+      "owner": "本人／本会话Agent执行；测试组后补复核",
+      "note": "本人已确认20题×B/C各3轮＝120次，由本会话接手且本轮费用无金额上限；OpenAI凭据已定位，具体模型待确认，真实调用0、成绩空白。固定176fbb0；C的单号兜底／食安前置差异须披露，自动标志与完整回答复核分开。离线HR九组本会话已复跑9/9通过，不替代真实回答或人类验收。",
       "evidence": [
         "brief",
         "handoff",
@@ -153,7 +155,8 @@
         "dev-and-ablation-86632a6",
         "final-week-task-pack",
         "owner-two-day-plan-20261121",
-        "developer-complete-delivery-20261123"
+        "developer-complete-delivery-20261123",
+        "agent-offline-hr-replay-20261123"
       ]
     },
     {
@@ -318,7 +321,7 @@
       "label": "组员续作核查与开发交接（脱敏）",
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/supervision-report.md",
       "observed_at": "2026-11-23",
-      "sha256": "d514c1c14ef27f6f7caaf3cf9444039b83c5d6b941efc9869f0153c1db1c73f8"
+      "sha256": "908e45c920007875e7a7e2fa1957729b461e03da747c7a7076c887222af0ab23"
     },
     {
       "id": "owner-team-handoff",
@@ -604,6 +607,22 @@
       "id": "developer-complete-delivery-20261123",
       "kind": "thread",
       "label": "本人转交开发补齐材料，已核176fbb0／36854f4、两MP4、B与配置；本人确认20题120次",
+      "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
+      "observed_at": "2026-11-23",
+      "sha256": null
+    },
+    {
+      "id": "agent-offline-hr-replay-20261123",
+      "kind": "thread",
+      "label": "本人不等测试组，本会话固定176离线复跑HR9/9通过，真实120次未跑",
+      "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
+      "observed_at": "2026-11-23",
+      "sha256": null
+    },
+    {
+      "id": "owner-agent-real-evaluation-budget-20261123",
+      "kind": "thread",
+      "label": "本人确认本会话接手真实120并无金额上限，偏好OpenAI资源，具体配置仍待",
       "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
       "observed_at": "2026-11-23",
       "sha256": null

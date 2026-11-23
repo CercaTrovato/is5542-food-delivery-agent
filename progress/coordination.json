@@ -5,8 +5,8 @@
   "root_thread_id": "01a1b491-403e-7651-9aba-13e5b647af93",
   "model": "gpt-6.1-sol",
   "status": "ready_for_review",
-  "updated_at": "2026-11-23T12:29:20+08:00",
-  "summary": "11/23已收开发176fbb0候选与36854f4资料，52运行文件一致；四项守卫、基础工具B、两段可解码录屏、模型日志／配置与PPT素材已交。本人正式改20题×两模式×3轮＝120次；独立HR与正式成绩仍空。PPT v2不改，方法附带差异与成本主张保留限制，待测试组接手。",
+  "updated_at": "2026-11-23T13:20:06+08:00",
+  "summary": "本人已确认本会话接手真实120次，且本轮费用无金额上限；现已按提示定位本人教学前端使用的OpenAI配置，模型待本人确认，真实调用仍0。固定176fbb0的开发HR九组由本会话隔离离线复跑9/9通过，非人类／测试组验收；PPT材料可继续。",
   "report_path": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/supervision-report.md",
   "decisions": [
     {
@@ -243,6 +243,33 @@
       "status": "decided",
       "answer": "正式改为20题，两模式各3轮，即120次系统试跑；API次数另计，测试组独立执行，当前未跑正式成绩。",
       "answer_source": "本人在本课程会话01a1b4b5-357e-7762-84f1-ae8ff400cba3于11/23对题量问题直接选择：“正式改为20题，两模式各3轮”。"
+    },
+    {
+      "id": "IS5542-D25",
+      "question": "是否由本会话接手真实对照，不等测试组回复？",
+      "recommendation": "本会话先执行并据实留来源，测试组后续人类反馈／复核不冒称已完成。",
+      "options": [],
+      "status": "decided",
+      "answer": "本人选择“我们接手真实对照，先落实配置与预算”。本会话已先跑离线HR9/9，真实120仍待有效模型配置。",
+      "answer_source": "本人11/23在本课程会话01a1b4b5-357e-7762-84f1-ae8ff400cba3对执行方向问题的直接答复。"
+    },
+    {
+      "id": "IS5542-D26",
+      "question": "本次20题两模式各3轮真实对照的API费用上限是多少？",
+      "recommendation": "按本人本次明确答复无金额上限，但仅限已定120次及必要预检／失败，不自动扩题／重跑。",
+      "options": [],
+      "status": "decided",
+      "answer": "本人明确“无上限”。先前5元／10元仅建议，已被本次答复取代；记录用量，配置未定前不调用。",
+      "answer_source": "本人11/23明确回复：“无上限，话说是用的我的api吗？我的openai的api比较多”。"
+    },
+    {
+      "id": "IS5542-D27",
+      "question": "真实实验具体使用哪份OpenAI配置、哪个模型／接口和兼容参数？",
+      "recommendation": "已按本人提示只读核查教学前端的启动配置与提供方代码，定位既有OpenAI凭据来源，官方接口地址有效格式、Key存在；没有复制或输出Key，没有修改源.env或教学服务，也未调用模型。前端GPT默认gpt-5.4-mini，源.env的openai:gpt-4.1-mini是旧原型标记；拟选官方固定快照gpt-5.4-mini-2026-03-17，已单独询问本人，答复尚待。配置来源定位不等于模型选择已获确认。等待本人确认OpenAI固定快照或开发同款DeepSeek；B/C同模型、同兼容参数。",
+      "options": [],
+      "status": "pending",
+      "answer": null,
+      "answer_source": null
     }
   ]
 }

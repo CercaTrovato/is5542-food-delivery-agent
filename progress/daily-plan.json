@@ -4,7 +4,7 @@
   "course": "IS5542",
   "as_of": "2026-11-23",
   "timezone": "Asia/Shanghai",
-  "source_revision": "34fca1b1d1feee1c4fc29aed53e21cad361a3afa2ee3beb0ef333b8603a82e83",
+  "source_revision": "aced95810ab191918b1daf49b26ca51410234583041086cfa6441dc33597c833",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -50,6 +50,23 @@
       "date_state": "unscheduled"
     },
     {
+      "id": "p23",
+      "title": "测试组：真实模型对照与边界／安全",
+      "owner": "本人／本会话Agent执行；测试组后补复核",
+      "status": "needs_review",
+      "personal_action": "确认本轮模型；配置已定位，不必重复填写Key。",
+      "readiness": "ready",
+      "target": {
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
+      },
+      "blocked_by": [],
+      "estimated_minutes": null,
+      "observed_on": "2026-11-23",
+      "date_state": "unscheduled"
+    },
+    {
       "id": "ppt-outline",
       "title": "本人先搭PPT骨架并核提交要求",
       "owner": "李宾雄／全组核事实",
@@ -69,9 +86,9 @@
     {
       "id": "acceptance",
       "title": "本轮基础B对规则C的结果与方法核对",
-      "owner": "本人 + 技术／测试组",
+      "owner": "本人／本会话Agent执行；测试组后补复核",
       "status": "needs_review",
-      "personal_action": "先锁版本，完成9组复测和工具型基础B对规则版C的同条件实验。",
+      "personal_action": "确认本轮模型；配置已定位，不必重复填写Key。",
       "readiness": "waiting_dependency",
       "target": {
         "value": null,

@@ -654,5 +654,18 @@
     "repeats_each": 3,
     "planned_system_runs": 120,
     "actual_results": null
+  },
+  "agent_offline_replay": {
+    "source_code": "176fbb0264203b53e7ed8c68760a75243e5b113b",
+    "executed_by": "current chat assistant",
+    "design_origin": "developer supplied suite",
+    "model_mode": "offline_scripted_plus_mode_b_adapter",
+    "groups": 9,
+    "passed": 9,
+    "failed": 0,
+    "model_api_calls": 0,
+    "human_visual_acceptance": false,
+    "formal_BC_trials": 0,
+    "source": "../eval/agent-offline-replay-2026-11-23.md"
   }
 }
