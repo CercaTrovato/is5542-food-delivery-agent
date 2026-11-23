@@ -1,5 +1,7 @@
 # 两天版验收入口
 
+最新：[开发补齐交件已收](developer-delivery-2026-11-23.md)，[正式结果表](bc-formal-acceptance-2026-11-23.md)已按本人决定改为20题×两模式×3轮＝120次，成绩未填。九组HR独立验收待测试组，不抄开发自测。
+
 11/22：[测试组复测记录已收](team-retest-2026-11-22.md)，8条验收行均标过。原正式对照模板不自动填成绩，人工重审／改额边界待本人另定。开发开测说明已有部分到件，见[接收状态](developer-handoff.md)及[当日进度](../../notes/team/progress-2026-11-22.md)。
 
 先读[48小时任务](../../notes/team/final-week-tasks-2026-11-21.md)。开发填[开测说明](developer-handoff.md)，测试组（A＋gaga老师）合交[一份报告](team-acceptance.md)。本组肉眼视觉检查只需约20分钟，不要求视觉参与者配置Agent／模型／接口／日志。

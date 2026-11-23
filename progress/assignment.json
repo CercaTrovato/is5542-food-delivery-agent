@@ -7,23 +7,23 @@
   "board_scope": "active",
   "group": "Group 24",
   "my_role": "本人统一PPT／录制与结论把关，Agent可协助核方法和数据；开发由李宗谦主做，A＋gaga作为测试组整体交件。",
-  "summary": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 已确认四项规则：未补偿的已驳回订单，有可核实的新信息或原处理错误才沿原工单人工重审；仅主管 R002 可改额；默认 ¥10 模拟券，改额限 1–20 元整数、不超实付且记录原因；同一订单最多成功补偿一次。 11 月 22 日原表有 8 行标为通过或已解决，缺受测提交及完整配置；末次图片提交晚于测试反馈。四项新边界的代码对齐和 9 组定向复测待核。 录屏、正式 B/C 对照、市场流程比较、成本／ROI、最终 Slides 与正式提交仍待补。已登记 11 月 28 日交录像和 Slides，Canvas 入口、时长及准确时刻待核。",
-  "stage": "15 页可编辑 PPTX v2 已导出，待核稿、同版复测和正式结果",
-  "updated_at": "2026-11-23T11:19:18+08:00",
+  "summary": "11/23已收开发176fbb0候选与36854f4资料，52运行文件一致；四项守卫、基础工具B、两段可解码录屏、模型日志／配置与PPT素材已交。本人正式改20题×两模式×3轮＝120次；独立HR与正式成绩仍空。PPT v2不改，方法附带差异与成本主张保留限制，待测试组接手。",
+  "stage": "开发候选与录屏已交 · 120次正式对照待测试组 · PPT v2待插片",
+  "updated_at": "2026-11-23T12:29:20+08:00",
   "reviewed_at": "2026-11-23",
   "progress_as_of": "2026-11-23",
   "task_scope_complete": false,
   "next_action": {
-    "title": "开发先锁定受测提交和模型配置并补基础客服对照；测试组按同版做 9 组边界复测及真实模型对照。总负责人核阅 PPTX，补两段同版录屏、业务证据和最终交付。",
-    "owner": "李宗谦／测试组／本人",
+    "title": "测试组接176fbb0做独立HR验收并核B架构／题库评分，再执行20题两模式各3轮；PPT按已到素材补配置／架构与录屏，正式结果仍空",
+    "owner": "测试组／本人；开发配合隔离环境",
     "basis": "proposed"
   },
   "blockers": [
-    "四项课堂方案边界已确认，新版本实现与九组边界复测待核。",
-    "旧测试表8行缺受测提交和完整配置；末次图片提交在测试反馈之后。",
-    "基础工具B、同条件真实模型对照、正常与异常录屏、成本／ROI、最终Slides和组员信息待补。",
-    "规则新稿已收，五项官方出处待补；本轮市场流程比较表在已读材料中待收。",
-    "看板登记11月28日，最新Canvas提交入口、准确时刻和录像时长待核。"
+    "176fbb0代码候选／配置／B与两录屏已交，独立HR01—09及B架构接收验收待测试组；旧8行不替代新边界。",
+    "本人已确认20题×2模式×3轮＝120次，正式结果未跑；Agent层附带差异和评分口径需在报告披露／复核。",
+    "两录屏无音轨且本批未插入PPT v2；最终讲述／完整课程录像和本人核稿仍待，模型价格／成本及ROI无正式证据。",
+    "Jacky五项官方出处与林本轮客服流程比较仍是独立缺项，不能由开发材料代替。",
+    "最新Canvas入口／准确截止／视频上限待核；跨会话发送仍需本人本次确认，共享／线上看板本批未更。"
   ],
   "tasks": [
     {
@@ -99,7 +99,7 @@
       "title": "领域工具与 Agent 最小可运行链路",
       "status": "in_progress",
       "owner": "李宗谦／开发",
-      "note": "已见远端开发分支9c8fdbc及历史自检/共享入口报告；本次未复跑当前服务或真实模型，接收方验收仍待核。 11/21新到候选86632a6，受测版本与接收验收仍待；李宗谦交可开测说明和修复。 当前正式B要求工具、多轮与工单／审批，仍待开发；不把旧纯提示实验当已交B。 11/21晚已回应该修复请求，先复现三个问题并交修复版本；尚无已修或验收通过证据。 原表已读，直接按R02回复顺序＋人工模式、R03订单关联＋历史复现，不再缺具体步骤；代码原因和修复仍待核。 本人已确认R01只补具体原因与人工入口、不新增二次申请；开发第1天交可测修复，测试组第2天合交定向复测，实际成员时间待回。 11/22又见0fca410、77af28d、df65b5d和29171c8，功能修复与人工动作／隔离已交；正式工具B新交件本批未见，未自动合并代码。 11/23四项human-review-v1已确认，规则已发布；代码对齐／九组边界实际复测及同版素材仍待，不移植旧通过数。",
+      "note": "已见远端开发分支9c8fdbc及历史自检/共享入口报告；本次未复跑当前服务或真实模型，接收方验收仍待核。 11/21新到候选86632a6，受测版本与接收验收仍待；李宗谦交可开测说明和修复。 当前正式B要求工具、多轮与工单／审批，仍待开发；不把旧纯提示实验当已交B。 11/21晚已回应该修复请求，先复现三个问题并交修复版本；尚无已修或验收通过证据。 原表已读，直接按R02回复顺序＋人工模式、R03订单关联＋历史复现，不再缺具体步骤；代码原因和修复仍待核。 本人已确认R01只补具体原因与人工入口、不新增二次申请；开发第1天交可测修复，测试组第2天合交定向复测，实际成员时间待回。 11/22又见0fca410、77af28d、df65b5d和29171c8，功能修复与人工动作／隔离已交；正式工具B新交件本批未见，未自动合并代码。 11/23四项human-review-v1已确认，规则已发布；代码对齐／九组边界实际复测及同版素材仍待，不移植旧通过数。 11/23新收到176fbb0基础B和human-review-v1候选、配置和演示留档；开发交件缺口已补，独立验收未过。",
       "evidence": [
         "app",
         "handoff",
@@ -117,7 +117,8 @@
         "team-test-sheet-read-20261121",
         "owner-rejection-scope-20261121",
         "group-progress-20261122",
-        "owner-human-review-four-boundaries-20261123"
+        "owner-human-review-four-boundaries-20261123",
+        "developer-complete-delivery-20261123"
       ]
     },
     {
@@ -125,7 +126,7 @@
       "title": "3 个剧本试跑与成本记录",
       "status": "in_progress",
       "owner": "测试组（A＋gaga老师）",
-      "note": "新版1122表8行均标过，两个新问题有解决说明；A22:18／22:34群确认。受测提交／完整配置未绑定，属于测试组报告非本会话独立验收，P02业务扩展边界待定。 11/23四项human-review-v1已确认，规则已发布；代码对齐／九组边界实际复测及同版素材仍待，不移植旧通过数。",
+      "note": "新版1122表8行均标过，两个新问题有解决说明；A22:18／22:34群确认。受测提交／完整配置未绑定，属于测试组报告非本会话独立验收，P02业务扩展边界待定。 11/23四项human-review-v1已确认，规则已发布；代码对齐／九组边界实际复测及同版素材仍待，不移植旧通过数。 176fbb0与HR脚本／fixture已交，独立HR待执行，不能复制开发自测。",
       "evidence": [
         "handoff",
         "final-week-task-pack",
@@ -134,15 +135,16 @@
         "team-test-sheet-read-20261121",
         "owner-rejection-scope-20261121",
         "group-progress-20261122",
-        "owner-human-review-four-boundaries-20261123"
+        "owner-human-review-four-boundaries-20261123",
+        "developer-complete-delivery-20261123"
       ]
     },
     {
       "id": "evaluation",
       "title": "基线比较与系统评测",
-      "status": "todo",
+      "status": "in_progress",
       "owner": "测试组执行／本人核方法与结论",
-      "note": "正式内部对照改基础工具B与规则C，两边共用模型／合法事实／工具／权限／确认与人工执行边界。B未实现，新实验未跑；旧单轮报告只作辅助，不移植百分比。市场只有限证据比较，不称真实到账或普遍领先。",
+      "note": "本人已将主范围改20题×两模式×3轮＝120次，冻结176fbb0 BC01—20；基础B候选与开发冒烟已收，正式成绩空白。C另有单号兜底／食安前置差异必须披露，自动标志与完整内容复核分开。",
       "evidence": [
         "brief",
         "handoff",
@@ -150,7 +152,8 @@
         "owner-personal-scope",
         "dev-and-ablation-86632a6",
         "final-week-task-pack",
-        "owner-two-day-plan-20261121"
+        "owner-two-day-plan-20261121",
+        "developer-complete-delivery-20261123"
       ]
     },
     {
@@ -158,7 +161,7 @@
       "title": "Slides 与 Demo 叙事",
       "status": "in_progress",
       "owner": "本人",
-      "note": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 录屏、正式 B/C 对照、市场流程比较、成本／ROI、最终 Slides 与正式提交仍待补。已登记 11 月 28 日交录像和 Slides，Canvas 入口、时长及准确时刻待核。",
+      "note": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 录屏、正式 B/C 对照、市场流程比较、成本／ROI、最终 Slides 与正式提交仍待补。已登记 11 月 28 日交录像和 Slides，Canvas 入口、时长及准确时刻待核。 已收到两录屏／模型参数／状态图和架构素材，本批未改15页v2或插片，正式成绩和ROI仍空。",
       "evidence": [
         "owner-final-week-20261121",
         "final-week-task-pack",
@@ -170,7 +173,8 @@
         "owner-human-review-four-boundaries-20261123",
         "editable-presentation-draft-20261123",
         "presentation-visual-redesign-20261123",
-        "supervision-20261123"
+        "supervision-20261123",
+        "developer-complete-delivery-20261123"
       ]
     },
     {
@@ -314,7 +318,7 @@
       "label": "组员续作核查与开发交接（脱敏）",
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/supervision-report.md",
       "observed_at": "2026-11-23",
-      "sha256": "ce539931adc0eab88d3589042d350add9e7622495f8ee73a9c5717feaedaa946"
+      "sha256": "d514c1c14ef27f6f7caaf3cf9444039b83c5d6b941efc9869f0153c1db1c73f8"
     },
     {
       "id": "owner-team-handoff",
@@ -590,9 +594,17 @@
     },
     {
       "id": "pptx-local-export-20261123",
-      "kind": "web",
-      "label": "本地导出15页PPTX v2的核验登记",
-      "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/supervision-2026-11-23.md",
+      "kind": "local",
+      "label": "本地可编辑PPTX v2（15页，待本人核阅）",
+      "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/submission/IS5542-Group24-DRAFT-v2.pptx",
+      "observed_at": "2026-11-23",
+      "sha256": "a74e365ef9807008277e10ae249f9947a47482f609329ba9bd794a309c00f6c3"
+    },
+    {
+      "id": "developer-complete-delivery-20261123",
+      "kind": "thread",
+      "label": "本人转交开发补齐材料，已核176fbb0／36854f4、两MP4、B与配置；本人确认20题120次",
+      "locator": "01a1b4b5-357e-7762-84f1-ae8ff400cba3",
       "observed_at": "2026-11-23",
       "sha256": null
     }

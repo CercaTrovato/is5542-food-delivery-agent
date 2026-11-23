@@ -260,7 +260,8 @@
       "content": [
         "内部比较：基本工具型客服B与显式规则客服C，均有工具、多轮、确认、工单和人工审批。",
         "保持模型、合法订单事实、工具、权限、demo规则与共同安全边界一致，只比较业务判断实现。 两边共同执行human-review-v1，不把保护层差异当模型业务判断收益。",
-        "主计划为10场景、两模式、每题3次，共60次系统试跑；记录每次是否调用模型。500模拟回归、首轮7条试用和正式对照分开。"
+        "主计划为20场景、两模式、每题每模式3次，共120次系统试跑；记录每次是否调用模型。500模拟回归、首轮7条试用和正式对照分开。",
+        "实际C另有单号兜底／食安前置差异，正式报告披露，不能当严格唯一节点因素。"
       ],
       "visual": "B／C差异与共同条件的对照表，另列主指标及数据采集方式。",
       "materials": [
@@ -627,5 +628,31 @@
     "artifact_ref": "artifact_external_2d3d9a3f-796e-4766-9241-deca7a6a8029",
     "saved_state_version": 14,
     "manifest": "redesign-20261123/artifact-manifest.json"
+  },
+  "developer_delivery": {
+    "code_commit": "176fbb0264203b53e7ed8c68760a75243e5b113b",
+    "archive_commit": "36854f47942e85524ac1a0dd96d47a07907d5362",
+    "runtime_blob_count": 52,
+    "runtime_code_identical": true,
+    "received": true,
+    "independent_HR_acceptance": null,
+    "formal_BC_results": null,
+    "recordings_received": [
+      "demo-normal-ord001-approve.mp4",
+      "demo-exception-reject-reconsider.mp4"
+    ],
+    "recordings_inserted_into_ppt": false,
+    "PPT_v2_modified_this_batch": false
+  },
+  "formal_experiment_scope": {
+    "user_confirmed": true,
+    "cases": 20,
+    "modes": [
+      "B",
+      "C"
+    ],
+    "repeats_each": 3,
+    "planned_system_runs": 120,
+    "actual_results": null
   }
 }

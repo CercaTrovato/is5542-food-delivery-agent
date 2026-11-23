@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="1200" height="680" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#eef2ff"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#475569"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="680" rx="18" fill="url(#bgGrad)" stroke="#cbd5e1" stroke-width="2"/>
+
+  <!-- Header -->
+  <text x="40" y="46" font-size="22" font-weight="700" fill="#0f172a">IS5542 Group 24 · 外卖延误补偿与人工核损系统架构（Mode B vs Mode C 同题受控对照）</text>
+  <text x="40" y="72" font-size="13" fill="#475569">受测提交：176fbb0 ｜ 规则版本：demo-v1 + human-review-v1 ｜ 在线模型：deepseek-flash (T=0.35, thinking=disabled, stp_auto_approve=false)</text>
+
+  <!-- Step 1: Customer & Session Auth -->
+  <rect x="36" y="110" width="210" height="190" rx="14" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/>
+  <rect x="36" y="110" width="210" height="36" rx="14" fill="#fef3c7"/>
+  <text x="52" y="134" font-size="14" font-weight="700" fill="#92400e">1. 顾客端入口 ( / )</text>
+  <text x="52" y="166" font-size="12.5" fill="#1e293b">• 会话身份 Cookie 隔离 (U001/U002)</text>
+  <text x="52" y="190" font-size="12.5" fill="#1e293b">• LangGraph DurableSqliteSaver</text>
+  <text x="52" y="214" font-size="12.5" fill="#1e293b">• 自然语言查单 / 申请补偿</text>
+  <text x="52" y="238" font-size="12.5" fill="#1e293b">• 一单一编号人工咨询 (H0001+)</text>
+  <text x="52" y="262" font-size="12.5" fill="#1e293b">• 图片魔数 &amp; 语音 WebM 核验</text>
+  <text x="52" y="286" font-size="11.5" font-weight="600" fill="#2563eb">B / C 100% 共用</text>
+
+  <!-- Step 2: Shared Tool Layer -->
+  <rect x="284" y="110" width="210" height="190" rx="14" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/>
+  <rect x="284" y="110" width="210" height="36" rx="14" fill="#dbeafe"/>
+  <text x="300" y="134" font-size="14" font-weight="700" fill="#1e40af">2. 鉴权查单工具 query_order</text>
+  <text x="300" y="166" font-size="12.5" fill="#1e293b">• lookup_for_customer 归属校验</text>
+  <text x="300" y="190" font-size="12.5" fill="#1e293b">• 他人订单与不存在订单盲化一致</text>
+  <text x="300" y="214" font-size="12" fill="#1e293b">• 返回状态 / 预计与实际送达时间</text>
+  <text x="300" y="238" font-size="12.5" fill="#1e293b">• 统一算法计算 late_seconds</text>
+  <text x="300" y="262" font-size="12.5" fill="#dc2626">• 严禁预塞 eligible 标准答案</text>
+  <text x="300" y="286" font-size="11.5" font-weight="600" fill="#2563eb">B / C 100% 共用</text>
+
+  <!-- Step 3: Controlled Single Experimental Factor -->
+  <rect x="532" y="96" width="330" height="236" rx="16" fill="#fffbeb" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="7,4"/>
+  <text x="550" y="122" font-size="14" font-weight="700" fill="#b45309">3. 唯一受控自变量：业务资格与下一步决策</text>
+
+  <!-- Mode B Box -->
+  <rect x="548" y="136" width="298" height="84" rx="10" fill="#ffffff" stroke="#d97706" stroke-width="2"/>
+  <text x="562" y="158" font-size="13.5" font-weight="700" fill="#b45309">方案 B：基础工具型客服 (--agent-mode B)</text>
+  <text x="562" y="180" font-size="12" fill="#334155">LLM 读相同规则自主输出结构化 JSON 建议：</text>
+  <text x="562" y="200" font-size="11.5" fill="#475569">字段：eligible / next_action / amount / reason</text>
+
+  <!-- Mode C Box -->
+  <rect x="548" y="234" width="298" height="84" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="562" y="256" font-size="13.5" font-weight="700" fill="#1d4ed8">方案 C：显式业务规则型 (--agent-mode C)</text>
+  <text x="562" y="278" font-size="12" fill="#334155">确定性规则节点 evaluate_order 判定资格边界：</text>
+  <text x="562" y="298" font-size="11.2" fill="#475569">delivered 且 late_seconds &gt; 1800 → LLM 受控润色</text>
+
+  <!-- Step 4: Shared Safety & Confirmation Interrupt -->
+  <rect x="900" y="110" width="264" height="190" rx="14" fill="#ffffff" stroke="#16a34a" stroke-width="2"/>
+  <rect x="900" y="110" width="264" height="36" rx="14" fill="#dcfce7"/>
+  <text x="916" y="134" font-size="14" font-weight="700" fill="#166534">4. 共享执行保护与顾客确认中断</text>
+  <text x="916" y="166" font-size="12.5" fill="#1e293b">• 分别留档 raw_proposal 与最终动作</text>
+  <text x="916" y="190" font-size="12.5" fill="#1e293b">• reply_risk 拦截虚假发券/越权金额</text>
+  <text x="916" y="214" font-size="12.5" fill="#1e293b">• confirm_submission 暂停等待顾客确认</text>
+  <text x="916" y="238" font-size="12.5" fill="#1e293b">• submit 二次核验资格，拦截错判建单</text>
+  <text x="916" y="262" font-size="12.5" fill="#1e293b">• 严禁缓存冒充重复、严禁静默降级脚本</text>
+  <text x="916" y="286" font-size="11.5" font-weight="600" fill="#166534">B / C 100% 共用</text>
+
+  <!-- Step 5: Bottom Human Review & Persistence Layer -->
+  <rect x="36" y="384" width="1128" height="256" rx="16" fill="#ffffff" stroke="#64748b" stroke-width="2"/>
+  <rect x="36" y="384" width="1128" height="40" rx="16" fill="#f1f5f9"/>
+  <text x="56" y="410" font-size="15" font-weight="700" fill="#0f172a">5. 人工审批、重审改额与一单一赔原子账本层（human-review-v1 · B / C 100% 共用 · /review）</text>
+
+  <!-- Sub-box 5A -->
+  <rect x="56" y="442" width="256" height="178" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="72" y="468" font-size="13.5" font-weight="700" fill="#0f172a">有理由重审 (HR01–HR03)</text>
+  <text x="72" y="494" font-size="12" fill="#334155">• 仅「已驳回 + 未补偿」可发起重审</text>
+  <text x="72" y="518" font-size="12" fill="#334155">• 必选依据：可核实新信息 / 原处理错</text>
+  <text x="72" y="542" font-size="12" fill="#334155">• 必填书面原因；仅不满结论不自动重开</text>
+  <text x="72" y="566" font-size="12" fill="#334155">• 沿原工单 T0001 核对，保留原驳回记录</text>
+  <text x="72" y="590" font-size="12" fill="#dc2626">• 已发券单禁重审、禁改额、禁补差价</text>
+
+  <!-- Sub-box 5B -->
+  <rect x="332" y="442" width="268" height="178" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="348" y="468" font-size="13.5" font-weight="700" fill="#0f172a">角色权限与金额上限 (HR04–HR06)</text>
+  <text x="348" y="494" font-size="12" fill="#334155">• R001 普通客服：仅限标准 ¥10</text>
+  <text x="348" y="518" font-size="12" fill="#334155">• R002 主管专席：可改 1–20 整数元 + 原因</text>
+  <text x="348" y="542" font-size="12" fill="#334155">• R003 只读观察；顾客与 AI 禁直接改额</text>
+  <text x="348" y="566" font-size="12" fill="#334155">• 0 / 21 / 1.5 等非法值直接拒绝不截断</text>
+  <text x="348" y="590" font-size="12" fill="#dc2626">• 严守可信实付上限（¥8单拒¥10不自动降）</text>
+
+  <!-- Sub-box 5C -->
+  <rect x="620" y="442" width="262" height="178" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="636" y="468" font-size="13.5" font-weight="700" fill="#0f172a">原子防重与多单隔离 (HR07–HR09)</text>
+  <text x="636" y="494" font-size="12" fill="#334155">• SQLite 唯一部分索引锁定单号唯一发券</text>
+  <text x="636" y="518" font-size="12" fill="#334155">• 连点 / 刷新 / 换客服 / 换会话返回原状态</text>
+  <text x="636" y="542" font-size="12" fill="#334155">• 跨 policy_version 变更不清零已发记录</text>
+  <text x="636" y="566" font-size="12" fill="#334155">• 并发审批互斥：单次发放、金额绝不叠加</text>
+  <text x="636" y="590" font-size="12" fill="#166534">• 同顾客不同订单 (ORD001/005) 独立处理</text>
+
+  <!-- Sub-box 5D -->
+  <rect x="902" y="442" width="242" height="178" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="918" y="468" font-size="13.5" font-weight="700" fill="#0f172a">可验证审计链与清分账本</text>
+  <text x="918" y="494" font-size="12" fill="#334155">• 记录操作人/角色/旧新状态与旧新金额</text>
+  <text x="918" y="518" font-size="12" fill="#334155">• 记录 reason_type 与 issue_result</text>
+  <text x="918" y="542" font-size="12" fill="#334155">• T1 餐厅备餐 / T2 准时保池比例清分</text>
+  <text x="918" y="566" font-size="12" fill="#334155">• SHA-256 只追加哈希链防篡改存证</text>
+  <text x="918" y="590" font-size="12" fill="#2563eb">• 顾客端实时同步审批结论与券额</text>
+
+  <!-- Connectors -->
+  <line x1="246" y1="205" x2="280" y2="205" stroke="#475569" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <line x1="494" y1="180" x2="544" y2="180" stroke="#d97706" stroke-width="2.5" marker-end="url(#arrowAmber)"/>
+  <line x1="494" y1="265" x2="544" y2="265" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
+  <line x1="846" y1="180" x2="896" y2="180" stroke="#d97706" stroke-width="2.5" marker-end="url(#arrowAmber)"/>
+  <line x1="846" y1="265" x2="896" y2="265" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
+  <path d="M 1032 300 L 1032 380" stroke="#475569" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M 140 384 L 140 304" stroke="#2563eb" stroke-width="2.5" stroke-dasharray="5,4" fill="none" marker-end="url(#arrowBlue)"/>
+  <text x="150" y="350" font-size="12" font-weight="600" fill="#1d4ed8">状态与补偿结果实时回显</text>
+</svg>

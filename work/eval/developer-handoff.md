@@ -1,3 +1,24 @@
+# 开发开测说明（176fbb0已交候选，36854f4资料已收）
+
+受测代码176fbb0（v18），资料36854f4与其52个运行文件blob相同。请测试组在隔离干净检出使用该固定代码；main本批只接资料，不含新运行代码，不能拉main就声称跑了新B。
+
+| 项 | 已到交件／仍待验 |
+|---|---|
+| 入口 | 顾客https://ord001-group24.surge.sh/，商家https://ord001-group24.surge.sh/review。当前公网部署同版为开发声明，本批没有实际访问验收。 |
+| 模型 | 请求openai:deepseek-flash、日志返回deepseek-flash；T=0.35、max_tokens=800、timeout=30s、max_retries=0、thinking=disabled。 |
+| 规则／开关 | demo-v1＋human-review-v1，stp_auto_approve=false；测试组启动前记录实际值。 |
+| B运行 | 代码新增--agent-mode B，默认C；工具、多轮、确认、工单／人工审记录已有开发留档。 |
+| HR独立验收 | 按HR01—09脚本和清单，HR06用隔离8元／实付缺失fixture；开发9/9是scripted＋B adapter自测，不能复制为测试组结果。 |
+| 正式对照 | 本人确认BC01—20，两模式各3轮＝120次；模型调用次数、HR测试与开发冒烟另计。 |
+| 初态 | runner每次独立环境；共享库不得自行重置，需要时由本人群内协调开发。Windows不得照抄原文/tmp，使用任务独立英文绝对路径。 |
+| 演示素材 | 正常21.1秒、异常30.3秒H.264 MP4，均无音轨，三张状态图和架构SVG／PNG已归档。 |
+
+[完整接收与方法限制](developer-delivery-2026-11-23.md) · [开发原文目录副本](../../examples/ord001/evidence/final-20261123/developer-handoff.md) · [固定代码上的原交接](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/36854f47942e85524ac1a0dd96d47a07907d5362/work/eval/developer-handoff.md) · [正式结果表](bc-formal-acceptance-2026-11-23.md)
+
+开发侧素材接收与测试组验收、PPT插片分开。不得仅按自动ticket状态字段判所有自然语言正确；B/C另有单号兜底／食安前置差异，报告须披露。价格／ROI没有来源和正式样本前继续空白。
+
+<details><summary>本次到件前的开测说明与缺项（历史）</summary>
+
 # 开发开测说明（11/22已收部分，版本绑定待补）
 
 ## 11月23日：四项边界已确认，等待代码对齐
@@ -67,5 +88,7 @@
 | 新B/C报告与完整原始结果在哪里 | 待填写，区分60次实验、模型API次数、500模拟回归 |
 
 交件时补一张顾客／商家流程图和实际录屏链接；修复后写新提交及需重测的案例编号。
+
+</details>
 
 </details>

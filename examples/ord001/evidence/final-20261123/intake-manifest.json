@@ -1,0 +1,164 @@
+{
+  "code_commit": "176fbb0264203b53e7ed8c68760a75243e5b113b",
+  "archive_commit": "36854f47942e85524ac1a0dd96d47a07907d5362",
+  "runtime_blob_count": 52,
+  "runtime_code_identical": true,
+  "evidence_files": [
+    {
+      "path": "examples/ord001/evidence/final-20261123/architecture-bc-flow.png",
+      "bytes": 734804,
+      "sha256": "3fbfd9cbc13bbe5fe13c36147baa18763a3a032e149af08fef839ec90bc81d83",
+      "git_blob": "ddc43f9e69bd244459208237595633fd2d545b8b",
+      "archived_sha256": "3fbfd9cbc13bbe5fe13c36147baa18763a3a032e149af08fef839ec90bc81d83",
+      "archive_transform": "byte_identical"
+    },
+    {
+      "path": "examples/ord001/evidence/final-20261123/architecture-bc-flow.svg",
+      "bytes": 10327,
+      "sha256": "b599b7bfc3bd056c4fdc6e343372e8980debbd6548eac0aa91908e55a9e2367c",
+      "git_blob": "86efd4273fcc373d22be688d58fed6a5f8f8a24f",
+      "archived_sha256": "b599b7bfc3bd056c4fdc6e343372e8980debbd6548eac0aa91908e55a9e2367c",
+      "archive_transform": "byte_identical"
+    },
+    {
+      "path": "examples/ord001/evidence/final-20261123/demo-exception-reject-reconsider.mp4",
+      "bytes": 1921329,
+      "sha256": "2bcca47c8d72af26e15c858cf79f67eb134760ac8d573d64d0022365defb29f3",
+      "git_blob": "bac0604d4b5f6b48135976baf0414ec98a8de168",
+      "archived_sha256": "2bcca47c8d72af26e15c858cf79f67eb134760ac8d573d64d0022365defb29f3",
+      "archive_transform": "byte_identical"
+    },
+    {
+      "path": "examples/ord001/evidence/final-20261123/demo-exception-reject-reconsider.webm",
+      "bytes": 4599891,
+      "sha256": "04575c0fcdbf421c39efea46e5a88ebfd8a45c2d9dc886a7e5f3f3ff5ae88685",
+      "git_blob": "d1d7f8ab3750516461a1e87e7eac41cd9068327c",
+      "archived_sha256": "04575c0fcdbf421c39efea46e5a88ebfd8a45c2d9dc886a7e5f3f3ff5ae88685",
+      "archive_transform": "byte_identical"
+    },
+    {
+      "path": "examples/ord001/evidence/final-20261123/demo-normal-ord001-approve.mp4",
+      "bytes": 974862,
+      "sha256": "6ed8e2e321b2363e59d5cc69020a4543d074f85cd4c6c7f18393497e76464dda",
+      "git_blob": "38e212dd73efd851cd71330e6e26647252a81aca",
+      "archived_sha256": "6ed8e2e321b2363e59d5cc69020a4543d074f85cd4c6c7f18393497e76464dda",
+      "archive_transform": "byte_identical"
+    },
+    {
+      "path": "examples/ord001/evidence/final-20261123/demo-normal-ord001-approve.webm",
+      "bytes": 2632998,
+      "sha256": "0b6b7d5e243459e9271becbd074154bf6b97ca9563a79d59a18711c0f1e9337c",
+      "git_blob": "9e64ebb95b3f0c00b1a6fca8fe9f7c5bfe6ef8be",
+      "archived_sha256": "0b6b7d5e243459e9271becbd074154bf6b97ca9563a79d59a18711c0f1e9337c",
+      "archive_transform": "byte_identical"
+    },
+    {
+      "path": "examples/ord001/evidence/final-20261123/dev-selfcheck-hr01-hr09-scripted.json",
+      "bytes": 5070,
+      "sha256": "92db4bc833fd1861e54bf682fb54189db4a8eb37ee706464e13714080308828c",
+      "git_blob": "3d8946264728fe86f28c970488e471f1a9ed119c",
+      "archived_sha256": "92db4bc833fd1861e54bf682fb54189db4a8eb37ee706464e13714080308828c",
+      "archive_transform": "byte_identical"
+    },
+    {
+      "path": "examples/ord001/evidence/final-20261123/developer-handoff.md",
+      "bytes": 13871,
+      "sha256": "ba5df061291648aa1ef381c52ac4ff53b6e9c0273f72e86d3b3a7d140f18c160",
+      "git_blob": "3636757b2873209b27ac5b9e3def1fdce0383a72",
+      "archived_sha256": "22ddd98857f52dd8bdf544330c5ac93efbcb825855f7cb5f4b7179e1b262f6b7",
+      "archive_transform": "navigation prefix; handoff relative links normalized; raw source snapshot retained"
+    },
+    {
+      "path": "examples/ord001/evidence/final-20261123/live-bc-walkthrough-and-smoke.json",
+      "bytes": 38453,
+      "sha256": "58358927ddcd9ab59c5a8453d062bd4f24150c4d07614d54b579c9e2bb41bd68",
+      "git_blob": "b41b6fcb059f3cff0df1be9b51dc9aa34bfa1e39",
+      "archived_sha256": "58358927ddcd9ab59c5a8453d062bd4f24150c4d07614d54b579c9e2bb41bd68",
+      "archive_transform": "byte_identical"
+    },
+    {
+      "path": "examples/ord001/evidence/final-20261123/lizongqian-ppt-inputs.md",
+      "bytes": 12965,
+      "sha256": "3492bec6295b3ff70808094a643a5afe0be9f3f83878e0af7eba1cdbe522d17c",
+      "git_blob": "f92e2cfab47131c9bcda70849c135bbf5b03816e",
+      "archived_sha256": "81a357e67984fb6ae16d2c5e2d195463eca2de5c0ebc16c7f55b96522909db92",
+      "archive_transform": "navigation prefix; handoff relative links normalized; raw source snapshot retained"
+    },
+    {
+      "path": "examples/ord001/evidence/final-20261123/state-approved.png",
+      "bytes": 341728,
+      "sha256": "92bdc387858881e3ae4368f2d25464f06b398390e511b4a4902e0df1b3925035",
+      "git_blob": "4eca42c8fd84f723dd08a291c2a38df0c39edcbb",
+      "archived_sha256": "92bdc387858881e3ae4368f2d25464f06b398390e511b4a4902e0df1b3925035",
+      "archive_transform": "byte_identical"
+    },
+    {
+      "path": "examples/ord001/evidence/final-20261123/state-pending.png",
+      "bytes": 351339,
+      "sha256": "8dfda9776cebc6e491353f9b6b048ea83a8c8473cfe9e56626daa8dcab7af0ae",
+      "git_blob": "abe4338b81ddff52b30cc05bd3b87f09975a769e",
+      "archived_sha256": "8dfda9776cebc6e491353f9b6b048ea83a8c8473cfe9e56626daa8dcab7af0ae",
+      "archive_transform": "byte_identical"
+    },
+    {
+      "path": "examples/ord001/evidence/final-20261123/state-rejected.png",
+      "bytes": 319193,
+      "sha256": "959fb58781b2a428c1921f7a5a7dd5f5265328e0baf3a2dfcafab6ebfb2f0b34",
+      "git_blob": "5cf7b79a3eac4c91a4dbf0ccfd41b040f85cdb91",
+      "archived_sha256": "959fb58781b2a428c1921f7a5a7dd5f5265328e0baf3a2dfcafab6ebfb2f0b34",
+      "archive_transform": "byte_identical"
+    }
+  ],
+  "videos": [
+    {
+      "file": "demo-exception-reject-reconsider.mp4",
+      "duration_seconds": 30.3,
+      "video_codec": "h264",
+      "width": 1280,
+      "height": 800,
+      "audio_tracks": 0,
+      "inspection": "metadata and sampled final frame; not complete application replay"
+    },
+    {
+      "file": "demo-normal-ord001-approve.mp4",
+      "duration_seconds": 21.1,
+      "video_codec": "h264",
+      "width": 1280,
+      "height": 800,
+      "audio_tracks": 0,
+      "inspection": "metadata and sampled final frame; not complete application replay"
+    }
+  ],
+  "live_json_top_keys": [
+    "generated_at",
+    "policy_combination",
+    "walkthrough",
+    "suite_summary",
+    "suite_runs"
+  ],
+  "selfcheck_json_top_keys": [
+    "checked_at",
+    "run_category",
+    "policy_combination",
+    "model_mode",
+    "summary",
+    "results"
+  ],
+  "status": "developer_delivery_received_not_independent_acceptance",
+  "received_on": "2026-11-23",
+  "independent_application_runs": 0,
+  "paid_model_calls_by_receiver": 0,
+  "formal_results": null,
+  "source_snapshots": [
+    {
+      "path": "examples/ord001/evidence/final-20261123/developer-handoff.source.txt",
+      "sha256": "ba5df061291648aa1ef381c52ac4ff53b6e9c0273f72e86d3b3a7d140f18c160",
+      "source_blob": "3636757b2873209b27ac5b9e3def1fdce0383a72"
+    },
+    {
+      "path": "examples/ord001/evidence/final-20261123/lizongqian-ppt-inputs.source.txt",
+      "sha256": "3492bec6295b3ff70808094a643a5afe0be9f3f83878e0af7eba1cdbe522d17c",
+      "source_blob": "f92e2cfab47131c9bcda70849c135bbf5b03816e"
+    }
+  ]
+}

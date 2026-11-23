@@ -4,9 +4,9 @@
   "course": "IS5542",
   "timezone": "Asia/Shanghai",
   "as_of": "2026-11-23",
-  "basis_revision": "4c9e068140f7a1cc461ab0e6b7ed94dc4e0b4c86e0467480fbc1c727da8d0759",
+  "basis_revision": "e25d1b52627cbe9bd48731c2eee84e62ef5182f1c587ad171893abf3bb5c5d2b",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
-  "summary": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 已确认四项规则：未补偿的已驳回订单，有可核实的新信息或原处理错误才沿原工单人工重审；仅主管 R002 可改额；默认 ¥10 模拟券，改额限 1–20 元整数、不超实付且记录原因；同一订单最多成功补偿一次。 11 月 22 日原表有 8 行标为通过或已解决，缺受测提交及完整配置；末次图片提交晚于测试反馈。四项新边界的代码对齐和 9 组定向复测待核。 录屏、正式 B/C 对照、市场流程比较、成本／ROI、最终 Slides 与正式提交仍待补。已登记 11 月 28 日交录像和 Slides，Canvas 入口、时长及准确时刻待核。",
+  "summary": "11/23已收开发176fbb0候选与36854f4资料，52运行文件一致；四项守卫、基础工具B、两段可解码录屏、模型日志／配置与PPT素材已交。本人正式改20题×两模式×3轮＝120次；独立HR与正式成绩仍空。PPT v2不改，方法附带差异与成本主张保留限制，待测试组接手。",
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "items": [
     {
@@ -375,9 +375,9 @@
       "owner": "李宗谦 · 网页开发",
       "owner_role": "member",
       "scope": "team",
-      "summary": "已收到4个新代码提交和开测信息，功能修复df65b5d、最新图片29171c8；测试组报过但运行版本未绑定，人工扩展边界待定。 11/23四项human-review-v1已确认，代码对齐／新边界复测未验。",
+      "summary": "176fbb0（v18）候选、36854f4同代码资料与配置已收；新守卫独立验收／部署同版核验待测试组。",
       "deliverable": "交本机可点通页面、开发分支、启动说明和同一工单的状态回显。",
-      "next_action": "对齐重审状态／原因、R002改额权限、整数／实付上限与按订单原子防重，交明确代码／线上版本和记录，不扩新系统。",
+      "next_action": "测试组绑定176fbb0、配置和实际开关验收；开发配合隔离初态，不重置共享库。",
       "my_next_action": null,
       "depends_on": [
         "core"
@@ -411,9 +411,9 @@
         {
           "id": "handoff",
           "label": "C受测提交、真实模型、入口和初态已交",
-          "status": "unknown",
+          "status": "pass",
           "evidence": [
-            "owner-two-day-plan-20261121"
+            "developer-complete-delivery-20261123"
           ]
         }
       ],
@@ -426,7 +426,7 @@
       "completed_on": null,
       "observed_on": "2026-11-23",
       "estimated_minutes": null,
-      "state_basis": "本人四项直接确认，规范与验收清单已形成；未改运行代码或执行测试。",
+      "state_basis": "本批实际核只读远端代码／文件／模型留档、两视频metadata和采样帧，未跑应用／模型；本人直接确认题量120。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -459,6 +459,10 @@
         {
           "label": "本人确认的人工重审与改额四项规范",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/human-review-boundaries.md"
+        },
+        {
+          "label": "176fbb0开发补齐交件与正式120次范围",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/developer-delivery-2026-11-23.md"
         }
       ],
       "history": [
@@ -567,6 +571,17 @@
             "next_action": "固定演示／实验受测提交与线上对应版本、参数，补两段真实录屏；不因已自测就自动验收全部扩展。",
             "state_basis": "实际核读11/22群聊／新版表／远端代码与原件；区分开发自报、测试组报告和本会话未重跑。本人只确认考虑扩展方向，详细边界待定。"
           }
+        },
+        {
+          "observed_on": "2026-11-23",
+          "status": "needs_review",
+          "note": "开发候选B／四项边界／录屏和PPT输入已到；正式独立验收、120次实验及实际插片待执行。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "已收到4个新代码提交和开测信息，功能修复df65b5d、最新图片29171c8；测试组报过但运行版本未绑定，人工扩展边界待定。 11/23四项human-review-v1已确认，代码对齐／新边界复测未验。",
+            "next_action": "对齐重审状态／原因、R002改额权限、整数／实付上限与按订单原子防重，交明确代码／线上版本和记录，不扩新系统。",
+            "state_basis": "本人四项直接确认，规范与验收清单已形成；未改运行代码或执行测试。"
+          }
         }
       ]
     },
@@ -577,9 +592,9 @@
       "owner": "测试组（A＋gaga老师）",
       "owner_role": "team",
       "scope": "team",
-      "summary": "1122表8行标过，原3问题及2新问题在表中已有解决说明；本会话核读，未独立重跑，精确版本和新政策边界仍待。 11/23四项human-review-v1已确认，代码对齐／新边界复测未验。",
+      "summary": "HR脚本和HR06隔离fixture已交；开发9/9为自测，测试组独立九组与轻量视觉待交。",
       "deliverable": "同一份测试组报告及原始记录；技术、网页和人类视觉分别注明方法与实际核验范围。",
-      "next_action": "收到对齐版本后只补九组human-review-v1边界，保留旧8行报告并注明新提交／模型；人类视觉仍轻量。",
+      "next_action": "在固定176fbb0独立复测HR01—09并保留实际报告，视觉直接看三状态示例，原8行不倒签新结果。",
       "my_next_action": null,
       "depends_on": [
         "web"
@@ -664,7 +679,7 @@
       "completed_on": null,
       "observed_on": "2026-11-23",
       "estimated_minutes": null,
-      "state_basis": "本人四项直接确认，规范与验收清单已形成；未改运行代码或执行测试。",
+      "state_basis": "本批实际核只读远端代码／文件／模型留档、两视频metadata和采样帧，未跑应用／模型；本人直接确认题量120。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -697,6 +712,10 @@
         {
           "label": "本人确认的人工重审与改额四项规范",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/human-review-boundaries.md"
+        },
+        {
+          "label": "176fbb0开发补齐交件与正式120次范围",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/developer-delivery-2026-11-23.md"
         }
       ],
       "history": [
@@ -805,6 +824,17 @@
             "next_action": "承接已有8行，只补受测版本／环境及原证据；新边界定后核受影响动作，完整视觉6项另交。",
             "state_basis": "实际核读11/22群聊／新版表／远端代码与原件；区分开发自报、测试组报告和本会话未重跑。本人只确认考虑扩展方向，详细边界待定。"
           }
+        },
+        {
+          "observed_on": "2026-11-23",
+          "status": "in_progress",
+          "note": "开发候选B／四项边界／录屏和PPT输入已到；正式独立验收、120次实验及实际插片待执行。",
+          "previous": {
+            "status": "in_progress",
+            "summary": "1122表8行标过，原3问题及2新问题在表中已有解决说明；本会话核读，未独立重跑，精确版本和新政策边界仍待。 11/23四项human-review-v1已确认，代码对齐／新边界复测未验。",
+            "next_action": "收到对齐版本后只补九组human-review-v1边界，保留旧8行报告并注明新提交／模型；人类视觉仍轻量。",
+            "state_basis": "本人四项直接确认，规范与验收清单已形成；未改运行代码或执行测试。"
+          }
         }
       ]
     },
@@ -815,9 +845,9 @@
       "owner": "测试组（A＋gaga老师）",
       "owner_role": "team",
       "scope": "team",
-      "summary": "源表7条首轮试用已读，含边界与归属检查；正式工具B对规则C的真实模型对照仍未执行，原表版本／模型未明，不混计。 11/23四项human-review-v1已确认，代码对齐／新边界复测未验。",
+      "summary": "本人已确认20题两模式各3轮，正式主计划120次；开发仅交各3题冒烟与runner，正式结果仍空。",
       "deliverable": "同一份测试组报告及原始记录；技术、网页和人类视觉分别注明方法与实际核验范围。",
-      "next_action": "基础工具B与规则C共用demo-v1＋human-review-v1执行边界，先交可测实现与配置，再做同条件对照。",
+      "next_action": "核BC01—20预期和实际差异后独立跑120次；每次完整记录，API次数／Token／耗时另计。",
       "my_next_action": null,
       "depends_on": [
         "web",
@@ -862,7 +892,7 @@
       "completed_on": null,
       "observed_on": "2026-11-23",
       "estimated_minutes": null,
-      "state_basis": "本人四项直接确认，规范与验收清单已形成；未改运行代码或执行测试。",
+      "state_basis": "本批实际核只读远端代码／文件／模型留档、两视频metadata和采样帧，未跑应用／模型；本人直接确认题量120。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -887,6 +917,10 @@
         {
           "label": "本人确认的人工重审与改额四项规范",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/human-review-boundaries.md"
+        },
+        {
+          "label": "176fbb0开发补齐交件与正式120次范围",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/developer-delivery-2026-11-23.md"
         }
       ],
       "history": [
@@ -974,6 +1008,17 @@
             "next_action": "先承接现有试用记录；合格B交后只补正式对照所缺实验，保持同条件并保留失败。",
             "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。"
           }
+        },
+        {
+          "observed_on": "2026-11-23",
+          "status": "needs_review",
+          "note": "开发候选B／四项边界／录屏和PPT输入已到；正式独立验收、120次实验及实际插片待执行。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "源表7条首轮试用已读，含边界与归属检查；正式工具B对规则C的真实模型对照仍未执行，原表版本／模型未明，不混计。 11/23四项human-review-v1已确认，代码对齐／新边界复测未验。",
+            "next_action": "基础工具B与规则C共用demo-v1＋human-review-v1执行边界，先交可测实现与配置，再做同条件对照。",
+            "state_basis": "本人四项直接确认，规范与验收清单已形成；未改运行代码或执行测试。"
+          }
         }
       ]
     },
@@ -984,9 +1029,9 @@
       "owner": "本人 + 技术／测试组",
       "owner_role": "me",
       "scope": "team",
-      "summary": "已确认四项规则：未补偿的已驳回订单，有可核实的新信息或原处理错误才沿原工单人工重审；仅主管 R002 可改额；默认 ¥10 模拟券，改额限 1–20 元整数、不超实付且记录原因；同一订单最多成功补偿一次。 11 月 22 日原表有 8 行标为通过或已解决，缺受测提交及完整配置；末次图片提交晚于测试反馈。四项新边界的代码对齐和 9 组定向复测待核。",
+      "summary": "B候选、共享边界与开发留档已收，方法和120次正式成绩待核；不能将附带Agent差异归因唯一assess节点。",
       "deliverable": "确认正式政策与公平对照范围，再用同模型、同规则、同题目比较 B/C。",
-      "next_action": "先锁版本，完成9组复测和工具型基础B对规则版C的同条件实验。",
+      "next_action": "核完整回复／工具／原建议／拦截与实际动作，正式结果和开发冒烟分开，披露全部比较差异。",
       "my_next_action": "先锁版本，完成9组复测和工具型基础B对规则版C的同条件实验。",
       "depends_on": [
         "p01",
@@ -1020,7 +1065,7 @@
       "completed_on": null,
       "observed_on": "2026-11-23",
       "estimated_minutes": null,
-      "state_basis": "本人四项直接确认，规范与验收清单已形成；未改运行代码或执行测试。",
+      "state_basis": "本批实际核只读远端代码／文件／模型留档、两视频metadata和采样帧，未跑应用／模型；本人直接确认题量120。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -1053,6 +1098,10 @@
         {
           "label": "11月23日总监督复核及交件清单",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/supervision-2026-11-23.md"
+        },
+        {
+          "label": "176fbb0开发补齐交件与正式120次范围",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/developer-delivery-2026-11-23.md"
         }
       ],
       "history": [
@@ -1156,6 +1205,17 @@
           "observed_on": "2026-11-23",
           "status": "needs_review",
           "note": "总监督核对课程与PPT会话、远端来源及本地PPTX；保留正式交件状态。"
+        },
+        {
+          "observed_on": "2026-11-23",
+          "status": "needs_review",
+          "note": "开发候选B／四项边界／录屏和PPT输入已到；正式独立验收、120次实验及实际插片待执行。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "已确认四项规则：未补偿的已驳回订单，有可核实的新信息或原处理错误才沿原工单人工重审；仅主管 R002 可改额；默认 ¥10 模拟券，改额限 1–20 元整数、不超实付且记录原因；同一订单最多成功补偿一次。 11 月 22 日原表有 8 行标为通过或已解决，缺受测提交及完整配置；末次图片提交晚于测试反馈。四项新边界的代码对齐和 9 组定向复测待核。",
+            "next_action": "先锁版本，完成9组复测和工具型基础B对规则版C的同条件实验。",
+            "state_basis": "本人四项直接确认，规范与验收清单已形成；未改运行代码或执行测试。"
+          }
         }
       ]
     },
@@ -1481,13 +1541,13 @@
     {
       "id": "demo-record",
       "title": "准备稳定版本的演示素材",
-      "status": "planned",
+      "status": "needs_review",
       "owner": "全组；本人统筹",
       "owner_role": "team",
       "scope": "team",
-      "summary": "开发文字自测已收到，本批未见固定版本的正常／异常实际录屏交件。",
+      "summary": "两段MP4已收、可解码且抽看最终帧；正常21.1秒、异常30.3秒，无音轨。已交素材，待本人核完整讲述／插入PPT。",
       "deliverable": "准备稳定版本的演示素材的可核版本或结果记录",
-      "next_action": "新边界确认与版本固定后交两段实际片段及版本／模型／日期，PPT再填演示位置。",
+      "next_action": "保留受测代码／模型／规则标注，将正常与异常片段用于PPT并配讲述，不将其当最终作业录像完成。",
       "my_next_action": null,
       "depends_on": [
         "web",
@@ -1500,6 +1560,14 @@
           "id": "done",
           "label": "准备稳定版本的演示素材有实际产物和核验记录",
           "status": "unknown"
+        },
+        {
+          "id": "recordings_received",
+          "label": "两MP4文件／时长／codec及关键帧已核（非完整复跑）",
+          "status": "pass",
+          "evidence": [
+            "developer-complete-delivery-20261123"
+          ]
         }
       ],
       "target": {
@@ -1509,9 +1577,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-22",
+      "observed_on": "2026-11-23",
       "estimated_minutes": null,
-      "state_basis": "实际核读11/22群聊／新版表／远端代码与原件；区分开发自报、测试组报告和本会话未重跑。本人只确认考虑扩展方向，详细边界待定。",
+      "state_basis": "本批实际核只读远端代码／文件／模型留档、两视频metadata和采样帧，未跑应用／模型；本人直接确认题量120。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
@@ -1528,6 +1596,10 @@
         {
           "label": "11月22日群进度与交件接收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/progress-2026-11-22.md"
+        },
+        {
+          "label": "176fbb0开发补齐交件与正式120次范围",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/developer-delivery-2026-11-23.md"
         }
       ],
       "history": [
@@ -1573,6 +1645,17 @@
             "next_action": "开发／测试提供已跑通同一版本的正常及异常演示片段，第二天只拍已核主流程。",
             "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。"
           }
+        },
+        {
+          "observed_on": "2026-11-23",
+          "status": "needs_review",
+          "note": "开发候选B／四项边界／录屏和PPT输入已到；正式独立验收、120次实验及实际插片待执行。",
+          "previous": {
+            "status": "planned",
+            "summary": "开发文字自测已收到，本批未见固定版本的正常／异常实际录屏交件。",
+            "next_action": "新边界确认与版本固定后交两段实际片段及版本／模型／日期，PPT再填演示位置。",
+            "state_basis": "实际核读11/22群聊／新版表／远端代码与原件；区分开发自报、测试组报告和本会话未重跑。本人只确认考虑扩展方向，详细边界待定。"
+          }
         }
       ]
     },
@@ -1583,9 +1666,9 @@
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 录屏、正式 B/C 对照、市场流程比较、成本／ROI、最终 Slides 与正式提交仍待补。已登记 11 月 28 日交录像和 Slides，Canvas 入口、时长及准确时刻待核。",
+      "summary": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 录屏、正式 B/C 对照、市场流程比较、成本／ROI、最终 Slides 与正式提交仍待补。已登记 11 月 28 日交录像和 Slides，Canvas 入口、时长及准确时刻待核。 开发两录屏和模型／架构输入现已到，本批未插入PPT；计划更新120次，正式结果空。",
       "deliverable": "合并 Slides 与录制演示的可核版本或结果记录",
-      "next_action": "以视觉稿 v2 核叙事，保留无证据的结果位直到收件。",
+      "next_action": "按PPT补料接收映射更新配置／架构／视频，保留v2样式和可编辑对象；独立成绩／成本齐前不填结果。",
       "my_next_action": "以视觉稿 v2 核叙事，保留无证据的结果位直到收件。",
       "depends_on": [
         "demo-record"
@@ -1631,7 +1714,7 @@
       "completed_on": null,
       "observed_on": "2026-11-23",
       "estimated_minutes": null,
-      "state_basis": "本批实际在原Page重排15页并逐页查看渲染；没有运行项目模型、应用测试或新增正式结果。",
+      "state_basis": "本批实际核只读远端代码／文件／模型留档、两视频metadata和采样帧，未跑应用／模型；本人直接确认题量120。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
@@ -1668,6 +1751,10 @@
         {
           "label": "11月23日总监督复核及交件清单",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/supervision-2026-11-23.md"
+        },
+        {
+          "label": "176fbb0开发补齐交件与正式120次范围",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/developer-delivery-2026-11-23.md"
         }
       ],
       "history": [
@@ -1762,6 +1849,17 @@
           "observed_on": "2026-11-23",
           "status": "in_progress",
           "note": "总监督核对课程与PPT会话、远端来源及本地PPTX；保留正式交件状态。"
+        },
+        {
+          "observed_on": "2026-11-23",
+          "status": "in_progress",
+          "note": "开发候选B／四项边界／录屏和PPT输入已到；正式独立验收、120次实验及实际插片待执行。",
+          "previous": {
+            "status": "in_progress",
+            "summary": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 录屏、正式 B/C 对照、市场流程比较、成本／ROI、最终 Slides 与正式提交仍待补。已登记 11 月 28 日交录像和 Slides，Canvas 入口、时长及准确时刻待核。",
+            "next_action": "以视觉稿 v2 核叙事，保留无证据的结果位直到收件。",
+            "state_basis": "本批实际在原Page重排15页并逐页查看渲染；没有运行项目模型、应用测试或新增正式结果。"
+          }
         }
       ]
     },
@@ -2199,13 +2297,13 @@
     {
       "id": "basic-agent",
       "title": "开发补有基本架构的工具型B",
-      "status": "planned",
+      "status": "needs_review",
       "owner": "李宗谦／Agent协作",
       "owner_role": "member",
       "scope": "team",
-      "summary": "本人已认可工具、多轮、确认、工单、人工审批完整基本架构；旧单轮函数不满足，新B尚未实现。 11/23四项human-review-v1已确认，代码对齐／新边界复测未验。",
+      "summary": "176fbb0基础工具B候选、运行入口与一次完整在线B链路已交，独立架构验收未执行。",
       "deliverable": "符合基础B合同的实现、两模式运行方法及一条B查单—确认—人工审批记录。",
-      "next_action": "基础工具B与规则C共用demo-v1＋human-review-v1执行边界，先交可测实现与配置，再做同条件对照。",
+      "next_action": "测试组核工具／多轮／确认／工单／人工审核与共享边界，再按本人20题120次范围执行，方法差异明示。",
       "my_next_action": null,
       "depends_on": [
         "core"
@@ -2215,7 +2313,10 @@
         {
           "id": "handoff",
           "label": "基础B代码和可测说明已交",
-          "status": "unknown"
+          "status": "pass",
+          "evidence": [
+            "developer-complete-delivery-20261123"
+          ]
         },
         {
           "id": "architecture",
@@ -2232,7 +2333,7 @@
       "completed_on": null,
       "observed_on": "2026-11-23",
       "estimated_minutes": null,
-      "state_basis": "本人四项直接确认，规范与验收清单已形成；未改运行代码或执行测试。",
+      "state_basis": "本批实际核只读远端代码／文件／模型留档、两视频metadata和采样帧，未跑应用／模型；本人直接确认题量120。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -2253,6 +2354,10 @@
         {
           "label": "本人确认的人工重审与改额四项规范",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/human-review-boundaries.md"
+        },
+        {
+          "label": "176fbb0开发补齐交件与正式120次范围",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/developer-delivery-2026-11-23.md"
         }
       ],
       "history": [
@@ -2279,6 +2384,17 @@
             "summary": "本人已认可工具、多轮、确认、工单、人工审批完整基本架构；旧单轮函数不满足，新B尚未实现。",
             "next_action": "开发先接三个反馈定位／修复，同轮继续交合格工具型B；不放宽共同安全边界，不用旧成绩替代。",
             "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。"
+          }
+        },
+        {
+          "observed_on": "2026-11-23",
+          "status": "needs_review",
+          "note": "开发候选B／四项边界／录屏和PPT输入已到；正式独立验收、120次实验及实际插片待执行。",
+          "previous": {
+            "status": "planned",
+            "summary": "本人已认可工具、多轮、确认、工单、人工审批完整基本架构；旧单轮函数不满足，新B尚未实现。 11/23四项human-review-v1已确认，代码对齐／新边界复测未验。",
+            "next_action": "基础工具B与规则C共用demo-v1＋human-review-v1执行边界，先交可测实现与配置，再做同条件对照。",
+            "state_basis": "本人四项直接确认，规范与验收清单已形成；未改运行代码或执行测试。"
           }
         }
       ]
