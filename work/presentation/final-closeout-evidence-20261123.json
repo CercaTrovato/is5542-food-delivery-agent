@@ -1,0 +1,117 @@
+{
+  "observed_at": "2026-11-23T18:01:13+08:00",
+  "remote_main": "629a71731c6b337f7898052314608e5e08835f1c",
+  "remote_development": "fe27ea3c3c72a51552e6423364d40056ef513600",
+  "remote_private_observed": true,
+  "runtime_frozen_commit": "176fbb0264203b53e7ed8c68760a75243e5b113b",
+  "original_trials": {
+    "n": 120,
+    "hashes_checked": 120,
+    "hash_mismatches": 0,
+    "annotation_links_checked": 120,
+    "reaggregated_grades": {
+      "B": {
+        "pass": 37,
+        "fail": 23
+      },
+      "C": {
+        "pass": 45,
+        "pending": 9,
+        "fail": 6
+      }
+    },
+    "independent_semantic_review_performed": false,
+    "new_model_calls": 0
+  },
+  "decks": {
+    "v2": {
+      "sha256": "a74e365ef9807008277e10ae249f9947a47482f609329ba9bd794a309c00f6c3",
+      "slides": 15,
+      "modified": false
+    },
+    "developer_candidate": {
+      "commit": "fe27ea3c3c72a51552e6423364d40056ef513600",
+      "path": "examples/ord001/evidence/final-20261123/IS5542-Group24-Final-Presentation.pptx",
+      "sha256": "fa69f7c7e8b3643bc2dbf598c6ea86270381e22774bc73bb725adb9b500e614c",
+      "slides": 15,
+      "full_text_and_notes_read": true,
+      "visual_review_performed": false,
+      "media_parts": [
+        {
+          "part": "ppt/media/media1.mp4",
+          "sha256": "6ed8e2e321b2363e59d5cc69020a4543d074f85cd4c6c7f18393497e76464dda",
+          "bytes": 974862
+        },
+        {
+          "part": "ppt/media/media2.mp4",
+          "sha256": "2bcca47c8d72af26e15c858cf79f67eb134760ac8d573d64d0022365defb29f3",
+          "bytes": 1921329
+        }
+      ]
+    }
+  },
+  "developer_90_archive": {
+    "sha256": "5ba4ee1062c1147441ef2d00ba7e454bf826fd19aff99e1e47a530b47d0a4539",
+    "top_level_keys": [
+      "generated_at",
+      "commit_sha",
+      "policy_combination",
+      "design",
+      "live_llm_runs",
+      "total_system_runs",
+      "pricing_basis_note",
+      "summary",
+      "scenario_breakdown",
+      "runs"
+    ],
+    "scope": "Separate DeepSeek dataset; structure intake only, no independent complete-handling semantic review"
+  },
+  "source_files": {
+    "work/eval/gpt56-complete-review-2026-11-23.md": {
+      "sha256": "541656eef146b84f88dc2a98bf77c58f99b74c425cfb6514d123ca064bae7837",
+      "bytes": 4078
+    },
+    "work/eval/gpt56-results-2026-11-23.md": {
+      "sha256": "a3b447af4996ad7bc76ed2d812d0ff7ff65e0535741d6ec0d4a7cbfb6e8eed81",
+      "bytes": 6988
+    },
+    "work/presentation/slide-fill-guide-2026-11-23.md": {
+      "sha256": "5ff2ddd23e5a4ee32fe12089f479e2923fa696b1f97c9f43305c87497c6e76aa",
+      "bytes": 8492
+    },
+    "work/presentation/cost-value-scenarios-2026-11-23.md": {
+      "sha256": "a95e7734993f8d45415ceefeea3fb063519d51e0da5cdc619686e1cadd26d12f",
+      "bytes": 3470
+    },
+    "work/research/market-comparison-2026-11-23.md": {
+      "sha256": "4f9eb8835013c38a55e7a4220cf2fe1d4d001272bcffa25a9a2d77da48d8051c",
+      "bytes": 7568
+    },
+    "examples/ord001/evidence/gpt56-formal-20261123/complete.json": {
+      "sha256": "d48acee834bd18968fe48de97118d1597fadc0ed3bcbbdb987730adc2db7d00d",
+      "bytes": 10718
+    },
+    "examples/ord001/evidence/gpt56-formal-20261123/complete-treatment-review/records.json": {
+      "sha256": "afa504f0bbc9709d58dfa6a49c94cd565f82dc44595f70f485502669f3909755",
+      "bytes": 126924
+    },
+    "examples/ord001/evidence/gpt56-formal-20261123/complete-treatment-review/summary.json": {
+      "sha256": "e5fbd168766dcf427c1266feccc91e26b8a8136deca6f5349045d1ce72430016",
+      "bytes": 2712
+    },
+    "examples/ord001/evidence/gpt56-formal-20261123/profile.json": {
+      "sha256": "77f5d826cbededfb77fd2d14826ffcbdf48d9d1c1a0496426e19d849bc3062d8",
+      "bytes": 12758
+    }
+  },
+  "canvas": {
+    "iab_attempt": "Browser is not available: iab",
+    "requirements_reverified": false,
+    "peer_evaluation_status": "unknown",
+    "legal_reflection_status": "unknown"
+  },
+  "sync": {
+    "desktop_auto_sync": "Inherited prior user confirmation; current full config not printed",
+    "phone_auto_sync": "Inherited prior user confirmation, not observed in this session"
+  }
+}

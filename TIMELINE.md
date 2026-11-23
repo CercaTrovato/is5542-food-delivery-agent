@@ -1,6 +1,6 @@
 # IS5542 · 项目时间线
 
-PPT证据继续收尾：本人认可完整处理复核，B37过/23未过，C45过/6未过/9政策待核；120原记录不改、新API0。旧26图已整理三平台＋本系统12格；六条已有模拟完整链路成本和外部薪资示例已做情景／盈亏平衡，不宣称真实ROI。已核李宗谦四份基准线索，建议不立即扩全套A/B/C；Jacky具体补件与开发回复草稿备好，未代发，PPT本体未改。
+120次原记录完整性和复核汇总已核：B37过/23未过，C45过/6未过/9政策待核；已有按页文案、市场12格、成本情景及两段录屏。新收到开发fe27ea3的15页候选，采用另一套DeepSeek90次数据，尚未合并或定稿。现按15页清单收齐外部来源与现有运行环境信息，再统一PPT、引用、讲稿后由本人审稿录制。
 
 进度依据截至 2026-11-23；时区 Asia/Shanghai。完成日期未知时只记录核实日期。
 
@@ -147,15 +147,15 @@ PPT证据继续收尾：本人认可完整处理复核，B37过/23未过，C45�
 
 **待核阅或修订** · 负责人：李宾雄／全组核事实 · 尚未安排 · 日期未定
 
-11/23按本人反馈完成15页视觉改版：深蓝暖黄配色、外卖情境主视觉、官方图标、职责流程与架构、评测分支和路线图；已逐页查看实际渲染并修正。原生文字／流程／表格可编辑，录屏、正式B/C、市场比较、成本ROI与实名缺口继续保留，当前仍为DRAFT。
+已有v2保留；新开发15页候选已到并核全部文字／备注，90次数据与正式120次不混用。最终15页填充和验收清单已备，成品仍待统一、本人审稿和视觉／媒体验收。
 
 - 本环节交付：待填结果的PPT骨架、缺素材清单和准确提交要求核对。
-- 下一步：本人核阅视觉改版v2，收齐同版运行证据后填录屏、正式结果与成本；最终Canvas条件仍待核。
+- 下一步：按最终清单补资料并整合单一PPT候选；保留完整处理的待核样本和方法限制，核两段媒体及订单事实，再核Canvas。
 - 前置依赖：无已登记前置
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-23
-- 总监督可做：打开同一份演示稿查看v2，按原缺素材清单继续接收材料。
+- 总监督可做：收齐现有补件后审PPT；3元政策和正式身份仍需本人决定／确认。
 - 验收：✓ 逐页内容框架和缺材料清单已形成（非PPT成品）；待核 最新Canvas入口／截止时刻／视频限制已复核；✓ 可编辑DRAFT已制作并逐页核对，未标正式可提交
-- 依据：[本人确认PPT与任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)；[15页可编辑初稿及取材检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md)；[视觉改版v2与来源／检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/redesign-20261123/README.md)
+- 依据：[本人确认PPT与任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)；[15页可编辑初稿及取材检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md)；[视觉改版v2与来源／检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/redesign-20261123/README.md)；[最终PPT填充与验收清单](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-closeout-checklist-20261123.md)
 
 ### 开发补有基本架构的工具型B · `basic-agent`
 
