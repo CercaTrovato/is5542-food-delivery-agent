@@ -4,7 +4,7 @@
   "course": "IS5542",
   "as_of": "2026-11-23",
   "timezone": "Asia/Shanghai",
-  "source_revision": "aced95810ab191918b1daf49b26ca51410234583041086cfa6441dc33597c833",
+  "source_revision": "329a3dadc3865c39a166dba938a1c1b7ef19dea50df3be5e5fe45e697118fcfe",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -54,7 +54,7 @@
       "title": "测试组：真实模型对照与边界／安全",
       "owner": "本人／本会话Agent执行；测试组后补复核",
       "status": "needs_review",
-      "personal_action": "确认本轮模型；配置已定位，不必重复填写Key。",
+      "personal_action": "审看结果和PPT材料，决定额外3元功能是否纳入。",
       "readiness": "ready",
       "target": {
         "value": null,
@@ -88,7 +88,7 @@
       "title": "本轮基础B对规则C的结果与方法核对",
       "owner": "本人／本会话Agent执行；测试组后补复核",
       "status": "needs_review",
-      "personal_action": "确认本轮模型；配置已定位，不必重复填写Key。",
+      "personal_action": "审看结果和PPT材料，决定额外3元功能是否纳入。",
       "readiness": "waiting_dependency",
       "target": {
         "value": null,

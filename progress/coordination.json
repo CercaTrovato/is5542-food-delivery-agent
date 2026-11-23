@@ -5,8 +5,8 @@
   "root_thread_id": "01a1b491-403e-7651-9aba-13e5b647af93",
   "model": "gpt-6.1-sol",
   "status": "ready_for_review",
-  "updated_at": "2026-11-23T13:20:06+08:00",
-  "summary": "本人已确认本会话接手真实120次，且本轮费用无金额上限；现已按提示定位本人教学前端使用的OpenAI配置，模型待本人确认，真实调用仍0。固定176fbb0的开发HR九组由本会话隔离离线复跑9/9通过，非人类／测试组验收；PPT材料可继续。",
+  "updated_at": "2026-11-23T13:52:19+08:00",
+  "summary": "本会话按本人确认的GPT-5.6统一配置完成20题×B/C×3轮120次，失败0，终态各60/60匹配；259模型请求，用量报价估算US$1.058140。发现B金额误报14、字段歧义4、纯查单弹卡3；C3元额外规则答复9与回退日志不对称。结果／图／PPT可用文字已归档，不宣称65%对100%整体正确率或市场优势；待本人决定3元扩展范围，未改业务源码或PPT本体。",
   "report_path": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/supervision-report.md",
   "decisions": [
     {
@@ -266,6 +266,15 @@
       "id": "IS5542-D27",
       "question": "真实实验具体使用哪份OpenAI配置、哪个模型／接口和兼容参数？",
       "recommendation": "已按本人提示只读核查教学前端的启动配置与提供方代码，定位既有OpenAI凭据来源，官方接口地址有效格式、Key存在；没有复制或输出Key，没有修改源.env或教学服务，也未调用模型。前端GPT默认gpt-5.4-mini，源.env的openai:gpt-4.1-mini是旧原型标记；拟选官方固定快照gpt-5.4-mini-2026-03-17，已单独询问本人，答复尚待。配置来源定位不等于模型选择已获确认。等待本人确认OpenAI固定快照或开发同款DeepSeek；B/C同模型、同兼容参数。",
+      "options": [],
+      "status": "decided",
+      "answer": "本人明确选GPT-5.6并立即执行；按官方别名固定gpt-5.6-sol，B/C统一none/T0.35/800输出/30秒/0重试/store=false。120已跑完，原配置不改。",
+      "answer_source": "本人11/23在本课程会话直接授权；实际profile及259次响应ID留档。"
+    },
+    {
+      "id": "IS5542-D28",
+      "question": "交付源码额外提供的3元暖心券是否纳入本轮正式补偿范围？",
+      "recommendation": "两天收尾建议先不纳入，保持已确认人工链路；但目前只记录待本人决定，不擅自改代码或规则。",
       "options": [],
       "status": "pending",
       "answer": null,

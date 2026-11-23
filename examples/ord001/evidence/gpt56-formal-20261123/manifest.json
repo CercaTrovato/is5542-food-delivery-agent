@@ -1,0 +1,696 @@
+{
+  "code_commit": "176fbb0264203b53e7ed8c68760a75243e5b113b",
+  "model": "gpt-5.6-sol",
+  "trial_count": 120,
+  "model_requests": 259,
+  "source_env_unchanged": true,
+  "source_business_files_unchanged": 52,
+  "API_keys_included": false,
+  "files": [
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/analysis/review-annotations.json",
+      "sha256": "28d0ddbf2657d3898096882b7fa84726d53d119587e2d260c933ae48b3509b96",
+      "bytes": 82293
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/analysis/scoring-diagnostic.json",
+      "sha256": "cde9dfd3a07c77b377c80ac311a7f96b00f57b4d03ea875deec5e03b41be34c0",
+      "bytes": 1007
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/analysis/summary.json",
+      "sha256": "2d94f9b1856462145ffd90dd69f74df041f86ac79b147244940cc9019b5d3dec",
+      "bytes": 10036
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/analysis/trials.csv",
+      "sha256": "1392f279cc3d661e2d9b84945c502f0d8691bb4df22ca048f339a15ae95e6c4c",
+      "bytes": 14067
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/analyze-gpt56.py",
+      "sha256": "3581ff904beb4d5d64f97c77e46e63bfbb13218c410bf0d18f72bb8d74c96f68",
+      "bytes": 6102
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/api-events.jsonl",
+      "sha256": "c304dc621f1c4dbc9c68a80f518a7a351e68bb67a69266a5b0b2fa1c86e1522a",
+      "bytes": 1745035
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC01-B-r1.json",
+      "sha256": "abf675d1f227cb3f5e2bd4a85e7b640d48e9ad76a2632d35037338309a590f49",
+      "bytes": 18955
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC01-B-r2.json",
+      "sha256": "2dc0bc707556de2ce890daaf314588c5b0872a3f288bea36f155612b09e765dc",
+      "bytes": 18955
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC01-B-r3.json",
+      "sha256": "04e63be6669280afd545b2de202d16188b6a51f325f9139289db0c2332295057",
+      "bytes": 18921
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC01-C-r1.json",
+      "sha256": "10f0dce8fe76137d59f120db4c863612e6efef5f89bdf2261b7b0ca47cdb6eac",
+      "bytes": 19311
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC01-C-r2.json",
+      "sha256": "1728d3d0dcb800268c319176945511cc7d308723eebd1c6d521e6d629e967255",
+      "bytes": 19341
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC01-C-r3.json",
+      "sha256": "66c6d7b41245965d9602c3db68a9bcc2ee51c491ff42742f19f04729c840e8e9",
+      "bytes": 19295
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC02-B-r1.json",
+      "sha256": "93d584cc68c18d0f08d320c23d2d6a227c7150bae093124a0d544fb93a31136c",
+      "bytes": 18508
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC02-B-r2.json",
+      "sha256": "50ac80350593897b1f84c2c2033ae4de35f304074177ce162a144d3e445fd5f9",
+      "bytes": 18472
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC02-B-r3.json",
+      "sha256": "9c5e52a30e8a3f3fbdc7d80e1343659ff5bc3df0e05a9c6dd371af110a2b2b9c",
+      "bytes": 18676
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC02-C-r1.json",
+      "sha256": "227fb4fe76e81527439b1bedf7a913a15008bff694ce465c6337f892d58afe08",
+      "bytes": 19145
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC02-C-r2.json",
+      "sha256": "7ad4f9a27b360f667d8fce18a8e826872d5d2fafab7fa7c14797e8685b5d31bb",
+      "bytes": 19109
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC02-C-r3.json",
+      "sha256": "c0e82e6463ff63ff12a383d273bd79dda1a286545f0a9010fa95c89b49d9a58e",
+      "bytes": 19145
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC03-B-r1.json",
+      "sha256": "c1be00e75230af8b06de9b446d410582d25037dda2f8af2197797c405bcd1e5c",
+      "bytes": 18690
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC03-B-r2.json",
+      "sha256": "62c1738b756107fd847121f27888313e323e752484e5b51cae58a4b4d0155b53",
+      "bytes": 18330
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC03-B-r3.json",
+      "sha256": "7a952747c186e9f47b6ac641df9c4ac00399964b8aab849143abc050a5db79fa",
+      "bytes": 18468
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC03-C-r1.json",
+      "sha256": "fe07a6674ca68aa976144da7e34ef97f22734c81b75a7ece101bef1c6d643891",
+      "bytes": 19031
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC03-C-r2.json",
+      "sha256": "29f250d5e2c9f3fc902c51624de840a61c57a92cc878afaedc93c15a09c5eb9c",
+      "bytes": 19030
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC03-C-r3.json",
+      "sha256": "3b48deb918545642f106d07e8b6f16c7a37f04950799ba93fa4efd1328efadf4",
+      "bytes": 19031
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC04-B-r1.json",
+      "sha256": "b904bac21f48864448e11d26f79f96c4fa3646f630c26623ca7e7ff67a40a57c",
+      "bytes": 16713
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC04-B-r2.json",
+      "sha256": "6bf39c37c21745bd334ddde902fb569f5a416e4d78d37d3df854df1856b525e3",
+      "bytes": 16881
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC04-B-r3.json",
+      "sha256": "0373a9320f1c254a472a7339df3e56380ba91563b0bf4f0c9a5f581b77ba6164",
+      "bytes": 16815
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC04-C-r1.json",
+      "sha256": "17a842bb6391bc689d1a2adb85e4207856ecf1e688acefbc6d3f01af638499f2",
+      "bytes": 17477
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC04-C-r2.json",
+      "sha256": "c86cb6f67c1e4b13407bb36d0eb2836f7a216e7806b13b008e5af78372c5bc00",
+      "bytes": 17468
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC04-C-r3.json",
+      "sha256": "dee500cc23be29bcc983bb2a2e7ea36e1276f77951d340cb74645b2531306d6b",
+      "bytes": 17468
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC05-B-r1.json",
+      "sha256": "4e2408e293913c15df0157b92964c4914a5b2b5944916b94aed0d51ff3795b35",
+      "bytes": 14182
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC05-B-r2.json",
+      "sha256": "01d62db69651461e1c64a32fc834d8d9c06a7f846a8a3346021b75892e479e12",
+      "bytes": 14036
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC05-B-r3.json",
+      "sha256": "9803bb5154763e7a3770c50c149b6bb23212df4e4cf3e46a2e1921b6622908ca",
+      "bytes": 14018
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC05-C-r1.json",
+      "sha256": "e90a9be463af26d5c382e556138401a193755aa53c52223fe3ab7e1ab6378d45",
+      "bytes": 15451
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC05-C-r2.json",
+      "sha256": "0b1847aa06bb0a824e3385c2ab8831ad50fbfb30a0b7f85939d6e3acac426175",
+      "bytes": 15520
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC05-C-r3.json",
+      "sha256": "2731b77e8f60f5ce39b8e711dc3c4ef88363f4f92732d45296024d0c3e76f718",
+      "bytes": 15512
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC06-B-r1.json",
+      "sha256": "f8945bb6d85bfb9210c4d88d655dc6c5b27fc399ff8b49ab9522ebac329a56bf",
+      "bytes": 14116
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC06-B-r2.json",
+      "sha256": "fa86e01fac5f0f9bae5c489f5d9b7ca8f19ded95a28ea103245bc5ca7d901ad1",
+      "bytes": 13992
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC06-B-r3.json",
+      "sha256": "01c20aa8d83415efa37354332a7b2e5da51a269b525faea9c40240515efae50e",
+      "bytes": 14152
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC06-C-r1.json",
+      "sha256": "70917bbe2969cbad047a91bf1c62c56d0a4f685bc7ed29af673b39d8b24cafbd",
+      "bytes": 15486
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC06-C-r2.json",
+      "sha256": "cc224019b365095b78d1df748be6fae9d3ee9c746fb6425613a7b18328a51b9d",
+      "bytes": 15486
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC06-C-r3.json",
+      "sha256": "297a926b40bb943f1e6499d46d61cab7d913c56673ae3f02543223ded460e994",
+      "bytes": 15518
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC07-B-r1.json",
+      "sha256": "081fb35adc9960e1c9658337e1367c27f666ab75659a772f7ff7b70d6f9232a4",
+      "bytes": 13855
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC07-B-r2.json",
+      "sha256": "5895054f9451549362c97c7883626f9dbcd63844632d86b809d252b9d3b9f17f",
+      "bytes": 13933
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC07-B-r3.json",
+      "sha256": "10a336bab7d573316476d230788258cc4f91104731c64e73e5881886aaad61dc",
+      "bytes": 13855
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC07-C-r1.json",
+      "sha256": "86e9e706575821f96408bef947764fdd524a1e0d57dd51843954957117f92da4",
+      "bytes": 15084
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC07-C-r2.json",
+      "sha256": "4d45b242a339484a201853d4fa30b8228f500571138662f76e2a6a58cb84e96d",
+      "bytes": 15147
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC07-C-r3.json",
+      "sha256": "f303c9aa0fdea376c4847d41d975ca7772232d06d68bbe318ff6c9f111142358",
+      "bytes": 15084
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC08-B-r1.json",
+      "sha256": "197323e35c42537c1fb86e4f8ed18d0eb30aa5efe6401a35bf5b1f664273a237",
+      "bytes": 14208
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC08-B-r2.json",
+      "sha256": "def448ee5aef6dec6db4536b77b6688f5a8215371c369c9a9724ae944246f234",
+      "bytes": 14084
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC08-B-r3.json",
+      "sha256": "40291f562120ff02d8a60b01a0a5a4c8be4faec55671ca821a8ea6ac9f33d272",
+      "bytes": 14010
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC08-C-r1.json",
+      "sha256": "551d2679ab7269b23fed1ceadc6ce3ba0ed7230a73c06f258640d7ff4b23ed73",
+      "bytes": 15341
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC08-C-r2.json",
+      "sha256": "188e647875247e36d181706be70c07eda4f1a4bfddcd56cbc1020b65e4aa5a97",
+      "bytes": 15209
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC08-C-r3.json",
+      "sha256": "99394822ac089405e05b3041a5b06600e7d1df3ebb7ac1ba81087709ce823a84",
+      "bytes": 15209
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC09-B-r1.json",
+      "sha256": "531e6b5d80e80c914bb280425f62cad2be88c981de70bf37eefab4c9b15ddd40",
+      "bytes": 14463
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC09-B-r2.json",
+      "sha256": "c4c9cdc69db4978b51085c4997204c083f04aa740a72effc04f14c00c033482a",
+      "bytes": 14303
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC09-B-r3.json",
+      "sha256": "2b5c870955953c7ec37b4131fff05d898ad6df3ebb2eb8f8220a1595ed600aa5",
+      "bytes": 14303
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC09-C-r1.json",
+      "sha256": "60db2e144189a51af1a6597ccf046208c0ae6c0a60e0aeac04a6c1d7e91c7db8",
+      "bytes": 15735
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC09-C-r2.json",
+      "sha256": "0094c515abde1a25784f0f142c484dd561ad8bd01d9c9531b9577f1474dccc4c",
+      "bytes": 15582
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC09-C-r3.json",
+      "sha256": "5ba0067213367449158519feec03781e6f6c49098b30663047789f5186857cd1",
+      "bytes": 15591
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC10-B-r1.json",
+      "sha256": "58df31cf0366922c965bb7827f8e01c0fe6a2a5f436959d5fee0ee2488e9fc74",
+      "bytes": 13599
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC10-B-r2.json",
+      "sha256": "8d22729b897935b17e432dd68789bb76d66e6889d39c75bbb69fce4b39c675cf",
+      "bytes": 13611
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC10-B-r3.json",
+      "sha256": "e373c30d625cb736877371ed0302829a0c3169189515157044a563e53881731f",
+      "bytes": 13581
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC10-C-r1.json",
+      "sha256": "05541eebcbf1f49932b1ecc99bde1eff6181d205c6efdec2e9295f27b3ecec39",
+      "bytes": 9861
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC10-C-r2.json",
+      "sha256": "752b94ff833d07993063f3e9cd66f4902c0a0cf35c0d297fbb95a8e0af76be6a",
+      "bytes": 9861
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC10-C-r3.json",
+      "sha256": "37737fb904cff5f10bfe3438ea1958d916840c4b67e970ddb61852978569ba17",
+      "bytes": 9861
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC11-B-r1.json",
+      "sha256": "83e9b90e9f2e18119a4190da5e20dc162942fa136ab9ddf23b8d53378d6ad53f",
+      "bytes": 13457
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC11-B-r2.json",
+      "sha256": "a02293fbfa61d0c44ae0e418af9f8d6f324629fa2b25fa70a6e63e31ad750830",
+      "bytes": 13246
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC11-B-r3.json",
+      "sha256": "4037f1bf7258e6eee40d8c5716a14a146348e5f2a71ad1800df8824a8ae383e6",
+      "bytes": 13240
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC11-C-r1.json",
+      "sha256": "97fe2f65d16c5639d5669da3bb6f949076c99e9d7fd654ce6be5096af6ceeca3",
+      "bytes": 9769
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC11-C-r2.json",
+      "sha256": "14ae7b795b63879874670f3949a46e175df9dde21f82750c62c25bf4e81b678d",
+      "bytes": 9769
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC11-C-r3.json",
+      "sha256": "ba78d9fe712e5a8244f7ff2f9135b68bb5267e97e2990cd84164498e74db8d1a",
+      "bytes": 9769
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC12-B-r1.json",
+      "sha256": "58c4aceab93978f67783ea7b93f7b2eab86c0979583f079a5ee290b33f41e769",
+      "bytes": 8759
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC12-B-r2.json",
+      "sha256": "0fa0741f13419aa5898cce42e612ee2c0574e9f8f24d6018832a8c68c496ea6f",
+      "bytes": 8645
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC12-B-r3.json",
+      "sha256": "55a29f0acc821ab1f6a654e8a40e6dca31c65d444cca56fb870610a3e1933020",
+      "bytes": 8687
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC12-C-r1.json",
+      "sha256": "c3eeb05bd58a1e59539cd6ae8163e5410c514ec5ed24ddbe0e2fda3b46b96a51",
+      "bytes": 8873
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC12-C-r2.json",
+      "sha256": "30aa77401acbe5130e618e4ec46872b9cffdac926ce326b5000103906902a773",
+      "bytes": 8873
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC12-C-r3.json",
+      "sha256": "7de61078caade0a61199f7eba05c8254b7d8c86ed4965597451f2cd55cd6ef34",
+      "bytes": 8855
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC13-B-r1.json",
+      "sha256": "64b9dcd33877a048d77eeded6a0bdd77d54f0fa7251c2d22e7d69cc320315dff",
+      "bytes": 27066
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC13-B-r2.json",
+      "sha256": "3f153e830af70c0f0805085585534d983a78193292a0168bf8c0390825d307b0",
+      "bytes": 26382
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC13-B-r3.json",
+      "sha256": "b3b24f156f29d7cb1e5d69fe06ecd874d4af734d2307a1f0c11bbc41415e2db6",
+      "bytes": 26692
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC13-C-r1.json",
+      "sha256": "6123ce507e2a91c8b44b048b54fd424548ce1a9940193de0af8d6b100bb0b1c0",
+      "bytes": 27392
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC13-C-r2.json",
+      "sha256": "ef4f07a75a2fc5e133f224fa0af22aba9ca85b438e0debeae9784432bc2ed1d0",
+      "bytes": 27545
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC13-C-r3.json",
+      "sha256": "7a5f5fa258c925e868e0e0ab0b79684e9ad5a211aabedb61df4b86dbfca7a4bb",
+      "bytes": 27614
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC14-B-r1.json",
+      "sha256": "7a8b45d78054c558ef451d5de1459bde0968af498eb6cc108923d2db0e20952b",
+      "bytes": 18375
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC14-B-r2.json",
+      "sha256": "840f7070ac86fe164ce98d1f63d927c5d7acf7e22132f6c0943d1403b0acb943",
+      "bytes": 18711
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC14-B-r3.json",
+      "sha256": "610e6a9747c35de2feba41fab6c9502f3b13216b80c8efc8849694f040ac88ed",
+      "bytes": 18501
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC14-C-r1.json",
+      "sha256": "37a478b49fee64b9df224390bbb6a38b4ac7a8cc7666ba368d32f595889ead08",
+      "bytes": 19127
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC14-C-r2.json",
+      "sha256": "0a94d54bae3cbca2089ca4febcf9ab473d0a3dfa748f0d84a02d5043def4a2eb",
+      "bytes": 19136
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC14-C-r3.json",
+      "sha256": "88d63147860d3ad855d5e5cc352e52b28a6005f2f509391b029c657db20eb88e",
+      "bytes": 19100
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC15-B-r1.json",
+      "sha256": "b5cb742597ee8d38cde4718265555f22715100536a02def764e9ff69b9bf13b9",
+      "bytes": 32506
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC15-B-r2.json",
+      "sha256": "6e1cf58534c1ba9b60cec88742daac35060596dce35bead9c33c281e9d016854",
+      "bytes": 32659
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC15-B-r3.json",
+      "sha256": "5408629435c655371b6b2519bb3dd24592168dacc268b14c57a25ba7d3b65d3e",
+      "bytes": 32569
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC15-C-r1.json",
+      "sha256": "4567a91a45804ad6630507028508f47773c62d9a4f9cda4d6efdb3d5ba778df4",
+      "bytes": 34404
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC15-C-r2.json",
+      "sha256": "e56194f6af73982a5e4cace450ab247befecb825fa3ebd33ca492d4261462726",
+      "bytes": 34392
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC15-C-r3.json",
+      "sha256": "764444ca403d91d640fe487789acdc61f8ae49a66e85b404ae86ce1d278e430f",
+      "bytes": 34411
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC16-B-r1.json",
+      "sha256": "86c913a209e002311182003ec0eab1f614ee06a54c3d28ff4e28d5cc05a26352",
+      "bytes": 33181
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC16-B-r2.json",
+      "sha256": "30adbff7966c6a751999f5f2f77ca7356d436ec06aafa5097640c8bb3fa4a971",
+      "bytes": 32887
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC16-B-r3.json",
+      "sha256": "8a6cc973a427f58ba60e9e4f22bb96fe1f40239669987f5c7962fac774bf8243",
+      "bytes": 32713
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC16-C-r1.json",
+      "sha256": "f7acd6770e3a7b596c546547f4c505596577d2517f99e21bb1cbdf45b70fafc0",
+      "bytes": 35042
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC16-C-r2.json",
+      "sha256": "73caf475ae9e5121d774102943bc52fbe6f95c52c3037e00350e15c287fd1636",
+      "bytes": 35170
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC16-C-r3.json",
+      "sha256": "162065abee2d9b70ee2f5fb17281daee7423bee773412442992dceca8442ebd9",
+      "bytes": 35058
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC17-B-r1.json",
+      "sha256": "a0423e57f2eb4dc14198df55b2240a381a06b70f2bf47bb5160229245b309e60",
+      "bytes": 14696
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC17-B-r2.json",
+      "sha256": "2b31d32b0a7350738e7230b517b9ac1d248fec8f9ac638c18340a5cce5f64e72",
+      "bytes": 15146
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC17-B-r3.json",
+      "sha256": "9f451f0efd6eceef4777721d701468ab7d28cb19e3c0db36f376a80cddd8d4e9",
+      "bytes": 14546
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC17-C-r1.json",
+      "sha256": "fae1fcdfd149d17547e4cbfbbed8ed6a069338c534e4b375e18d711f9b6c0055",
+      "bytes": 16299
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC17-C-r2.json",
+      "sha256": "faaf7989e2f50cbc485eb1c37c3aee6e0c53893e905d2203e9266e18db10609a",
+      "bytes": 16299
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC17-C-r3.json",
+      "sha256": "a4a391533c0c930ba22fcd910b615d3ae0949a18cb6e8935a56f03ad24a151ae",
+      "bytes": 16362
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC18-B-r1.json",
+      "sha256": "eb64de83a39cac4339003436425284f3ac2aca1d33b89f0a7f6b4382f73838d6",
+      "bytes": 14849
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC18-B-r2.json",
+      "sha256": "f47b7e120fcc44a5d1c690c51f6d0f9e507642f5901adf6bb1454b2589d86f32",
+      "bytes": 14847
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC18-B-r3.json",
+      "sha256": "beff970878a1de13d60087d2e92b659374b6ec5e7b9b9b13015e268566b545db",
+      "bytes": 14849
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC18-C-r1.json",
+      "sha256": "a3795bda6c0ef0d40bfb9a2bd0bf01f1b7fff38ebc6fee246b45c81a52311988",
+      "bytes": 16077
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC18-C-r2.json",
+      "sha256": "84a0f433bb72a2af244b1324c8fdc76af86726f4b827a4454cdc73e5601bfa54",
+      "bytes": 15953
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC18-C-r3.json",
+      "sha256": "b8f74602fbb367eb2676bef998d772363859e1741b446a4982b47114d161e536",
+      "bytes": 16067
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC19-B-r1.json",
+      "sha256": "d7e35c735e33a02373424ede9b121eace598719f447fe42132b119a0882c8fd8",
+      "bytes": 14345
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC19-B-r2.json",
+      "sha256": "7cc5b6d1e16dd805295c5a5f36ea0bb0ecb23bfdb2c0d7f4e22cc6998c041d71",
+      "bytes": 14609
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC19-B-r3.json",
+      "sha256": "8b17a72a9c891cd57af96fb63d601aba8db4fef3c1738c443a80fed7bc1a6f7e",
+      "bytes": 14333
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC19-C-r1.json",
+      "sha256": "46b96513a21ae5bd1612317d134b6224ef6be6385cd6b63000198f9a6df627bc",
+      "bytes": 15624
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC19-C-r2.json",
+      "sha256": "c49bff3aef884251b945aa1d014e8c215c1b59b72e94f4bb287492984f614b4b",
+      "bytes": 15624
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC19-C-r3.json",
+      "sha256": "d71ad32c220f27b02baaa824d34c7a4b25b5ba0632631a0c8bbae44357e050c1",
+      "bytes": 15630
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC20-B-r1.json",
+      "sha256": "98b16dde11617b89fc2564422128662de0d4ecb2ca94b23c5c375f3e1bf7efe1",
+      "bytes": 14898
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC20-B-r2.json",
+      "sha256": "e100cd6fefbbcf06ddce4e67dd47d9a42eb77235de29af03622e9b1c94ca8995",
+      "bytes": 15050
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC20-B-r3.json",
+      "sha256": "b75aca52efc1ed4b7297db8f2a8a923c2488241efcd691f75e48663559cf5104",
+      "bytes": 15078
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC20-C-r1.json",
+      "sha256": "d9e833366d37b11ae46a6066cb71a547b59eba5dd6b33ddd25559c625bccd63e",
+      "bytes": 15461
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC20-C-r2.json",
+      "sha256": "ba2c8fa4be20b35e91234ae1038eab856a671fac5edd4b84db3048734a110c22",
+      "bytes": 15471
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/BC20-C-r3.json",
+      "sha256": "6f462e124a2a8d09af50d58980c6d6e9d6e924f502ccd0779e455557acf5f202",
+      "bytes": 15471
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/complete.json",
+      "sha256": "d48acee834bd18968fe48de97118d1597fadc0ed3bcbbdb987730adc2db7d00d",
+      "bytes": 10718
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/diagnose-scoring.py",
+      "sha256": "d6ca840bbbfe039a8ef2a6b9d6963666cfd6bc456bf25a484df139bf428d8d9c",
+      "bytes": 2013
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/frozen-cases.json",
+      "sha256": "0331eee49e36e4f2ba257eaa5597c81028d52ac9f58853b03f58c9f458a5d06b",
+      "bytes": 5842
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/ppt-metrics.png",
+      "sha256": "1c918e76f058c6a010033c2ee562e0f8d414e97368fcd17e31d701063688eb3c",
+      "bytes": 117205
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/ppt-metrics.svg",
+      "sha256": "e9942de6eecebee4c8b1200abf36ea3a525c6fa93a772513517d763f083b53a6",
+      "bytes": 65178
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/preflight.json",
+      "sha256": "1cb33efc06071e0185245b9c5e5faa698c83d388c25bd638911dca1ea4130998",
+      "bytes": 1706
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/profile.json",
+      "sha256": "77f5d826cbededfb77fd2d14826ffcbdf48d9d1c1a0496426e19d849bc3062d8",
+      "bytes": 12758
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/progress.json",
+      "sha256": "9aac6bf17c589af5931091dd71f413723b991c2c8446be25af219301b165b467",
+      "bytes": 144
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/run-gpt56-eval.py",
+      "sha256": "b40dab62a0f6377e0e0c432b3fa28001cc8aaf03e66fcc1e405ed14fbe513bd7",
+      "bytes": 11753
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/trial-events.jsonl",
+      "sha256": "10a4eecf1c01817e422a8460c62cd4a83a0105f63b9627414ad4a9314e47404d",
+      "bytes": 1641781
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/plot-metrics.py",
+      "sha256": "a6c56f6461077a1dddf6ea019cca0b13f33ebf520ef52d407647f18023225ac2",
+      "bytes": 1756
+    }
+  ]
+}

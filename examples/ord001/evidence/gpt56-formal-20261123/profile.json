@@ -1,0 +1,302 @@
+{
+  "requested_model": "gpt-5.6-sol",
+  "user_selected_model": "GPT-5.6",
+  "base_url": "https://api.openai.com/v1",
+  "api": "chat.completions",
+  "reasoning_effort": "none",
+  "temperature": 0.35,
+  "max_completion_tokens": 800,
+  "timeout_seconds": 30,
+  "max_retries": 0,
+  "store": false,
+  "stream": false,
+  "source_code_commit": "176fbb0264203b53e7ed8c68760a75243e5b113b",
+  "policy": "demo-v1 + human-review-v1",
+  "stp_auto_approve": false,
+  "planned_system_trials": 120,
+  "modes": [
+    "B",
+    "C"
+  ],
+  "repeats": 3,
+  "design_note": "Full configured-system comparison; C has regex fallback and special-issue preprocessing as well as explicit rules. Not a single-factor ablation.",
+  "budget": "user authorized no monetary limit for this batch",
+  "pricing_checked_on": "2026-11-23",
+  "pricing_source": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+  "usd_per_million_tokens": {
+    "input": 4,
+    "cached_input": 0.4,
+    "output": 20
+  },
+  "fixture_note": "Existing runner uses live model setup in BC15/16; setup cost counted separately, preconditions checked before the scored dialogue.",
+  "created_at": "2026-11-23T13:39:14.336+08:00",
+  "harness_sha256": "b40dab62a0f6377e0e0c432b3fa28001cc8aaf03e66fcc1e405ed14fbe513bd7",
+  "case_bank_sha256": "fab607b25a958d31ab2781b3acb29be8f7c02ed2c313d1cd4a0e52ce65bca620",
+  "source_files": [
+    {
+      "path": "examples/ord001/Dockerfile",
+      "git_blob": "67000bb2db3aeda2261fb794e654547f14063f43",
+      "sha256": "adc0d89a66a2a189e1a403e1a3c25313589116a1e9a9ad3bc4054e610d57a894"
+    },
+    {
+      "path": "examples/ord001/README.md",
+      "git_blob": "ebc15b706c3cce007e26fc28f8f7eb9e790522c2",
+      "sha256": "c2544aa26c11a123a3673fe7e14e45b2619f4c219bd11beab9c6d7045ba19e85"
+    },
+    {
+      "path": "examples/ord001/demo-data.json",
+      "git_blob": "f39199385c4b531c4fbd5d81c51348e874a24007",
+      "sha256": "976aa90d2c359191d9d11462b377037d3410cd1a5da5bdfc4225c72e20ffc027"
+    },
+    {
+      "path": "examples/ord001/demo-policy.json",
+      "git_blob": "691d3ae3344747dbe67ae18d960f420b7443029b",
+      "sha256": "4d16c716d000ff85bfbe4933339d15646fe26a983fb7d106eac53c7fd647d948"
+    },
+    {
+      "path": "examples/ord001/design/concept.html",
+      "git_blob": "586cffada8a45b3f11ef103b9eaa50318a4243c4",
+      "sha256": "a4ec643010656c5adcfa3c4499fc15738197cc902727add948917a360dcc0fce"
+    },
+    {
+      "path": "examples/ord001/design/concept.png",
+      "git_blob": "8e01857ef10222642f59e8e1e50213f90d6ae19d",
+      "sha256": "3439130b924183cff32581b4b82a8fa0f9e708b31a21abb4c870c4b24148ec73"
+    },
+    {
+      "path": "examples/ord001/fixtures/hr06-isolated-data.json",
+      "git_blob": "d4c17c2c8b10f4584e7ff36ad1619a00585afba8",
+      "sha256": "0b54ceceae476c658e70c11cafa0aedb307fb6b0d4b3c203b79711e006174ba0"
+    },
+    {
+      "path": "examples/ord001/langgraph.json",
+      "git_blob": "8c411aa7bea3a1bf1c4bd2e51c16ef88a4e1c624",
+      "sha256": "f24b50f5c78cffcd85778886aa508dfdd89c84f8acc160963761ab8d0f12a85a"
+    },
+    {
+      "path": "examples/ord001/model-config.example.json",
+      "git_blob": "6b0a0cc779b5be000c3138e232f381d87a344333",
+      "sha256": "1faeb6006b68ac1ae3e47f1d3ce0471e9c95693b0a8fa157bbc752c6a756f3d4"
+    },
+    {
+      "path": "examples/ord001/ord001_500_selfcheck.py",
+      "git_blob": "010d6ddbd0f898d95b6bdd1aa14eb3351bd49bc5",
+      "sha256": "37df1f14fc8ddab673aa1a6c95615127004cfe98888685596f4c366bf22b9e09"
+    },
+    {
+      "path": "examples/ord001/ord001_ablation_eval.py",
+      "git_blob": "35e0cf09478a3ca85410418e638182587ad995d3",
+      "sha256": "2dd7861ab1da062e7a5c1fb499b0c05726af329cde369aad4c2a11e05828b563"
+    },
+    {
+      "path": "examples/ord001/ord001_bc_runner.py",
+      "git_blob": "a6e2b524bf772ea87a4a7ff84ddfbe7fbfa4f60b",
+      "sha256": "553ff9be1c97e3c6625c2d21065542ea6298a42251abdd6ca3d3cd1185d9fad5"
+    },
+    {
+      "path": "examples/ord001/ord001_compensation.py",
+      "git_blob": "70b9717c656e834e8e8f465680cb3b5b9e75ee9d",
+      "sha256": "9d4e0cf0e9f05ff32f8992c3ca4f389d88dcb83f14abc8c2616af20982e397ba"
+    },
+    {
+      "path": "examples/ord001/ord001_features_check.py",
+      "git_blob": "8b992b2b43cecb7a2556eaea34406a24d73d0c3e",
+      "sha256": "c1e17e9178a32cca06d6a7d54e229c0c410708ee66113b800f0558d6a9a31cf7"
+    },
+    {
+      "path": "examples/ord001/ord001_followup_check.py",
+      "git_blob": "25671c0f5552695b436aa82827f6dcdc1838f046",
+      "sha256": "ce78f30b7f12547ad110db42315f39be505ab3523cf66e4cc7d3c023e44454ff"
+    },
+    {
+      "path": "examples/ord001/ord001_graph.py",
+      "git_blob": "a4b38a32e8170028560156ea47f7e963154e4c11",
+      "sha256": "22ee7859f52dc7e0bcd6b668c24d76e0ce32253883e28da82f29bfccc7020c0a"
+    },
+    {
+      "path": "examples/ord001/ord001_handoff_actions_check.py",
+      "git_blob": "fbe765d7f4e47a83bb7d59211c20a58e576feb15",
+      "sha256": "8a5cdfe9da27c9287568d44a393206b73ced4c5cc330870bdaa49b38a0da0785"
+    },
+    {
+      "path": "examples/ord001/ord001_hr_boundaries_check.py",
+      "git_blob": "6dde3c99e133e211ecf68d8f6899d8093213dac1",
+      "sha256": "f083fdd90c8166f598dc14b05cbfc51dfe5a916e3b047eab4ce259e9a8979b16"
+    },
+    {
+      "path": "examples/ord001/ord001_langchain.py",
+      "git_blob": "a9693f82f27cf3130ab5ed0057840dde7740cde4",
+      "sha256": "33e04071fe075eb6a5718e824be7faf6bed6eddd74d1ee956d9d1828a1ee0d76"
+    },
+    {
+      "path": "examples/ord001/ord001_live_check.py",
+      "git_blob": "4a41a848dca52e925886e1ee99d748099df23341",
+      "sha256": "25b3f0cb062716779e98fd4cb516e5dba6595b277b5901d04b01e7016d4e0170"
+    },
+    {
+      "path": "examples/ord001/ord001_model_check.py",
+      "git_blob": "3ea8684c59cbaba7426d2c346c44265d6c5c6faf",
+      "sha256": "336f783e059cec01a791b02fadfb3770de4c0f2eaef0c22a91cbfb45165d34f9"
+    },
+    {
+      "path": "examples/ord001/ord001_policy.py",
+      "git_blob": "4316feda257d21a61c7b3e3f629a6ca502054aac",
+      "sha256": "3ce9e33cb1243146ce1ac24384a611b526d71450ea21035b6110602d03ebc614"
+    },
+    {
+      "path": "examples/ord001/ord001_share.py",
+      "git_blob": "5bda09124bfc6c10423e97fb4db3676207001f4a",
+      "sha256": "99fdddf963a791001fd1e328381550681357738e3cbe6a1bb075b2332b969a49"
+    },
+    {
+      "path": "examples/ord001/ord001_share_check.py",
+      "git_blob": "9fd9edc3e2245131ed722f232d324b4b746e0775",
+      "sha256": "038321a40c3fe0ee128bb8121671b55d98e0eac4394da9fe1408d24c77f1d6cb"
+    },
+    {
+      "path": "examples/ord001/ord001_share_supervisor.py",
+      "git_blob": "ea4317afdf34310ed3ebc9bb91c1daf3ac929e0d",
+      "sha256": "ebcd72c74f31bd051d4fc0ff1ecc7a3d7c19f8aa39166cc48fdc3ce10c9d7ac7"
+    },
+    {
+      "path": "examples/ord001/ord001_web.py",
+      "git_blob": "355cc961f25cf1fb15f2c8a46796308e9b509114",
+      "sha256": "52531e41c80a87933bfaa42c4bcb360df19b24bbec16079a2880a6978da121d2"
+    },
+    {
+      "path": "examples/ord001/ord001_web_check.py",
+      "git_blob": "b77fdbba52b5aaa5f023a93562da19ef9d0fb883",
+      "sha256": "56db3075cd45f128c75231cb8908592f91ed5648a0fefc7bbdda34af0780956a"
+    },
+    {
+      "path": "examples/ord001/ord001_web_graphs.py",
+      "git_blob": "b2a2c63612d69b708d1c2f9dd3f985ed1303d02a",
+      "sha256": "105c0fd3740457259b743df3eebda9f19c5463746766ecb1f6d1d4fb363fb5c8"
+    },
+    {
+      "path": "examples/ord001/ord001_web_service.py",
+      "git_blob": "f7ef82ebc1ae2f4c37a7fb1fc0debc01cb686b24",
+      "sha256": "9efcbe05b1df9eb2b2677bedd8bdaf943a4cfc703d5ca0f44079bc641fa2c9e8"
+    },
+    {
+      "path": "examples/ord001/ord001_web_store.py",
+      "git_blob": "b7cb19499b11034ce8e584d0b089c041b6a45807",
+      "sha256": "0eeed08e26cb5a1e24c610ae8d5f848912f7e1aca95c02cf0062ec6164b547ba"
+    },
+    {
+      "path": "examples/ord001/ord001_web_texts.py",
+      "git_blob": "a64df6d3f17855f778c68cdab13d21e3d5227cbf",
+      "sha256": "a71a41ab9bfff5c363b3f7bd11da2f313c54f536875d6d25886c6e69b1566b8a"
+    },
+    {
+      "path": "examples/ord001/share/access.html",
+      "git_blob": "6ad9f02fac245da693ef6c889bd1f49c25701cd4",
+      "sha256": "3d59fa3a0f1d38c9b1c8a68ff2a2eec860677f27bbecf249255635b952acfabb"
+    },
+    {
+      "path": "examples/ord001/share/entry.html",
+      "git_blob": "c74cbca9df00a53cd2e8c8ce310b0865ca6caf3a",
+      "sha256": "54c866f2d235eb940ce44c774e0522e168ad774e3611e2d7c1badff8309e8366"
+    },
+    {
+      "path": "examples/ord001/ui-check/.gitignore",
+      "git_blob": "c2658d7d1b31848c3b71960543cb0368e56cd4c7",
+      "sha256": "4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97"
+    },
+    {
+      "path": "examples/ord001/ui-check/README.md",
+      "git_blob": "1ee745b6462c57a31d67a76c2887dce3029e4120",
+      "sha256": "b46a48871268af3fa7c9625efdaafc221781357efca5e56b2219be42168ec2a2"
+    },
+    {
+      "path": "examples/ord001/ui-check/check.cjs",
+      "git_blob": "022257ebb721e791db2b511939fcceebecedabd5",
+      "sha256": "1dd95237c1677d7e59a15ae3606521bd4de6f44766dc5924db0ddc8a766f9c2a"
+    },
+    {
+      "path": "examples/ord001/ui-check/features.cjs",
+      "git_blob": "1c10eb583ee4e794cabb5d11d0961d855f17d3df",
+      "sha256": "cf0b57a610757a912eb30bd9814f5cfeb7f6754fd5e558ad11956524e7373b4e"
+    },
+    {
+      "path": "examples/ord001/ui-check/live.cjs",
+      "git_blob": "8382a7ec4b1a8a03ca1dfa014bdb8927e44b2fe6",
+      "sha256": "b661a9347a3751a6ab47db90b5ef113d0428cab922a84021501a00688fd30d37"
+    },
+    {
+      "path": "examples/ord001/ui-check/package.json",
+      "git_blob": "10b1d9627afe02d73a83b1e692e0f558c678a708",
+      "sha256": "26fc7049721386110fc1a2ddc2aed1447cd4d5fed21607a82cdad9575d12a48a"
+    },
+    {
+      "path": "examples/ord001/ui-check/share.cjs",
+      "git_blob": "d0503abe17a758e69c23ac961f034db618dd4df6",
+      "sha256": "84beeda8ffa89776dfa5d51aa7ac99ccf068e76a3195217c7b4f8c52de71c201"
+    },
+    {
+      "path": "examples/ord001/web/app.css",
+      "git_blob": "033b1eb7a11327af13629588067cd1216efb1b6d",
+      "sha256": "9582ae8e3745397e354799b2e054ab4caed31147ed020f867f08e9ca26126c22"
+    },
+    {
+      "path": "examples/ord001/web/app.js",
+      "git_blob": "6cb0a2feeb79177ec97402bf56b3c3b364afddb7",
+      "sha256": "8ceb174a086f130c3d1aaa0d7120bf95b725195c0080f5f2e3c7573dc93dc312"
+    },
+    {
+      "path": "examples/ord001/web/chubby-joker.png",
+      "git_blob": "c7d6caf8559fd17ab6f9904d57d5ffbbd4cd5c0d",
+      "sha256": "22973b3634f268956a52e16c7e5d87347e987213093c3f577806b7d0718b7fe0"
+    },
+    {
+      "path": "examples/ord001/web/customer.html",
+      "git_blob": "74ab5ea3a32fd76c609d38dcded8469b6899773f",
+      "sha256": "3e0c56b0331930b31794ae91e40d71891407e054c60940b53ae52c5d767501bb"
+    },
+    {
+      "path": "examples/ord001/web/customer.js",
+      "git_blob": "438362bd90cc1b0fcb31e52a04942b55e9d4b922",
+      "sha256": "059c044b136fa6e01b8520a866564773a948e09f99089eced2d0bd5ff8d51ed9"
+    },
+    {
+      "path": "examples/ord001/web/mj-spidey-banana.png",
+      "git_blob": "d21db1677b4cbbeb7c337d15f410be914913c393",
+      "sha256": "0a1f48a3afbd193c3f082a5fb10ade433e70e59b10c2c080053c22fb3da76500"
+    },
+    {
+      "path": "examples/ord001/web/mj-spidey-cola.png",
+      "git_blob": "751c7f13127a4e3ca01bd740995276228ebbbd43",
+      "sha256": "43e54d0de1f1b8f019249891d702486eb0f4fdf1ebc41b539b9a57a520f6f638"
+    },
+    {
+      "path": "examples/ord001/web/mj-spidey-plate.png",
+      "git_blob": "29927c81ef882ea1cb3af7bcfbe982cf02c7e431",
+      "sha256": "24a3823bf0823d48ee31babb2faac8784ba961ddd3b6a4a52b75601d6da1575d"
+    },
+    {
+      "path": "examples/ord001/web/mj-spidey-tissue.png",
+      "git_blob": "64eb41917353cf6a2582c1e984374ec8240b9585",
+      "sha256": "d25ec545ebc610fdd2b17e37b4aa96f900a478fd19b4353bef5e194785126492"
+    },
+    {
+      "path": "examples/ord001/web/ping.svg",
+      "git_blob": "f0c32a709290bba550ab1cd235c6c902f428856c",
+      "sha256": "80f4838e0fb7e8685f3708a89f76e118a8bcac5ee5e5215bbb03ae15629c4714"
+    },
+    {
+      "path": "examples/ord001/web/review.html",
+      "git_blob": "aee76c98295e0962a938ae5692d9962e7d3997de",
+      "sha256": "fbbd3e1a5585c7979c882753d6be640bf2d46a590531f50626f56dc246ef5f56"
+    },
+    {
+      "path": "examples/ord001/web/review.js",
+      "git_blob": "2b5237b1c153bf7d8aa8c1dd8fc0c5c9d4db413f",
+      "sha256": "9752f0096dd11deb18b04922b77a1eeb5468d79ad7ecd13dae366092e5e4c464"
+    }
+  ],
+  "packages": {
+    "langgraph": "1.2.19",
+    "langchain": "1.4.9",
+    "langchain-openai": "1.7.4"
+  }
+}

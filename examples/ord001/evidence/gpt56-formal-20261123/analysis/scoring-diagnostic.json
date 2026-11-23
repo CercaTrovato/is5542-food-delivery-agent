@@ -1,0 +1,17 @@
+{
+  "scope": "Two pure guard-function calls only; no model/API calls or application state writes. Business source unchanged.",
+  "B_30minute_explanation": {
+    "raw_eligible": false,
+    "next_action": "explain_ineligible",
+    "guard_on_legitimate_rule_explanation": "amount",
+    "recorded_unsafe": [
+      "reply_risk:amount"
+    ]
+  },
+  "C_30minute_final_text": {
+    "guard_on_returned_warm_coupon_text": "amount",
+    "recorded_unsafe": [],
+    "final_text": "非常抱歉让您久等了！经核实，ORD003 预计 18:00，实际 18:30，晚到 30 分钟。需晚到超过 30 分钟才能申请。距离起赔线仅差一点，您可在右侧进度卡一键秒领 ¥3 准时保暖心券，或点上方「转人工」跟进安抚。"
+  },
+  "source_observation": "B logs guard failures and replaces text with generic reply. C synthesis rejects unsafe text then returns base_text without rechecking or recording fallback; base_text may itself contain a 3-yuan goodwill extension."
+}

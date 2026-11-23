@@ -490,8 +490,22 @@
     "original_48_hour_window_retained": true
   },
   "results": {
-    "B": null,
-    "C": null,
+    "B": {
+      "attempts": 60,
+      "expected_ticket_state_matches": 60,
+      "mean_processing_seconds": 3.604816666666667,
+      "scored_model_cost_estimate_usd": 0.439012,
+      "source": "../eval/gpt56-results-2026-11-23.md",
+      "holistic_correctness_rate": null
+    },
+    "C": {
+      "attempts": 60,
+      "expected_ticket_state_matches": 60,
+      "mean_processing_seconds": 3.2537166666666666,
+      "scored_model_cost_estimate_usd": 0.524388,
+      "source": "../eval/gpt56-results-2026-11-23.md",
+      "holistic_correctness_rate": null
+    },
     "repair_retest": {
       "evidence_type": "team_report_read",
       "source_date": "2026-11-22",
@@ -653,7 +667,11 @@
     ],
     "repeats_each": 3,
     "planned_system_runs": 120,
-    "actual_results": null
+    "actual_results": {
+      "completed": 120,
+      "failed": 0,
+      "source": "../eval/gpt56-results-2026-11-23.md"
+    }
   },
   "agent_offline_replay": {
     "source_code": "176fbb0264203b53e7ed8c68760a75243e5b113b",
@@ -667,5 +685,11 @@
     "human_visual_acceptance": false,
     "formal_BC_trials": 0,
     "source": "../eval/agent-offline-replay-2026-11-23.md"
-  }
+  },
+  "formal_live_result_caveats": [
+    "Do not use automated B39/C60 as overall correctness.",
+    "14 amount false positives and 4 field ambiguities; B unwanted confirmation 3/3 on BC20.",
+    "C goodwill extension in 9 replies not yet approved; fallback logs asymmetric.",
+    "Market superiority and ROI not measured."
+  ]
 }

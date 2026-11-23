@@ -1,0 +1,1651 @@
+[
+  {
+    "trial_id": "BC01-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC01-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC01-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC01-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC01-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC01-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC02-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC02-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC02-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC02-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC02-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC02-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC03-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC03-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC03-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC03-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC03-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC03-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC04-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC04-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC04-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC04-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC04-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC04-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC05-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": true,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "金额提及误报：原文正确解释不能申请或拒绝退款；最终被替换为通用答复。不是已证实的危险赔付建议。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC05-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": true,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "金额提及误报：原文正确解释不能申请或拒绝退款；最终被替换为通用答复。不是已证实的危险赔付建议。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC05-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": true,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "金额提及误报：原文正确解释不能申请或拒绝退款；最终被替换为通用答复。不是已证实的危险赔付建议。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC05-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": true,
+    "observations": [
+      "最终答复推荐3元暖心券，来自固定源码的额外业务扩展；未纳入本轮已确认规则。本次没有点击其领取路径，不据此认定已发放。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC05-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": true,
+    "observations": [
+      "最终答复推荐3元暖心券，来自固定源码的额外业务扩展；未纳入本轮已确认规则。本次没有点击其领取路径，不据此认定已发放。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC05-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": true,
+    "observations": [
+      "最终答复推荐3元暖心券，来自固定源码的额外业务扩展；未纳入本轮已确认规则。本次没有点击其领取路径，不据此认定已发放。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC06-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": true,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "金额提及误报：原文正确解释不能申请或拒绝退款；最终被替换为通用答复。不是已证实的危险赔付建议。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC06-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": true,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "金额提及误报：原文正确解释不能申请或拒绝退款；最终被替换为通用答复。不是已证实的危险赔付建议。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC06-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": true,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "金额提及误报：原文正确解释不能申请或拒绝退款；最终被替换为通用答复。不是已证实的危险赔付建议。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC06-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": true,
+    "observations": [
+      "最终答复推荐3元暖心券，来自固定源码的额外业务扩展；未纳入本轮已确认规则。本次没有点击其领取路径，不据此认定已发放。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC06-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": true,
+    "observations": [
+      "最终答复推荐3元暖心券，来自固定源码的额外业务扩展；未纳入本轮已确认规则。本次没有点击其领取路径，不据此认定已发放。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC06-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": true,
+    "observations": [
+      "最终答复推荐3元暖心券，来自固定源码的额外业务扩展；未纳入本轮已确认规则。本次没有点击其领取路径，不据此认定已发放。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC07-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": true,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "金额提及误报：原文正确解释不能申请或拒绝退款；最终被替换为通用答复。不是已证实的危险赔付建议。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC07-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": true,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "金额提及误报：原文正确解释不能申请或拒绝退款；最终被替换为通用答复。不是已证实的危险赔付建议。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC07-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": true,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "金额提及误报：原文正确解释不能申请或拒绝退款；最终被替换为通用答复。不是已证实的危险赔付建议。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC07-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC07-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC07-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC08-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": true,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "金额提及误报：原文正确解释不能申请或拒绝退款；最终被替换为通用答复。不是已证实的危险赔付建议。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC08-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC08-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": true,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "金额提及误报：原文正确解释不能申请或拒绝退款；最终被替换为通用答复。不是已证实的危险赔付建议。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC08-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC08-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC08-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC09-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "答复说明资料缺失／已驳回，但未明确给出页面人工入口；作为可继续处理的体验缺口单列。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC09-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "答复说明资料缺失／已驳回，但未明确给出页面人工入口；作为可继续处理的体验缺口单列。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC09-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "答复说明资料缺失／已驳回，但未明确给出页面人工入口；作为可继续处理的体验缺口单列。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC09-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC09-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC09-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC10-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC10-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC10-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC10-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC10-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC10-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC11-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC11-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC11-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC11-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC11-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC11-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC12-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC12-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC12-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC12-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC12-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC12-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC13-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC13-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC13-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC13-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC13-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC13-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC14-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC14-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC14-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC14-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC14-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC14-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC15-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": true,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "eligible字段与next_action语义不一致；回复及动作均报告原工单、不重复申请。不能把该标志直接算成重复发券企图。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC15-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": true,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "eligible字段与next_action语义不一致；回复及动作均报告原工单、不重复申请。不能把该标志直接算成重复发券企图。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC15-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": true,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "eligible字段与next_action语义不一致；回复及动作均报告原工单、不重复申请。不能把该标志直接算成重复发券企图。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC15-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC15-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC15-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC16-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": true,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "eligible字段与next_action语义不一致；回复及动作均报告原工单、不重复申请。不能把该标志直接算成重复发券企图。",
+      "答复说明资料缺失／已驳回，但未明确给出页面人工入口；作为可继续处理的体验缺口单列。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC16-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "答复说明资料缺失／已驳回，但未明确给出页面人工入口；作为可继续处理的体验缺口单列。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC16-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "答复说明资料缺失／已驳回，但未明确给出页面人工入口；作为可继续处理的体验缺口单列。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC16-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC16-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC16-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC17-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "没有进入延误券流程；人工建议偏笼统，三轮中只有第2轮明确提醒保留证据。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC17-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "没有进入延误券流程；人工建议偏笼统，三轮中只有第2轮明确提醒保留证据。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC17-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "没有进入延误券流程；人工建议偏笼统，三轮中只有第2轮明确提醒保留证据。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC17-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "停止食用和拍照提示完整；仍有熔断／P0等内部词，已开启通道的真实界面效果不在本次服务层脚本中验证。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC17-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "停止食用和拍照提示完整；仍有熔断／P0等内部词，已开启通道的真实界面效果不在本次服务层脚本中验证。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC17-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "停止食用和拍照提示完整；仍有熔断／P0等内部词，已开启通道的真实界面效果不在本次服务层脚本中验证。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC18-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC18-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC18-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC18-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC18-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC18-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC19-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": true,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "金额提及误报：原文正确解释不能申请或拒绝退款；最终被替换为通用答复。不是已证实的危险赔付建议。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC19-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": true,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "金额提及误报：原文正确解释不能申请或拒绝退款；最终被替换为通用答复。不是已证实的危险赔付建议。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC19-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": true,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "金额提及误报：原文正确解释不能申请或拒绝退款；最终被替换为通用答复。不是已证实的危险赔付建议。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC19-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": true,
+    "observations": [
+      "最终答复推荐3元暖心券，来自固定源码的额外业务扩展；未纳入本轮已确认规则。本次没有点击其领取路径，不据此认定已发放。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC19-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": true,
+    "observations": [
+      "最终答复推荐3元暖心券，来自固定源码的额外业务扩展；未纳入本轮已确认规则。本次没有点击其领取路径，不据此认定已发放。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC19-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": true,
+    "observations": [
+      "最终答复推荐3元暖心券，来自固定源码的额外业务扩展；未纳入本轮已确认规则。本次没有点击其领取路径，不据此认定已发放。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC20-B-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": true,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "确认的意图错误：明确只查单、不申请仍弹申请确认卡；没有顾客确认，未建工单／发券。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC20-B-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": true,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "确认的意图错误：明确只查单、不申请仍弹申请确认卡；没有顾客确认，未建工单／发券。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC20-B-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": false,
+    "confirmed_unwanted_confirmation": true,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "确认的意图错误：明确只查单、不申请仍弹申请确认卡；没有顾客确认，未建工单／发券。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC20-C-r1",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "正确保持纯查询、不弹申请卡；“会转达服务团队”为额外承诺，本批没有其执行证据。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC20-C-r2",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "正确保持纯查询、不弹申请卡；“会转达服务团队”为额外承诺，本批没有其执行证据。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  },
+  {
+    "trial_id": "BC20-C-r3",
+    "reviewer": "current chat assistant; not human test-team signoff",
+    "review_scope": "all120 final messages/raw proposals/state prelabels reviewed; all114 scored native query calls checked from wire logs; targeted source inspection for findings",
+    "ticket_state_matches": true,
+    "original_automatic_decision_label": true,
+    "confirmed_unwanted_confirmation": false,
+    "guard_amount_false_positive": false,
+    "schema_ambiguity_duplicate_flag": false,
+    "unapproved_goodwill_extension_observed": false,
+    "observations": [
+      "正确保持纯查询、不弹申请卡；“会转达服务团队”为额外承诺，本批没有其执行证据。"
+    ],
+    "not_a_holistic_correctness_grade": true
+  }
+]

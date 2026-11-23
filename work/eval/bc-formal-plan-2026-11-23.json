@@ -1,5 +1,5 @@
 {
-  "status": "scope_user_confirmed_not_executed",
+  "status": "executed_120_with_posthoc_diagnostic_limits",
   "confirmed_on": "2026-11-23",
   "decision_source": "本人明确选择：正式改为20题，两模式各3轮",
   "code_commit": "176fbb0264203b53e7ed8c68760a75243e5b113b",
@@ -10,7 +10,13 @@
   ],
   "repeats_per_case_per_mode": 3,
   "planned_system_runs": 120,
-  "actual_results": null,
+  "actual_results": {
+    "model": "gpt-5.6-sol",
+    "completed": 120,
+    "failed": 0,
+    "source": "gpt56-results-2026-11-23.md",
+    "automatic_score_not_holistic_accuracy": true
+  },
   "cases": [
     {
       "id": "BC01",
