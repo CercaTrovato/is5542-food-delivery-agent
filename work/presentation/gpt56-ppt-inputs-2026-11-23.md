@@ -1,5 +1,9 @@
 # GPT-5.6正式试跑：PPT补料（成品尚未修改）
 
+## 11月23日PPT证据与完整复核已补齐
+
+本人已确认完整处理标准：B通过37／未过23；C通过45／未过6／待核9，每边60。市场12格已用旧材料整理；成本已做有条件情景估算。[最新材料入口](ppt-evidence-closeout-2026-11-23.md)。原始120不重跑，未新增API调用；PPT成品尚未自动填入，3元范围与外部补件仍明确保留。
+
 [完整分析](../eval/gpt56-results-2026-11-23.md) · [指标图PNG](../../examples/ord001/evidence/gpt56-formal-20261123/ppt-metrics.png) · [指标图SVG](../../examples/ord001/evidence/gpt56-formal-20261123/ppt-metrics.svg)
 
 ## 第6页：真实模型配置

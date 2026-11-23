@@ -1,0 +1,209 @@
+{
+  "status": "scenario estimate, not actual platform ROI or headcount savings",
+  "currency": "USD throughout; no currency conversion",
+  "measured_lifecycle_traces": [
+    {
+      "trial_id": "BC15-B-r1",
+      "mode": "B",
+      "path": "approved_then_requery",
+      "calls": 4,
+      "input_tokens": 2319,
+      "output_tokens": 263,
+      "estimated_usd": 0.014536,
+      "includes_fixture_calls": true
+    },
+    {
+      "trial_id": "BC15-B-r2",
+      "mode": "B",
+      "path": "approved_then_requery",
+      "calls": 4,
+      "input_tokens": 2307,
+      "output_tokens": 272,
+      "estimated_usd": 0.014668,
+      "includes_fixture_calls": true
+    },
+    {
+      "trial_id": "BC15-B-r3",
+      "mode": "B",
+      "path": "approved_then_requery",
+      "calls": 4,
+      "input_tokens": 2311,
+      "output_tokens": 266,
+      "estimated_usd": 0.014564,
+      "includes_fixture_calls": true
+    },
+    {
+      "trial_id": "BC15-C-r1",
+      "mode": "C",
+      "path": "approved_then_requery",
+      "calls": 4,
+      "input_tokens": 3399,
+      "output_tokens": 177,
+      "estimated_usd": 0.017136,
+      "includes_fixture_calls": true
+    },
+    {
+      "trial_id": "BC15-C-r2",
+      "mode": "C",
+      "path": "approved_then_requery",
+      "calls": 4,
+      "input_tokens": 3393,
+      "output_tokens": 176,
+      "estimated_usd": 0.017092,
+      "includes_fixture_calls": true
+    },
+    {
+      "trial_id": "BC15-C-r3",
+      "mode": "C",
+      "path": "approved_then_requery",
+      "calls": 4,
+      "input_tokens": 3405,
+      "output_tokens": 178,
+      "estimated_usd": 0.01718,
+      "includes_fixture_calls": true
+    },
+    {
+      "trial_id": "BC16-B-r1",
+      "mode": "B",
+      "path": "rejected_then_requery",
+      "calls": 4,
+      "input_tokens": 2327,
+      "output_tokens": 289,
+      "estimated_usd": 0.015088,
+      "includes_fixture_calls": true
+    },
+    {
+      "trial_id": "BC16-B-r2",
+      "mode": "B",
+      "path": "rejected_then_requery",
+      "calls": 4,
+      "input_tokens": 2333,
+      "output_tokens": 291,
+      "estimated_usd": 0.015151999999999999,
+      "includes_fixture_calls": true
+    },
+    {
+      "trial_id": "BC16-B-r3",
+      "mode": "B",
+      "path": "rejected_then_requery",
+      "calls": 4,
+      "input_tokens": 2337,
+      "output_tokens": 278,
+      "estimated_usd": 0.014908000000000001,
+      "includes_fixture_calls": true
+    },
+    {
+      "trial_id": "BC16-C-r1",
+      "mode": "C",
+      "path": "rejected_then_requery",
+      "calls": 4,
+      "input_tokens": 3452,
+      "output_tokens": 216,
+      "estimated_usd": 0.018128,
+      "includes_fixture_calls": true
+    },
+    {
+      "trial_id": "BC16-C-r2",
+      "mode": "C",
+      "path": "rejected_then_requery",
+      "calls": 4,
+      "input_tokens": 3442,
+      "output_tokens": 227,
+      "estimated_usd": 0.018308,
+      "includes_fixture_calls": true
+    },
+    {
+      "trial_id": "BC16-C-r3",
+      "mode": "C",
+      "path": "rejected_then_requery",
+      "calls": 4,
+      "input_tokens": 3446,
+      "output_tokens": 219,
+      "estimated_usd": 0.018164,
+      "includes_fixture_calls": true
+    }
+  ],
+  "C_observed_path_mean_usd": 0.017668,
+  "C_observed_path_range_usd": [
+    0.017092,
+    0.018308
+  ],
+  "scope": "Six C traces from two pre-existing synthetic paths (approve/reject plus follow-up), four requests per trace including fixture setup; not a production workload distribution.",
+  "external_reference": {
+    "id": "COST-BLS-2025",
+    "url": "https://www.bls.gov/ooh/office-and-administrative-support/customer-service-representatives.htm",
+    "population": "US customer service representatives",
+    "period": "May 2025",
+    "median_hourly_usd": 21.53,
+    "checked_on": "2026-11-23",
+    "limitation": "US occupation wage reference, not Chinese food-delivery platform labor cost; excludes employer overhead."
+  },
+  "assumptions": {
+    "monthly_cases": 1000,
+    "monthly_fixed_cost_usd": 100,
+    "fixed_cost_example_breakdown": "US$50 hosting/operations + US$600 one-time implementation amortized across 12 months; both illustrative assumptions.",
+    "net_seconds_saved": "Assumed after human approval, correction and rework; may be negative. Never equate model latency with human time saved.",
+    "same_compensation_policy": "No extra 3-yuan goodwill policy in value scenario; incremental payouts must be deducted if introduced.",
+    "financial_realization": "Freed capacity valued at pay is not a demonstrated wage bill reduction."
+  },
+  "scenarios": [
+    {
+      "net_human_seconds_saved_per_case_assumed": -15,
+      "cases_per_month_assumed": 1000,
+      "hourly_pay_usd_external_reference": 21.53,
+      "model_cost_per_path_usd_measured_estimate": 0.017668,
+      "monthly_fixed_cost_usd_assumed": 100,
+      "monthly_capacity_value_usd_modelled": -89.70833333333334,
+      "monthly_incremental_cost_usd_modelled": 117.668,
+      "monthly_net_capacity_value_usd_modelled": -207.37633333333335,
+      "capacity_value_ROI_scenario_not_cash_realized": -1.7623851287804104
+    },
+    {
+      "net_human_seconds_saved_per_case_assumed": 0,
+      "cases_per_month_assumed": 1000,
+      "hourly_pay_usd_external_reference": 21.53,
+      "model_cost_per_path_usd_measured_estimate": 0.017668,
+      "monthly_fixed_cost_usd_assumed": 100,
+      "monthly_capacity_value_usd_modelled": 0.0,
+      "monthly_incremental_cost_usd_modelled": 117.668,
+      "monthly_net_capacity_value_usd_modelled": -117.668,
+      "capacity_value_ROI_scenario_not_cash_realized": -1.0
+    },
+    {
+      "net_human_seconds_saved_per_case_assumed": 15,
+      "cases_per_month_assumed": 1000,
+      "hourly_pay_usd_external_reference": 21.53,
+      "model_cost_per_path_usd_measured_estimate": 0.017668,
+      "monthly_fixed_cost_usd_assumed": 100,
+      "monthly_capacity_value_usd_modelled": 89.70833333333334,
+      "monthly_incremental_cost_usd_modelled": 117.668,
+      "monthly_net_capacity_value_usd_modelled": -27.959666666666664,
+      "capacity_value_ROI_scenario_not_cash_realized": -0.23761487121958955
+    },
+    {
+      "net_human_seconds_saved_per_case_assumed": 30,
+      "cases_per_month_assumed": 1000,
+      "hourly_pay_usd_external_reference": 21.53,
+      "model_cost_per_path_usd_measured_estimate": 0.017668,
+      "monthly_fixed_cost_usd_assumed": 100,
+      "monthly_capacity_value_usd_modelled": 179.41666666666669,
+      "monthly_incremental_cost_usd_modelled": 117.668,
+      "monthly_net_capacity_value_usd_modelled": 61.74866666666668,
+      "capacity_value_ROI_scenario_not_cash_realized": 0.524770257560821
+    },
+    {
+      "net_human_seconds_saved_per_case_assumed": 60,
+      "cases_per_month_assumed": 1000,
+      "hourly_pay_usd_external_reference": 21.53,
+      "model_cost_per_path_usd_measured_estimate": 0.017668,
+      "monthly_fixed_cost_usd_assumed": 100,
+      "monthly_capacity_value_usd_modelled": 358.83333333333337,
+      "monthly_incremental_cost_usd_modelled": 117.668,
+      "monthly_net_capacity_value_usd_modelled": 241.16533333333336,
+      "capacity_value_ROI_scenario_not_cash_realized": 2.0495405151216417
+    }
+  ],
+  "break_even_net_seconds_with_fixed_cost": 19.675095215977706,
+  "break_even_net_seconds_API_only": 2.954240594519275,
+  "new_model_calls": 0
+}

@@ -5,8 +5,8 @@
   "root_thread_id": "01a1b491-403e-7651-9aba-13e5b647af93",
   "model": "gpt-6.1-sol",
   "status": "ready_for_review",
-  "updated_at": "2026-11-23T13:52:19+08:00",
-  "summary": "本会话按本人确认的GPT-5.6统一配置完成20题×B/C×3轮120次，失败0，终态各60/60匹配；259模型请求，用量报价估算US$1.058140。发现B金额误报14、字段歧义4、纯查单弹卡3；C3元额外规则答复9与回退日志不对称。结果／图／PPT可用文字已归档，不宣称65%对100%整体正确率或市场优势；待本人决定3元扩展范围，未改业务源码或PPT本体。",
+  "updated_at": "2026-11-23T14:26:58+08:00",
+  "summary": "PPT证据继续收尾：本人认可完整处理复核，B37过/23未过，C45过/6未过/9政策待核；120原记录不改、新API0。旧26图已整理三平台＋本系统12格；六条已有模拟完整链路成本和外部薪资示例已做情景／盈亏平衡，不宣称真实ROI。已核李宗谦四份基准线索，建议不立即扩全套A/B/C；Jacky具体补件与开发回复草稿备好，未代发，PPT本体未改。",
   "report_path": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/supervision-report.md",
   "decisions": [
     {
@@ -279,6 +279,15 @@
       "status": "pending",
       "answer": null,
       "answer_source": null
+    },
+    {
+      "id": "IS5542-D29",
+      "question": "内部正确处理率采用怎样的复核口径？",
+      "recommendation": "原因和下一步、意图与动作、权限与承诺全满足；未定规则待核；保留原始自动值，单列事后复核。",
+      "options": [],
+      "status": "decided",
+      "answer": "本人明确同意按完整处理复核；本批已据此逐次登记120次，结果B37/23/0，C45/6/9。",
+      "answer_source": "本人11/23在本课程会话直接回复“同意，按完整处理复核（建议）”。"
     }
   ]
 }

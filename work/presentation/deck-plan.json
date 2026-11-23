@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "editable_draft_created_results_pending",
+  "status": "editable_draft_evidence_packet_ready_pending_insertion",
   "as_of": "2026-11-23",
   "not_a_finished_ppt_or_submission": true,
   "main_slides": [
@@ -496,7 +496,26 @@
       "mean_processing_seconds": 3.604816666666667,
       "scored_model_cost_estimate_usd": 0.439012,
       "source": "../eval/gpt56-results-2026-11-23.md",
-      "holistic_correctness_rate": null
+      "holistic_correctness_rate": null,
+      "complete_treatment_review": {
+        "n": 60,
+        "pass": 37,
+        "fail": 23,
+        "pending": 0,
+        "confirmed_pass_share_all_trials": 0.6166666666666667,
+        "complete_accuracy_not_final_until_pending_resolved": false,
+        "case_count": 20,
+        "three_of_three_complete_pass_cases": 12,
+        "grade_consistent_cases": 19,
+        "confirmed_financial_overreach_suggestions": 0,
+        "financial_overreach_policy_pending_trials": 0,
+        "unsupported_action_promise_trials": 0,
+        "unwanted_confirmation_trials": 3,
+        "financial_execution_errors_observed": 0,
+        "execution_scope": "synthetic tickets/coupon state; no real payment integration or human/browser UAT",
+        "source": "../eval/gpt56-complete-review-2026-11-23.md",
+        "post_hoc": true
+      }
     },
     "C": {
       "attempts": 60,
@@ -504,7 +523,26 @@
       "mean_processing_seconds": 3.2537166666666666,
       "scored_model_cost_estimate_usd": 0.524388,
       "source": "../eval/gpt56-results-2026-11-23.md",
-      "holistic_correctness_rate": null
+      "holistic_correctness_rate": null,
+      "complete_treatment_review": {
+        "n": 60,
+        "pass": 45,
+        "fail": 6,
+        "pending": 9,
+        "confirmed_pass_share_all_trials": 0.75,
+        "complete_accuracy_not_final_until_pending_resolved": true,
+        "case_count": 20,
+        "three_of_three_complete_pass_cases": 15,
+        "grade_consistent_cases": 20,
+        "confirmed_financial_overreach_suggestions": 0,
+        "financial_overreach_policy_pending_trials": 9,
+        "unsupported_action_promise_trials": 6,
+        "unwanted_confirmation_trials": 0,
+        "financial_execution_errors_observed": 0,
+        "execution_scope": "synthetic tickets/coupon state; no real payment integration or human/browser UAT",
+        "source": "../eval/gpt56-complete-review-2026-11-23.md",
+        "post_hoc": true
+      }
     },
     "repair_retest": {
       "evidence_type": "team_report_read",
@@ -517,8 +555,16 @@
       "scope_at_report_time": "D17 was pending on 2026-11-22",
       "applicability_to_human_review_v1": "not retested under the confirmed boundaries"
     },
-    "market_comparison": null,
-    "business_value": null,
+    "market_comparison": {
+      "status": "12_evidence_cells_compiled",
+      "source": "../research/market-comparison-2026-11-23.md",
+      "comparable_platform_performance_measured": false
+    },
+    "business_value": {
+      "status": "conditional_scenario_only",
+      "source": "cost-value-scenarios-2026-11-23.md",
+      "realized_ROI": null
+    },
     "roi": null
   },
   "requirements": [
@@ -691,5 +737,6 @@
     "14 amount false positives and 4 field ambiguities; B unwanted confirmation 3/3 on BC20.",
     "C goodwill extension in 9 replies not yet approved; fallback logs asymmetric.",
     "Market superiority and ROI not measured."
-  ]
+  ],
+  "latest_evidence_entry": "ppt-evidence-closeout-2026-11-23.md"
 }

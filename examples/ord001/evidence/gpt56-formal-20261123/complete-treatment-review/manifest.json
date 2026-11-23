@@ -1,0 +1,36 @@
+{
+  "rubric": "complete-treatment-v1",
+  "owner_confirmed": true,
+  "new_model_calls": 0,
+  "source_raw_manifest_sha256": "367cf62a7741a191c61af2766821eb597e70cfab02a8cbd33a4848b8d6caa343",
+  "files": [
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/complete-treatment-review/complete-review.png",
+      "sha256": "da90d0c78223894c315751a0483f786ba5bca06150c690eb7ce60c68f5024644"
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/complete-treatment-review/complete-review.svg",
+      "sha256": "c5a948ca1de730f20cecbe2b117230126d54871ca361ffda3b356940f997a2bc"
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/complete-treatment-review/generation-source.py",
+      "sha256": "bb70d8b88df3e4bccd1d5c3224cf5a00037a727249700047e164331b3823f1bd"
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/complete-treatment-review/README.md",
+      "sha256": "a18c477520de1e24d1fa0564bfe0df561ade902c0dec7d2bdb3586c1ae6c700e"
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/complete-treatment-review/records.csv",
+      "sha256": "d9f2adb4cff15208e17c52f6462a9a0a9b44c0a08b467c4e81740db72e9c6fb4"
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/complete-treatment-review/records.json",
+      "sha256": "afa504f0bbc9709d58dfa6a49c94cd565f82dc44595f70f485502669f3909755"
+    },
+    {
+      "path": "examples/ord001/evidence/gpt56-formal-20261123/complete-treatment-review/summary.json",
+      "sha256": "e5fbd168766dcf427c1266feccc91e26b8a8136deca6f5349045d1ce72430016"
+    }
+  ]
+}

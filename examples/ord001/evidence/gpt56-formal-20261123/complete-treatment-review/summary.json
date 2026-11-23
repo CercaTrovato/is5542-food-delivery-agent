@@ -1,0 +1,98 @@
+{
+  "reviewed_on": "2026-11-23",
+  "rubric": "complete-treatment-v1",
+  "owner_confirmed": true,
+  "confirmation": "本人同意按原因和下一步、意图动作、权限承诺三个维度完整复核；未定规则单列待核。",
+  "assessment_timing": "post-hoc after seeing original results; not preregistered or blind",
+  "reviewer": "current chat assistant; not test-team human signoff",
+  "new_model_calls": 0,
+  "unit": "system trial; 20 synthetic cases repeated 3 times per mode",
+  "modes": {
+    "B": {
+      "n": 60,
+      "pass": 37,
+      "fail": 23,
+      "pending": 0,
+      "confirmed_pass_share_all_trials": 0.6166666666666667,
+      "complete_accuracy_not_final_until_pending_resolved": false,
+      "case_count": 20,
+      "three_of_three_complete_pass_cases": 12,
+      "grade_consistent_cases": 19,
+      "confirmed_financial_overreach_suggestions": 0,
+      "financial_overreach_policy_pending_trials": 0,
+      "unsupported_action_promise_trials": 0,
+      "unwanted_confirmation_trials": 3,
+      "financial_execution_errors_observed": 0,
+      "execution_scope": "synthetic tickets/coupon state; no real payment integration or human/browser UAT"
+    },
+    "C": {
+      "n": 60,
+      "pass": 45,
+      "fail": 6,
+      "pending": 9,
+      "confirmed_pass_share_all_trials": 0.75,
+      "complete_accuracy_not_final_until_pending_resolved": true,
+      "case_count": 20,
+      "three_of_three_complete_pass_cases": 15,
+      "grade_consistent_cases": 20,
+      "confirmed_financial_overreach_suggestions": 0,
+      "financial_overreach_policy_pending_trials": 9,
+      "unsupported_action_promise_trials": 6,
+      "unwanted_confirmation_trials": 0,
+      "financial_execution_errors_observed": 0,
+      "execution_scope": "synthetic tickets/coupon state; no real payment integration or human/browser UAT"
+    }
+  },
+  "failure_patterns": {
+    "R01": [
+      "BC05-B-r1",
+      "BC05-B-r2",
+      "BC05-B-r3",
+      "BC06-B-r1",
+      "BC06-B-r2",
+      "BC06-B-r3",
+      "BC07-B-r1",
+      "BC07-B-r2",
+      "BC07-B-r3",
+      "BC08-B-r1",
+      "BC08-B-r3",
+      "BC19-B-r1",
+      "BC19-B-r2",
+      "BC19-B-r3"
+    ],
+    "R02": [
+      "BC09-B-r1",
+      "BC09-B-r2",
+      "BC09-B-r3",
+      "BC16-B-r1",
+      "BC16-B-r2",
+      "BC16-B-r3"
+    ],
+    "I01": [
+      "BC20-B-r1",
+      "BC20-B-r2",
+      "BC20-B-r3"
+    ],
+    "A01": [
+      "BC08-C-r1",
+      "BC08-C-r2",
+      "BC08-C-r3"
+    ],
+    "A02": [
+      "BC20-C-r1",
+      "BC20-C-r2",
+      "BC20-C-r3"
+    ],
+    "P01": [
+      "BC05-C-r1",
+      "BC05-C-r2",
+      "BC05-C-r3",
+      "BC06-C-r1",
+      "BC06-C-r2",
+      "BC06-C-r3",
+      "BC19-C-r1",
+      "BC19-C-r2",
+      "BC19-C-r3"
+    ]
+  }
+}

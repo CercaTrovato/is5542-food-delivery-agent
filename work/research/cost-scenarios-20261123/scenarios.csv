@@ -1,0 +1,6 @@
+﻿net_human_seconds_saved_per_case_assumed,cases_per_month_assumed,hourly_pay_usd_external_reference,model_cost_per_path_usd_measured_estimate,monthly_fixed_cost_usd_assumed,monthly_capacity_value_usd_modelled,monthly_incremental_cost_usd_modelled,monthly_net_capacity_value_usd_modelled,capacity_value_ROI_scenario_not_cash_realized
+-15,1000,21.53,0.017668,100,-89.70833333333334,117.668,-207.37633333333335,-1.7623851287804104
+0,1000,21.53,0.017668,100,0.0,117.668,-117.668,-1.0
+15,1000,21.53,0.017668,100,89.70833333333334,117.668,-27.959666666666664,-0.23761487121958955
+30,1000,21.53,0.017668,100,179.41666666666669,117.668,61.74866666666668,0.524770257560821
+60,1000,21.53,0.017668,100,358.83333333333337,117.668,241.16533333333336,2.0495405151216417
