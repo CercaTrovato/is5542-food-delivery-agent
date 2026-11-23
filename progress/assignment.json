@@ -7,23 +7,23 @@
   "board_scope": "active",
   "group": "Group 24",
   "my_role": "本人统一PPT／录制与结论把关，Agent可协助核方法和数据；开发由李宗谦主做，A＋gaga作为测试组整体交件。",
-  "summary": "11/23按本人反馈完成15页视觉改版：深蓝暖黄配色、外卖情境主视觉、官方图标、职责流程与架构、评测分支和路线图；已逐页查看实际渲染并修正。原生文字／流程／表格可编辑，录屏、正式B/C、市场比较、成本ROI与实名缺口继续保留，当前仍为DRAFT。",
-  "stage": "15页视觉改版 v2 已完成 · 待本人核阅与补结果",
-  "updated_at": "2026-11-23T01:37:04+08:00",
+  "summary": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 已确认四项规则：未补偿的已驳回订单，有可核实的新信息或原处理错误才沿原工单人工重审；仅主管 R002 可改额；默认 ¥10 模拟券，改额限 1–20 元整数、不超实付且记录原因；同一订单最多成功补偿一次。 11 月 22 日原表有 8 行标为通过或已解决，缺受测提交及完整配置；末次图片提交晚于测试反馈。四项新边界的代码对齐和 9 组定向复测待核。 录屏、正式 B/C 对照、市场流程比较、成本／ROI、最终 Slides 与正式提交仍待补。已登记 11 月 28 日交录像和 Slides，Canvas 入口、时长及准确时刻待核。",
+  "stage": "15 页可编辑 PPTX v2 已导出，待核稿、同版复测和正式结果",
+  "updated_at": "2026-11-23T11:19:18+08:00",
   "reviewed_at": "2026-11-23",
   "progress_as_of": "2026-11-23",
   "task_scope_complete": false,
   "next_action": {
-    "title": "本人查看视觉改版v2；保留当前业务边界，收同版录屏与正式对照／市场／成本证据后再填结果",
+    "title": "开发先锁定受测提交和模型配置并补基础客服对照；测试组按同版做 9 组边界复测及真实模型对照。总负责人核阅 PPTX，补两段同版录屏、业务证据和最终交付。",
     "owner": "李宗谦／测试组／本人",
     "basis": "proposed"
   },
   "blockers": [
-    "四项边界已确认，当前代码按human-review-v1对齐及九组定向复测未验；旧8行试用不自动满足新边界。",
-    "测试组8行标过但原表未写受测提交／完整配置；最新图片提交在反馈之后，版本和录屏须固定。",
-    "可编辑DRAFT已完成；正式工具B／公平对照、正常与异常录屏、成本、最终结果版演示稿与录像待补。",
-    "Jacky新稿已收，官方URL／原文定位待补；林本轮市场流程比较在本次群范围未见。",
-    "跨会话仍需本人本次确认；共享管理／线上看板本批未更，最新Canvas提交入口／时长仍待核。"
+    "四项课堂方案边界已确认，新版本实现与九组边界复测待核。",
+    "旧测试表8行缺受测提交和完整配置；末次图片提交在测试反馈之后。",
+    "基础工具B、同条件真实模型对照、正常与异常录屏、成本／ROI、最终Slides和组员信息待补。",
+    "规则新稿已收，五项官方出处待补；本轮市场流程比较表在已读材料中待收。",
+    "看板登记11月28日，最新Canvas提交入口、准确时刻和录像时长待核。"
   ],
   "tasks": [
     {
@@ -158,7 +158,7 @@
       "title": "Slides 与 Demo 叙事",
       "status": "in_progress",
       "owner": "本人",
-      "note": "11/23按本人反馈完成15页视觉改版：深蓝暖黄配色、外卖情境主视觉、官方图标、职责流程与架构、评测分支和路线图；已逐页查看实际渲染并修正。原生文字／流程／表格可编辑，录屏、正式B/C、市场比较、成本ROI与实名缺口继续保留，当前仍为DRAFT。",
+      "note": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 录屏、正式 B/C 对照、市场流程比较、成本／ROI、最终 Slides 与正式提交仍待补。已登记 11 月 28 日交录像和 Slides，Canvas 入口、时长及准确时刻待核。",
       "evidence": [
         "owner-final-week-20261121",
         "final-week-task-pack",
@@ -169,7 +169,8 @@
         "group-progress-20261122",
         "owner-human-review-four-boundaries-20261123",
         "editable-presentation-draft-20261123",
-        "presentation-visual-redesign-20261123"
+        "presentation-visual-redesign-20261123",
+        "supervision-20261123"
       ]
     },
     {
@@ -578,6 +579,22 @@
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/work/presentation/redesign-20261123/artifact-manifest.json",
       "observed_at": "2026-11-23",
       "sha256": "533b2df5eb44e162952fa5bec1e42633db4c9222bfc2d9839bec879ae81c676b"
+    },
+    {
+      "id": "supervision-20261123",
+      "kind": "web",
+      "label": "11月23日总监督进度核验与本周交付清单",
+      "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/supervision-2026-11-23.md",
+      "observed_at": "2026-11-23",
+      "sha256": null
+    },
+    {
+      "id": "pptx-local-export-20261123",
+      "kind": "web",
+      "label": "本地导出15页PPTX v2的核验登记",
+      "locator": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/supervision-2026-11-23.md",
+      "observed_at": "2026-11-23",
+      "sha256": null
     }
   ]
 }

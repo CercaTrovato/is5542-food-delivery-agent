@@ -4,7 +4,7 @@
   "course": "IS5542",
   "as_of": "2026-11-23",
   "timezone": "Asia/Shanghai",
-  "source_revision": "2f7fee972dc4f5e7e03fa50fc0e50a9457d15ae270aae34ad774bb5c73b31555",
+  "source_revision": "6dbfac5cfc3fba8b02126f0ec93442503ef300fb5771a5c996b5e3fa06db9528",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -37,7 +37,7 @@
       "title": "本人下一步：受测版本、评分口径与PPT",
       "owner": "本人 · 统筹",
       "status": "needs_review",
-      "personal_action": "打开同一份演示稿查看v2，按原缺素材清单继续接收材料。",
+      "personal_action": "开发先锁定受测提交和模型配置并补基础客服对照；测试组按同版做 9 组边界复测及真实模型对照。总负责人核阅 PPTX，补两段同版录屏、业务证据和最终交付。",
       "readiness": "ready",
       "target": {
         "value": null,
@@ -71,7 +71,7 @@
       "title": "本轮基础B对规则C的结果与方法核对",
       "owner": "本人 + 技术／测试组",
       "status": "needs_review",
-      "personal_action": "协助核方法与真实结果、整理可用图表；PPT不预填优胜或100%。",
+      "personal_action": "先锁版本，完成9组复测和工具型基础B对规则版C的同条件实验。",
       "readiness": "waiting_dependency",
       "target": {
         "value": null,
@@ -91,7 +91,7 @@
       "title": "Slides、录像与提交",
       "owner": "李宾雄统一PPT／全组讲述与录制",
       "status": "unknown",
-      "personal_action": "先建PPT骨架并收五人的要点、证据和讲述素材，核当前提交要求。",
+      "personal_action": "本人核阅PPTX，按同版测试和录屏补终稿，核Canvas入口与回执。",
       "readiness": "verify",
       "target": {
         "value": null,
@@ -110,7 +110,7 @@
       "title": "本人整合PPT初稿与讲述核对",
       "owner": "李宾雄／全组核事实",
       "status": "in_progress",
-      "personal_action": "打开同一份演示稿查看v2，按原缺素材清单继续接收材料。",
+      "personal_action": "以视觉稿 v2 核叙事，保留无证据的结果位直到收件。",
       "readiness": "waiting_dependency",
       "target": {
         "value": null,
