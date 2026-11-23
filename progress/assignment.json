@@ -8,13 +8,13 @@
   "group": "Group 24",
   "my_role": "本人统一PPT／录制与结论把关，Agent可协助核方法和数据；开发由李宗谦主做，A＋gaga作为测试组整体交件。",
   "summary": "PPT证据继续收尾：本人认可完整处理复核，B37过/23未过，C45过/6未过/9政策待核；120原记录不改、新API0。旧26图已整理三平台＋本系统12格；六条已有模拟完整链路成本和外部薪资示例已做情景／盈亏平衡，不宣称真实ROI。已核李宗谦四份基准线索，建议不立即扩全套A/B/C；Jacky具体补件与开发回复草稿备好，未代发，PPT本体未改。",
-  "stage": "完整复核／市场12格／成本情景已备 · 3元待决 · PPT待填",
-  "updated_at": "2026-11-23T14:26:58+08:00",
+  "stage": "完整复核／比较／成本及按页英文稿已备 · PPT待填 · 3元待决",
+  "updated_at": "2026-11-23T14:55:07+08:00",
   "reviewed_at": "2026-11-23",
   "progress_as_of": "2026-11-23",
   "task_scope_complete": false,
   "next_action": {
-    "title": "本人审看PPT数据包并决定3元边界；转发具体外部补件／定向修复建议后填PPT，暂不扩整套新A/B/C",
+    "title": "按已核v2页码填入英文文案与讲述线；本人决定3元范围，按短消息转发外部补件；部署实际费用由开发提供",
     "owner": "本人；Jacky／开发接受后补件",
     "basis": "proposed"
   },
@@ -322,7 +322,7 @@
       "label": "组员续作核查与开发交接（脱敏）",
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/supervision-report.md",
       "observed_at": "2026-11-23",
-      "sha256": "b18f8b4bc97e4422be577241659dce33def0df1775a1f3b56de63bccad103492"
+      "sha256": "46ca23cc023729fc03e45f5be11f8f3146f4f4a6ed742449a5d6a8a9f4f83661"
     },
     {
       "id": "owner-team-handoff",

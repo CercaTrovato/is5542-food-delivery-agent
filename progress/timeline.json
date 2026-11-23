@@ -4,7 +4,7 @@
   "course": "IS5542",
   "timezone": "Asia/Shanghai",
   "as_of": "2026-11-23",
-  "basis_revision": "d97a81f799dd06032dd9bf9e366892ca01f75bb2826e16d837b845a938ac3cb9",
+  "basis_revision": "0aabd08ab7a7bf80e02b2b735c91349ece97e7407ba2b3d02b2473e38e7627c9",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "summary": "PPT证据继续收尾：本人认可完整处理复核，B37过/23未过，C45过/6未过/9政策待核；120原记录不改、新API0。旧26图已整理三平台＋本系统12格；六条已有模拟完整链路成本和外部薪资示例已做情景／盈亏平衡，不宣称真实ROI。已核李宗谦四份基准线索，建议不立即扩全套A/B/C；Jacky具体补件与开发回复草稿备好，未代发，PPT本体未改。",
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
@@ -1358,6 +1358,11 @@
             "next_action": "核PPT可用指标与待修项；本人决定3元范围后再定向修复／复核，不重复全量模型试跑。",
             "state_basis": "本会话实际120次／259请求原始记录及源码诊断，非测试组签字或市场实测。"
           }
+        },
+        {
+          "observed_on": "2026-11-23",
+          "status": "needs_review",
+          "note": "已按现有15页v2备好上屏英文与中文讲述线，明确外部补件／部署费用分工；PPT本体未改、任务未代发。"
         }
       ]
     },
