@@ -3,10 +3,10 @@
   "assignment_id": "IS5542-A01",
   "course": "IS5542",
   "timezone": "Asia/Shanghai",
-  "as_of": "2026-11-23",
-  "basis_revision": "694aa6ebc31332000dec979776f2ec97321cb4a770359f21830c2fcc1ba8a84a",
+  "as_of": "2026-11-24",
+  "basis_revision": "bd63a32a191b1998c4225be75aa122d3cd10818d56f28701f1daf41a85286745",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
-  "summary": "120次原记录完整性和复核汇总已核：B37过/23未过，C45过/6未过/9政策待核；已有按页文案、市场12格、成本情景及两段录屏。新收到开发fe27ea3的15页候选，采用另一套DeepSeek90次数据，尚未合并或定稿。现按15页清单收齐外部来源与现有运行环境信息，再统一PPT、引用、讲稿后由本人审稿录制。",
+  "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "items": [
     {
@@ -1490,10 +1490,10 @@
       "owner": "本人 · 统筹",
       "owner_role": "me",
       "scope": "team",
-      "summary": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 固定受测版本、模型配置、基础工具型客服对照 B、9 组复测和同条件真实模型对照仍待收核。",
+      "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
       "deliverable": "完成核对或交接，并将实际答复更新回任务记录。",
-      "next_action": "开发先锁定受测提交和模型配置并补基础客服对照；测试组按同版做 9 组边界复测及真实模型对照。总负责人核阅 PPTX，补两段同版录屏、业务证据和最终交付。",
-      "my_next_action": "开发先锁定受测提交和模型配置并补基础客服对照；测试组按同版做 9 组边界复测及真实模型对照。总负责人核阅 PPTX，补两段同版录屏、业务证据和最终交付。",
+      "next_action": "本人审稿v3、核身份与贡献、彩排并完成最终录像；3元政策仍待决定。",
+      "my_next_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。",
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
@@ -1501,6 +1501,14 @@
           "id": "followup",
           "label": "已核对并登记实际结果或待回复内容",
           "status": "unknown"
+        },
+        {
+          "id": "review-v3-delivered",
+          "label": "本地v3/PDF/中文讲稿已制作，15页已看、两段嵌入视频已完整播放",
+          "status": "pass",
+          "evidence": [
+            "final-ppt-review-v3-20261124"
+          ]
         }
       ],
       "target": {
@@ -1510,9 +1518,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-23",
+      "observed_on": "2026-11-24",
       "estimated_minutes": null,
-      "state_basis": "本批实际在原Page重排15页并逐页查看渲染；没有运行项目模型、应用测试或新增正式结果。",
+      "state_basis": "本批实际制作、全页PowerPoint渲染和两段嵌入视频播放；不代表本人已审或真实支付通过。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -1541,6 +1549,10 @@
         {
           "label": "11月23日总监督复核及交件清单",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/supervision-2026-11-23.md"
+        },
+        {
+          "label": "v3审稿候选与来源记录",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md"
         }
       ],
       "history": [
@@ -1637,6 +1649,17 @@
           "observed_on": "2026-11-23",
           "status": "needs_review",
           "note": "总监督核对课程与PPT会话、远端来源及本地PPTX；保留正式交件状态。"
+        },
+        {
+          "observed_on": "2026-11-24",
+          "status": "needs_review",
+          "note": "最终材料收束为本地v3审稿候选；保持原实验和3元待核，不标提交完成。",
+          "previous": {
+            "summary": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 固定受测版本、模型配置、基础工具型客服对照 B、9 组复测和同条件真实模型对照仍待收核。",
+            "next_action": "开发先锁定受测提交和模型配置并补基础客服对照；测试组按同版做 9 组边界复测及真实模型对照。总负责人核阅 PPTX，补两段同版录屏、业务证据和最终交付。",
+            "my_next_action": "开发先锁定受测提交和模型配置并补基础客服对照；测试组按同版做 9 组边界复测及真实模型对照。总负责人核阅 PPTX，补两段同版录屏、业务证据和最终交付。",
+            "status": "needs_review"
+          }
         }
       ]
     },
@@ -1647,9 +1670,9 @@
       "owner": "全组；提交代表待确认",
       "owner_role": "team",
       "scope": "team",
-      "summary": "渠道：提交入口待公布。这是交付节点；实际制作、审批和提交状态须分别核验。",
+      "summary": "Canvas Group Project已实际打开：11/28 11:59pm，20分，文件上传录像和slides，每组一次。页面未显式标时区；本任务未提交。",
       "deliverable": "录像与 Slides",
-      "next_action": "核对本节点交件负责人、前置版本与实际回执。",
+      "next_action": "本人审稿录制后按已核入口提交；提交前再核时区／后续新要求。",
       "my_next_action": null,
       "depends_on": [],
       "dependency_gates": [],
@@ -1667,13 +1690,17 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-20",
+      "observed_on": "2026-11-24",
       "estimated_minutes": null,
       "state_basis": "沿用原截止记录；内部节点为建议，日期已过不自动标迟交。",
       "evidence": [
         {
           "label": "整理各课程作业截止时间表（已登录 Canvas 核对）",
           "url": null
+        },
+        {
+          "label": "v3审稿候选与来源记录",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md"
         }
       ],
       "history": [
@@ -1681,6 +1708,17 @@
           "observed_on": "2026-11-10",
           "status": "planned",
           "note": "首次纳入统一时间线；该日为核实日期，不代替实际完成日。"
+        },
+        {
+          "observed_on": "2026-11-24",
+          "status": "planned",
+          "note": "最终材料收束为本地v3审稿候选；保持原实验和3元待核，不标提交完成。",
+          "previous": {
+            "summary": "渠道：提交入口待公布。这是交付节点；实际制作、审批和提交状态须分别核验。",
+            "next_action": "核对本节点交件负责人、前置版本与实际回执。",
+            "my_next_action": null,
+            "status": "planned"
+          }
         }
       ],
       "milestone_kind": "submission"
@@ -1809,14 +1847,14 @@
     {
       "id": "slides-video",
       "title": "本人整合PPT初稿与讲述核对",
-      "status": "in_progress",
+      "status": "needs_review",
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 录屏、正式 B/C 对照、市场流程比较、成本／ROI、最终 Slides 与正式提交仍待补。已登记 11 月 28 日交录像和 Slides，Canvas 入口、时长及准确时刻待核。 开发两录屏和模型／架构输入现已到，本批未插入PPT；计划更新120次，正式结果空。",
+      "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
       "deliverable": "合并 Slides 与录制演示的可核版本或结果记录",
-      "next_action": "按PPT补料接收映射更新配置／架构／视频，保留v2样式和可编辑对象；独立成绩／成本齐前不填结果。",
-      "my_next_action": "以视觉稿 v2 核叙事，保留无证据的结果位直到收件。",
+      "next_action": "本人审稿v3、核身份与贡献、彩排并完成最终录像；3元政策仍待决定。",
+      "my_next_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。",
       "depends_on": [
         "demo-record"
       ],
@@ -1850,6 +1888,14 @@
           "evidence": [
             "pptx-local-export-20261123"
           ]
+        },
+        {
+          "id": "review-v3-delivered",
+          "label": "本地v3/PDF/中文讲稿已制作，15页已看、两段嵌入视频已完整播放",
+          "status": "pass",
+          "evidence": [
+            "final-ppt-review-v3-20261124"
+          ]
         }
       ],
       "target": {
@@ -1859,9 +1905,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-23",
+      "observed_on": "2026-11-24",
       "estimated_minutes": null,
-      "state_basis": "本批实际核只读远端代码／文件／模型留档、两视频metadata和采样帧，未跑应用／模型；本人直接确认题量120。",
+      "state_basis": "本批实际制作、全页PowerPoint渲染和两段嵌入视频播放；不代表本人已审或真实支付通过。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
@@ -1902,6 +1948,10 @@
         {
           "label": "176fbb0开发补齐交件与正式120次范围",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/developer-delivery-2026-11-23.md"
+        },
+        {
+          "label": "v3审稿候选与来源记录",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md"
         }
       ],
       "history": [
@@ -2006,6 +2056,17 @@
             "summary": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 录屏、正式 B/C 对照、市场流程比较、成本／ROI、最终 Slides 与正式提交仍待补。已登记 11 月 28 日交录像和 Slides，Canvas 入口、时长及准确时刻待核。",
             "next_action": "以视觉稿 v2 核叙事，保留无证据的结果位直到收件。",
             "state_basis": "本批实际在原Page重排15页并逐页查看渲染；没有运行项目模型、应用测试或新增正式结果。"
+          }
+        },
+        {
+          "observed_on": "2026-11-24",
+          "status": "needs_review",
+          "note": "最终材料收束为本地v3审稿候选；保持原实验和3元待核，不标提交完成。",
+          "previous": {
+            "summary": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 录屏、正式 B/C 对照、市场流程比较、成本／ROI、最终 Slides 与正式提交仍待补。已登记 11 月 28 日交录像和 Slides，Canvas 入口、时长及准确时刻待核。 开发两录屏和模型／架构输入现已到，本批未插入PPT；计划更新120次，正式结果空。",
+            "next_action": "按PPT补料接收映射更新配置／架构／视频，保留v2样式和可编辑对象；独立成绩／成本齐前不填结果。",
+            "my_next_action": "以视觉稿 v2 核叙事，保留无证据的结果位直到收件。",
+            "status": "in_progress"
           }
         }
       ]
@@ -2195,10 +2256,10 @@
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "已有v2保留；新开发15页候选已到并核全部文字／备注，90次数据与正式120次不混用。最终15页填充和验收清单已备，成品仍待统一、本人审稿和视觉／媒体验收。",
+      "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
       "deliverable": "待填结果的PPT骨架、缺素材清单和准确提交要求核对。",
-      "next_action": "按最终清单补资料并整合单一PPT候选；保留完整处理的待核样本和方法限制，核两段媒体及订单事实，再核Canvas。",
-      "my_next_action": "收齐现有补件后审PPT；3元政策和正式身份仍需本人决定／确认。",
+      "next_action": "本人审稿v3、核身份与贡献、彩排并完成最终录像；3元政策仍待决定。",
+      "my_next_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。",
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
@@ -2225,6 +2286,14 @@
           "evidence": [
             "editable-presentation-draft-20261123"
           ]
+        },
+        {
+          "id": "review-v3-delivered",
+          "label": "本地v3/PDF/中文讲稿已制作，15页已看、两段嵌入视频已完整播放",
+          "status": "pass",
+          "evidence": [
+            "final-ppt-review-v3-20261124"
+          ]
         }
       ],
       "target": {
@@ -2234,9 +2303,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-23",
+      "observed_on": "2026-11-24",
       "estimated_minutes": null,
-      "state_basis": "本轮新候选文件／全页文字接收、120文件哈希和复核标签汇总；没有新模型调用、应用复跑或全页视觉验收。",
+      "state_basis": "本批实际制作、全页PowerPoint渲染和两段嵌入视频播放；不代表本人已审或真实支付通过。",
       "evidence": [
         {
           "label": "本人确认PPT与任务",
@@ -2261,6 +2330,10 @@
         {
           "label": "最终PPT填充与验收清单",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-closeout-checklist-20261123.md"
+        },
+        {
+          "label": "v3审稿候选与来源记录",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md"
         }
       ],
       "history": [
@@ -2326,6 +2399,17 @@
             "next_action": "本人核阅视觉改版v2，收齐同版运行证据后填录屏、正式结果与成本；最终Canvas条件仍待核。",
             "my_next_action": "打开同一份演示稿查看v2，按原缺素材清单继续接收材料。",
             "state_basis": "本批实际在原Page重排15页并逐页查看渲染；没有运行项目模型、应用测试或新增正式结果。"
+          }
+        },
+        {
+          "observed_on": "2026-11-24",
+          "status": "needs_review",
+          "note": "最终材料收束为本地v3审稿候选；保持原实验和3元待核，不标提交完成。",
+          "previous": {
+            "summary": "已有v2保留；新开发15页候选已到并核全部文字／备注，90次数据与正式120次不混用。最终15页填充和验收清单已备，成品仍待统一、本人审稿和视觉／媒体验收。",
+            "next_action": "按最终清单补资料并整合单一PPT候选；保留完整处理的待核样本和方法限制，核两段媒体及订单事实，再核Canvas。",
+            "my_next_action": "收齐现有补件后审PPT；3元政策和正式身份仍需本人决定／确认。",
+            "status": "needs_review"
           }
         }
       ]

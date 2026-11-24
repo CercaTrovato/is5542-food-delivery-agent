@@ -2,9 +2,9 @@
   "schema_version": 1,
   "assignment_id": "IS5542-A01",
   "course": "IS5542",
-  "as_of": "2026-11-23",
+  "as_of": "2026-11-24",
   "timezone": "Asia/Shanghai",
-  "source_revision": "59c3645d339e301bf382298b90cff5b0e7af8977e0894d469f1e9e6a909f63c9",
+  "source_revision": "93e1d0a0a02eb70d0fe7016d73a796526dfe6626c79a099d9e91c2cb62fceef2",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -37,7 +37,7 @@
       "title": "本人下一步：受测版本、评分口径与PPT",
       "owner": "本人 · 统筹",
       "status": "needs_review",
-      "personal_action": "开发先锁定受测提交和模型配置并补基础客服对照；测试组按同版做 9 组边界复测及真实模型对照。总负责人核阅 PPTX，补两段同版录屏、业务证据和最终交付。",
+      "personal_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。",
       "readiness": "ready",
       "target": {
         "value": null,
@@ -46,7 +46,7 @@
       },
       "blocked_by": [],
       "estimated_minutes": null,
-      "observed_on": "2026-11-23",
+      "observed_on": "2026-11-24",
       "date_state": "unscheduled"
     },
     {
@@ -71,7 +71,7 @@
       "title": "本人先搭PPT骨架并核提交要求",
       "owner": "李宾雄／全组核事实",
       "status": "needs_review",
-      "personal_action": "收齐现有补件后审PPT；3元政策和正式身份仍需本人决定／确认。",
+      "personal_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。",
       "readiness": "ready",
       "target": {
         "value": null,
@@ -80,7 +80,7 @@
       },
       "blocked_by": [],
       "estimated_minutes": null,
-      "observed_on": "2026-11-23",
+      "observed_on": "2026-11-24",
       "date_state": "unscheduled"
     },
     {
@@ -126,8 +126,8 @@
       "id": "slides-video",
       "title": "本人整合PPT初稿与讲述核对",
       "owner": "李宾雄／全组核事实",
-      "status": "in_progress",
-      "personal_action": "以视觉稿 v2 核叙事，保留无证据的结果位直到收件。",
+      "status": "needs_review",
+      "personal_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。",
       "readiness": "waiting_dependency",
       "target": {
         "value": null,
@@ -138,7 +138,7 @@
         "demo-record"
       ],
       "estimated_minutes": null,
-      "observed_on": "2026-11-23",
+      "observed_on": "2026-11-24",
       "date_state": "unscheduled"
     }
   ],

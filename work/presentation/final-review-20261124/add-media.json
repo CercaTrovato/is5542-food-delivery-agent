@@ -1,0 +1,4 @@
+[
+  {"command":"add","path":"/slide[7]","type":"video","props":{"src":"E:/app-data/codex/scratchpad/is5542-final-ppt-20261124/repo/examples/ord001/evidence/final-20261123/demo-normal-ord001-approve.mp4","poster":"E:/app-data/codex/scratchpad/is5542-final-ppt-20261124/media/normal/frame-02.png","x":"66px","y":"205px","width":"736px","height":"460px","autoPlay":"false","loop":"false"}},
+  {"command":"add","path":"/slide[8]","type":"video","props":{"src":"E:/app-data/codex/scratchpad/is5542-final-ppt-20261124/repo/examples/ord001/evidence/final-20261123/demo-exception-reject-reconsider.mp4","poster":"E:/app-data/codex/scratchpad/is5542-final-ppt-20261124/media/exception/last.png","x":"66px","y":"205px","width":"736px","height":"460px","autoPlay":"false","loop":"false"}}
+]

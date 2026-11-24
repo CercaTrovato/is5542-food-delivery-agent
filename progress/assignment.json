@@ -7,24 +7,24 @@
   "board_scope": "active",
   "group": "Group 24",
   "my_role": "本人统一PPT／录制与结论把关，Agent可协助核方法和数据；开发由李宗谦主做，A＋gaga作为测试组整体交件。",
-  "summary": "120次原记录完整性和复核汇总已核：B37过/23未过，C45过/6未过/9政策待核；已有按页文案、市场12格、成本情景及两段录屏。新收到开发fe27ea3的15页候选，采用另一套DeepSeek90次数据，尚未合并或定稿。现按15页清单收齐外部来源与现有运行环境信息，再统一PPT、引用、讲稿后由本人审稿录制。",
-  "stage": "最终收尾清单已备；新开发15页候选已到，统计口径待统一；3元待决",
-  "updated_at": "2026-11-23T18:01:14+08:00",
-  "reviewed_at": "2026-11-23",
-  "progress_as_of": "2026-11-23",
+  "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
+  "stage": "REVIEW v3审稿候选已交 · 待本人核阅与最终录制",
+  "updated_at": "2026-11-24T20:17:43+08:00",
+  "reviewed_at": "2026-11-24",
+  "progress_as_of": "2026-11-24",
   "task_scope_complete": false,
   "next_action": {
-    "title": "按最终清单收齐既定补件，保留v2并核新开发候选；统一120次结果与录屏／讲稿，3元待本人决定；最终Canvas条件待核",
+    "title": "本人核阅v3、补正式身份与贡献；3元待决保持单列，彩排录制后按Canvas入口上传录像和slides",
     "owner": "本人／Agent整合；组员按已有请求补资料",
     "basis": "proposed"
   },
   "blockers": [
-    "最新Canvas入口／准确截止／视频上限待核；跨会话发送仍需本人本次确认，共享／线上看板本批未更。",
-    "3元暖心扩展未被本轮规则授权；B纯查单弹卡与C回退日志缺陷尚未修复。",
-    "完整处理复核已完成，C9次额外3元规则仍待本人决定；缺陷尚未修复，真人网页与支付表现未验证。",
-    "12格证据表已整理；5项保障细分版本／图位与目标地区成本资料待补。成本情景不是真实ROI。",
-    "本批PPT数据／图表准备好，尚未插入成品；完整录制、配音／讲稿与最终核稿仍待。",
-    "新开发15页候选fe27ea3含另一套90次DeepSeek结果及完整验证主张，不能直接替代120次完整处理复核；两稿待统一，最终成品视觉和视频完整播放未验。"
+    "额外3元暖心券范围仍待本人决定，C9次保留政策待核。",
+    "已知B解释误拦／反意图弹卡和C未落实承诺等缺陷仍未修复；本批只制作和如实报告，不升级为全部业务验收。",
+    "正式姓名／学号、贡献措辞及本人审稿和最终课堂录像仍待确认。",
+    "北京图表27原始岗位数值未核，已从主稿排除；供应商报价不能替代真实净人工节省。",
+    "Canvas入口与显示截止已核；硬性视频时长、独立rubric及互评实际表单在本次范围未见，提交前再核。",
+    "CityU根Git与共享／线上看板交当前总监督统一收尾，本会话未改。"
   ],
   "tasks": [
     {
@@ -166,7 +166,7 @@
       "title": "Slides 与 Demo 叙事",
       "status": "in_progress",
       "owner": "本人",
-      "note": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 录屏、正式 B/C 对照、市场流程比较、成本／ROI、最终 Slides 与正式提交仍待补。已登记 11 月 28 日交录像和 Slides，Canvas 入口、时长及准确时刻待核。 已收到两录屏／模型参数／状态图和架构素材，本批未改15页v2或插片，正式成绩和ROI仍空。",
+      "note": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
       "evidence": [
         "owner-final-week-20261121",
         "final-week-task-pack",
@@ -179,7 +179,8 @@
         "editable-presentation-draft-20261123",
         "presentation-visual-redesign-20261123",
         "supervision-20261123",
-        "developer-complete-delivery-20261123"
+        "developer-complete-delivery-20261123",
+        "final-ppt-review-v3-20261124"
       ]
     },
     {
@@ -249,10 +250,13 @@
       "precision": "date",
       "kind": "submission",
       "status": "unknown",
-      "channel": "提交入口待公布",
+      "channel": "Canvas Group Project /assignments/340779；每组一次上传录像＋slides",
       "evidence": [
-        "deadline-chat"
-      ]
+        "deadline-chat",
+        "canvas-group-project-20261124"
+      ],
+      "display_time": "11:59pm",
+      "display_time_zone_verified": false
     }
   ],
   "submission": {
@@ -652,6 +656,22 @@
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/final-ppt-fill-20261123.md",
       "observed_at": "2026-11-23",
       "sha256": "3dec84a48d899393ca6fcf09382c574ac078697ea4d1bf7331be62693a892732"
+    },
+    {
+      "id": "final-ppt-review-v3-20261124",
+      "kind": "local",
+      "label": "15页v3、两段嵌入视频、PDF、中文讲稿和本次核验",
+      "locator": "work/presentation/final-review-20261124/manifest.json",
+      "observed_at": "2026-11-24",
+      "sha256": "16c0be4dd07940f5c699c59c6f3585a4ebea08ceda919480f65081a83b6099ac"
+    },
+    {
+      "id": "canvas-group-project-20261124",
+      "kind": "web",
+      "label": "本人登录后实际读取Group Project、公告、Modules和Files",
+      "locator": "https://canvas.cityu.edu.hk/courses/71410/assignments/340779",
+      "observed_at": "2026-11-24",
+      "sha256": null
     }
   ]
 }

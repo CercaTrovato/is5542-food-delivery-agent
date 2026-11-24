@@ -1,0 +1,150 @@
+{
+  "version": "REVIEW-v3",
+  "as_of": "2026-11-24",
+  "base_v2_sha256": "a74e365ef9807008277e10ae249f9947a47482f609329ba9bd794a309c00f6c3",
+  "base_main": "930609bf8c669d14c1073907b997364ec3d3ff85",
+  "developer_reference": "fe27ea3c3c72a51552e6423364d40056ef513600",
+  "checks": {
+    "slides": 15,
+    "notes": 15,
+    "tables": 5,
+    "connectors": 19,
+    "media": [
+      {
+        "part": "media/mediadata.mp4",
+        "sha256": "6ed8e2e321b2363e59d5cc69020a4543d074f85cd4c6c7f18393497e76464dda"
+      },
+      {
+        "part": "media/mediadata2.mp4",
+        "sha256": "2bcca47c8d72af26e15c858cf79f67eb134760ac8d573d64d0022365defb29f3"
+      }
+    ],
+    "pptx_sha256": "81e2470f080185568cc6b1c037673643841011bb5cc04c92ee550359e837ea29",
+    "pdf_sha256": "3c453891ff256c6e50398f7eab3dae477f7f503e61ae6580b408df25a1dbef4f",
+    "visual_reviewed_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "embedded_playback_in_powerpoint": {
+      "normal": "start-to-end observed",
+      "exception": "start-to-end observed"
+    },
+    "openxml_validation": "officecli pass"
+  },
+  "input_verification": {
+    "trial_hashes_checked": 120,
+    "hash_mismatches": [],
+    "annotation_binding_mismatches": [],
+    "grades": {
+      "B": {
+        "pass": 37,
+        "fail": 23
+      },
+      "C": {
+        "pass": 45,
+        "pending": 9,
+        "fail": 6
+      }
+    },
+    "new_model_calls": 0,
+    "independent_semantic_review": false,
+    "normal": {
+      "file": "examples/ord001/evidence/final-20261123/demo-normal-ord001-approve.mp4",
+      "sha256": "6ed8e2e321b2363e59d5cc69020a4543d074f85cd4c6c7f18393497e76464dda",
+      "duration": 21.1,
+      "streams": [
+        {
+          "type": "video",
+          "codec": "h264",
+          "width": 1280,
+          "height": 800
+        }
+      ],
+      "full_decode": "pass"
+    },
+    "exception": {
+      "file": "examples/ord001/evidence/final-20261123/demo-exception-reject-reconsider.mp4",
+      "sha256": "2bcca47c8d72af26e15c858cf79f67eb134760ac8d573d64d0022365defb29f3",
+      "duration": 30.3,
+      "streams": [
+        {
+          "type": "video",
+          "codec": "h264",
+          "width": 1280,
+          "height": 800
+        }
+      ],
+      "full_decode": "pass"
+    },
+    "developer_pptx_sha256": "fa69f7c7e8b3643bc2dbf598c6ea86270381e22774bc73bb725adb9b500e614c",
+    "developer_embedded_media": [
+      {
+        "part": "ppt/media/media1.mp4",
+        "sha256": "6ed8e2e321b2363e59d5cc69020a4543d074f85cd4c6c7f18393497e76464dda",
+        "bytes": 974862
+      },
+      {
+        "part": "ppt/media/media2.mp4",
+        "sha256": "2bcca47c8d72af26e15c858cf79f67eb134760ac8d573d64d0022365defb29f3",
+        "bytes": 1921329
+      }
+    ]
+  },
+  "jacky_source": {
+    "source": "IS5542_evidence.docx (user-supplied original retained unchanged)",
+    "bytes": 59085,
+    "sha256": "1fef1f67bde6a9608d445601af359b4f35e322ea61c244b00db891b7fc29ae6b",
+    "table_count": 1,
+    "media": [],
+    "external_relationships": [],
+    "field_hyperlinks": [
+      "https://rules-center.meituan.com/m/detail/guize/374012?activeRule=1",
+      "https://help.jd.com/user/issue/37-4558.html",
+      "https://help.jd.com/user/issue/321-4495.html",
+      "https://terms.alicdn.com/legal-agreement/terms/suit_bu1_other/suit_bu1_other202108021609_91951.html",
+      "https://terms.alicdn.com/legal-agreement/terms/suit_bu1_other/suit_bu1_other201903201642_21599.html",
+      "https://rsj.beijing.gov.cn/weimenhu/wmtgz/202504/t20250415_4065490.html",
+      "https://huanxiangkefu.com/zh/newsroom/2026-cs-outsourcing-monthly-cost-full-price-table-top10",
+      "https://shuishoukefu.com/blog/decision-guide/cs-outsourcing-17/",
+      "https://www.usolink.com/?page_id=1058",
+      "https://dfkefu.com/pricing.html"
+    ],
+    "body_urls": [
+      "https://www.bjdx.gov.cn/bjsdxqrmzf/zwfw/zdly/jycy21/2244677/index.html"
+    ]
+  },
+  "cloud_page_updated": false,
+  "cloud_page_remains": "v2",
+  "owner_review": "pending",
+  "group_recording": "not completed by this task",
+  "submission": "not performed",
+  "policy_3_yuan": "pending; 9 C trials retained",
+  "canvas": {
+    "checked_on": "2026-11-24",
+    "url": "https://canvas.cityu.edu.hk/courses/71410/assignments/340779",
+    "due_display": "Nov 28, 2026 11:59pm",
+    "timezone_label_observed": null,
+    "points": 20,
+    "method": "file upload; both recorded presentation and slides; one submission per group",
+    "peer_form": "not found in checked announcements/modules/files",
+    "hard_video_cap_or_separate_rubric": "not found in checked surfaces"
+  },
+  "files": {
+    "IS5542-Group24-REVIEW-v3.pptx": "81e2470f080185568cc6b1c037673643841011bb5cc04c92ee550359e837ea29",
+    "IS5542-Group24-REVIEW-v3.pdf": "3c453891ff256c6e50398f7eab3dae477f7f503e61ae6580b408df25a1dbef4f",
+    "IS5542-Group24-Speaker-Script-ZH-v3.md": "6bcf02b7ebf3b5554974ff7cbc667b52244f65ff34946de15ad2b9aa819a2f52"
+  }
+}
