@@ -4,9 +4,9 @@
   "course": "IS5542",
   "timezone": "Asia/Shanghai",
   "as_of": "2026-11-24",
-  "basis_revision": "bd63a32a191b1998c4225be75aa122d3cd10818d56f28701f1daf41a85286745",
+  "basis_revision": "211fcb72e21555a15b0ca5659c45c134f8a9bea0b179e32c49d2aa626e338cad",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
-  "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
+  "summary": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "items": [
     {
@@ -1490,10 +1490,10 @@
       "owner": "本人 · 统筹",
       "owner_role": "me",
       "scope": "team",
-      "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
+      "summary": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
       "deliverable": "完成核对或交接，并将实际答复更新回任务记录。",
-      "next_action": "本人审稿v3、核身份与贡献、彩排并完成最终录像；3元政策仍待决定。",
-      "my_next_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。",
+      "next_action": "本人查看v4网址与讲述文本，继续身份／贡献核对和彩排录制。",
+      "my_next_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。",
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
@@ -1553,6 +1553,10 @@
         {
           "label": "v3审稿候选与来源记录",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md"
+        },
+        {
+          "label": "v4超链接与文本修订",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/revision-v4-20261124/README.md"
         }
       ],
       "history": [
@@ -1659,6 +1663,16 @@
             "next_action": "开发先锁定受测提交和模型配置并补基础客服对照；测试组按同版做 9 组边界复测及真实模型对照。总负责人核阅 PPTX，补两段同版录屏、业务证据和最终交付。",
             "my_next_action": "开发先锁定受测提交和模型配置并补基础客服对照；测试组按同版做 9 组边界复测及真实模型对照。总负责人核阅 PPTX，补两段同版录屏、业务证据和最终交付。",
             "status": "needs_review"
+          }
+        },
+        {
+          "observed_on": "2026-11-24",
+          "status": "needs_review",
+          "note": "本人要求去制作声明／防御性措辞并补网址，本批已执行；事实和政策状态不变。",
+          "previous": {
+            "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
+            "next_action": "本人审稿v3、核身份与贡献、彩排并完成最终录像；3元政策仍待决定。",
+            "my_next_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。"
           }
         }
       ]
@@ -1851,10 +1865,10 @@
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
+      "summary": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
       "deliverable": "合并 Slides 与录制演示的可核版本或结果记录",
-      "next_action": "本人审稿v3、核身份与贡献、彩排并完成最终录像；3元政策仍待决定。",
-      "my_next_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。",
+      "next_action": "本人查看v4网址与讲述文本，继续身份／贡献核对和彩排录制。",
+      "my_next_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。",
       "depends_on": [
         "demo-record"
       ],
@@ -1952,6 +1966,10 @@
         {
           "label": "v3审稿候选与来源记录",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md"
+        },
+        {
+          "label": "v4超链接与文本修订",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/revision-v4-20261124/README.md"
         }
       ],
       "history": [
@@ -2067,6 +2085,16 @@
             "next_action": "按PPT补料接收映射更新配置／架构／视频，保留v2样式和可编辑对象；独立成绩／成本齐前不填结果。",
             "my_next_action": "以视觉稿 v2 核叙事，保留无证据的结果位直到收件。",
             "status": "in_progress"
+          }
+        },
+        {
+          "observed_on": "2026-11-24",
+          "status": "needs_review",
+          "note": "本人要求去制作声明／防御性措辞并补网址，本批已执行；事实和政策状态不变。",
+          "previous": {
+            "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
+            "next_action": "本人审稿v3、核身份与贡献、彩排并完成最终录像；3元政策仍待决定。",
+            "my_next_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。"
           }
         }
       ]
@@ -2256,10 +2284,10 @@
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
+      "summary": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
       "deliverable": "待填结果的PPT骨架、缺素材清单和准确提交要求核对。",
-      "next_action": "本人审稿v3、核身份与贡献、彩排并完成最终录像；3元政策仍待决定。",
-      "my_next_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。",
+      "next_action": "本人查看v4网址与讲述文本，继续身份／贡献核对和彩排录制。",
+      "my_next_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。",
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
@@ -2334,6 +2362,10 @@
         {
           "label": "v3审稿候选与来源记录",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md"
+        },
+        {
+          "label": "v4超链接与文本修订",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/revision-v4-20261124/README.md"
         }
       ],
       "history": [
@@ -2410,6 +2442,16 @@
             "next_action": "按最终清单补资料并整合单一PPT候选；保留完整处理的待核样本和方法限制，核两段媒体及订单事实，再核Canvas。",
             "my_next_action": "收齐现有补件后审PPT；3元政策和正式身份仍需本人决定／确认。",
             "status": "needs_review"
+          }
+        },
+        {
+          "observed_on": "2026-11-24",
+          "status": "needs_review",
+          "note": "本人要求去制作声明／防御性措辞并补网址，本批已执行；事实和政策状态不变。",
+          "previous": {
+            "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
+            "next_action": "本人审稿v3、核身份与贡献、彩排并完成最终录像；3元政策仍待决定。",
+            "my_next_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。"
           }
         }
       ]

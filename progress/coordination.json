@@ -5,8 +5,8 @@
   "root_thread_id": "01a1b491-403e-7651-9aba-13e5b647af93",
   "model": "gpt-6.1-sol",
   "status": "ready_for_review",
-  "updated_at": "2026-11-24T20:17:43+08:00",
-  "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
+  "updated_at": "2026-11-24T21:31:58+08:00",
+  "summary": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
   "report_path": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/supervision-report.md",
   "decisions": [
     {
@@ -291,8 +291,8 @@
     }
   ],
   "ppt_review_candidate": {
-    "version": "v3",
-    "manifest": "work/presentation/final-review-20261124/manifest.json",
+    "version": "v4",
+    "manifest": "work/presentation/revision-v4-20261124/manifest.json",
     "owner_approved": false,
     "cross_thread_message_sent": false
   }

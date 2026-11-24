@@ -4,7 +4,7 @@
   "course": "IS5542",
   "as_of": "2026-11-24",
   "timezone": "Asia/Shanghai",
-  "source_revision": "93e1d0a0a02eb70d0fe7016d73a796526dfe6626c79a099d9e91c2cb62fceef2",
+  "source_revision": "c0b871389b16a5b700ea4bb1bdd7035a58cf866eaef92637531f47ab1c01b63c",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -37,7 +37,7 @@
       "title": "本人下一步：受测版本、评分口径与PPT",
       "owner": "本人 · 统筹",
       "status": "needs_review",
-      "personal_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。",
+      "personal_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。",
       "readiness": "ready",
       "target": {
         "value": null,
@@ -71,7 +71,7 @@
       "title": "本人先搭PPT骨架并核提交要求",
       "owner": "李宾雄／全组核事实",
       "status": "needs_review",
-      "personal_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。",
+      "personal_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。",
       "readiness": "ready",
       "target": {
         "value": null,
@@ -127,7 +127,7 @@
       "title": "本人整合PPT初稿与讲述核对",
       "owner": "李宾雄／全组核事实",
       "status": "needs_review",
-      "personal_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。",
+      "personal_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。",
       "readiness": "waiting_dependency",
       "target": {
         "value": null,

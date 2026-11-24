@@ -1,0 +1,79 @@
+{
+  "version": "v4",
+  "as_of": "2026-11-24",
+  "source_v3_sha256": "81e2470f080185568cc6b1c037673643841011bb5cc04c92ee550359e837ea29",
+  "user_request": "在合适的地方加示例网址；去掉尾页I used OpenAI Codex to assist with this assignment.以及所有AI声明；去掉PPT防御性描述。",
+  "application": "Current PPT body, notes and companion speech cleaned; historical versions and original evaluation evidence retained. The task-specific request overrides the default production-declaration preference for this deck. Global rules were not edited.",
+  "checks": {
+    "version": "v4",
+    "slides": 15,
+    "notes": 15,
+    "native_tables": 5,
+    "native_connectors": 19,
+    "media_count": 2,
+    "media_bytes_unchanged": true,
+    "embedded_links": [
+      {
+        "slide": 7,
+        "target": "https://ord001-group24.surge.sh/"
+      },
+      {
+        "slide": 8,
+        "target": "https://ord001-group24.surge.sh/review"
+      },
+      {
+        "slide": 15,
+        "target": "https://ord001-group24.surge.sh/review"
+      },
+      {
+        "slide": 15,
+        "target": "https://ord001-group24.surge.sh/"
+      }
+    ],
+    "maker_declaration_hits": [],
+    "visual_reviewed_slides": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "evaluation_counts_preserved": true,
+    "schema_validation": "officecli pass",
+    "website_runtime_check": "web retrieval tool could not access these URLs; links use the existing documented stable entry points; no application calls performed",
+    "files": {
+      "content-and-notes-v4.json": {
+        "bytes": 18850,
+        "sha256": "c91497be94507fe639b2255490b692f990672f5c083820cbd7223999e0d89eaf"
+      },
+      "IS5542-Group24-Speaker-Script-ZH-v4.md": {
+        "sha256": "9ae88b6df5eabc7446a2aadc8aa9c941bf00feae14002235eefd35916fbdb07f",
+        "bytes": 6519
+      },
+      "IS5542-Group24-v4.pdf": {
+        "bytes": 595913,
+        "sha256": "01af6529de7f47d6710da7293aac489d9acb96bf9ba6c7fae21d349f11054873"
+      },
+      "IS5542-Group24-v4.pptx": {
+        "bytes": 6213350,
+        "sha256": "914088e104f6c4fd45a9f9076d90a5decd3b1783c44e5a4b355feca686b24a6a"
+      }
+    }
+  },
+  "underlying_evaluation_changed": false,
+  "additional_3_yuan_policy": "pending unchanged",
+  "owner_final_acceptance": false,
+  "submission_performed": false,
+  "cloud_page_updated": false,
+  "private_record": "Method chronology, synthetic sample context, policy-pending category and estimated/scenario cost definitions remain in direct factual form. Project model names are technical content, not maker declarations."
+}

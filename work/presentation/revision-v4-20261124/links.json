@@ -1,0 +1,34 @@
+[
+  {
+    "command": "set",
+    "path": "/slide[7]/shape[@id=28]",
+    "props": {
+      "link": "https://ord001-group24.surge.sh/",
+      "tooltip": "https://ord001-group24.surge.sh/"
+    }
+  },
+  {
+    "command": "set",
+    "path": "/slide[8]/shape[@id=27]",
+    "props": {
+      "link": "https://ord001-group24.surge.sh/review",
+      "tooltip": "https://ord001-group24.surge.sh/review"
+    }
+  },
+  {
+    "command": "set",
+    "path": "/slide[15]/shape[@id=7]",
+    "props": {
+      "link": "https://ord001-group24.surge.sh/",
+      "tooltip": "https://ord001-group24.surge.sh/"
+    }
+  },
+  {
+    "command": "set",
+    "path": "/slide[15]/shape[@id=8]",
+    "props": {
+      "link": "https://ord001-group24.surge.sh/review",
+      "tooltip": "https://ord001-group24.surge.sh/review"
+    }
+  }
+]

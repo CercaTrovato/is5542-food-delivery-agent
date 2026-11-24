@@ -7,14 +7,14 @@
   "board_scope": "active",
   "group": "Group 24",
   "my_role": "本人统一PPT／录制与结论把关，Agent可协助核方法和数据；开发由李宗谦主做，A＋gaga作为测试组整体交件。",
-  "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
-  "stage": "REVIEW v3审稿候选已交 · 待本人核阅与最终录制",
-  "updated_at": "2026-11-24T20:17:43+08:00",
+  "summary": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
+  "stage": "v4网址与措辞修订已交 · 待本人核阅",
+  "updated_at": "2026-11-24T21:31:58+08:00",
   "reviewed_at": "2026-11-24",
   "progress_as_of": "2026-11-24",
   "task_scope_complete": false,
   "next_action": {
-    "title": "本人核阅v3、补正式身份与贡献；3元待决保持单列，彩排录制后按Canvas入口上传录像和slides",
+    "title": "本人查看v4，确认身份／贡献与3元政策后继续彩排录制；正式提交状态不变",
     "owner": "本人／Agent整合；组员按已有请求补资料",
     "basis": "proposed"
   },
@@ -166,7 +166,7 @@
       "title": "Slides 与 Demo 叙事",
       "status": "in_progress",
       "owner": "本人",
-      "note": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
+      "note": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
       "evidence": [
         "owner-final-week-20261121",
         "final-week-task-pack",
@@ -180,7 +180,8 @@
         "presentation-visual-redesign-20261123",
         "supervision-20261123",
         "developer-complete-delivery-20261123",
-        "final-ppt-review-v3-20261124"
+        "final-ppt-review-v3-20261124",
+        "presentation-v4-links-copy-20261124"
       ]
     },
     {
@@ -672,6 +673,14 @@
       "locator": "https://canvas.cityu.edu.hk/courses/71410/assignments/340779",
       "observed_at": "2026-11-24",
       "sha256": null
+    },
+    {
+      "id": "presentation-v4-links-copy-20261124",
+      "kind": "local",
+      "label": "本人指定网址和措辞修订的v4及检查记录",
+      "locator": "work/presentation/revision-v4-20261124/manifest.json",
+      "observed_at": "2026-11-24",
+      "sha256": "b6c374914955a7b1b55096f64e21d38a508a9bc2e4d3e1bd176173aa59208024"
     }
   ]
 }
