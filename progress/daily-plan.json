@@ -2,9 +2,9 @@
   "schema_version": 1,
   "assignment_id": "IS5542-A01",
   "course": "IS5542",
-  "as_of": "2026-11-24",
+  "as_of": "2026-11-25",
   "timezone": "Asia/Shanghai",
-  "source_revision": "c0b871389b16a5b700ea4bb1bdd7035a58cf866eaef92637531f47ab1c01b63c",
+  "source_revision": "8bb3b72aa26e0dfb605ca03839afc4111e3c0d0bc7654f4db7dcb330b44b2cc0",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -120,6 +120,25 @@
       ],
       "estimated_minutes": null,
       "observed_on": "2026-11-21",
+      "date_state": "unscheduled"
+    },
+    {
+      "id": "group-recording",
+      "title": "全组录制与本人最终核对",
+      "owner": "全组／李宾雄安排",
+      "status": "planned",
+      "personal_action": "先使用Word或纯英文稿试读一遍，实际计时并校准视频旁白；不将预计时间当已彩排。",
+      "readiness": "waiting_dependency",
+      "target": {
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
+      },
+      "blocked_by": [
+        "slides-video"
+      ],
+      "estimated_minutes": null,
+      "observed_on": "2026-11-25",
       "date_state": "unscheduled"
     },
     {

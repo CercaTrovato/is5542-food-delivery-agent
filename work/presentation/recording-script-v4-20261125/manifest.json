@@ -1,0 +1,165 @@
+{
+  "created_on": "2026-11-25",
+  "source_ppt": "work/presentation/revision-v4-20261124/IS5542-Group24-v4.pptx",
+  "source_ppt_sha256": "914088e104f6c4fd45a9f9076d90a5decd3b1783c44e5a4b355feca686b24a6a",
+  "source_ppt_modified": false,
+  "source_slides_text_and_notes_read": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "source_slides_pdf_visual_read": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "deliverables": {
+    "independent-review.md": {
+      "sha256": "50d99ef6388d2918c50955a061bba28004df13d00f3772fca91ccfe3e497e112",
+      "bytes": 5904
+    },
+    "IS5542-Group24-v4-Recording-Script.md": {
+      "sha256": "3ea1464b8bf175300058daf0260326bcb7432bc0122ae2dc80c8587cf6dd5b4f",
+      "bytes": 23541
+    },
+    "IS5542-Group24-v4-Script-EN.md": {
+      "sha256": "aa97f90aa2b0c26e722f9be8e79c2c85a6135118f2052302ad0c58605a630ce7",
+      "bytes": 10866
+    },
+    "IS5542-Group24-v4-Script-ZH.md": {
+      "sha256": "6eaec790d8b847004dfb80aa16edb71214b6fbbac846ad25f0c585d455b4ed62",
+      "bytes": 8881
+    },
+    "IS5542-Group24-v4-Speaker-Script-EN-ZH.docx": {
+      "sha256": "0ca1b40401aa787c98d4ca00111e8ee05ceee4a957c3e216ecefd739926d09af",
+      "bytes": 49721
+    },
+    "IS5542-Group24-v4-Speaker-Script-EN-ZH.pdf": {
+      "sha256": "ccdb80a1005eba67f711d523542c19c04145e9c83181aa8e701ad618cecce662",
+      "bytes": 593251
+    },
+    "manuscript.json": {
+      "sha256": "0f6b1e7ce0333ecc58c8eb7a4a3a3095307b20312985171ff99dab5e9a4ca808",
+      "bytes": 22101
+    },
+    "README.md": {
+      "sha256": "849f8f7670fe1eaf0342e9e01587b5ca6a7f745e1bbd7e149b38507bf6c3df5f",
+      "bytes": 1457
+    },
+    "timing.json": {
+      "sha256": "7aad505c89d88dfd4c3baddb655648d515dd7eb19101fe9089fc985388ab0a72",
+      "bytes": 2431
+    }
+  },
+  "english_words": 1478,
+  "recording_plan_seconds": 855,
+  "timing_estimated_not_rehearsed": true,
+  "pdf_check": {
+    "pdf_pages": 16,
+    "english_paragraphs_all_present_on_corresponding_page": true,
+    "missing": [],
+    "renderer": "Microsoft Word",
+    "source_visual_pages_read": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ]
+  },
+  "visual_check": {
+    "doc_pdf_pages_viewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "full_size_sample_pages": [
+      11,
+      13
+    ],
+    "overflow_observed": false
+  },
+  "independent_review": {
+    "reviewer": "/root/speech_review",
+    "model": "gpt-6.1-sol",
+    "candidate_sha256": "0f6b1e7ce0333ecc58c8eb7a4a3a3095307b20312985171ff99dab5e9a4ca808",
+    "report_sha256": "50d99ef6388d2918c50955a061bba28004df13d00f3772fca91ccfe3e497e112",
+    "sampled_slides": [
+      5,
+      7,
+      8,
+      9,
+      10,
+      12,
+      14
+    ],
+    "blocking_findings": 0,
+    "nonblocking_suggestions": 2,
+    "suggestions_closed": 2,
+    "scope": "Text/semantic sampling and two targeted wording follow-ups; not full independent visual/video review"
+  },
+  "unchanged": {
+    "b_complete": [
+      37,
+      23,
+      0
+    ],
+    "c_complete": [
+      45,
+      6,
+      9
+    ],
+    "extra_3_yuan_policy": "pending",
+    "ppt_bytes": true,
+    "model_calls": 0,
+    "submission": "not performed"
+  },
+  "user_preference": "No maker/AI declarations for this presentation and its scripts, per the existing task-specific user instruction."
+}

@@ -1,13 +1,11 @@
 {
+  "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
+  "timezone": "Asia/Shanghai",
+  "basis_revision": "d5082ce694c87cc9538b6b449de5ff1c5a912fb0e70fcdfa08b5737dc9a7a6d0",
+  "basis_management_revision": "bb9cc46a554789ae5c130284994af6e4a12473b452243c8152135b206a2e64f2",
+  "as_of": "2026-11-25",
   "schema_version": 1,
   "assignment_id": "IS5542-A01",
-  "course": "IS5542",
-  "timezone": "Asia/Shanghai",
-  "as_of": "2026-11-24",
-  "basis_revision": "211fcb72e21555a15b0ca5659c45c134f8a9bea0b179e32c49d2aa626e338cad",
-  "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
-  "summary": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
-  "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "items": [
     {
       "id": "rules",
@@ -859,9 +857,9 @@
       "owner": "本人／本会话Agent执行；测试组后补复核",
       "owner_role": "me",
       "scope": "team",
-      "summary": "PPT证据继续收尾：本人认可完整处理复核，B37过/23未过，C45过/6未过/9政策待核；120原记录不改、新API0。旧26图已整理三平台＋本系统12格；六条已有模拟完整链路成本和外部薪资示例已做情景／盈亏平衡，不宣称真实ROI。已核李宗谦四份基准线索，建议不立即扩全套A/B/C；Jacky具体补件与开发回复草稿备好，未代发，PPT本体未改。",
+      "summary": "最终补件已收：李宗谦运行环境够用，付费DeepSeek开发成本自报估算与GPT正式用量分开；后端按176源码为Starlette/Uvicorn。Jacky v1.4六项保障和人工参照已收，京东／英美出处已由本会话补，最小仅建议北京原报告／图27及外包商报价链接；拿不到可删未核数字，不阻塞PPT，不扩实验。完整复核37/23与45/6/9不改，3元本组范围仍待本人决定，接下来填PPT／讲稿／录制提交。 另有开发fe27ea3的15页候选采用独立DeepSeek90次数据，仍待PPT收尾统一，不能替换GPT-5.6原120。",
       "deliverable": "同一份测试组报告及原始记录；技术、网页和人类视觉分别注明方法与实际核验范围。",
-      "next_action": "本人审数据包和3元政策；按定向缺陷与补件推进PPT，不自动启动新A/B/C。",
+      "next_action": "进入PPT成品整合；补两处引用或删未核数字，不再扩大调研和实验。",
       "my_next_action": "决定3元范围，审PPT新指标／比较／估算，确认后转发任务。",
       "depends_on": [
         "web",
@@ -906,7 +904,7 @@
       "completed_on": null,
       "observed_on": "2026-11-23",
       "estimated_minutes": null,
-      "state_basis": "本人截图指令和完整处理口径确认；本会话实际登记与既有原始证据，非成员新增承诺。",
+      "state_basis": "本人转交两份原件，已实际核读／有限官方回源；非新增平台实际赔付验证。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -1097,6 +1095,16 @@
             "next_action": "核PPT可用指标与待修项；本人决定3元范围后再定向修复／复核，不重复全量模型试跑。",
             "state_basis": "本会话实际120次／259请求原始记录及源码诊断，非测试组签字或市场实测。"
           }
+        },
+        {
+          "observed_on": "2026-11-23",
+          "status": "needs_review",
+          "note": "最终运行环境与规则成本回件收到，按来源限制接收；PPT可收尾。",
+          "previous": {
+            "summary": "PPT证据继续收尾：本人认可完整处理复核，B37过/23未过，C45过/6未过/9政策待核；120原记录不改、新API0。旧26图已整理三平台＋本系统12格；六条已有模拟完整链路成本和外部薪资示例已做情景／盈亏平衡，不宣称真实ROI。已核李宗谦四份基准线索，建议不立即扩全套A/B/C；Jacky具体补件与开发回复草稿备好，未代发，PPT本体未改。",
+            "next_action": "本人审数据包和3元政策；按定向缺陷与补件推进PPT，不自动启动新A/B/C。",
+            "state_basis": "本人截图指令和完整处理口径确认；本会话实际登记与既有原始证据，非成员新增承诺。"
+          }
         }
       ]
     },
@@ -1107,9 +1115,9 @@
       "owner": "本人／本会话Agent执行；测试组后补复核",
       "owner_role": "me",
       "scope": "team",
-      "summary": "PPT证据继续收尾：本人认可完整处理复核，B37过/23未过，C45过/6未过/9政策待核；120原记录不改、新API0。旧26图已整理三平台＋本系统12格；六条已有模拟完整链路成本和外部薪资示例已做情景／盈亏平衡，不宣称真实ROI。已核李宗谦四份基准线索，建议不立即扩全套A/B/C；Jacky具体补件与开发回复草稿备好，未代发，PPT本体未改。",
+      "summary": "最终补件已收：李宗谦运行环境够用，付费DeepSeek开发成本自报估算与GPT正式用量分开；后端按176源码为Starlette/Uvicorn。Jacky v1.4六项保障和人工参照已收，京东／英美出处已由本会话补，最小仅建议北京原报告／图27及外包商报价链接；拿不到可删未核数字，不阻塞PPT，不扩实验。完整复核37/23与45/6/9不改，3元本组范围仍待本人决定，接下来填PPT／讲稿／录制提交。 另有开发fe27ea3的15页候选采用独立DeepSeek90次数据，仍待PPT收尾统一，不能替换GPT-5.6原120。",
       "deliverable": "确认正式政策与公平对照范围，再用同模型、同规则、同题目比较 B/C。",
-      "next_action": "本人审数据包和3元政策；按定向缺陷与补件推进PPT，不自动启动新A/B/C。",
+      "next_action": "进入PPT成品整合；补两处引用或删未核数字，不再扩大调研和实验。",
       "my_next_action": "决定3元范围，审PPT新指标／比较／估算，确认后转发任务。",
       "depends_on": [
         "p01",
@@ -1143,7 +1151,7 @@
       "completed_on": null,
       "observed_on": "2026-11-23",
       "estimated_minutes": null,
-      "state_basis": "本人截图指令和完整处理口径确认；本会话实际登记与既有原始证据，非成员新增承诺。",
+      "state_basis": "本人转交两份原件，已实际核读／有限官方回源；非新增平台实际赔付验证。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -1363,6 +1371,16 @@
           "observed_on": "2026-11-23",
           "status": "needs_review",
           "note": "已按现有15页v2备好上屏英文与中文讲述线，明确外部补件／部署费用分工；PPT本体未改、任务未代发。"
+        },
+        {
+          "observed_on": "2026-11-23",
+          "status": "needs_review",
+          "note": "最终运行环境与规则成本回件收到，按来源限制接收；PPT可收尾。",
+          "previous": {
+            "summary": "PPT证据继续收尾：本人认可完整处理复核，B37过/23未过，C45过/6未过/9政策待核；120原记录不改、新API0。旧26图已整理三平台＋本系统12格；六条已有模拟完整链路成本和外部薪资示例已做情景／盈亏平衡，不宣称真实ROI。已核李宗谦四份基准线索，建议不立即扩全套A/B/C；Jacky具体补件与开发回复草稿备好，未代发，PPT本体未改。",
+            "next_action": "本人审数据包和3元政策；按定向缺陷与补件推进PPT，不自动启动新A/B/C。",
+            "state_basis": "本人截图指令和完整处理口径确认；本会话实际登记与既有原始证据，非成员新增承诺。"
+          }
         }
       ]
     },
@@ -2463,10 +2481,10 @@
       "owner": "全组／李宾雄安排",
       "owner_role": "team",
       "scope": "team",
-      "summary": "内部目标27日录制；具体时间、分段和时长待成员确认及要求核查。",
+      "summary": "v4英文1478词及中文对照、视频前中后提示、Word/PDF已备，参考计划14:15；未实际计时彩排或录制。",
       "deliverable": "基于已核PPT和稳定演示的录像候选，尚未录制。",
-      "next_action": "本人在起始阶段约第二天录制时段，各人按已核事实讲述，48小时内录完候选后再核文件。",
-      "my_next_action": null,
+      "next_action": "沿实际PPT和两段视频试读并核时长，再按本人确认的成员安排录制。",
+      "my_next_action": "先使用Word或纯英文稿试读一遍，实际计时并校准视频旁白；不将预计时间当已彩排。",
       "depends_on": [
         "slides-video"
       ],
@@ -2485,7 +2503,7 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-21",
+      "observed_on": "2026-11-25",
       "estimated_minutes": null,
       "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
       "evidence": [
@@ -2496,6 +2514,10 @@
         {
           "label": "本人确认的两天版任务与验收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
+        },
+        {
+          "label": "v4录制讲稿与时间表",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/recording-script-v4-20261125/README.md"
         }
       ],
       "history": [
@@ -2516,6 +2538,16 @@
             },
             "next_action": "本人先约时间，各人按已核内容讲述；留时间检查声音、字幕和链接。",
             "owner": "全组／李宾雄安排"
+          }
+        },
+        {
+          "observed_on": "2026-11-25",
+          "status": "planned",
+          "note": "按最新v4制作完整录制讲稿与Word/PDF、视频分段提示；彩排和最终录像未完成。",
+          "previous": {
+            "summary": "内部目标27日录制；具体时间、分段和时长待成员确认及要求核查。",
+            "next_action": "本人在起始阶段约第二天录制时段，各人按已核事实讲述，48小时内录完候选后再核文件。",
+            "my_next_action": null
           }
         }
       ]
@@ -2688,5 +2720,7 @@
       ]
     }
   ],
-  "basis_management_revision": "bb9cc46a554789ae5c130284994af6e4a12473b452243c8152135b206a2e64f2"
+  "summary": "按最新v4完成15页录制讲稿：英文1478词、中文完整对照、两段视频前中后口播、页位时间表及Word/PDF。已核源PPT正文／备注／全页图，独立抽检7个重点页及两处措辞定向复核无阻塞；Word导出16页逐页检查，英文段落均在对应页。预计12:32–14:04，留缓冲计划14:15，未计时彩排；PPT、结果37/23与45/6/9及3元待决保持。",
+  "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
+  "course": "IS5542"
 }

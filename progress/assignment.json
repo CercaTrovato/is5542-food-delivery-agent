@@ -1,31 +1,8 @@
 {
-  "schema_version": 1,
-  "id": "IS5542-A01",
-  "course": "IS5542",
-  "title": "客服 Agent 与模拟评测",
-  "assignment_type": "group",
   "board_scope": "active",
+  "updated_at": "2026-11-25T00:33:48+08:00",
   "group": "Group 24",
-  "my_role": "本人统一PPT／录制与结论把关，Agent可协助核方法和数据；开发由李宗谦主做，A＋gaga作为测试组整体交件。",
-  "summary": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
-  "stage": "v4网址与措辞修订已交 · 待本人核阅",
-  "updated_at": "2026-11-24T21:31:58+08:00",
-  "reviewed_at": "2026-11-24",
-  "progress_as_of": "2026-11-24",
-  "task_scope_complete": false,
-  "next_action": {
-    "title": "本人查看v4，确认身份／贡献与3元政策后继续彩排录制；正式提交状态不变",
-    "owner": "本人／Agent整合；组员按已有请求补资料",
-    "basis": "proposed"
-  },
-  "blockers": [
-    "额外3元暖心券范围仍待本人决定，C9次保留政策待核。",
-    "已知B解释误拦／反意图弹卡和C未落实承诺等缺陷仍未修复；本批只制作和如实报告，不升级为全部业务验收。",
-    "正式姓名／学号、贡献措辞及本人审稿和最终课堂录像仍待确认。",
-    "北京图表27原始岗位数值未核，已从主稿排除；供应商报价不能替代真实净人工节省。",
-    "Canvas入口与显示截止已核；硬性视频时长、独立rubric及互评实际表单在本次范围未见，提交前再核。",
-    "CityU根Git与共享／线上看板交当前总监督统一收尾，本会话未改。"
-  ],
+  "schema_version": 1,
   "tasks": [
     {
       "id": "meeting",
@@ -243,28 +220,7 @@
       ]
     }
   ],
-  "milestones": [
-    {
-      "id": "project",
-      "title": "录像与 Slides",
-      "due": "2026-11-28",
-      "precision": "date",
-      "kind": "submission",
-      "status": "unknown",
-      "channel": "Canvas Group Project /assignments/340779；每组一次上传录像＋slides",
-      "evidence": [
-        "deadline-chat",
-        "canvas-group-project-20261124"
-      ],
-      "display_time": "11:59pm",
-      "display_time_zone_verified": false
-    }
-  ],
-  "submission": {
-    "status": "unknown",
-    "note": "沿用待核。本轮核查调研稿与本地工程，没有重新核对 Canvas 提交回执。",
-    "evidence": []
-  },
+  "my_role": "本人统一PPT／录制与结论把关，Agent可协助核方法和数据；开发由李宗谦主做，A＋gaga作为测试组整体交件。",
   "sources": [
     {
       "id": "brief",
@@ -323,12 +279,12 @@
       "sha256": "5cefb330ad2eeedae82ff8741f538a6d336126147a028808c127984fedd281da"
     },
     {
-      "id": "handoff",
       "kind": "local",
+      "id": "handoff",
+      "sha256": "edda45d146dac26466491fbc8efd77cf7e00df0242d1d85631e0d870231f3d59",
       "label": "组员续作核查与开发交接（脱敏）",
-      "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/supervision-report.md",
       "observed_at": "2026-11-23",
-      "sha256": "57482f3272b7f4b9364598e54ac07524a55f420c97568e0ffaf307c3036b4ea3"
+      "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/supervision-report.md"
     },
     {
       "id": "owner-team-handoff",
@@ -659,6 +615,14 @@
       "sha256": "3dec84a48d899393ca6fcf09382c574ac078697ea4d1bf7331be62693a892732"
     },
     {
+      "id": "final-runtime-jacky-v14-20261123",
+      "kind": "external_file",
+      "label": "李宗谦运行环境与成本TXT、Jacky规则人工成本v1.4，原件本机保留，接收评阅与脱敏副本可查",
+      "locator": "E:\\app-data\\is5542\\private\\final-replies-20261123\\intake-manifest.json",
+      "observed_at": "2026-11-23",
+      "sha256": "939755c138338e5e3829ea9bc5b059e7e1135a9fe7e1539871ba39147b9a1dd5"
+    },
+    {
       "id": "final-ppt-review-v3-20261124",
       "kind": "local",
       "label": "15页v3、两段嵌入视频、PDF、中文讲稿和本次核验",
@@ -681,6 +645,56 @@
       "locator": "work/presentation/revision-v4-20261124/manifest.json",
       "observed_at": "2026-11-24",
       "sha256": "b6c374914955a7b1b55096f64e21d38a508a9bc2e4d3e1bd176173aa59208024"
+    },
+    {
+      "id": "speaker-script-v4-20261125",
+      "kind": "local",
+      "label": "最新v4中英文录制讲稿、Word/PDF、时间安排及定向核验",
+      "locator": "work/presentation/recording-script-v4-20261125/manifest.json",
+      "observed_at": "2026-11-25",
+      "sha256": "f6bbdb02d2da726f170cc9d1ce798cd484e53590a675a7bc2f59a7fc7b01281d"
     }
+  ],
+  "course": "IS5542",
+  "summary": "按最新v4完成15页录制讲稿：英文1478词、中文完整对照、两段视频前中后口播、页位时间表及Word/PDF。已核源PPT正文／备注／全页图，独立抽检7个重点页及两处措辞定向复核无阻塞；Word导出16页逐页检查，英文段落均在对应页。预计12:32–14:04，留缓冲计划14:15，未计时彩排；PPT、结果37/23与45/6/9及3元待决保持。",
+  "stage": "v4录制讲稿已备 · 待彩排、录制及提交",
+  "task_scope_complete": false,
+  "submission": {
+    "status": "unknown",
+    "note": "沿用待核。本轮核查调研稿与本地工程，没有重新核对 Canvas 提交回执。",
+    "evidence": []
+  },
+  "assignment_type": "group",
+  "id": "IS5542-A01",
+  "next_action": {
+    "title": "按15页讲稿彩排，核两段视频旁白节点和实际时长，再录制；身份／贡献、3元政策及最终提交前要求仍按原记录处理",
+    "owner": "本人／全组自行安排",
+    "basis": "proposed"
+  },
+  "milestones": [
+    {
+      "id": "project",
+      "title": "录像与 Slides",
+      "due": "2026-11-28",
+      "precision": "date",
+      "kind": "submission",
+      "status": "unknown",
+      "channel": "Canvas Group Project /assignments/340779；每组一次上传录像＋slides；页面显示截止 11:59pm；时区未核",
+      "evidence": [
+        "deadline-chat",
+        "canvas-group-project-20261124"
+      ]
+    }
+  ],
+  "progress_as_of": "2026-11-25",
+  "reviewed_at": "2026-11-25",
+  "title": "客服 Agent 与模拟评测",
+  "blockers": [
+    "额外3元暖心券范围仍待本人决定，C9次保留政策待核。",
+    "已知B解释误拦／反意图弹卡和C未落实承诺等缺陷仍未修复；本批只制作和如实报告，不升级为全部业务验收。",
+    "正式姓名／学号、贡献措辞及本人审稿和最终课堂录像仍待确认。",
+    "北京图表27原始岗位数值未核，已从主稿排除；供应商报价不能替代真实净人工节省。",
+    "Canvas入口与显示截止已核；硬性视频时长、独立rubric及互评实际表单在本次范围未见，提交前再核。",
+    "CityU根Git与共享／线上看板交当前总监督统一收尾，本会话未改。"
   ]
 }

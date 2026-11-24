@@ -1,0 +1,116 @@
+{
+  "source_sha256": "914088e104f6c4fd45a9f9076d90a5decd3b1783c44e5a4b355feca686b24a6a",
+  "main_english_words": 1478,
+  "optional_appendix_words": 34,
+  "estimate_at_125_wpm_seconds": 752,
+  "estimate_at_110_wpm_seconds": 844,
+  "method": "For demo slides, before/after speech plus max(clip duration, concurrent narration); two seconds transition allowance per slide; not rehearsed.",
+  "slides": [
+    {
+      "slide": 1,
+      "english_words": 78,
+      "planned_seconds": 45,
+      "start": "00:00",
+      "end": "00:45"
+    },
+    {
+      "slide": 2,
+      "english_words": 103,
+      "planned_seconds": 60,
+      "start": "00:45",
+      "end": "01:45"
+    },
+    {
+      "slide": 3,
+      "english_words": 93,
+      "planned_seconds": 55,
+      "start": "01:45",
+      "end": "02:40"
+    },
+    {
+      "slide": 4,
+      "english_words": 113,
+      "planned_seconds": 65,
+      "start": "02:40",
+      "end": "03:45"
+    },
+    {
+      "slide": 5,
+      "english_words": 101,
+      "planned_seconds": 55,
+      "start": "03:45",
+      "end": "04:40"
+    },
+    {
+      "slide": 6,
+      "english_words": 104,
+      "planned_seconds": 60,
+      "start": "04:40",
+      "end": "05:40"
+    },
+    {
+      "slide": 7,
+      "english_words": 77,
+      "planned_seconds": 50,
+      "start": "05:40",
+      "end": "06:30"
+    },
+    {
+      "slide": 8,
+      "english_words": 96,
+      "planned_seconds": 60,
+      "start": "06:30",
+      "end": "07:30"
+    },
+    {
+      "slide": 9,
+      "english_words": 105,
+      "planned_seconds": 60,
+      "start": "07:30",
+      "end": "08:30"
+    },
+    {
+      "slide": 10,
+      "english_words": 145,
+      "planned_seconds": 80,
+      "start": "08:30",
+      "end": "09:50"
+    },
+    {
+      "slide": 11,
+      "english_words": 100,
+      "planned_seconds": 55,
+      "start": "09:50",
+      "end": "10:45"
+    },
+    {
+      "slide": 12,
+      "english_words": 173,
+      "planned_seconds": 95,
+      "start": "10:45",
+      "end": "12:20"
+    },
+    {
+      "slide": 13,
+      "english_words": 107,
+      "planned_seconds": 60,
+      "start": "12:20",
+      "end": "13:20"
+    },
+    {
+      "slide": 14,
+      "english_words": 36,
+      "planned_seconds": 25,
+      "start": "13:20",
+      "end": "13:45"
+    },
+    {
+      "slide": 15,
+      "english_words": 47,
+      "planned_seconds": 30,
+      "start": "13:45",
+      "end": "14:15"
+    }
+  ],
+  "rounded_plan_seconds": 855
+}
