@@ -1,8 +1,8 @@
 {
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "timezone": "Asia/Shanghai",
-  "basis_revision": "a7010ba05611c18a745fe4c14cb513cc2f4416a5aefa55ab3ba2f1dbd41a01af",
-  "basis_management_revision": "dd8ecf3535524a6404ecd2689c059b034f280d9df2027d063f72625e2102903b",
+  "basis_revision": "571b03b8ff45b2e41fd3b7afb5b76c1535f32a51e2d04b72014ec5dbca95c94d",
+  "basis_management_revision": "71129ee5b35ca210ee30fadd8be7900730e6b3e074d7a20c0c7bb8f8b90ec6c0",
   "as_of": "2026-11-26",
   "schema_version": 1,
   "assignment_id": "IS5542-A01",
@@ -3842,7 +3842,7 @@
       ]
     }
   ],
-  "summary": "最新最终PPT为v5，成员姓名/学号本人已确认；gaga计划11/26或11/27单人录制，本人负责视频和Slides提交。11/26侧栏核到项目及第6次反思均11/28 23:59 HKT；反思1–5均Submitted，第6次当前无提交记录且已交专属会话制作提交。四入口未见官方互评表，公告说明稍后Google Form，互评等全部工作完成后写。",
+  "summary": "最新最终 PPT 为 v5，成员信息本人已确认；gaga 计划 11/26 或 11/27 单人录制，本人负责录像和 Slides 提交。项目截止 11/28 23:59 HKT；反思 1–6 均已有 Submitted 回执，第 6 次于 11/26 16:16:34 HKT 完成。正式小组作业提交仍待核，互评等全部工作完成后按官方表单处理。",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "course": "IS5542"
 }

@@ -1,6 +1,6 @@
 {
   "board_scope": "active",
-  "updated_at": "2026-11-26T16:10:05+08:00",
+  "updated_at": "2026-11-26T16:57:30+08:00",
   "group": "Group 24",
   "schema_version": 1,
   "tasks": [
@@ -253,8 +253,8 @@
       "kind": "local",
       "label": "A01 当前任务说明",
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/任务说明.md",
-      "observed_at": "2026-11-09",
-      "sha256": "13c3312197c9671cd2c051f7cf78a9820706ef92740ba785cf22e6c9ae6086d0"
+      "observed_at": "2026-11-26",
+      "sha256": "8ce83e8e29a53020f47d070246dd20dd954349aa935a4096f131b25b25c741d0"
     },
     {
       "id": "deadline-chat",
@@ -711,10 +711,18 @@
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/canvas-readback-20261126.md",
       "observed_at": "2026-11-26",
       "sha256": "2df79dcf7deddf1af2a0e989adb166e2015668906a4922c33d182b78177546be"
+    },
+    {
+      "id": "reflection6-submitted-20261126",
+      "kind": "local",
+      "label": "第 6 次反思已提交回执（不代表小组项目提交）",
+      "locator": "IS5542_GenAI_in_Business/assignment/graded/A07-legal-industry-reflection/notes/canvas-readback-20261126.md",
+      "observed_at": "2026-11-26",
+      "sha256": "e532de569245f12f153f8db2e1104374d5633636e643acbf1b33e6735f50f8a6"
     }
   ],
   "course": "IS5542",
-  "summary": "最新最终PPT为v5，成员姓名/学号本人已确认；gaga计划11/26或11/27单人录制，本人负责视频和Slides提交。11/26侧栏核到项目及第6次反思均11/28 23:59 HKT；反思1–5均Submitted，第6次当前无提交记录且已交专属会话制作提交。四入口未见官方互评表，公告说明稍后Google Form，互评等全部工作完成后写。",
+  "summary": "最新最终 PPT 为 v5，成员信息本人已确认；gaga 计划 11/26 或 11/27 单人录制，本人负责录像和 Slides 提交。项目截止 11/28 23:59 HKT；反思 1–6 均已有 Submitted 回执，第 6 次于 11/26 16:16:34 HKT 完成。正式小组作业提交仍待核，互评等全部工作完成后按官方表单处理。",
   "stage": "v5最终稿与讲稿已备 · gaga单人录制计划 · 本人提交 · 互评后置",
   "task_scope_complete": false,
   "submission": {
@@ -725,8 +733,8 @@
   "assignment_type": "group",
   "id": "IS5542-A01",
   "next_action": {
-    "title": "gaga录制，本人收片核最终文件并于11/28 23:59 HKT前提交；第6次反思由专属会话推进；项目结束后再处理官方互评。",
-    "owner": "gaga录制；本人检查/提交；专属会话处理第6次反思",
+    "title": "gaga 录制，本人收片终检并于 11/28 23:59 HKT 前提交小组录像和 Slides；项目结束后处理官方互评。六次反思均已有提交记录。",
+    "owner": "gaga 录制；本人终检和小组项目提交",
     "basis": "agreed"
   },
   "milestones": [
