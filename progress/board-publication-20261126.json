@@ -1,0 +1,53 @@
+{
+  "checked_at": "2026-11-26T15:32:42+08:00",
+  "scope": "IS5542-A01 data publication only",
+  "github": {
+    "repository": "CercaTrovato/is5542-food-delivery-agent",
+    "branch": "main",
+    "data_commit": "136b6b759f08f87199d70ec6bd6bd6917d305f43",
+    "private": true
+  },
+  "local": {
+    "errors": 0,
+    "source_warnings": 0,
+    "management_fresh": true,
+    "timeline_stale": false,
+    "coordination_schema": "valid",
+    "other_management_and_review_entries_unchanged": true,
+    "metadata_sha256": "77b454e39d9475be5542189b7839e21f741dca89f9126e51066fed6da8b26874",
+    "timeline_sha256": "865c1bbafa0f0f9b829db61095655fe81831c93334573b8418a1870c2a05d21e",
+    "pptx_v5_unchanged": true,
+    "pdf_v5_unchanged": true
+  },
+  "online": {
+    "origin": "https://cityu-board-online.vercel.app",
+    "release": "ed3852c2-f7ae-4a3d-a672-8880fddfa612",
+    "content_hash": "a488ced50f91590c3a7d7b797d1d0cb31b4347564e27c91aeada592e7b709720",
+    "published_at": "2026-11-26T07:31:28.095396+00:00",
+    "files": 36,
+    "reused": 32,
+    "verified_with": "publisher status endpoint after commit; hash equals pre-publication snapshot",
+    "other_courses_unchanged": [
+      "AC6761",
+      "IS6400",
+      "IS5113",
+      "EF5560"
+    ],
+    "unshared_reference_warnings": 38,
+    "unshared_reference_note": "Existing exact whitelist excludes private presentation and source links; no recursive expansion."
+  },
+  "privacy": {
+    "student_id_hits_in_snapshot_and_assets": 0,
+    "v5_presentation_or_roster_added_to_online": false
+  },
+  "pending": [
+    "Owner review and contribution wording",
+    "Full presentation recording",
+    "Three-yuan goodwill policy decision",
+    "Canvas submission receipt"
+  ],
+  "cityu_root_git": "not committed or pushed by this chat",
+  "cross_thread_messages": 0,
+  "group_messages": 0,
+  "new_model_calls": 0
+}
