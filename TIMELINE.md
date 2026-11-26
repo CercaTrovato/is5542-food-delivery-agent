@@ -1,6 +1,6 @@
 # IS5542 · 项目时间线
 
-最新最终PPT为11/26的v5，15页；成员姓名／学号本人已确认。gaga计划11/26或11/27一人录制，本人负责视频和Slides提交；均未记已录／已交。互评待全部工作完成后再写，官方原表／入口／截止和第4、6次反思本轮因Canvas／电脑安全停止未核成；已有第2自报、第3／5回执保留，不统一催交。
+最新最终PPT为v5，成员姓名/学号本人已确认；gaga计划11/26或11/27单人录制，本人负责视频和Slides提交。11/26侧栏核到项目及第6次反思均11/28 23:59 HKT；反思1–5均Submitted，第6次当前无提交记录且已交专属会话制作提交。四入口未见官方互评表，公告说明稍后Google Form，互评等全部工作完成后写。
 
 进度依据截至 2026-11-26；时区 Asia/Shanghai。完成日期未知时只记录核实日期。
 
@@ -174,30 +174,30 @@ v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演�
 
 **等待回件** · 负责人：本人 · 尚未安排 · 日期未定
 
-本人明确后置；官方原表／入口／截止及要求本轮未核成，未写评价或分数。
+11/26四入口未见官方表；公告说明稍后通过Google Forms发布。按本人要求项目全部完成后再写。
 
 - 本环节交付：按已确认安排完成本事项并保留真实回执；当前不标完成。
-- 下一步：先等项目工作全部完成；之后核官方要求再写，确无官方表时才另拟内部草稿，不作官方替代。
+- 下一步：等项目完成及官方表发布；届时仍无表再拟内部草稿，不当作官方替代。
 - 前置依赖：owner-submit
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-26
 - 总监督可做：先等项目工作全部完成；之后核官方要求再写，确无官方表时才另拟内部草稿，不作官方替代。
 - 验收：待核 实际交付／官方回执已取得并核对
-- 依据：[11/26监督更新](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md)
+- 依据：[11/26监督更新](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md)；[11/26 Canvas实际回读](https://canvas.cityu.edu.hk/courses/71410/assignments)
 
 ## 未来安排
 
 ### 录像与 Slides · `date-project`
 
-**后续计划** · 负责人：本人（提交视频与Slides） · 2026-11-28 · 正式截止
+**后续计划** · 负责人：本人（提交视频与Slides） · 2026-11-28T23:59:00+08:00 · 正式截止
 
-Canvas Group Project已实际打开：11/28 11:59pm，20分，文件上传录像和slides，每组一次。页面未显式标时区；本任务未提交。
+项目提交视频和slides两个文件，每组一次；Hong Kong时区与11/28 23:59已实读。
 
 - 本环节交付：录像与 Slides
 - 下一步：本人收取并核最终成片与v5后提交，凭回执登记；没有本轮已交证据。
 - 前置依赖：无已登记前置
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-26
 - 验收：待核 对应交件或活动有可核完成记录
-- 依据：整理各课程作业截止时间表（已登录 Canvas 核对）；[v3审稿候选与来源记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md)；[11/26本人确认录制／提交及互评后置](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md)
+- 依据：整理各课程作业截止时间表（已登录 Canvas 核对）；[v3审稿候选与来源记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md)；[11/26本人确认录制／提交及互评后置](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md)；[11/26 Canvas实际回读](https://canvas.cityu.edu.hk/courses/71410/assignments)
 
 ### 核对最终文件与视频链接 · `delivery-check`
 
@@ -232,12 +232,12 @@ Canvas Group Project已实际打开：11/28 11:59pm，20分，文件上传录像
 提交代表已确认为本人；等待gaga完整录像及最终文件检查，不代表已提交。
 
 - 本环节交付：按已确认安排完成本事项并保留真实回执；当前不标完成。
-- 下一步：取得并检查录像与v5后由本人提交，保留Canvas回执。
+- 下一步：收齐gaga完整录像并核最终slides，由本人在11/28 23:59 HKT前提交并留回执。
 - 前置依赖：group-recording、delivery-check
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-26
 - 总监督可做：取得并检查录像与v5后由本人提交，保留Canvas回执。
 - 验收：待核 实际交付／官方回执已取得并核对
-- 依据：[11/26监督更新](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md)
+- 依据：[11/26监督更新](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md)；[11/26 Canvas实际回读](https://canvas.cityu.edu.hk/courses/71410/assignments)
 
 ## 已完成的阶段成果
 

@@ -1,8 +1,8 @@
 {
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "timezone": "Asia/Shanghai",
-  "basis_revision": "246ee7148e928e566ca9fa14ef7cd737b4bfbb62fe28b3f0ac337a88db149cd4",
-  "basis_management_revision": "a4544f0bcf5a07181c672ab5583cd89b272546cb7b3d2cdf9e34dc3cb5b9a46f",
+  "basis_revision": "a7010ba05611c18a745fe4c14cb513cc2f4416a5aefa55ab3ba2f1dbd41a01af",
+  "basis_management_revision": "dd8ecf3535524a6404ecd2689c059b034f280d9df2027d063f72625e2102903b",
   "as_of": "2026-11-26",
   "schema_version": 1,
   "assignment_id": "IS5542-A01",
@@ -2217,7 +2217,7 @@
       "owner": "本人（提交视频与Slides）",
       "owner_role": "me",
       "scope": "team",
-      "summary": "Canvas Group Project已实际打开：11/28 11:59pm，20分，文件上传录像和slides，每组一次。页面未显式标时区；本任务未提交。",
+      "summary": "项目提交视频和slides两个文件，每组一次；Hong Kong时区与11/28 23:59已实读。",
       "deliverable": "录像与 Slides",
       "next_action": "本人收取并核最终成片与v5后提交，凭回执登记；没有本轮已交证据。",
       "my_next_action": null,
@@ -2231,15 +2231,15 @@
         }
       ],
       "target": {
-        "value": "2026-11-28",
-        "precision": "date",
+        "value": "2026-11-28T23:59:00+08:00",
+        "precision": "datetime",
         "basis": "official"
       },
       "started_on": null,
       "completed_on": null,
       "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "沿用原截止记录；内部节点为建议，日期已过不自动标迟交。",
+      "state_basis": "11/26总监督侧栏实读Canvas四入口、个人提交页及Hong Kong时区；没有上传或提交。",
       "evidence": [
         {
           "label": "整理各课程作业截止时间表（已登录 Canvas 核对）",
@@ -2252,6 +2252,10 @@
         {
           "label": "11/26本人确认录制／提交及互评后置",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md"
+        },
+        {
+          "label": "11/26 Canvas实际回读",
+          "url": "https://canvas.cityu.edu.hk/courses/71410/assignments"
         }
       ],
       "history": [
@@ -2287,6 +2291,21 @@
               "precision": "date",
               "basis": "official"
             }
+          }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "planned",
+          "note": "侧栏恢复后核实截止/时区及互评发布情况。",
+          "previous": {
+            "summary": "Canvas Group Project已实际打开：11/28 11:59pm，20分，文件上传录像和slides，每组一次。页面未显式标时区；本任务未提交。",
+            "next_action": "本人收取并核最终成片与v5后提交，凭回执登记；没有本轮已交证据。",
+            "target": {
+              "value": "2026-11-28",
+              "precision": "date",
+              "basis": "official"
+            },
+            "state_basis": "沿用原截止记录；内部节点为建议，日期已过不自动标迟交。"
           }
         }
       ],
@@ -3700,7 +3719,7 @@
       "scope": "team",
       "summary": "提交代表已确认为本人；等待gaga完整录像及最终文件检查，不代表已提交。",
       "deliverable": "按已确认安排完成本事项并保留真实回执；当前不标完成。",
-      "next_action": "取得并检查录像与v5后由本人提交，保留Canvas回执。",
+      "next_action": "收齐gaga完整录像并核最终slides，由本人在11/28 23:59 HKT前提交并留回执。",
       "my_next_action": "取得并检查录像与v5后由本人提交，保留Canvas回执。",
       "depends_on": [
         "group-recording",
@@ -3723,11 +3742,15 @@
       "completed_on": null,
       "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "本人在总监督本轮明确确认后经授权转交，原件v5本地哈希／包差异已核；Canvas核验受安全停止限制。",
+      "state_basis": "11/26总监督侧栏实读Canvas四入口、个人提交页及Hong Kong时区；没有上传或提交。",
       "evidence": [
         {
           "label": "11/26监督更新",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md"
+        },
+        {
+          "label": "11/26 Canvas实际回读",
+          "url": "https://canvas.cityu.edu.hk/courses/71410/assignments"
         }
       ],
       "history": [
@@ -3735,6 +3758,21 @@
           "observed_on": "2026-11-26",
           "status": "planned",
           "note": "本人明确确认安排，尚无执行完成证据。"
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "planned",
+          "note": "侧栏恢复后核实截止/时区及互评发布情况。",
+          "previous": {
+            "summary": "提交代表已确认为本人；等待gaga完整录像及最终文件检查，不代表已提交。",
+            "next_action": "取得并检查录像与v5后由本人提交，保留Canvas回执。",
+            "target": {
+              "value": null,
+              "precision": "unknown",
+              "basis": "unknown"
+            },
+            "state_basis": "本人在总监督本轮明确确认后经授权转交，原件v5本地哈希／包差异已核；Canvas核验受安全停止限制。"
+          }
         }
       ]
     },
@@ -3745,9 +3783,9 @@
       "owner": "本人",
       "owner_role": "me",
       "scope": "team",
-      "summary": "本人明确后置；官方原表／入口／截止及要求本轮未核成，未写评价或分数。",
+      "summary": "11/26四入口未见官方表；公告说明稍后通过Google Forms发布。按本人要求项目全部完成后再写。",
       "deliverable": "按已确认安排完成本事项并保留真实回执；当前不标完成。",
-      "next_action": "先等项目工作全部完成；之后核官方要求再写，确无官方表时才另拟内部草稿，不作官方替代。",
+      "next_action": "等项目完成及官方表发布；届时仍无表再拟内部草稿，不当作官方替代。",
       "my_next_action": "先等项目工作全部完成；之后核官方要求再写，确无官方表时才另拟内部草稿，不作官方替代。",
       "depends_on": [
         "owner-submit"
@@ -3769,11 +3807,15 @@
       "completed_on": null,
       "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "本人在总监督本轮明确确认后经授权转交，原件v5本地哈希／包差异已核；Canvas核验受安全停止限制。",
+      "state_basis": "11/26总监督侧栏实读Canvas四入口、个人提交页及Hong Kong时区；没有上传或提交。",
       "evidence": [
         {
           "label": "11/26监督更新",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md"
+        },
+        {
+          "label": "11/26 Canvas实际回读",
+          "url": "https://canvas.cityu.edu.hk/courses/71410/assignments"
         }
       ],
       "history": [
@@ -3781,11 +3823,26 @@
           "observed_on": "2026-11-26",
           "status": "waiting",
           "note": "本人明确确认安排，尚无执行完成证据。"
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "waiting",
+          "note": "侧栏恢复后核实截止/时区及互评发布情况。",
+          "previous": {
+            "summary": "本人明确后置；官方原表／入口／截止及要求本轮未核成，未写评价或分数。",
+            "next_action": "先等项目工作全部完成；之后核官方要求再写，确无官方表时才另拟内部草稿，不作官方替代。",
+            "target": {
+              "value": null,
+              "precision": "unknown",
+              "basis": "unknown"
+            },
+            "state_basis": "本人在总监督本轮明确确认后经授权转交，原件v5本地哈希／包差异已核；Canvas核验受安全停止限制。"
+          }
         }
       ]
     }
   ],
-  "summary": "最新最终PPT为11/26的v5，15页；成员姓名／学号本人已确认。gaga计划11/26或11/27一人录制，本人负责视频和Slides提交；均未记已录／已交。互评待全部工作完成后再写，官方原表／入口／截止和第4、6次反思本轮因Canvas／电脑安全停止未核成；已有第2自报、第3／5回执保留，不统一催交。",
+  "summary": "最新最终PPT为v5，成员姓名/学号本人已确认；gaga计划11/26或11/27单人录制，本人负责视频和Slides提交。11/26侧栏核到项目及第6次反思均11/28 23:59 HKT；反思1–5均Submitted，第6次当前无提交记录且已交专属会话制作提交。四入口未见官方互评表，公告说明稍后Google Form，互评等全部工作完成后写。",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "course": "IS5542"
 }
