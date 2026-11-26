@@ -1,0 +1,55 @@
+{
+  "changed_package_parts": [
+    "ppt/slides/slide2.xml",
+    "ppt/slides/slide6.xml",
+    "ppt/slides/slide13.xml",
+    "ppt/slides/slide15.xml",
+    "ppt/notesSlides/notesSlide13.xml",
+    "ppt/notesSlides/notesSlide15.xml",
+    "ppt/notesSlides/notesSlide2.xml",
+    "ppt/notesSlides/notesSlide6.xml"
+  ],
+  "media_unchanged": {
+    "ppt/media/media1.mp4": "6ed8e2e321b2363e59d5cc69020a4543d074f85cd4c6c7f18393497e76464dda",
+    "ppt/media/media2.mp4": "2bcca47c8d72af26e15c858cf79f67eb134760ac8d573d64d0022365defb29f3"
+  },
+  "credit_rows": [
+    [
+      "Baseline specification, evaluation, slides",
+      "LI Binxiong"
+    ],
+    [
+      "Prototype / B implementation,\ndeployment and demo recordings",
+      "LI Zongqian"
+    ],
+    [
+      "Business, guarantees and cost research",
+      "PAN Pan"
+    ],
+    [
+      "Earlier platform observations",
+      "LIN Jingkai"
+    ],
+    [
+      "Existing trial / QA feedback",
+      "WU Yang"
+    ],
+    [
+      "Trial feedback and presentation recording",
+      "Ko Anderson"
+    ]
+  ],
+  "owner_alias_confirmation": "Jacky=PAN Pan; gaga=Ko Anderson; A=WU Yang; typo corrected by owner",
+  "slides_modified": [
+    2,
+    6,
+    13,
+    15
+  ],
+  "author_source_notes": {
+    "2": "V6 addition: The historical Meituan INFORMS TSL research sample covers 17–24 Oct 2022. Existing team aggregates keep one grabbed/delivered waybill per order with a promised time, then separate non-prebooked orders. N=546,364; share late_any=0.1478; share late_over_10min=0.0141. On-slide rounding is 14.8% and 1.4%. These are delivery-delay shares in that research sample, not 2026 platform complaint rates or measured financial losses. No raw data is redistributed. Source: https://github.com/meituan/Meituan-INFORMS-TSL-Research-Challenge ; work/data/meituan_lateness_stats.json and .py. Required attribution: This research was supported by data provided by Meituan.",
+    "6": "V6 addition: Model selection is explained as a practical study choice: use the already-working DeepSeek tool-calling implementation for the demo, with developer-reported low development/demo cost; formal runs use the owner-selected GPT-5.6 API with the same settings for B and C and preserved request/usage logs. This does not claim a pre-run latency/stability competition or that either model beat alternative models. Existing formal configuration and measured results remain unchanged.",
+    "13": "V6 addition: Proposed rollout only; no shadow run, real-order pilot or expansion has been executed. First resolve the pending goodwill policy, fix the observed explanation/intent/promise defects and pass affected regression paths. Shadow suggestions remain read-only and humans decide. A limited real-order pilot requires validated, authorized production interfaces; human approval remains on every issue. Advance only after no wrong/duplicate issues and reviewed safety checks in the pilot. Gradual scaling needs measured net time savings including review/rework, a positive local cost case and rollback/monitoring. No numerical pilot performance is asserted. Existing 14+6+3 B failures, C6 unsupported promises and C9 pending cases are retained. Later transfer to e-commerce requires new connectors and policy revalidation.",
+    "15": "V6 identity mapping confirmed by the owner on 26 Nov 2026: Jacky=PAN Pan; gaga=Ko Anderson; A=WU Yang (the owner corrected an intermediate Chinese typo). LI Zongqian covers implementation/deployment/demo captures; LIN Jingkai covers earlier platform observations; LI Binxiong covers baseline specification, evaluation evidence and slide integration. Credits record received work, not peer-evaluation scores or claims that every member independently verified all results. Ko Anderson is credited with the group presentation recording under the owner-confirmed single-recorder arrangement. The cover names and student IDs are unchanged."
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "version": "v6",
+  "as_of": "2026-11-26",
+  "source_v5_sha256": "8aace90a5b4e3870bb000d76474ed80e5af1715d8788ca82c37719de5d2b45d4",
+  "modified_slides": [
+    2,
+    6,
+    13,
+    15
+  ],
+  "changed_parts": [
+    "ppt/slides/slide2.xml",
+    "ppt/slides/slide6.xml",
+    "ppt/slides/slide13.xml",
+    "ppt/slides/slide15.xml",
+    "ppt/notesSlides/notesSlide13.xml",
+    "ppt/notesSlides/notesSlide15.xml",
+    "ppt/notesSlides/notesSlide2.xml",
+    "ppt/notesSlides/notesSlide6.xml"
+  ],
+  "cover_and_other_11_slides_unchanged": true,
+  "embedded_videos_byte_identical": true,
+  "full_recording_unchanged": true,
+  "model_calls": 0,
+  "core_results_unchanged": {
+    "B": [
+      37,
+      23,
+      0
+    ],
+    "C": [
+      45,
+      6,
+      9
+    ]
+  },
+  "extra_3_yuan_policy": "pending unchanged",
+  "slide_count": 15,
+  "native_tables": 5,
+  "visual_checks": {
+    "rendered_all_15_in_powerpoint": true,
+    "overview_viewed_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "full_size_changed_pages": [
+      2,
+      6,
+      13,
+      15
+    ],
+    "visible_overflow_found": false,
+    "openxml_validation": "officecli validate passed"
+  },
+  "independent_review": {
+    "reviewer": "/root/ppt_v6_review",
+    "model": "gpt-6.1-sol",
+    "scope": [
+      2,
+      6,
+      13,
+      15
+    ],
+    "final_candidate_sha256": "837aaae14cb9cc0cfa8a0dc834ac700b045a0a1c3a07a3388d6429b61238ca19",
+    "report_sha256": "b2ccc86a195ffbeaf89df3d3168c28e484d9ab03f73a84994b76abc3978b09ea",
+    "blocking_findings": 0,
+    "targeted_s6_followup_closed": true
+  },
+  "owner_alias_mapping": {
+    "Jacky": "PAN Pan",
+    "gaga": "Ko Anderson",
+    "A": "WU Yang"
+  },
+  "review_before_upload": true,
+  "owner_approved": false,
+  "uploaded": false,
+  "submitted": false,
+  "canvas_login_restored": true,
+  "submission_form_observed": true,
+  "explicit_extra_file_size_or_extension_restriction_observed": false,
+  "private_only": "Contains unchanged member student IDs; local and existing private collaboration repo only",
+  "source_files": {
+    "work/data/meituan_lateness_stats.json": "77be6ac9a086bba76df7457aca1a12a969111311101209b911751086580f2731",
+    "work/data/README.md": "db52de10101d27cacf423ba6360ad981dfb8f30eb6f1e548b1d72af45c5450a2",
+    "work/data/meituan_lateness_stats.py": "a7c0cb24ed08bc9898e6995a64d499ffd9a6fc2418fc619ca582e3cec8c8ab1c"
+  },
+  "files": {
+    "CHANGE-REVIEW.md": {
+      "sha256": "2212082f214d4507f29979c0c0f89c256e7d5a83bb7a85133bae029a8805384e",
+      "bytes": 3239
+    },
+    "edit-v6.py": {
+      "sha256": "06881b146203a9767594123d8c59b39602b1aa4a48940b49adff36fb2725becf",
+      "bytes": 16298
+    },
+    "edits.json": {
+      "sha256": "d26f36950bd7d83ca3b95f0b87bacfb5619d5a7b4ea931df4a0c0d166340596b",
+      "bytes": 3902
+    },
+    "independent-review.md": {
+      "sha256": "b2ccc86a195ffbeaf89df3d3168c28e484d9ab03f73a84994b76abc3978b09ea",
+      "bytes": 8313
+    },
+    "IS5542-Group24-Slides-v6.pdf": {
+      "sha256": "ce250f7d9afa7635b3c540cdbcabe18a43766ae6c3d03ffc0dbb3e0bd673e768",
+      "bytes": 591197
+    },
+    "IS5542-Group24-Slides-v6.pptx": {
+      "sha256": "837aaae14cb9cc0cfa8a0dc834ac700b045a0a1c3a07a3388d6429b61238ca19",
+      "bytes": 6054456
+    },
+    "IS5542-Group24-v6-Changes.pdf": {
+      "sha256": "ddba3c1bdc48959356586caa70a7b6bffabe5d9375dab5a544b805a0864b8787",
+      "bytes": 127621
+    },
+    "README.md": {
+      "sha256": "c8a53453c7b98698b7093d7fcf8559c6f6feb33f868064ad2b1d4bc83ec323ab",
+      "bytes": 736
+    },
+    "render-inventory.json": {
+      "sha256": "62a34673d9b5c8fd549cbf8d43a48c925f7817d21f0d22213452a57e05afccef",
+      "bytes": 1132
+    },
+    "slide-text-v6.json": {
+      "sha256": "6520b6b06be8ad389d2cc31f0e818788739f145b574ace2c97cf6f3f76485f7d",
+      "bytes": 22082
+    }
+  }
+}

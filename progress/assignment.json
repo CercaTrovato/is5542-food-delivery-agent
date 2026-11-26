@@ -1,6 +1,6 @@
 {
   "board_scope": "active",
-  "updated_at": "2026-11-26T21:15:52+08:00",
+  "updated_at": "2026-11-26T21:37:57+08:00",
   "group": "Group 24",
   "schema_version": 1,
   "tasks": [
@@ -146,7 +146,7 @@
       "title": "Slides 与 Demo 叙事",
       "status": "in_progress",
       "owner": "本人",
-      "note": "v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演示已嵌入并核完整播放，15 页英文录制讲稿及中文对照已备。正式 120 次完整处理复核：B 37 通过／23 未过，C 45 通过／6 未过／9 政策待核。下一步为本人审稿、贡献措辞确认、彩排和最终录制。 11/26本人确认小组最终PPT已更新，所有成员姓名／学号已确认；实核当前v5文件存在，身份不再作为缺件，贡献措辞不由身份确认推定。",
+      "note": "按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，互评未写。",
       "evidence": [
         "owner-final-week-20261121",
         "final-week-task-pack",
@@ -728,11 +728,19 @@
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/recording-intake-20261126.md",
       "observed_at": "2026-11-26",
       "sha256": "b97b0ad1460cb30e3306d617372d3686a62387162b2885b5bce324eb96b0d540"
+    },
+    {
+      "id": "ppt-content-v6-20261126",
+      "kind": "local",
+      "label": "本人四项修改要求与昵称映射确认、v6候选及实际检查；待审核后上传",
+      "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/work/presentation/content-review-v6-20261126/manifest.json",
+      "observed_at": "2026-11-26",
+      "sha256": "3ae8c0a6e83f29b6444dd0a1dea15c8449851ddf32ed6e3ceb657e6c697858c4"
     }
   ],
   "course": "IS5542",
-  "summary": "本人提供本组录制视频，已原样归档重命名；15:37.583、149.37MB、HEVC/AAC，全程技术解码无报错。比大纲15分钟多37.583秒，时长与H.264兼容版本待处理；未上传或提交。v5 slides及讲稿保持，互评未写且继续后置；学校登录失效，最新站点限制／官方表需登录后核。",
-  "stage": "录像已收并归档 · 时长／编码兼容性待处理 · 未上传／提交",
+  "summary": "按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，互评未写。",
+  "stage": "v6补充稿与四页预览已备 · 待本人审核再上传",
   "task_scope_complete": false,
   "submission": {
     "status": "unknown",
@@ -742,9 +750,9 @@
   "assignment_type": "group",
   "id": "IS5542-A01",
   "next_action": {
-    "title": "先决定处理约38秒超时及最终兼容编码，恢复登录核任务限制；本人确认后准备视频＋v5 Slides，项目结束后按官方要求写互评",
-    "owner": "本人确认；Agent可协助准备",
-    "basis": "proposed"
+    "title": "本人先审核v6第2/6/13/15页修改点，确认后继续上传准备；原视频时长与编码问题保留，正式提交仍由本人执行",
+    "owner": "本人审核；Agent可准备上传",
+    "basis": "agreed"
   },
   "milestones": [
     {
@@ -771,6 +779,7 @@
     "北京图表27原始岗位数值未核，已从主稿排除；供应商报价不能替代真实净人工节省。",
     "官方互评表在本次四入口检查范围内未见；按公告等待后续Google Form，不把内部草稿当官方表。",
     "完整录制已收：15:37.583，比大纲15分钟多37.583秒；本轮未见超时容差规定，未擅自裁剪或判定全部符合。",
-    "源视频HEVC/AAC；Canvas官方明确H.264播放支持，最终兼容编码待确认。表单未见教师特设大小上限，149.37MB低于平台通用额度；学校实际接收与最新互评表需恢复登录核。"
+    "v6已改四页，但本人要求先过目修改点；当前审核未完成，不上传或提交。",
+    "视频保留原样15:37.583及HEVC编码；本次PPT补充不自动同步到既有录像。Canvas已登录并查看空表单，未见额外大小/格式限制，未实测文件上传接收。"
   ]
 }

@@ -1,6 +1,6 @@
 # IS5542 · 项目时间线
 
-本人提供本组录制视频，已原样归档重命名；15:37.583、149.37MB、HEVC/AAC，全程技术解码无报错。比大纲15分钟多37.583秒，时长与H.264兼容版本待处理；未上传或提交。v5 slides及讲稿保持，互评未写且继续后置；学校登录失效，最新站点限制／官方表需登录后核。
+按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，互评未写。
 
 进度依据截至 2026-11-26；时区 Asia/Shanghai。完成日期未知时只记录核实日期。
 
@@ -147,15 +147,15 @@ v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演�
 
 **待核阅或修订** · 负责人：李宾雄／全组核事实 · 尚未安排 · 日期未定
 
-v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演示已嵌入并核完整播放，15 页英文录制讲稿及中文对照已备。正式 120 次完整处理复核：B 37 通过／23 未过，C 45 通过／6 未过／9 政策待核。下一步为本人审稿、贡献措辞确认、彩排和最终录制。 11/26本人确认最新最终PPT已更新且成员姓名／学号确认；录制安排为gaga单人，本人提交。
+v6四项内容补充及四页预览已备，源v5保留；待本人按要求过目修改点后再上传。
 
 - 本环节交付：待填结果的PPT骨架、缺素材清单和准确提交要求核对。
-- 下一步：使用当前v5及现有讲稿配合gaga录制；不再要求全员发言或重补身份信息。
+- 下一步：本人看第2、6、13、15页及实名贡献表，明确确认后继续准备上传。
 - 前置依赖：无已登记前置
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-26
-- 总监督可做：核对v5首页，正文和录制讲稿无需因本次名单添加重做。
+- 总监督可做：先审v6修改点；当前未获上传放行，录像时长／编码问题保留。
 - 验收：待核 本人已批准最终展示内容和贡献措辞；待核 最终整段作业录像已完成并检查；待核 正式提交回执已核；✓ v5可编辑PPTX及PDF已核；✓ 六位成员封面信息已补齐；✓ 两段嵌入演示已完整播放核对；✓ 15页英文1478词及中文对照录制稿已备；✓ Canvas入口与显示截止已读取
-- 依据：[本人确认PPT与任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)；[15页可编辑初稿及取材检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md)；[视觉改版v2与来源／检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/redesign-20261123/README.md)；[最终PPT填充与验收清单](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-closeout-checklist-20261123.md)；[v3审稿候选与来源记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md)；[v4超链接与文本修订](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/revision-v4-20261124/README.md)；[v5封面名单与核验](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/cover-roster-v5-20261126/README.md)；[11月26日当前交付与收尾事项](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md)；[11/26本人确认录制／提交及互评后置](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md)
+- 依据：[本人确认PPT与任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)；[15页可编辑初稿及取材检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md)；[视觉改版v2与来源／检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/redesign-20261123/README.md)；[最终PPT填充与验收清单](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-closeout-checklist-20261123.md)；[v3审稿候选与来源记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md)；[v4超链接与文本修订](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/revision-v4-20261124/README.md)；[v5封面名单与核验](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/cover-roster-v5-20261126/README.md)；[11月26日当前交付与收尾事项](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md)；[11/26本人确认录制／提交及互评后置](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md)；[v6修改点与候选](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/content-review-v6-20261126/CHANGE-REVIEW.md)
 
 ### 本组录制文件接收与成片检查 · `group-recording`
 
