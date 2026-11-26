@@ -1,7 +1,7 @@
 {
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "timezone": "Asia/Shanghai",
-  "basis_revision": "d7d1b0c400a70773d500975486656d54094d6761266627659c038025283a94e1",
+  "basis_revision": "d61cddbcb6d7bd2027cf5ad5e6718002ec61aefb0487d7e124e4fa68d16d3132",
   "basis_management_revision": "71129ee5b35ca210ee30fadd8be7900730e6b3e074d7a20c0c7bb8f8b90ec6c0",
   "as_of": "2026-11-26",
   "schema_version": 1,
@@ -3808,15 +3808,15 @@
     },
     {
       "id": "peer-review",
-      "title": "项目全部工作完成后再写互评",
-      "status": "waiting",
+      "title": "本人互评内部草稿与官方填报",
+      "status": "needs_review",
       "owner": "本人",
       "owner_role": "me",
       "scope": "team",
-      "summary": "11/26四入口未见官方表；公告说明稍后通过Google Forms发布。按本人要求项目全部完成后再写。",
+      "summary": "本人授权后已备一页个人内部稿；可核贡献预填，个人评分／评论空白。当前四入口仍未见官方表，官方填报和提交未完成。",
       "deliverable": "按已确认安排完成本事项并保留真实回执；当前不标完成。",
-      "next_action": "等项目完成及官方表发布；届时仍无表再拟内部草稿，不当作官方替代。",
-      "my_next_action": "先等项目工作全部完成；之后核官方要求再写，确无官方表时才另拟内部草稿，不作官方替代。",
+      "next_action": "本人确认个人评分／评价；官方Google Form发布后按其题目和量表填报，内部稿不作官方替代。",
+      "my_next_action": "可查看本地一页稿并给评分；正式官方填报仍按发布要求和本人确认执行。",
       "depends_on": [
         "owner-submit"
       ],
@@ -3846,6 +3846,10 @@
         {
           "label": "11/26 Canvas实际回读",
           "url": "https://canvas.cityu.edu.hk/courses/71410/assignments"
+        },
+        {
+          "label": "互评准备状态（不含个人评价内容）",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/peer-evaluation-preparation-20261126.md"
         }
       ],
       "history": [
@@ -3868,11 +3872,23 @@
             },
             "state_basis": "本人在总监督本轮明确确认后经授权转交，原件v5本地哈希／包差异已核；Canvas核验受安全停止限制。"
           }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "本人授权自拟一页，内部个人稿已备，评分空白，未正式填报／提交。",
+          "previous": {
+            "title": "项目全部工作完成后再写互评",
+            "status": "waiting",
+            "summary": "11/26四入口未见官方表；公告说明稍后通过Google Forms发布。按本人要求项目全部完成后再写。",
+            "next_action": "等项目完成及官方表发布；届时仍无表再拟内部草稿，不当作官方替代。",
+            "my_next_action": "先等项目工作全部完成；之后核官方要求再写，确无官方表时才另拟内部草稿，不作官方替代。"
+          }
         }
       ]
     }
   ],
-  "summary": "按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，互评未写。",
+  "summary": "按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，互评个人内部一页草稿已备，评分和正式Google Form待本人确认。",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "course": "IS5542"
 }

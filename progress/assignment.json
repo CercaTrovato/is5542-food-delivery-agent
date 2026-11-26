@@ -1,6 +1,6 @@
 {
   "board_scope": "active",
-  "updated_at": "2026-11-26T21:37:57+08:00",
+  "updated_at": "2026-11-26T21:49:25+08:00",
   "group": "Group 24",
   "schema_version": 1,
   "tasks": [
@@ -238,12 +238,13 @@
     },
     {
       "id": "peer-review-deferred",
-      "title": "项目全部工作完成后再写同伴互评",
-      "status": "todo",
+      "title": "本人互评内部草稿与官方填报",
+      "status": "in_progress",
       "owner": "本人",
-      "note": "本人明确后置；当前不写评价、分数或虚构贡献。官方表／入口／截止本轮未核成，不用自拟表替代。",
+      "note": "本人已明确可准备一页自拟互评；个人稿本地已备、贡献预填，数值评分和个人判断空白待本人确认。官方Google Form当前四入口未见，不把内部稿作官方替代。",
       "evidence": [
-        "supervision-update-20261126"
+        "supervision-update-20261126",
+        "peer-evaluation-preparation-20261126"
       ]
     }
   ],
@@ -736,11 +737,19 @@
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/work/presentation/content-review-v6-20261126/manifest.json",
       "observed_at": "2026-11-26",
       "sha256": "3ae8c0a6e83f29b6444dd0a1dea15c8449851ddf32ed6e3ceb657e6c697858c4"
+    },
+    {
+      "id": "peer-evaluation-preparation-20261126",
+      "kind": "local",
+      "label": "本人授权自拟一页；Canvas四入口当前未见官方互评表，个人内部稿已备但未打分提交",
+      "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/peer-evaluation-preparation-20261126.md",
+      "observed_at": "2026-11-26",
+      "sha256": "e9cd81a37a0211207d9ef81550669e2390d6dbfce6ff2bd445f061dec7ce2af3"
     }
   ],
   "course": "IS5542",
-  "summary": "按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，互评未写。",
-  "stage": "v6补充稿与四页预览已备 · 待本人审核再上传",
+  "summary": "按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，互评个人内部一页草稿已备，评分和正式Google Form待本人确认。",
+  "stage": "v6待本人审阅上传 · 一页互评内部草稿已备，评分待确认",
   "task_scope_complete": false,
   "submission": {
     "status": "unknown",

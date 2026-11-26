@@ -4,7 +4,7 @@
   "course": "IS5542",
   "as_of": "2026-11-26",
   "timezone": "Asia/Shanghai",
-  "source_revision": "aad2d9dfa37b1017c0b1c1ad962bb2fb6c46526bfa7cc015011c6f601325224f",
+  "source_revision": "12beecda16573f0abaa2b21e939ba9be66213d8cc5ed025aa1fc2957d203bca6",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -197,10 +197,10 @@
     },
     {
       "id": "peer-review",
-      "title": "项目全部工作完成后再写互评",
+      "title": "本人互评内部草稿与官方填报",
       "owner": "本人",
-      "status": "waiting",
-      "personal_action": "先等项目工作全部完成；之后核官方要求再写，确无官方表时才另拟内部草稿，不作官方替代。",
+      "status": "needs_review",
+      "personal_action": "可查看本地一页稿并给评分；正式官方填报仍按发布要求和本人确认执行。",
       "readiness": "waiting_dependency",
       "target": {
         "value": null,
