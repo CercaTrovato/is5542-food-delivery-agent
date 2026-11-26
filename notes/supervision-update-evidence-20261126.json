@@ -1,0 +1,41 @@
+{
+  "v5_pptx": {
+    "path": "D:\\上课资料\\CityU\\IS5542_GenAI_in_Business\\assignment\\graded\\A01-genai-project\\submission\\IS5542-Group24-v5.pptx",
+    "sha256": "8aace90a5b4e3870bb000d76474ed80e5af1715d8788ca82c37719de5d2b45d4",
+    "bytes": 6210357,
+    "slide_count": 15,
+    "cover_eight_digit_id_count": 6
+  },
+  "v5_pdf": {
+    "path": "D:\\上课资料\\CityU\\IS5542_GenAI_in_Business\\assignment\\graded\\A01-genai-project\\submission\\IS5542-Group24-v5.pdf",
+    "sha256": "a69fec99313e73b103414411bdd94794de9282b010de27de0692c25a9f2b6fa4"
+  },
+  "v5_work_copy_matches_submission": true,
+  "changed_package_parts_from_v4": [
+    "ppt/slides/slide1.xml"
+  ],
+  "removed_package_parts_from_v4": [],
+  "identity_status": "Owner-confirmed via current supervisor delegation; local count only, not independent person-by-person identity authentication",
+  "actual_identifiers_not_copied_to_report": true,
+  "browser_stop": {
+    "checked_on": "2026-11-26",
+    "iab": "available; auth connection closed",
+    "edge_connector": "unavailable",
+    "native_canvas": "tool safety stop because Windows browser URL could not be determined confidently",
+    "resumed_browser": false,
+    "canvas_four_surfaces_reverified": false,
+    "last_successful_four_surface_check": "2026-11-24"
+  },
+  "owner_arrangement": {
+    "identity_details": "confirmed by owner; not independently authenticated",
+    "recorder": "gaga only",
+    "recording_planned_dates": [
+      "2026-11-26",
+      "2026-11-27"
+    ],
+    "recording_completed": false,
+    "submission_owner": "user",
+    "submission_status": "unknown",
+    "peer_evaluation": "deferred until all project work is complete; official form/entry/due/rules unverified; no evaluation or score written"
+  }
+}

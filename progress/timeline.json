@@ -1,7 +1,7 @@
 {
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "timezone": "Asia/Shanghai",
-  "basis_revision": "77b454e39d9475be5542189b7839e21f741dca89f9126e51066fed6da8b26874",
+  "basis_revision": "246ee7148e928e566ca9fa14ef7cd737b4bfbb62fe28b3f0ac337a88db149cd4",
   "basis_management_revision": "0945c1b83bf0974ff17c79d0d445a86aa91f203501ce5612fecff9391c8529ea",
   "as_of": "2026-11-26",
   "schema_version": 1,
@@ -1715,12 +1715,12 @@
       "id": "delivery",
       "title": "Slides、录像与提交",
       "status": "needs_review",
-      "owner": "李宾雄统一PPT／全组讲述与录制",
+      "owner": "gaga录制；本人提交视频与Slides",
       "owner_role": "me",
       "scope": "team",
-      "summary": "15页v5 PPTX/PDF与六人封面已备；两段演示、15页中英文讲稿及Word/PDF可用。示例网址已设为可点击链接。 本人审稿、贡献措辞、计时彩排、最终整段录像及正式提交仍待。",
+      "summary": "最终v5及讲稿已备，身份信息本人确认；gaga单人录制计划11/26或11/27，本人负责提交，仍未记录完成。",
       "deliverable": "把业务依据、演示和评价串成完整交付，并核最终回执。",
-      "next_action": "使用v5和现有讲稿录制，检查最终文件并按Canvas入口交件。",
+      "next_action": "按新单人录制／本人提交安排收尾，不再按全组发言安排。",
       "my_next_action": "本人核阅PPTX，按同版测试和录屏补终稿，核Canvas入口与回执。",
       "depends_on": [
         "acceptance"
@@ -1824,6 +1824,10 @@
         {
           "label": "11月26日当前交付与收尾事项",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
+        },
+        {
+          "label": "11/26本人确认录制／提交及互评后置",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md"
         }
       ],
       "history": [
@@ -1901,6 +1905,24 @@
                 ]
               }
             ]
+          }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "本人确认最新final、身份信息、gaga单人录制窗口、本人提交与互评后置；未记完成。",
+          "previous": {
+            "title": "Slides、录像与提交",
+            "owner": "李宾雄统一PPT／全组讲述与录制",
+            "owner_role": "me",
+            "summary": "15页v5 PPTX/PDF与六人封面已备；两段演示、15页中英文讲稿及Word/PDF可用。示例网址已设为可点击链接。 本人审稿、贡献措辞、计时彩排、最终整段录像及正式提交仍待。",
+            "next_action": "使用v5和现有讲稿录制，检查最终文件并按Canvas入口交件。",
+            "my_next_action": "本人核阅PPTX，按同版测试和录屏补终稿，核Canvas入口与回执。",
+            "target": {
+              "value": null,
+              "precision": "unknown",
+              "basis": "unknown"
+            }
           }
         }
       ]
@@ -2192,12 +2214,12 @@
       "id": "date-project",
       "title": "录像与 Slides",
       "status": "planned",
-      "owner": "全组；提交代表待确认",
-      "owner_role": "team",
+      "owner": "本人（提交视频与Slides）",
+      "owner_role": "me",
       "scope": "team",
       "summary": "Canvas Group Project已实际打开：11/28 11:59pm，20分，文件上传录像和slides，每组一次。页面未显式标时区；本任务未提交。",
       "deliverable": "录像与 Slides",
-      "next_action": "本人审稿录制后按已核入口提交；提交前再核时区／后续新要求。",
+      "next_action": "本人收取并核最终成片与v5后提交，凭回执登记；没有本轮已交证据。",
       "my_next_action": null,
       "depends_on": [],
       "dependency_gates": [],
@@ -2215,7 +2237,7 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-24",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
       "state_basis": "沿用原截止记录；内部节点为建议，日期已过不自动标迟交。",
       "evidence": [
@@ -2226,6 +2248,10 @@
         {
           "label": "v3审稿候选与来源记录",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md"
+        },
+        {
+          "label": "11/26本人确认录制／提交及互评后置",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md"
         }
       ],
       "history": [
@@ -2243,6 +2269,24 @@
             "next_action": "核对本节点交件负责人、前置版本与实际回执。",
             "my_next_action": null,
             "status": "planned"
+          }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "planned",
+          "note": "本人确认最新final、身份信息、gaga单人录制窗口、本人提交与互评后置；未记完成。",
+          "previous": {
+            "title": "录像与 Slides",
+            "owner": "全组；提交代表待确认",
+            "owner_role": "team",
+            "summary": "Canvas Group Project已实际打开：11/28 11:59pm，20分，文件上传录像和slides，每组一次。页面未显式标时区；本任务未提交。",
+            "next_action": "本人审稿录制后按已核入口提交；提交前再核时区／后续新要求。",
+            "my_next_action": null,
+            "target": {
+              "value": "2026-11-28",
+              "precision": "date",
+              "basis": "official"
+            }
           }
         }
       ],
@@ -2401,9 +2445,9 @@
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演示已嵌入并核完整播放，15 页英文录制讲稿及中文对照已备。正式 120 次完整处理复核：B 37 通过／23 未过，C 45 通过／6 未过／9 政策待核。下一步为本人审稿、贡献措辞确认、彩排和最终录制。",
+      "summary": "v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演示已嵌入并核完整播放，15 页英文录制讲稿及中文对照已备。正式 120 次完整处理复核：B 37 通过／23 未过，C 45 通过／6 未过／9 政策待核。下一步为本人审稿、贡献措辞确认、彩排和最终录制。 11/26本人确认最新最终PPT已更新且成员姓名／学号确认；录制安排为gaga单人，本人提交。",
       "deliverable": "合并 Slides 与录制演示的可核版本或结果记录",
-      "next_action": "使用v5及现有讲稿审稿、彩排和录制；确认贡献措辞与3元范围。",
+      "next_action": "使用当前v5及现有讲稿配合gaga录制；不再要求全员发言或重补身份信息。",
       "my_next_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
       "depends_on": [
         "demo-record"
@@ -2542,6 +2586,10 @@
         {
           "label": "11月26日当前交付与收尾事项",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
+        },
+        {
+          "label": "11/26本人确认录制／提交及互评后置",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md"
         }
       ],
       "history": [
@@ -2728,6 +2776,24 @@
               }
             ]
           }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "本人确认最新final、身份信息、gaga单人录制窗口、本人提交与互评后置；未记完成。",
+          "previous": {
+            "title": "本人整合PPT初稿与讲述核对",
+            "owner": "李宾雄／全组核事实",
+            "owner_role": "me",
+            "summary": "v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演示已嵌入并核完整播放，15 页英文录制讲稿及中文对照已备。正式 120 次完整处理复核：B 37 通过／23 未过，C 45 通过／6 未过／9 政策待核。下一步为本人审稿、贡献措辞确认、彩排和最终录制。",
+            "next_action": "使用v5及现有讲稿审稿、彩排和录制；确认贡献措辞与3元范围。",
+            "my_next_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
+            "target": {
+              "value": null,
+              "precision": "unknown",
+              "basis": "unknown"
+            }
+          }
         }
       ]
     },
@@ -2735,12 +2801,12 @@
       "id": "delivery-check",
       "title": "核对最终文件与视频链接",
       "status": "planned",
-      "owner": "全组；本人统筹",
-      "owner_role": "team",
+      "owner": "本人",
+      "owner_role": "me",
       "scope": "team",
-      "summary": "v5/PDF、示例网址和嵌入演示已核，最终汇报录像尚无完成回执。",
+      "summary": "等待gaga完整录像后由本人检查成片、v5及提交要求；当前不执行上传。",
       "deliverable": "核对最终文件与视频链接的可核版本或结果记录",
-      "next_action": "整段录制完成后检查声音、画面、页序和附件版本，确认提交代表。",
+      "next_action": "本人检查完整播放、声音、画面／讲述对应及最终附件，再本人提交。",
       "my_next_action": null,
       "depends_on": [
         "group-recording"
@@ -2789,6 +2855,10 @@
         {
           "label": "11月26日当前交付与收尾事项",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
+        },
+        {
+          "label": "11/26本人确认录制／提交及互评后置",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md"
         }
       ],
       "history": [
@@ -2840,6 +2910,24 @@
                 "status": "unknown"
               }
             ]
+          }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "planned",
+          "note": "本人确认最新final、身份信息、gaga单人录制窗口、本人提交与互评后置；未记完成。",
+          "previous": {
+            "title": "核对最终文件与视频链接",
+            "owner": "全组；本人统筹",
+            "owner_role": "team",
+            "summary": "v5/PDF、示例网址和嵌入演示已核，最终汇报录像尚无完成回执。",
+            "next_action": "整段录制完成后检查声音、画面、页序和附件版本，确认提交代表。",
+            "my_next_action": null,
+            "target": {
+              "value": null,
+              "precision": "unknown",
+              "basis": "unknown"
+            }
           }
         }
       ]
@@ -2948,9 +3036,9 @@
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演示已嵌入并核完整播放，15 页英文录制讲稿及中文对照已备。正式 120 次完整处理复核：B 37 通过／23 未过，C 45 通过／6 未过／9 政策待核。下一步为本人审稿、贡献措辞确认、彩排和最终录制。",
+      "summary": "v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演示已嵌入并核完整播放，15 页英文录制讲稿及中文对照已备。正式 120 次完整处理复核：B 37 通过／23 未过，C 45 通过／6 未过／9 政策待核。下一步为本人审稿、贡献措辞确认、彩排和最终录制。 11/26本人确认最新最终PPT已更新且成员姓名／学号确认；录制安排为gaga单人，本人提交。",
       "deliverable": "待填结果的PPT骨架、缺素材清单和准确提交要求核对。",
-      "next_action": "使用v5及现有讲稿审稿、彩排和录制；确认贡献措辞与3元范围。",
+      "next_action": "使用当前v5及现有讲稿配合gaga录制；不再要求全员发言或重补身份信息。",
       "my_next_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
       "depends_on": [],
       "dependency_gates": [],
@@ -3064,6 +3152,10 @@
         {
           "label": "11月26日当前交付与收尾事项",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
+        },
+        {
+          "label": "11/26本人确认录制／提交及互评后置",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md"
         }
       ],
       "history": [
@@ -3206,20 +3298,38 @@
               }
             ]
           }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "本人确认最新final、身份信息、gaga单人录制窗口、本人提交与互评后置；未记完成。",
+          "previous": {
+            "title": "本人先搭PPT骨架并核提交要求",
+            "owner": "李宾雄／全组核事实",
+            "owner_role": "me",
+            "summary": "v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演示已嵌入并核完整播放，15 页英文录制讲稿及中文对照已备。正式 120 次完整处理复核：B 37 通过／23 未过，C 45 通过／6 未过／9 政策待核。下一步为本人审稿、贡献措辞确认、彩排和最终录制。",
+            "next_action": "使用v5及现有讲稿审稿、彩排和录制；确认贡献措辞与3元范围。",
+            "my_next_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
+            "target": {
+              "value": null,
+              "precision": "unknown",
+              "basis": "unknown"
+            }
+          }
         }
       ]
     },
     {
       "id": "group-recording",
-      "title": "全组录制与本人最终核对",
+      "title": "gaga单人录制与本人收片检查",
       "status": "planned",
-      "owner": "全组／李宾雄安排",
-      "owner_role": "team",
+      "owner": "gaga（唯一录制人）",
+      "owner_role": "member",
       "scope": "team",
-      "summary": "15页英文1478词和中文对照讲稿已备，v5封面更新后仍适用；参考计划14:15，尚未计时彩排或整段录制。",
+      "summary": "本人确认计划11/26或11/27由gaga一人录制；15页讲稿可用，完整录像未交，不要求全员上台／出镜。",
       "deliverable": "基于已核PPT和稳定演示的录像候选，尚未录制。",
-      "next_action": "按v5与两段片段试读计时，再依本人确认的发言安排录制。",
-      "my_next_action": "先使用Word或纯英文稿试读一遍，实际计时并校准视频旁白；不将预计时间当已彩排。",
+      "next_action": "gaga在已确认窗口录制并交成片给本人；本人核文件后自行提交。",
+      "my_next_action": null,
       "depends_on": [
         "slides-video"
       ],
@@ -3275,6 +3385,10 @@
         {
           "label": "11月26日当前交付与收尾事项",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
+        },
+        {
+          "label": "11/26本人确认录制／提交及互评后置",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md"
         }
       ],
       "history": [
@@ -3323,6 +3437,24 @@
                 "status": "unknown"
               }
             ]
+          }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "planned",
+          "note": "本人确认最新final、身份信息、gaga单人录制窗口、本人提交与互评后置；未记完成。",
+          "previous": {
+            "title": "全组录制与本人最终核对",
+            "owner": "全组／李宾雄安排",
+            "owner_role": "team",
+            "summary": "15页英文1478词和中文对照讲稿已备，v5封面更新后仍适用；参考计划14:15，尚未计时彩排或整段录制。",
+            "next_action": "按v5与两段片段试读计时，再依本人确认的发言安排录制。",
+            "my_next_action": "先使用Word或纯英文稿试读一遍，实际计时并校准视频旁白；不将预计时间当已彩排。",
+            "target": {
+              "value": null,
+              "precision": "unknown",
+              "basis": "unknown"
+            }
           }
         }
       ]
@@ -3558,9 +3690,102 @@
           }
         }
       ]
+    },
+    {
+      "id": "owner-submit",
+      "title": "本人提交最终录像与Slides",
+      "status": "planned",
+      "owner": "本人",
+      "owner_role": "me",
+      "scope": "team",
+      "summary": "提交代表已确认为本人；等待gaga完整录像及最终文件检查，不代表已提交。",
+      "deliverable": "按已确认安排完成本事项并保留真实回执；当前不标完成。",
+      "next_action": "取得并检查录像与v5后由本人提交，保留Canvas回执。",
+      "my_next_action": "取得并检查录像与v5后由本人提交，保留Canvas回执。",
+      "depends_on": [
+        "group-recording",
+        "delivery-check"
+      ],
+      "dependency_gates": [],
+      "acceptance": [
+        {
+          "id": "done",
+          "label": "实际交付／官方回执已取得并核对",
+          "status": "unknown"
+        }
+      ],
+      "target": {
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
+      },
+      "started_on": null,
+      "completed_on": null,
+      "observed_on": "2026-11-26",
+      "estimated_minutes": null,
+      "state_basis": "本人在总监督本轮明确确认后经授权转交，原件v5本地哈希／包差异已核；Canvas核验受安全停止限制。",
+      "evidence": [
+        {
+          "label": "11/26监督更新",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md"
+        }
+      ],
+      "history": [
+        {
+          "observed_on": "2026-11-26",
+          "status": "planned",
+          "note": "本人明确确认安排，尚无执行完成证据。"
+        }
+      ]
+    },
+    {
+      "id": "peer-review",
+      "title": "项目全部工作完成后再写互评",
+      "status": "waiting",
+      "owner": "本人",
+      "owner_role": "me",
+      "scope": "team",
+      "summary": "本人明确后置；官方原表／入口／截止及要求本轮未核成，未写评价或分数。",
+      "deliverable": "按已确认安排完成本事项并保留真实回执；当前不标完成。",
+      "next_action": "先等项目工作全部完成；之后核官方要求再写，确无官方表时才另拟内部草稿，不作官方替代。",
+      "my_next_action": "先等项目工作全部完成；之后核官方要求再写，确无官方表时才另拟内部草稿，不作官方替代。",
+      "depends_on": [
+        "owner-submit"
+      ],
+      "dependency_gates": [],
+      "acceptance": [
+        {
+          "id": "done",
+          "label": "实际交付／官方回执已取得并核对",
+          "status": "unknown"
+        }
+      ],
+      "target": {
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
+      },
+      "started_on": null,
+      "completed_on": null,
+      "observed_on": "2026-11-26",
+      "estimated_minutes": null,
+      "state_basis": "本人在总监督本轮明确确认后经授权转交，原件v5本地哈希／包差异已核；Canvas核验受安全停止限制。",
+      "evidence": [
+        {
+          "label": "11/26监督更新",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md"
+        }
+      ],
+      "history": [
+        {
+          "observed_on": "2026-11-26",
+          "status": "waiting",
+          "note": "本人明确确认安排，尚无执行完成证据。"
+        }
+      ]
     }
   ],
-  "summary": "v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演示已嵌入并核完整播放，15 页英文录制讲稿及中文对照已备。正式 120 次完整处理复核：B 37 通过／23 未过，C 45 通过／6 未过／9 政策待核。下一步为本人审稿、贡献措辞确认、彩排和最终录制。",
+  "summary": "最新最终PPT为11/26的v5，15页；成员姓名／学号本人已确认。gaga计划11/26或11/27一人录制，本人负责视频和Slides提交；均未记已录／已交。互评待全部工作完成后再写，官方原表／入口／截止和第4、6次反思本轮因Canvas／电脑安全停止未核成；已有第2自报、第3／5回执保留，不统一催交。",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "course": "IS5542"
 }

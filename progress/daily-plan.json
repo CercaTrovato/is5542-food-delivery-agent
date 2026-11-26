@@ -4,7 +4,7 @@
   "course": "IS5542",
   "as_of": "2026-11-26",
   "timezone": "Asia/Shanghai",
-  "source_revision": "865c1bbafa0f0f9b829db61095655fe81831c93334573b8418a1870c2a05d21e",
+  "source_revision": "3af7b22e97bd5b2439d79d7f5fc2ac212a1aa06db6a3b41d0ad0c5056cea373f",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -15,6 +15,23 @@
     "recheck_current_date_and_latest_revision": true
   },
   "actions": [
+    {
+      "id": "date-project",
+      "title": "录像与 Slides",
+      "owner": "本人（提交视频与Slides）",
+      "status": "planned",
+      "personal_action": "本人收取并核最终成片与v5后提交，凭回执登记；没有本轮已交证据。",
+      "readiness": "ready",
+      "target": {
+        "value": "2026-11-28",
+        "precision": "date",
+        "basis": "official"
+      },
+      "blocked_by": [],
+      "estimated_minutes": null,
+      "observed_on": "2026-11-26",
+      "date_state": "next_7_days"
+    },
     {
       "id": "core",
       "title": "资格判定接口与演示规则",
@@ -35,26 +52,9 @@
     {
       "id": "delivery",
       "title": "Slides、录像与提交",
-      "owner": "李宾雄统一PPT／全组讲述与录制",
+      "owner": "gaga录制；本人提交视频与Slides",
       "status": "needs_review",
       "personal_action": "本人核阅PPTX，按同版测试和录屏补终稿，核Canvas入口与回执。",
-      "readiness": "ready",
-      "target": {
-        "value": null,
-        "precision": "unknown",
-        "basis": "unknown"
-      },
-      "blocked_by": [],
-      "estimated_minutes": null,
-      "observed_on": "2026-11-26",
-      "date_state": "unscheduled"
-    },
-    {
-      "id": "group-recording",
-      "title": "全组录制与本人最终核对",
-      "owner": "全组／李宾雄安排",
-      "status": "planned",
-      "personal_action": "先使用Word或纯英文稿试读一遍，实际计时并校准视频旁白；不将预计时间当已彩排。",
       "readiness": "ready",
       "target": {
         "value": null,
@@ -138,6 +138,45 @@
       "date_state": "unscheduled"
     },
     {
+      "id": "delivery-check",
+      "title": "核对最终文件与视频链接",
+      "owner": "本人",
+      "status": "planned",
+      "personal_action": "本人检查完整播放、声音、画面／讲述对应及最终附件，再本人提交。",
+      "readiness": "waiting_dependency",
+      "target": {
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
+      },
+      "blocked_by": [
+        "group-recording"
+      ],
+      "estimated_minutes": null,
+      "observed_on": "2026-11-26",
+      "date_state": "unscheduled"
+    },
+    {
+      "id": "owner-submit",
+      "title": "本人提交最终录像与Slides",
+      "owner": "本人",
+      "status": "planned",
+      "personal_action": "取得并检查录像与v5后由本人提交，保留Canvas回执。",
+      "readiness": "waiting_dependency",
+      "target": {
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
+      },
+      "blocked_by": [
+        "group-recording",
+        "delivery-check"
+      ],
+      "estimated_minutes": null,
+      "observed_on": "2026-11-26",
+      "date_state": "unscheduled"
+    },
+    {
       "id": "p23",
       "title": "测试组：真实模型对照与边界／安全",
       "owner": "本人／本会话Agent执行；测试组后补复核",
@@ -151,6 +190,25 @@
       },
       "blocked_by": [
         "web"
+      ],
+      "estimated_minutes": null,
+      "observed_on": "2026-11-26",
+      "date_state": "unscheduled"
+    },
+    {
+      "id": "peer-review",
+      "title": "项目全部工作完成后再写互评",
+      "owner": "本人",
+      "status": "waiting",
+      "personal_action": "先等项目工作全部完成；之后核官方要求再写，确无官方表时才另拟内部草稿，不作官方替代。",
+      "readiness": "waiting_dependency",
+      "target": {
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
+      },
+      "blocked_by": [
+        "owner-submit"
       ],
       "estimated_minutes": null,
       "observed_on": "2026-11-26",
