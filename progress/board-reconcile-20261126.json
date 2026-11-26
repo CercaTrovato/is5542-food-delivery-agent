@@ -1,0 +1,503 @@
+{
+  "as_of": "2026-11-26T15:27:52+08:00",
+  "scope": "IS5542-A01 only",
+  "source_path_fixes": [
+    "final-ppt-review-v3-20261124",
+    "presentation-v4-links-copy-20261124",
+    "speaker-script-v4-20261125",
+    "cover-roster-v5-20261126"
+  ],
+  "coordination_schema_fix": "Removed unsupported ppt_review_candidate; candidate details remain in manifests and summary.",
+  "other_management_and_review_entries_unchanged": true,
+  "new_model_calls": 0,
+  "management": {
+    "headline": "v5 与录制讲稿已备；正式120次已复核，进入审稿与录制",
+    "situation": "v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演示已嵌入并核完整播放，15 页英文录制讲稿及中文对照已备。正式 120 次完整处理复核：B 37 通过／23 未过，C 45 通过／6 未过／9 政策待核。下一步为本人审稿、贡献措辞确认、彩排和最终录制。",
+    "implication": "材料收尾已完成主要部分；保留已知缺陷及政策待核，最终录像与提交按实际回执登记。",
+    "action": "使用v5和15页讲稿彩排，确认贡献措辞及3元范围，录制并核最终文件后提交。",
+    "as_of": "2026-11-26",
+    "basis_revision": "77b454e39d9475be5542189b7839e21f741dca89f9126e51066fed6da8b26874",
+    "deliverables": [
+      {
+        "id": "rules",
+        "title": "公开补偿规则调研",
+        "owner": "IS5542.research_rules",
+        "layer": 0,
+        "request": "按三家平台记录适用条件、时间门槛、补偿、例外和原文证据。",
+        "actual": "Jacky v1.6 已完整核读，10条域链接和已有来源已用于当前稿；未核北京岗位数字已排除。",
+        "gap": "未把各版本保障合为统一政策；未核数字不再列为制作阻塞。",
+        "next": "沿当前已采用来源审稿，不扩调研。",
+        "checks": [
+          {
+            "id": "draft",
+            "label": "v1.6补件已收并核读",
+            "status": "pass",
+            "evidence": [
+              "final-ppt-review-v3-20261124"
+            ]
+          },
+          {
+            "id": "existence",
+            "label": "主稿采用的保障出处已定位",
+            "status": "pass",
+            "evidence": [
+              "final-ppt-review-v3-20261124"
+            ]
+          },
+          {
+            "id": "screenshots",
+            "label": "既有截图与版本差异已记录",
+            "status": "pass",
+            "evidence": [
+              "market-rules-v13"
+            ]
+          },
+          {
+            "id": "complete",
+            "label": "当前稿已选取有依据内容并剔除未核数值",
+            "status": "pass",
+            "evidence": [
+              "final-ppt-review-v3-20261124"
+            ]
+          }
+        ],
+        "receipt": "verified",
+        "dispatch": "confirmed"
+      },
+      {
+        "id": "observations",
+        "title": "实际客服流程观察",
+        "owner": "IS5542.research_flow",
+        "layer": 0,
+        "request": "按 R01–R03 观察缺订单号、查补偿、找人工或查进度的流程。",
+        "actual": "三平台历史材料已整理为12格市场流程比较并纳入当前稿。",
+        "gap": "观察基于旧单／提前送达等有限条件，未取得统一真实赔付成绩。",
+        "next": "审稿沿用有限流程比较。",
+        "checks": [
+          {
+            "id": "observed",
+            "label": "3份正文与26图已核读",
+            "status": "pass",
+            "evidence": [
+              "flow-observations-received"
+            ]
+          },
+          {
+            "id": "review",
+            "label": "12格比较及观察条件已纳入当前稿",
+            "status": "pass",
+            "evidence": [
+              "final-ppt-review-v3-20261124"
+            ]
+          },
+          {
+            "id": "closure",
+            "label": "比较范围与证据边界已明确",
+            "status": "pass",
+            "evidence": [
+              "final-ppt-review-v3-20261124"
+            ]
+          }
+        ],
+        "receipt": "verified",
+        "dispatch": "confirmed"
+      },
+      {
+        "id": "core",
+        "title": "资格判定接口与演示规则",
+        "owner": "IS5542.engineering",
+        "layer": 1,
+        "request": "交可调用的服务端资格函数、版本化规则及边界结果。",
+        "actual": "固定176fbb0承接四项确认边界；HR01–HR09由课程助手离线复跑9/9通过。",
+        "gap": "3元扩展仍待本人决定，未改变现行基准。",
+        "next": "沿固定版本和已确认边界解释结果。",
+        "checks": [
+          {
+            "id": "code",
+            "label": "固定176fbb0代码与配置已收",
+            "status": "pass",
+            "evidence": [
+              "developer-complete-delivery-20261123"
+            ]
+          },
+          {
+            "id": "boundary",
+            "label": "确定性边界HR九组离线复跑通过",
+            "status": "pass",
+            "evidence": [
+              "agent-offline-hr-replay-20261123"
+            ]
+          },
+          {
+            "id": "missing",
+            "label": "缺信息路径已有正式用例记录",
+            "status": "pass",
+            "evidence": [
+              "owner-ppt-evidence-complete-review-20261123"
+            ]
+          },
+          {
+            "id": "human-review-rules",
+            "label": "人工重审、改额、防重复四项规则已确认",
+            "status": "pass",
+            "evidence": [
+              "owner-human-review-four-boundaries-20261123"
+            ]
+          }
+        ],
+        "receipt": "verified",
+        "dispatch": "confirmed"
+      },
+      {
+        "id": "web",
+        "title": "顾客页面与人工审批",
+        "owner": "IS5542.development",
+        "layer": 2,
+        "request": "交本机可点通页面、开发分支、启动说明和同一工单的状态回显。",
+        "actual": "基础工具B、规则C及顾客／审核入口已有；两段DeepSeek演示已嵌入并完整播放核对。",
+        "gap": "当前公网部署与176fbb0完全同版、测试组真人界面签验尚未确认。",
+        "next": "录制沿已核演示素材；如用在线系统，现场核入口与订单事实。",
+        "checks": [
+          {
+            "id": "ui",
+            "label": "固定测试版本与模型配置有记录",
+            "status": "pass",
+            "evidence": [
+              "developer-complete-delivery-20261123"
+            ]
+          },
+          {
+            "id": "auth",
+            "label": "权限与改额守卫有离线9组结果",
+            "status": "pass",
+            "evidence": [
+              "agent-offline-hr-replay-20261123"
+            ]
+          },
+          {
+            "id": "state",
+            "label": "同单状态与一次发放守卫有离线结果",
+            "status": "pass",
+            "evidence": [
+              "agent-offline-hr-replay-20261123"
+            ]
+          },
+          {
+            "id": "branch",
+            "label": "开发候选及源码版本已核",
+            "status": "pass",
+            "evidence": [
+              "developer-complete-delivery-20261123"
+            ]
+          },
+          {
+            "id": "human",
+            "label": "测试组真人界面签验",
+            "status": "unknown",
+            "evidence": []
+          }
+        ],
+        "receipt": "verified",
+        "dispatch": "confirmed"
+      },
+      {
+        "id": "p01",
+        "title": "P01 正常流程验收",
+        "owner": "测试组（联合交付）",
+        "layer": 3,
+        "request": "独立检查顾客确认、待审、批准和驳回，核同一工单的状态回显。",
+        "actual": "正常演示21.1秒已核完整播放；确定性HR九组及正式120次原始记录均归档。",
+        "gap": "测试组人工签验仍未记录，不移用旧8行表作同版验收。",
+        "next": "按现有片段讲述查单、确认、人工审批和状态回显。",
+        "checks": [
+          {
+            "id": "run",
+            "label": "正常审批路径有实际演示记录",
+            "status": "pass",
+            "evidence": [
+              "final-ppt-review-v3-20261124"
+            ]
+          },
+          {
+            "id": "evidence",
+            "label": "固定版本、原始评测与视频事实已核",
+            "status": "pass",
+            "evidence": [
+              "final-ppt-review-v3-20261124",
+              "owner-ppt-evidence-complete-review-20261123"
+            ]
+          },
+          {
+            "id": "history",
+            "label": "11月22日旧试用表保留历史地位",
+            "status": "pass",
+            "evidence": [
+              "group-progress-20261122"
+            ]
+          },
+          {
+            "id": "human",
+            "label": "测试组同版人工签验",
+            "status": "unknown",
+            "evidence": []
+          }
+        ],
+        "receipt": "verified",
+        "dispatch": "confirmed"
+      },
+      {
+        "id": "p23",
+        "title": "P02／P03 边界与异常",
+        "owner": "测试组（联合交付）",
+        "layer": 3,
+        "request": "检查阈值边界、缺订单号、查无记录及订单归属失败。",
+        "actual": "异常演示30.3秒已核：ORD008实付36元、延误31分钟，沿原工单重审并由R002批准15元；HR九组9/9。",
+        "gap": "真实模型C存在6次未落实承诺，另9次3元政策待核。",
+        "next": "在结果与局限中保留这些问题，不计为全通过。",
+        "checks": [
+          {
+            "id": "run",
+            "label": "驳回重审与边界路径有记录",
+            "status": "pass",
+            "evidence": [
+              "final-ppt-review-v3-20261124",
+              "agent-offline-hr-replay-20261123"
+            ]
+          },
+          {
+            "id": "evidence",
+            "label": "版本、订单事实与完整处理标签已核",
+            "status": "pass",
+            "evidence": [
+              "final-ppt-review-v3-20261124",
+              "owner-ppt-evidence-complete-review-20261123"
+            ]
+          },
+          {
+            "id": "history",
+            "label": "历史试用表保留",
+            "status": "pass",
+            "evidence": [
+              "group-progress-20261122"
+            ]
+          },
+          {
+            "id": "human",
+            "label": "测试组同版人工签验",
+            "status": "unknown",
+            "evidence": []
+          }
+        ],
+        "receipt": "verified",
+        "dispatch": "confirmed"
+      },
+      {
+        "id": "acceptance",
+        "title": "正式政策与 B/C 评价",
+        "owner": "你 + 技术／测试组",
+        "layer": 4,
+        "request": "公平比较基础工具客服 B 与规则版 C，保留同题原始结果、耗时、用量与成本。",
+        "actual": "GPT-5.6正式20题×B/C×3轮120次已完成；完整处理复核B37/23，C45/6/9。12格市场比较和成本情景已进入PPT。",
+        "gap": "3元范围待决定；已知B/C缺陷按结果保留，未标全部业务验收通过。",
+        "next": "本人审结果与3元范围，沿现有120次收尾，不默认扩题。",
+        "checks": [
+          {
+            "id": "policy",
+            "label": "额外3元暖心券纳入范围已由本人决定",
+            "status": "unknown",
+            "evidence": []
+          },
+          {
+            "id": "evaluation",
+            "label": "120原始记录及完整处理37/23、45/6/9已核",
+            "status": "pass",
+            "evidence": [
+              "owner-ppt-evidence-complete-review-20261123",
+              "final-ppt-review-v3-20261124"
+            ]
+          },
+          {
+            "id": "cost",
+            "label": "运行成本来源与情景假设已分别列明",
+            "status": "pass",
+            "evidence": [
+              "final-ppt-review-v3-20261124"
+            ]
+          }
+        ],
+        "receipt": "verified",
+        "dispatch": "confirmed"
+      },
+      {
+        "id": "delivery",
+        "title": "Slides、录像与提交",
+        "owner": "全组",
+        "layer": 5,
+        "request": "把业务依据、演示和评价串成完整交付，并核最终回执。",
+        "actual": "15页v5 PPTX/PDF与六人封面已备；两段演示、15页中英文讲稿及Word/PDF可用。示例网址已设为可点击链接。",
+        "gap": "本人审稿、贡献措辞、计时彩排、最终整段录像及正式提交仍待。",
+        "next": "使用v5和现有讲稿录制，检查最终文件并按Canvas入口交件。",
+        "checks": [
+          {
+            "id": "story",
+            "label": "本人已批准最终展示内容和贡献措辞",
+            "status": "unknown",
+            "evidence": []
+          },
+          {
+            "id": "video",
+            "label": "最终整段作业录像已完成并检查",
+            "status": "unknown",
+            "evidence": []
+          },
+          {
+            "id": "submit",
+            "label": "正式提交回执已核",
+            "status": "unknown",
+            "evidence": []
+          },
+          {
+            "id": "editable-pptx",
+            "label": "v5可编辑PPTX及PDF已核",
+            "status": "pass",
+            "evidence": [
+              "cover-roster-v5-20261126"
+            ]
+          },
+          {
+            "id": "roster",
+            "label": "六位成员封面信息已补齐",
+            "status": "pass",
+            "evidence": [
+              "cover-roster-v5-20261126"
+            ]
+          },
+          {
+            "id": "demos",
+            "label": "两段嵌入演示已完整播放核对",
+            "status": "pass",
+            "evidence": [
+              "final-ppt-review-v3-20261124"
+            ]
+          },
+          {
+            "id": "script",
+            "label": "15页英文1478词及中文对照录制稿已备",
+            "status": "pass",
+            "evidence": [
+              "speaker-script-v4-20261125"
+            ]
+          },
+          {
+            "id": "canvas",
+            "label": "Canvas入口与显示截止已读取",
+            "status": "pass",
+            "evidence": [
+              "canvas-group-project-20261124"
+            ]
+          }
+        ],
+        "receipt": "verified",
+        "dispatch": "confirmed"
+      }
+    ],
+    "edges": [
+      {
+        "from": "rules",
+        "to": "core",
+        "label": "演示参数可先实现",
+        "kind": "parallel",
+        "requires": []
+      },
+      {
+        "from": "observations",
+        "to": "web",
+        "label": "观察可与开发并行",
+        "kind": "parallel",
+        "requires": []
+      },
+      {
+        "from": "core",
+        "to": "web",
+        "label": "调用资格接口",
+        "kind": "required",
+        "requires": []
+      },
+      {
+        "from": "rules",
+        "to": "acceptance",
+        "label": "规则依据需闭合",
+        "kind": "required",
+        "requires": [
+          "complete"
+        ]
+      },
+      {
+        "from": "acceptance",
+        "to": "delivery",
+        "label": "已有结果与成本资料支撑录制",
+        "kind": "required",
+        "requires": [
+          "evaluation",
+          "cost"
+        ]
+      },
+      {
+        "to": "p01",
+        "label": "顾客及审批流程可跑",
+        "kind": "required",
+        "requires": [
+          "ui",
+          "state"
+        ],
+        "from": "web"
+      },
+      {
+        "to": "p23",
+        "label": "边界及权限可测试",
+        "kind": "required",
+        "requires": [
+          "ui",
+          "auth"
+        ],
+        "from": "web"
+      },
+      {
+        "to": "acceptance",
+        "label": "正常路径记录",
+        "kind": "required",
+        "requires": [
+          "run",
+          "evidence"
+        ],
+        "from": "p01"
+      },
+      {
+        "to": "acceptance",
+        "label": "异常路径记录",
+        "kind": "required",
+        "requires": [
+          "run",
+          "evidence"
+        ],
+        "from": "p23"
+      }
+    ],
+    "technical": {
+      "caption": "固定版本、证据与当前交付",
+      "facts": [
+        "正式GPT-5.6：120次；B37/23，C45/6/9。",
+        "HR离线9/9与测试组人工签验分开。",
+        "DeepSeek演示与GPT正式评测分别标注。",
+        "v5仅改封面；正文、视频和示例链接承接v4。",
+        "成本为来源记录和显式情景，实际净人工节省待测。"
+      ]
+    },
+    "scope_note": "八个环节覆盖调研、工程、开发、两位测试和正式交付；每人的实际交件与建议职责分开记录。",
+    "criteria_basis": "按已有交接要求整理的管理检查项；不代表教师评分或团队已确认的全部工作量。",
+    "basis_coordination_revision": "c3dcdcef220d891a82ea0342e66d2c57dff779ad8ff45ef01b0a63b1534b8738"
+  },
+  "metadata_sha256": "77b454e39d9475be5542189b7839e21f741dca89f9126e51066fed6da8b26874",
+  "coordination_sha256": "c3dcdcef220d891a82ea0342e66d2c57dff779ad8ff45ef01b0a63b1534b8738",
+  "timeline_sha256": "865c1bbafa0f0f9b829db61095655fe81831c93334573b8418a1870c2a05d21e"
+}

@@ -1,8 +1,8 @@
 {
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "timezone": "Asia/Shanghai",
-  "basis_revision": "46d8913338f28ab9fde13a3196abf6efc20b6cf382896c3a0eae00cf11c942cc",
-  "basis_management_revision": "bb9cc46a554789ae5c130284994af6e4a12473b452243c8152135b206a2e64f2",
+  "basis_revision": "77b454e39d9475be5542189b7839e21f741dca89f9126e51066fed6da8b26874",
+  "basis_management_revision": "0945c1b83bf0974ff17c79d0d445a86aa91f203501ce5612fecff9391c8529ea",
   "as_of": "2026-11-26",
   "schema_version": 1,
   "assignment_id": "IS5542-A01",
@@ -14,32 +14,32 @@
       "owner": "Jacky · 公开规则调研",
       "owner_role": "member",
       "scope": "team",
-      "summary": "Jacky11/22业务说明、5项保障和3要点已收到并读完；条款定位仍缺，不代表本会话官方核实全部规则。",
+      "summary": "Jacky v1.6 已完整核读，10条域链接和已有来源已用于当前稿；未核北京岗位数字已排除。 未把各版本保障合为统一政策；未核数字不再列为制作阻塞。",
       "deliverable": "按三家平台记录适用条件、时间门槛、补偿、例外和原文证据。",
-      "next_action": "仅补5行官方URL／原文或已有截图定位，未核保留，不重开大调研。",
+      "next_action": "沿当前已采用来源审稿，不扩调研。",
       "my_next_action": null,
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
         {
           "id": "draft",
-          "label": "三平台初稿与两项保障 v1.3 已收",
+          "label": "v1.6补件已收并核读",
           "status": "pass",
           "evidence": [
-            "market-rules-v13"
+            "final-ppt-review-v3-20261124"
           ]
         },
         {
           "id": "existence",
-          "label": "两项保障存在和基本条件有依据",
+          "label": "主稿采用的保障出处已定位",
           "status": "pass",
           "evidence": [
-            "market-rules-v13"
+            "final-ppt-review-v3-20261124"
           ]
         },
         {
           "id": "screenshots",
-          "label": "8 页截图已核读并记录版本差异",
+          "label": "既有截图与版本差异已记录",
           "status": "pass",
           "evidence": [
             "market-rules-v13"
@@ -47,18 +47,10 @@
         },
         {
           "id": "complete",
-          "label": "精确边界、出处与适用版本已全部关闭",
-          "status": "gap",
-          "evidence": [
-            "market-rules-v13"
-          ]
-        },
-        {
-          "id": "business_package_received_1122",
-          "label": "11/22业务说明／五规则／三要点已收到并核读",
+          "label": "当前稿已选取有依据内容并剔除未核数值",
           "status": "pass",
           "evidence": [
-            "group-progress-20261122"
+            "final-ppt-review-v3-20261124"
           ]
         }
       ],
@@ -69,9 +61,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-22",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "实际核读11/22群聊／新版表／远端代码与原件；区分开发自报、测试组报告和本会话未重跑。本人只确认考虑扩展方向，详细边界待定。",
+      "state_basis": "11/26回读已归档v3–v5核验、正式120复核及录制讲稿；本次只同步当前进度，没有新模型运行或人工验收。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
@@ -92,6 +84,10 @@
         {
           "label": "11月22日群进度与交件接收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/progress-2026-11-22.md"
+        },
+        {
+          "label": "11月26日当前交付与收尾事项",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
         }
       ],
       "history": [
@@ -156,6 +152,59 @@
             "next_action": "Jacky在发群后12小时交一页业务／三平台规则与来源限制，不扩调研或统稿。",
             "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。"
           }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "本人授权更新线上；以当前成品和已归档证据修正旧待办。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "Jacky11/22业务说明、5项保障和3要点已收到并读完；条款定位仍缺，不代表本会话官方核实全部规则。",
+            "next_action": "仅补5行官方URL／原文或已有截图定位，未核保留，不重开大调研。",
+            "state_basis": "实际核读11/22群聊／新版表／远端代码与原件；区分开发自报、测试组报告和本会话未重跑。本人只确认考虑扩展方向，详细边界待定。",
+            "acceptance": [
+              {
+                "id": "draft",
+                "label": "三平台初稿与两项保障 v1.3 已收",
+                "status": "pass",
+                "evidence": [
+                  "market-rules-v13"
+                ]
+              },
+              {
+                "id": "existence",
+                "label": "两项保障存在和基本条件有依据",
+                "status": "pass",
+                "evidence": [
+                  "market-rules-v13"
+                ]
+              },
+              {
+                "id": "screenshots",
+                "label": "8 页截图已核读并记录版本差异",
+                "status": "pass",
+                "evidence": [
+                  "market-rules-v13"
+                ]
+              },
+              {
+                "id": "complete",
+                "label": "精确边界、出处与适用版本已全部关闭",
+                "status": "gap",
+                "evidence": [
+                  "market-rules-v13"
+                ]
+              },
+              {
+                "id": "business_package_received_1122",
+                "label": "11/22业务说明／五规则／三要点已收到并核读",
+                "status": "pass",
+                "evidence": [
+                  "group-progress-20261122"
+                ]
+              }
+            ]
+          }
         }
       ]
     },
@@ -166,16 +215,16 @@
       "owner": "林 · 客服流程观察",
       "owner_role": "member",
       "scope": "team",
-      "summary": "旧材料承接；本次11/22群范围未见林的新12格市场流程比较，不从未见推断未开展。",
+      "summary": "三平台历史材料已整理为12格市场流程比较并纳入当前稿。 观察基于旧单／提前送达等有限条件，未取得统一真实赔付成绩。",
       "deliverable": "按 R01–R03 观察缺订单号、查补偿、找人工或查进度的流程。",
-      "next_action": "按原无订单／公开证据范围交新比较表，Jacky政策对照作为输入，不替代可观察流程。",
+      "next_action": "审稿沿用有限流程比较。",
       "my_next_action": null,
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
         {
           "id": "observed",
-          "label": "三平台R01–R03首轮报告与截图已收核",
+          "label": "3份正文与26图已核读",
           "status": "pass",
           "evidence": [
             "flow-observations-received"
@@ -183,26 +232,18 @@
         },
         {
           "id": "review",
-          "label": "样本差异、推论边界与规则对照已列明",
+          "label": "12格比较及观察条件已纳入当前稿",
           "status": "pass",
           "evidence": [
-            "flow-observations-received"
+            "final-ppt-review-v3-20261124"
           ]
         },
         {
           "id": "closure",
-          "label": "真实赔付、真人接通与有工单进度已核",
-          "status": "gap",
+          "label": "比较范围与证据边界已明确",
+          "status": "pass",
           "evidence": [
-            "flow-observations-received"
-          ]
-        },
-        {
-          "id": "limited_comparison",
-          "label": "两天版证据类型、来源与不可比范围已交",
-          "status": "unknown",
-          "evidence": [
-            "owner-two-day-plan-20261121"
+            "final-ppt-review-v3-20261124"
           ]
         }
       ],
@@ -213,9 +254,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-22",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "实际核读11/22群聊／新版表／远端代码与原件；区分开发自报、测试组报告和本会话未重跑。本人只确认考虑扩展方向，详细边界待定。",
+      "state_basis": "11/26回读已归档v3–v5核验、正式120复核及录制讲稿；本次只同步当前进度，没有新模型运行或人工验收。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -236,6 +277,10 @@
         {
           "label": "11月22日群进度与交件接收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/progress-2026-11-22.md"
+        },
+        {
+          "label": "11月26日当前交付与收尾事项",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
         }
       ],
       "history": [
@@ -300,45 +345,98 @@
             "next_action": "林在发群后20小时交无订单观察／公开证据12行比较；未知写未观察，不要求真实赔付到账。",
             "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。"
           }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "本人授权更新线上；以当前成品和已归档证据修正旧待办。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "旧材料承接；本次11/22群范围未见林的新12格市场流程比较，不从未见推断未开展。",
+            "next_action": "按原无订单／公开证据范围交新比较表，Jacky政策对照作为输入，不替代可观察流程。",
+            "state_basis": "实际核读11/22群聊／新版表／远端代码与原件；区分开发自报、测试组报告和本会话未重跑。本人只确认考虑扩展方向，详细边界待定。",
+            "acceptance": [
+              {
+                "id": "observed",
+                "label": "三平台R01–R03首轮报告与截图已收核",
+                "status": "pass",
+                "evidence": [
+                  "flow-observations-received"
+                ]
+              },
+              {
+                "id": "review",
+                "label": "样本差异、推论边界与规则对照已列明",
+                "status": "pass",
+                "evidence": [
+                  "flow-observations-received"
+                ]
+              },
+              {
+                "id": "closure",
+                "label": "真实赔付、真人接通与有工单进度已核",
+                "status": "gap",
+                "evidence": [
+                  "flow-observations-received"
+                ]
+              },
+              {
+                "id": "limited_comparison",
+                "label": "两天版证据类型、来源与不可比范围已交",
+                "status": "unknown",
+                "evidence": [
+                  "owner-two-day-plan-20261121"
+                ]
+              }
+            ]
+          }
         }
       ]
     },
     {
       "id": "core",
       "title": "资格判定接口与演示规则",
-      "status": "done",
+      "status": "needs_review",
       "owner": "本人 · 工程与 baseline",
       "owner_role": "me",
       "scope": "team",
-      "summary": "接口和 demo-v1 已发布；未达门槛、符合申请、资料不足三路已复跑。 本环节已完成的是演示资格判定；正式补偿规则尚未批准。",
+      "summary": "固定176fbb0承接四项确认边界；HR01–HR09由课程助手离线复跑9/9通过。 3元扩展仍待本人决定，未改变现行基准。",
       "deliverable": "交可调用的服务端资格函数、版本化规则及边界结果。",
-      "next_action": "保留已验收成果和版本；后续修订作为新状态记录。",
+      "next_action": "沿固定版本和已确认边界解释结果。",
       "my_next_action": null,
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
         {
           "id": "code",
-          "label": "接口与配置已发布",
+          "label": "固定176fbb0代码与配置已收",
           "status": "pass",
           "evidence": [
-            "handoff"
+            "developer-complete-delivery-20261123"
           ]
         },
         {
           "id": "boundary",
-          "label": "门槛两侧已验证",
+          "label": "确定性边界HR九组离线复跑通过",
           "status": "pass",
           "evidence": [
-            "handoff"
+            "agent-offline-hr-replay-20261123"
           ]
         },
         {
           "id": "missing",
-          "label": "资料不足路径已验证",
+          "label": "缺信息路径已有正式用例记录",
           "status": "pass",
           "evidence": [
-            "handoff"
+            "owner-ppt-evidence-complete-review-20261123"
+          ]
+        },
+        {
+          "id": "human-review-rules",
+          "label": "人工重审、改额、防重复四项规则已确认",
+          "status": "pass",
+          "evidence": [
+            "owner-human-review-four-boundaries-20261123"
           ]
         }
       ],
@@ -349,13 +447,17 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-10",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "沿用已有核验；未凭文件存在推定正式提交。",
+      "state_basis": "11/26回读已归档v3–v5核验、正式120复核及录制讲稿；本次只同步当前进度，没有新模型运行或人工验收。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
           "url": null
+        },
+        {
+          "label": "11月26日当前交付与收尾事项",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
         }
       ],
       "history": [
@@ -363,6 +465,43 @@
           "observed_on": "2026-11-10",
           "status": "done",
           "note": "首次纳入统一时间线；该日为核实日期，不代替实际完成日。"
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "本人授权更新线上；以当前成品和已归档证据修正旧待办。",
+          "previous": {
+            "status": "done",
+            "summary": "接口和 demo-v1 已发布；未达门槛、符合申请、资料不足三路已复跑。 本环节已完成的是演示资格判定；正式补偿规则尚未批准。",
+            "next_action": "保留已验收成果和版本；后续修订作为新状态记录。",
+            "state_basis": "沿用已有核验；未凭文件存在推定正式提交。",
+            "acceptance": [
+              {
+                "id": "code",
+                "label": "接口与配置已发布",
+                "status": "pass",
+                "evidence": [
+                  "handoff"
+                ]
+              },
+              {
+                "id": "boundary",
+                "label": "门槛两侧已验证",
+                "status": "pass",
+                "evidence": [
+                  "handoff"
+                ]
+              },
+              {
+                "id": "missing",
+                "label": "资料不足路径已验证",
+                "status": "pass",
+                "evidence": [
+                  "handoff"
+                ]
+              }
+            ]
+          }
         }
       ]
     },
@@ -373,9 +512,9 @@
       "owner": "李宗谦 · 网页开发",
       "owner_role": "member",
       "scope": "team",
-      "summary": "176fbb0（v18）候选、36854f4同代码资料与配置已收；新守卫独立验收／部署同版核验待测试组。",
+      "summary": "基础工具B、规则C及顾客／审核入口已有；两段DeepSeek演示已嵌入并完整播放核对。 当前公网部署与176fbb0完全同版、测试组真人界面签验尚未确认。",
       "deliverable": "交本机可点通页面、开发分支、启动说明和同一工单的状态回显。",
-      "next_action": "测试组绑定176fbb0、配置和实际开关验收；开发配合隔离初态，不重置共享库。",
+      "next_action": "录制沿已核演示素材；如用在线系统，现场核入口与订单事实。",
       "my_next_action": null,
       "depends_on": [
         "core"
@@ -390,29 +529,41 @@
       "acceptance": [
         {
           "id": "ui",
-          "label": "顾客与审批入口可操作",
-          "status": "unknown",
-          "evidence": []
-        },
-        {
-          "id": "auth",
-          "label": "服务端归属及审批权限已核",
-          "status": "unknown",
-          "evidence": []
-        },
-        {
-          "id": "state",
-          "label": "同一工单状态与重复申请处理已核",
-          "status": "unknown",
-          "evidence": []
-        },
-        {
-          "id": "handoff",
-          "label": "C受测提交、真实模型、入口和初态已交",
+          "label": "固定测试版本与模型配置有记录",
           "status": "pass",
           "evidence": [
             "developer-complete-delivery-20261123"
           ]
+        },
+        {
+          "id": "auth",
+          "label": "权限与改额守卫有离线9组结果",
+          "status": "pass",
+          "evidence": [
+            "agent-offline-hr-replay-20261123"
+          ]
+        },
+        {
+          "id": "state",
+          "label": "同单状态与一次发放守卫有离线结果",
+          "status": "pass",
+          "evidence": [
+            "agent-offline-hr-replay-20261123"
+          ]
+        },
+        {
+          "id": "branch",
+          "label": "开发候选及源码版本已核",
+          "status": "pass",
+          "evidence": [
+            "developer-complete-delivery-20261123"
+          ]
+        },
+        {
+          "id": "human",
+          "label": "测试组真人界面签验",
+          "status": "unknown",
+          "evidence": []
         }
       ],
       "target": {
@@ -422,9 +573,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-23",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "本批实际核只读远端代码／文件／模型留档、两视频metadata和采样帧，未跑应用／模型；本人直接确认题量120。",
+      "state_basis": "11/26回读已归档v3–v5核验、正式120复核及录制讲稿；本次只同步当前进度，没有新模型运行或人工验收。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -461,6 +612,10 @@
         {
           "label": "176fbb0开发补齐交件与正式120次范围",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/developer-delivery-2026-11-23.md"
+        },
+        {
+          "label": "11月26日当前交付与收尾事项",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
         }
       ],
       "history": [
@@ -580,19 +735,58 @@
             "next_action": "对齐重审状态／原因、R002改额权限、整数／实付上限与按订单原子防重，交明确代码／线上版本和记录，不扩新系统。",
             "state_basis": "本人四项直接确认，规范与验收清单已形成；未改运行代码或执行测试。"
           }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "本人授权更新线上；以当前成品和已归档证据修正旧待办。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "176fbb0（v18）候选、36854f4同代码资料与配置已收；新守卫独立验收／部署同版核验待测试组。",
+            "next_action": "测试组绑定176fbb0、配置和实际开关验收；开发配合隔离初态，不重置共享库。",
+            "state_basis": "本批实际核只读远端代码／文件／模型留档、两视频metadata和采样帧，未跑应用／模型；本人直接确认题量120。",
+            "acceptance": [
+              {
+                "id": "ui",
+                "label": "顾客与审批入口可操作",
+                "status": "unknown",
+                "evidence": []
+              },
+              {
+                "id": "auth",
+                "label": "服务端归属及审批权限已核",
+                "status": "unknown",
+                "evidence": []
+              },
+              {
+                "id": "state",
+                "label": "同一工单状态与重复申请处理已核",
+                "status": "unknown",
+                "evidence": []
+              },
+              {
+                "id": "handoff",
+                "label": "C受测提交、真实模型、入口和初态已交",
+                "status": "pass",
+                "evidence": [
+                  "developer-complete-delivery-20261123"
+                ]
+              }
+            ]
+          }
         }
       ]
     },
     {
       "id": "p01",
       "title": "测试组：网页闭环与轻量人类视觉",
-      "status": "in_progress",
+      "status": "needs_review",
       "owner": "测试组（A＋gaga老师）",
       "owner_role": "team",
       "scope": "team",
-      "summary": "本会话先行离线复跑开发HR九组，9/9通过；测试设计仍来自开发，线上／人类视觉与真实模型质量未据此认定。",
+      "summary": "正常演示21.1秒已核完整播放；确定性HR九组及正式120次原始记录均归档。 测试组人工签验仍未记录，不移用旧8行表作同版验收。",
       "deliverable": "同一份测试组报告及原始记录；技术、网页和人类视觉分别注明方法与实际核验范围。",
-      "next_action": "保存本会话执行来源，后续测试组人类反馈可补；真实120次落实模型配置和预算后另跑，不重复冒充同一记录。",
+      "next_action": "按现有片段讲述查单、确认、人工审批和状态回显。",
       "my_next_action": null,
       "depends_on": [
         "web"
@@ -600,72 +794,41 @@
       "dependency_gates": [
         {
           "task_id": "web",
-          "check_ids": [
-            "handoff"
-          ],
+          "check_ids": [],
           "note": "拿到可测输入即可开始，不要求先验收通过才能验收"
         }
       ],
       "acceptance": [
         {
           "id": "run",
-          "label": "正常审批两条路径已实跑",
-          "status": "unknown",
-          "evidence": []
+          "label": "正常审批路径有实际演示记录",
+          "status": "pass",
+          "evidence": [
+            "final-ppt-review-v3-20261124"
+          ]
         },
         {
           "id": "evidence",
-          "label": "版本、结果和缺陷证据已交",
-          "status": "unknown",
-          "evidence": []
-        },
-        {
-          "id": "visual",
-          "label": "6项人类视觉意见已由实际观察者完成并合并",
-          "status": "unknown",
-          "evidence": [
-            "owner-two-day-plan-20261121"
-          ]
-        },
-        {
-          "id": "feedback_received",
-          "label": "测试组首轮三个问题群聊反馈已收到（非修复通过）",
+          "label": "固定版本、原始评测与视频事实已核",
           "status": "pass",
           "evidence": [
-            "team-feedback-20261121"
+            "final-ppt-review-v3-20261124",
+            "owner-ppt-evidence-complete-review-20261123"
           ]
         },
         {
-          "id": "feedback_retest",
-          "label": "三个问题原记录、修复版本与定向复测有证据",
-          "status": "unknown",
-          "evidence": [
-            "team-feedback-20261121"
-          ]
-        },
-        {
-          "id": "source_table_read",
-          "label": "原表7条和三问题文字已核读，对应编号／步骤已交开发",
-          "status": "pass",
-          "evidence": [
-            "team-test-sheet-read-20261121"
-          ]
-        },
-        {
-          "id": "retest_report_received_1122",
-          "label": "1122表8行通过标记及两个新问题文字已核读（不是独立重跑／版本绑定）",
+          "id": "history",
+          "label": "11月22日旧试用表保留历史地位",
           "status": "pass",
           "evidence": [
             "group-progress-20261122"
           ]
         },
         {
-          "id": "human_review_v1_checks",
-          "label": "固定176fbb0的HR九组已由本会话离线复跑通过（非测试组／人类验收）",
-          "status": "pass",
-          "evidence": [
-            "agent-offline-hr-replay-20261123"
-          ]
+          "id": "human",
+          "label": "测试组同版人工签验",
+          "status": "unknown",
+          "evidence": []
         }
       ],
       "target": {
@@ -675,9 +838,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-23",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "本会话实际执行固定源码九组，子进程无模型选择器／配置与Key，退出0、9/9；套件开发设计，非盲测／真人验收。",
+      "state_basis": "11/26回读已归档v3–v5核验、正式120复核及录制讲稿；本次只同步当前进度，没有新模型运行或人工验收。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -718,6 +881,10 @@
         {
           "label": "本会话离线HR9/9与范围说明",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/agent-offline-replay-2026-11-23.md"
+        },
+        {
+          "label": "11月26日当前交付与收尾事项",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
         }
       ],
       "history": [
@@ -847,6 +1014,79 @@
             "next_action": "在固定176fbb0独立复测HR01—09并保留实际报告，视觉直接看三状态示例，原8行不倒签新结果。",
             "state_basis": "本批实际核只读远端代码／文件／模型留档、两视频metadata和采样帧，未跑应用／模型；本人直接确认题量120。"
           }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "本人授权更新线上；以当前成品和已归档证据修正旧待办。",
+          "previous": {
+            "status": "in_progress",
+            "summary": "本会话先行离线复跑开发HR九组，9/9通过；测试设计仍来自开发，线上／人类视觉与真实模型质量未据此认定。",
+            "next_action": "保存本会话执行来源，后续测试组人类反馈可补；真实120次落实模型配置和预算后另跑，不重复冒充同一记录。",
+            "state_basis": "本会话实际执行固定源码九组，子进程无模型选择器／配置与Key，退出0、9/9；套件开发设计，非盲测／真人验收。",
+            "acceptance": [
+              {
+                "id": "run",
+                "label": "正常审批两条路径已实跑",
+                "status": "unknown",
+                "evidence": []
+              },
+              {
+                "id": "evidence",
+                "label": "版本、结果和缺陷证据已交",
+                "status": "unknown",
+                "evidence": []
+              },
+              {
+                "id": "visual",
+                "label": "6项人类视觉意见已由实际观察者完成并合并",
+                "status": "unknown",
+                "evidence": [
+                  "owner-two-day-plan-20261121"
+                ]
+              },
+              {
+                "id": "feedback_received",
+                "label": "测试组首轮三个问题群聊反馈已收到（非修复通过）",
+                "status": "pass",
+                "evidence": [
+                  "team-feedback-20261121"
+                ]
+              },
+              {
+                "id": "feedback_retest",
+                "label": "三个问题原记录、修复版本与定向复测有证据",
+                "status": "unknown",
+                "evidence": [
+                  "team-feedback-20261121"
+                ]
+              },
+              {
+                "id": "source_table_read",
+                "label": "原表7条和三问题文字已核读，对应编号／步骤已交开发",
+                "status": "pass",
+                "evidence": [
+                  "team-test-sheet-read-20261121"
+                ]
+              },
+              {
+                "id": "retest_report_received_1122",
+                "label": "1122表8行通过标记及两个新问题文字已核读（不是独立重跑／版本绑定）",
+                "status": "pass",
+                "evidence": [
+                  "group-progress-20261122"
+                ]
+              },
+              {
+                "id": "human_review_v1_checks",
+                "label": "固定176fbb0的HR九组已由本会话离线复跑通过（非测试组／人类验收）",
+                "status": "pass",
+                "evidence": [
+                  "agent-offline-hr-replay-20261123"
+                ]
+              }
+            ]
+          }
         }
       ]
     },
@@ -857,9 +1097,9 @@
       "owner": "本人／本会话Agent执行；测试组后补复核",
       "owner_role": "me",
       "scope": "team",
-      "summary": "最终补件已收：李宗谦运行环境够用，付费DeepSeek开发成本自报估算与GPT正式用量分开；后端按176源码为Starlette/Uvicorn。Jacky v1.4六项保障和人工参照已收，京东／英美出处已由本会话补，最小仅建议北京原报告／图27及外包商报价链接；拿不到可删未核数字，不阻塞PPT，不扩实验。完整复核37/23与45/6/9不改，3元本组范围仍待本人决定，接下来填PPT／讲稿／录制提交。 另有开发fe27ea3的15页候选采用独立DeepSeek90次数据，仍待PPT收尾统一，不能替换GPT-5.6原120。",
+      "summary": "异常演示30.3秒已核：ORD008实付36元、延误31分钟，沿原工单重审并由R002批准15元；HR九组9/9。 真实模型C存在6次未落实承诺，另9次3元政策待核。",
       "deliverable": "同一份测试组报告及原始记录；技术、网页和人类视觉分别注明方法与实际核验范围。",
-      "next_action": "进入PPT成品整合；补两处引用或删未核数字，不再扩大调研和实验。",
+      "next_action": "在结果与局限中保留这些问题，不计为全通过。",
       "my_next_action": "决定3元范围，审PPT新指标／比较／估算，确认后转发任务。",
       "depends_on": [
         "web",
@@ -868,9 +1108,7 @@
       "dependency_gates": [
         {
           "task_id": "web",
-          "check_ids": [
-            "handoff"
-          ],
+          "check_ids": [],
           "note": "拿到可测输入即可开始，不要求先验收通过才能验收"
         },
         {
@@ -884,13 +1122,33 @@
       "acceptance": [
         {
           "id": "run",
-          "label": "边界与缺单/归属情形已实跑",
-          "status": "unknown",
-          "evidence": []
+          "label": "驳回重审与边界路径有记录",
+          "status": "pass",
+          "evidence": [
+            "final-ppt-review-v3-20261124",
+            "agent-offline-hr-replay-20261123"
+          ]
         },
         {
           "id": "evidence",
-          "label": "预期、实际和禁止动作已核",
+          "label": "版本、订单事实与完整处理标签已核",
+          "status": "pass",
+          "evidence": [
+            "final-ppt-review-v3-20261124",
+            "owner-ppt-evidence-complete-review-20261123"
+          ]
+        },
+        {
+          "id": "history",
+          "label": "历史试用表保留",
+          "status": "pass",
+          "evidence": [
+            "group-progress-20261122"
+          ]
+        },
+        {
+          "id": "human",
+          "label": "测试组同版人工签验",
           "status": "unknown",
           "evidence": []
         }
@@ -902,9 +1160,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-23",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "本人转交两份原件，已实际核读／有限官方回源；非新增平台实际赔付验证。",
+      "state_basis": "11/26回读已归档v3–v5核验、正式120复核及录制讲稿；本次只同步当前进度，没有新模型运行或人工验收。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -945,6 +1203,10 @@
         {
           "label": "PPT证据包最新入口",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-evidence-closeout-2026-11-23.md"
+        },
+        {
+          "label": "11月26日当前交付与收尾事项",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
         }
       ],
       "history": [
@@ -1105,6 +1367,31 @@
             "next_action": "本人审数据包和3元政策；按定向缺陷与补件推进PPT，不自动启动新A/B/C。",
             "state_basis": "本人截图指令和完整处理口径确认；本会话实际登记与既有原始证据，非成员新增承诺。"
           }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "本人授权更新线上；以当前成品和已归档证据修正旧待办。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "最终补件已收：李宗谦运行环境够用，付费DeepSeek开发成本自报估算与GPT正式用量分开；后端按176源码为Starlette/Uvicorn。Jacky v1.4六项保障和人工参照已收，京东／英美出处已由本会话补，最小仅建议北京原报告／图27及外包商报价链接；拿不到可删未核数字，不阻塞PPT，不扩实验。完整复核37/23与45/6/9不改，3元本组范围仍待本人决定，接下来填PPT／讲稿／录制提交。 另有开发fe27ea3的15页候选采用独立DeepSeek90次数据，仍待PPT收尾统一，不能替换GPT-5.6原120。",
+            "next_action": "进入PPT成品整合；补两处引用或删未核数字，不再扩大调研和实验。",
+            "state_basis": "本人转交两份原件，已实际核读／有限官方回源；非新增平台实际赔付验证。",
+            "acceptance": [
+              {
+                "id": "run",
+                "label": "边界与缺单/归属情形已实跑",
+                "status": "unknown",
+                "evidence": []
+              },
+              {
+                "id": "evidence",
+                "label": "预期、实际和禁止动作已核",
+                "status": "unknown",
+                "evidence": []
+              }
+            ]
+          }
         }
       ]
     },
@@ -1115,9 +1402,9 @@
       "owner": "本人／本会话Agent执行；测试组后补复核",
       "owner_role": "me",
       "scope": "team",
-      "summary": "最终补件已收：李宗谦运行环境够用，付费DeepSeek开发成本自报估算与GPT正式用量分开；后端按176源码为Starlette/Uvicorn。Jacky v1.4六项保障和人工参照已收，京东／英美出处已由本会话补，最小仅建议北京原报告／图27及外包商报价链接；拿不到可删未核数字，不阻塞PPT，不扩实验。完整复核37/23与45/6/9不改，3元本组范围仍待本人决定，接下来填PPT／讲稿／录制提交。 另有开发fe27ea3的15页候选采用独立DeepSeek90次数据，仍待PPT收尾统一，不能替换GPT-5.6原120。",
+      "summary": "GPT-5.6正式20题×B/C×3轮120次已完成；完整处理复核B37/23，C45/6/9。12格市场比较和成本情景已进入PPT。 3元范围待决定；已知B/C缺陷按结果保留，未标全部业务验收通过。",
       "deliverable": "确认正式政策与公平对照范围，再用同模型、同规则、同题目比较 B/C。",
-      "next_action": "进入PPT成品整合；补两处引用或删未核数字，不再扩大调研和实验。",
+      "next_action": "本人审结果与3元范围，沿现有120次收尾，不默认扩题。",
       "my_next_action": "决定3元范围，审PPT新指标／比较／估算，确认后转发任务。",
       "depends_on": [
         "p01",
@@ -1126,19 +1413,26 @@
       "dependency_gates": [],
       "acceptance": [
         {
-          "id": "method",
-          "label": "B基本架构与共同条件、评分已核",
+          "id": "policy",
+          "label": "额外3元暖心券纳入范围已由本人决定",
           "status": "unknown",
-          "evidence": [
-            "owner-two-day-plan-20261121"
-          ]
+          "evidence": []
         },
         {
           "id": "evaluation",
-          "label": "本轮完整记录、失败／复测和结论已核",
-          "status": "unknown",
+          "label": "120原始记录及完整处理37/23、45/6/9已核",
+          "status": "pass",
           "evidence": [
-            "owner-two-day-plan-20261121"
+            "owner-ppt-evidence-complete-review-20261123",
+            "final-ppt-review-v3-20261124"
+          ]
+        },
+        {
+          "id": "cost",
+          "label": "运行成本来源与情景假设已分别列明",
+          "status": "pass",
+          "evidence": [
+            "final-ppt-review-v3-20261124"
           ]
         }
       ],
@@ -1149,9 +1443,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-23",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "本人转交两份原件，已实际核读／有限官方回源；非新增平台实际赔付验证。",
+      "state_basis": "11/26回读已归档v3–v5核验、正式120复核及录制讲稿；本次只同步当前进度，没有新模型运行或人工验收。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -1200,6 +1494,10 @@
         {
           "label": "PPT证据包最新入口",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-evidence-closeout-2026-11-23.md"
+        },
+        {
+          "label": "11月26日当前交付与收尾事项",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
         }
       ],
       "history": [
@@ -1381,19 +1679,48 @@
             "next_action": "本人审数据包和3元政策；按定向缺陷与补件推进PPT，不自动启动新A/B/C。",
             "state_basis": "本人截图指令和完整处理口径确认；本会话实际登记与既有原始证据，非成员新增承诺。"
           }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "本人授权更新线上；以当前成品和已归档证据修正旧待办。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "最终补件已收：李宗谦运行环境够用，付费DeepSeek开发成本自报估算与GPT正式用量分开；后端按176源码为Starlette/Uvicorn。Jacky v1.4六项保障和人工参照已收，京东／英美出处已由本会话补，最小仅建议北京原报告／图27及外包商报价链接；拿不到可删未核数字，不阻塞PPT，不扩实验。完整复核37/23与45/6/9不改，3元本组范围仍待本人决定，接下来填PPT／讲稿／录制提交。 另有开发fe27ea3的15页候选采用独立DeepSeek90次数据，仍待PPT收尾统一，不能替换GPT-5.6原120。",
+            "next_action": "进入PPT成品整合；补两处引用或删未核数字，不再扩大调研和实验。",
+            "state_basis": "本人转交两份原件，已实际核读／有限官方回源；非新增平台实际赔付验证。",
+            "acceptance": [
+              {
+                "id": "method",
+                "label": "B基本架构与共同条件、评分已核",
+                "status": "unknown",
+                "evidence": [
+                  "owner-two-day-plan-20261121"
+                ]
+              },
+              {
+                "id": "evaluation",
+                "label": "本轮完整记录、失败／复测和结论已核",
+                "status": "unknown",
+                "evidence": [
+                  "owner-two-day-plan-20261121"
+                ]
+              }
+            ]
+          }
         }
       ]
     },
     {
       "id": "delivery",
       "title": "Slides、录像与提交",
-      "status": "unknown",
+      "status": "needs_review",
       "owner": "李宾雄统一PPT／全组讲述与录制",
       "owner_role": "me",
       "scope": "team",
-      "summary": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 录屏、正式 B/C 对照、市场流程比较、成本／ROI、最终 Slides 与正式提交仍待补。已登记 11 月 28 日交录像和 Slides，Canvas 入口、时长及准确时刻待核。",
+      "summary": "15页v5 PPTX/PDF与六人封面已备；两段演示、15页中英文讲稿及Word/PDF可用。示例网址已设为可点击链接。 本人审稿、贡献措辞、计时彩排、最终整段录像及正式提交仍待。",
       "deliverable": "把业务依据、演示和评价串成完整交付，并核最终回执。",
-      "next_action": "本人核阅PPTX，按同版测试和录屏补终稿，核Canvas入口与回执。",
+      "next_action": "使用v5和现有讲稿录制，检查最终文件并按Canvas入口交件。",
       "my_next_action": "本人核阅PPTX，按同版测试和录屏补终稿，核Canvas入口与回执。",
       "depends_on": [
         "acceptance"
@@ -1401,35 +1728,69 @@
       "dependency_gates": [
         {
           "task_id": "acceptance",
-          "check_ids": [],
-          "note": "正式验收后形成结论"
+          "check_ids": [
+            "evaluation",
+            "cost"
+          ]
         }
       ],
       "acceptance": [
         {
           "id": "story",
-          "label": "Slides 与演示叙事已确认",
+          "label": "本人已批准最终展示内容和贡献措辞",
           "status": "unknown",
           "evidence": []
         },
         {
           "id": "video",
-          "label": "录像和交付文件已检查",
+          "label": "最终整段作业录像已完成并检查",
           "status": "unknown",
           "evidence": []
         },
         {
           "id": "submit",
-          "label": "提交回执已核验",
+          "label": "正式提交回执已核",
           "status": "unknown",
           "evidence": []
         },
         {
-          "id": "desktop-pptx",
-          "label": "15页本地可编辑PPTX已导出并核实",
+          "id": "editable-pptx",
+          "label": "v5可编辑PPTX及PDF已核",
           "status": "pass",
           "evidence": [
-            "pptx-local-export-20261123"
+            "cover-roster-v5-20261126"
+          ]
+        },
+        {
+          "id": "roster",
+          "label": "六位成员封面信息已补齐",
+          "status": "pass",
+          "evidence": [
+            "cover-roster-v5-20261126"
+          ]
+        },
+        {
+          "id": "demos",
+          "label": "两段嵌入演示已完整播放核对",
+          "status": "pass",
+          "evidence": [
+            "final-ppt-review-v3-20261124"
+          ]
+        },
+        {
+          "id": "script",
+          "label": "15页英文1478词及中文对照录制稿已备",
+          "status": "pass",
+          "evidence": [
+            "speaker-script-v4-20261125"
+          ]
+        },
+        {
+          "id": "canvas",
+          "label": "Canvas入口与显示截止已读取",
+          "status": "pass",
+          "evidence": [
+            "canvas-group-project-20261124"
           ]
         }
       ],
@@ -1440,9 +1801,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-21",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
+      "state_basis": "11/26回读已归档v3–v5核验、正式120复核及录制讲稿；本次只同步当前进度，没有新模型运行或人工验收。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -1459,6 +1820,10 @@
         {
           "label": "11月23日总监督复核及交件清单",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/supervision-2026-11-23.md"
+        },
+        {
+          "label": "11月26日当前交付与收尾事项",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
         }
       ],
       "history": [
@@ -1498,6 +1863,45 @@
           "observed_on": "2026-11-23",
           "status": "unknown",
           "note": "总监督核对课程与PPT会话、远端来源及本地PPTX；保留正式交件状态。"
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "本人授权更新线上；以当前成品和已归档证据修正旧待办。",
+          "previous": {
+            "status": "unknown",
+            "summary": "15 页可编辑视觉稿 v2 已有，11 月 23 日另导出桌面 PPTX。制作会话报告已用 PowerPoint 实开并逐页检查，总监督复核了本地 PPTX 的 15 页结构、归档完整性和哈希。 录屏、正式 B/C 对照、市场流程比较、成本／ROI、最终 Slides 与正式提交仍待补。已登记 11 月 28 日交录像和 Slides，Canvas 入口、时长及准确时刻待核。",
+            "next_action": "本人核阅PPTX，按同版测试和录屏补终稿，核Canvas入口与回执。",
+            "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
+            "acceptance": [
+              {
+                "id": "story",
+                "label": "Slides 与演示叙事已确认",
+                "status": "unknown",
+                "evidence": []
+              },
+              {
+                "id": "video",
+                "label": "录像和交付文件已检查",
+                "status": "unknown",
+                "evidence": []
+              },
+              {
+                "id": "submit",
+                "label": "提交回执已核验",
+                "status": "unknown",
+                "evidence": []
+              },
+              {
+                "id": "desktop-pptx",
+                "label": "15页本地可编辑PPTX已导出并核实",
+                "status": "pass",
+                "evidence": [
+                  "pptx-local-export-20261123"
+                ]
+              }
+            ]
+          }
         }
       ]
     },
@@ -1508,24 +1912,69 @@
       "owner": "本人 · 统筹",
       "owner_role": "me",
       "scope": "team",
-      "summary": "11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。",
+      "summary": "v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演示已嵌入并核完整播放，15 页英文录制讲稿及中文对照已备。正式 120 次完整处理复核：B 37 通过／23 未过，C 45 通过／6 未过／9 政策待核。下一步为本人审稿、贡献措辞确认、彩排和最终录制。",
       "deliverable": "完成核对或交接，并将实际答复更新回任务记录。",
-      "next_action": "使用v5与现有录制讲稿彩排录制；其他待决和提交状态按原记录。",
+      "next_action": "使用v5及现有讲稿审稿、彩排和录制；确认贡献措辞与3元范围。",
       "my_next_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
         {
-          "id": "followup",
-          "label": "已核对并登记实际结果或待回复内容",
-          "status": "unknown"
+          "id": "story",
+          "label": "本人已批准最终展示内容和贡献措辞",
+          "status": "unknown",
+          "evidence": []
         },
         {
-          "id": "review-v3-delivered",
-          "label": "本地v3/PDF/中文讲稿已制作，15页已看、两段嵌入视频已完整播放",
+          "id": "video",
+          "label": "最终整段作业录像已完成并检查",
+          "status": "unknown",
+          "evidence": []
+        },
+        {
+          "id": "submit",
+          "label": "正式提交回执已核",
+          "status": "unknown",
+          "evidence": []
+        },
+        {
+          "id": "editable-pptx",
+          "label": "v5可编辑PPTX及PDF已核",
+          "status": "pass",
+          "evidence": [
+            "cover-roster-v5-20261126"
+          ]
+        },
+        {
+          "id": "roster",
+          "label": "六位成员封面信息已补齐",
+          "status": "pass",
+          "evidence": [
+            "cover-roster-v5-20261126"
+          ]
+        },
+        {
+          "id": "demos",
+          "label": "两段嵌入演示已完整播放核对",
           "status": "pass",
           "evidence": [
             "final-ppt-review-v3-20261124"
+          ]
+        },
+        {
+          "id": "script",
+          "label": "15页英文1478词及中文对照录制稿已备",
+          "status": "pass",
+          "evidence": [
+            "speaker-script-v4-20261125"
+          ]
+        },
+        {
+          "id": "canvas",
+          "label": "Canvas入口与显示截止已读取",
+          "status": "pass",
+          "evidence": [
+            "canvas-group-project-20261124"
           ]
         }
       ],
@@ -1538,7 +1987,7 @@
       "completed_on": null,
       "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "本批实际制作、全页PowerPoint渲染和两段嵌入视频播放；不代表本人已审或真实支付通过。",
+      "state_basis": "11/26回读已归档v3–v5核验、正式120复核及录制讲稿；本次只同步当前进度，没有新模型运行或人工验收。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -1579,6 +2028,10 @@
         {
           "label": "v5封面名单与核验",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/cover-roster-v5-20261126/README.md"
+        },
+        {
+          "label": "11月26日当前交付与收尾事项",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
         }
       ],
       "history": [
@@ -1706,6 +2159,32 @@
             "next_action": "本人查看v4网址与讲述文本，继续身份／贡献核对和彩排录制。",
             "my_next_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。"
           }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "本人授权更新线上；以当前成品和已归档证据修正旧待办。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。",
+            "next_action": "使用v5与现有录制讲稿彩排录制；其他待决和提交状态按原记录。",
+            "state_basis": "本批实际制作、全页PowerPoint渲染和两段嵌入视频播放；不代表本人已审或真实支付通过。",
+            "acceptance": [
+              {
+                "id": "followup",
+                "label": "已核对并登记实际结果或待回复内容",
+                "status": "unknown"
+              },
+              {
+                "id": "review-v3-delivered",
+                "label": "本地v3/PDF/中文讲稿已制作，15页已看、两段嵌入视频已完整播放",
+                "status": "pass",
+                "evidence": [
+                  "final-ppt-review-v3-20261124"
+                ]
+              }
+            ]
+          }
         }
       ]
     },
@@ -1772,13 +2251,13 @@
     {
       "id": "demo-record",
       "title": "准备稳定版本的演示素材",
-      "status": "needs_review",
+      "status": "done",
       "owner": "全组；本人统筹",
       "owner_role": "team",
       "scope": "team",
-      "summary": "两段MP4已收、可解码且抽看最终帧；正常21.1秒、异常30.3秒，无音轨。已交素材，待本人核完整讲述／插入PPT。",
+      "summary": "两段DeepSeek演示已嵌入并在PowerPoint完整播放，正常21.1秒、异常30.3秒；v5视频原字节沿用。",
       "deliverable": "准备稳定版本的演示素材的可核版本或结果记录",
-      "next_action": "保留受测代码／模型／规则标注，将正常与异常片段用于PPT并配讲述，不将其当最终作业录像完成。",
+      "next_action": "用既有片段配合讲稿录制整段汇报。",
       "my_next_action": null,
       "depends_on": [
         "web",
@@ -1789,15 +2268,10 @@
       "acceptance": [
         {
           "id": "done",
-          "label": "准备稳定版本的演示素材有实际产物和核验记录",
-          "status": "unknown"
-        },
-        {
-          "id": "recordings_received",
-          "label": "两MP4文件／时长／codec及关键帧已核（非完整复跑）",
+          "label": "两段演示素材和完整播放已核",
           "status": "pass",
           "evidence": [
-            "developer-complete-delivery-20261123"
+            "final-ppt-review-v3-20261124"
           ]
         }
       ],
@@ -1807,10 +2281,10 @@
         "basis": "unknown"
       },
       "started_on": null,
-      "completed_on": null,
-      "observed_on": "2026-11-23",
+      "completed_on": "2026-11-24",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "本批实际核只读远端代码／文件／模型留档、两视频metadata和采样帧，未跑应用／模型；本人直接确认题量120。",
+      "state_basis": "11/26回读已归档v3–v5核验、正式120复核及录制讲稿；本次只同步当前进度，没有新模型运行或人工验收。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
@@ -1831,6 +2305,10 @@
         {
           "label": "176fbb0开发补齐交件与正式120次范围",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/developer-delivery-2026-11-23.md"
+        },
+        {
+          "label": "11月26日当前交付与收尾事项",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
         }
       ],
       "history": [
@@ -1887,6 +2365,32 @@
             "next_action": "新边界确认与版本固定后交两段实际片段及版本／模型／日期，PPT再填演示位置。",
             "state_basis": "实际核读11/22群聊／新版表／远端代码与原件；区分开发自报、测试组报告和本会话未重跑。本人只确认考虑扩展方向，详细边界待定。"
           }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "done",
+          "note": "本人授权更新线上；以当前成品和已归档证据修正旧待办。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "两段MP4已收、可解码且抽看最终帧；正常21.1秒、异常30.3秒，无音轨。已交素材，待本人核完整讲述／插入PPT。",
+            "next_action": "保留受测代码／模型／规则标注，将正常与异常片段用于PPT并配讲述，不将其当最终作业录像完成。",
+            "state_basis": "本批实际核只读远端代码／文件／模型留档、两视频metadata和采样帧，未跑应用／模型；本人直接确认题量120。",
+            "acceptance": [
+              {
+                "id": "done",
+                "label": "准备稳定版本的演示素材有实际产物和核验记录",
+                "status": "unknown"
+              },
+              {
+                "id": "recordings_received",
+                "label": "两MP4文件／时长／codec及关键帧已核（非完整复跑）",
+                "status": "pass",
+                "evidence": [
+                  "developer-complete-delivery-20261123"
+                ]
+              }
+            ]
+          }
         }
       ]
     },
@@ -1897,50 +2401,78 @@
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。",
+      "summary": "v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演示已嵌入并核完整播放，15 页英文录制讲稿及中文对照已备。正式 120 次完整处理复核：B 37 通过／23 未过，C 45 通过／6 未过／9 政策待核。下一步为本人审稿、贡献措辞确认、彩排和最终录制。",
       "deliverable": "合并 Slides 与录制演示的可核版本或结果记录",
-      "next_action": "使用v5与现有录制讲稿彩排录制；其他待决和提交状态按原记录。",
+      "next_action": "使用v5及现有讲稿审稿、彩排和录制；确认贡献措辞与3元范围。",
       "my_next_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
       "depends_on": [
         "demo-record"
       ],
-      "dependency_gates": [],
+      "dependency_gates": [
+        {
+          "task_id": "demo-record",
+          "check_ids": [
+            "done"
+          ]
+        }
+      ],
       "acceptance": [
         {
-          "id": "done",
-          "label": "合并 Slides 与录制演示有实际产物和核验记录",
-          "status": "unknown"
+          "id": "story",
+          "label": "本人已批准最终展示内容和贡献措辞",
+          "status": "unknown",
+          "evidence": []
         },
         {
-          "id": "editable-draft",
-          "label": "15页可编辑初稿已保存并逐页渲染核对（结果及录像仍待）",
+          "id": "video",
+          "label": "最终整段作业录像已完成并检查",
+          "status": "unknown",
+          "evidence": []
+        },
+        {
+          "id": "submit",
+          "label": "正式提交回执已核",
+          "status": "unknown",
+          "evidence": []
+        },
+        {
+          "id": "editable-pptx",
+          "label": "v5可编辑PPTX及PDF已核",
           "status": "pass",
           "evidence": [
-            "editable-presentation-draft-20261123"
+            "cover-roster-v5-20261126"
           ]
         },
         {
-          "id": "visual-v2",
-          "label": "15页视觉改版已保存并逐页检查，待本人核阅",
+          "id": "roster",
+          "label": "六位成员封面信息已补齐",
           "status": "pass",
           "evidence": [
-            "presentation-visual-redesign-20261123"
+            "cover-roster-v5-20261126"
           ]
         },
         {
-          "id": "desktop-pptx",
-          "label": "15页本地可编辑PPTX已导出并核实",
-          "status": "pass",
-          "evidence": [
-            "pptx-local-export-20261123"
-          ]
-        },
-        {
-          "id": "review-v3-delivered",
-          "label": "本地v3/PDF/中文讲稿已制作，15页已看、两段嵌入视频已完整播放",
+          "id": "demos",
+          "label": "两段嵌入演示已完整播放核对",
           "status": "pass",
           "evidence": [
             "final-ppt-review-v3-20261124"
+          ]
+        },
+        {
+          "id": "script",
+          "label": "15页英文1478词及中文对照录制稿已备",
+          "status": "pass",
+          "evidence": [
+            "speaker-script-v4-20261125"
+          ]
+        },
+        {
+          "id": "canvas",
+          "label": "Canvas入口与显示截止已读取",
+          "status": "pass",
+          "evidence": [
+            "canvas-group-project-20261124"
           ]
         }
       ],
@@ -1953,7 +2485,7 @@
       "completed_on": null,
       "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "本批实际制作、全页PowerPoint渲染和两段嵌入视频播放；不代表本人已审或真实支付通过。",
+      "state_basis": "11/26回读已归档v3–v5核验、正式120复核及录制讲稿；本次只同步当前进度，没有新模型运行或人工验收。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
@@ -2006,6 +2538,10 @@
         {
           "label": "v5封面名单与核验",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/cover-roster-v5-20261126/README.md"
+        },
+        {
+          "label": "11月26日当前交付与收尾事项",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
         }
       ],
       "history": [
@@ -2142,6 +2678,56 @@
             "next_action": "本人查看v4网址与讲述文本，继续身份／贡献核对和彩排录制。",
             "my_next_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。"
           }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "本人授权更新线上；以当前成品和已归档证据修正旧待办。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。",
+            "next_action": "使用v5与现有录制讲稿彩排录制；其他待决和提交状态按原记录。",
+            "state_basis": "本批实际制作、全页PowerPoint渲染和两段嵌入视频播放；不代表本人已审或真实支付通过。",
+            "acceptance": [
+              {
+                "id": "done",
+                "label": "合并 Slides 与录制演示有实际产物和核验记录",
+                "status": "unknown"
+              },
+              {
+                "id": "editable-draft",
+                "label": "15页可编辑初稿已保存并逐页渲染核对（结果及录像仍待）",
+                "status": "pass",
+                "evidence": [
+                  "editable-presentation-draft-20261123"
+                ]
+              },
+              {
+                "id": "visual-v2",
+                "label": "15页视觉改版已保存并逐页检查，待本人核阅",
+                "status": "pass",
+                "evidence": [
+                  "presentation-visual-redesign-20261123"
+                ]
+              },
+              {
+                "id": "desktop-pptx",
+                "label": "15页本地可编辑PPTX已导出并核实",
+                "status": "pass",
+                "evidence": [
+                  "pptx-local-export-20261123"
+                ]
+              },
+              {
+                "id": "review-v3-delivered",
+                "label": "本地v3/PDF/中文讲稿已制作，15页已看、两段嵌入视频已完整播放",
+                "status": "pass",
+                "evidence": [
+                  "final-ppt-review-v3-20261124"
+                ]
+              }
+            ]
+          }
         }
       ]
     },
@@ -2152,9 +2738,9 @@
       "owner": "全组；本人统筹",
       "owner_role": "team",
       "scope": "team",
-      "summary": "由另一位成员检查视频可访问、字幕声音和 Slides 版本，确认提交代表。",
+      "summary": "v5/PDF、示例网址和嵌入演示已核，最终汇报录像尚无完成回执。",
       "deliverable": "核对最终文件与视频链接的可核版本或结果记录",
-      "next_action": "48小时内实际核PPT/PDF、演示来源、声音、可播放链接与未完成清单。",
+      "next_action": "整段录制完成后检查声音、画面、页序和附件版本，确认提交代表。",
       "my_next_action": null,
       "depends_on": [
         "group-recording"
@@ -2162,9 +2748,19 @@
       "dependency_gates": [],
       "acceptance": [
         {
+          "id": "deck",
+          "label": "当前v5及示例链接已核",
+          "status": "pass",
+          "evidence": [
+            "cover-roster-v5-20261126",
+            "presentation-v4-links-copy-20261124"
+          ]
+        },
+        {
           "id": "done",
-          "label": "核对最终文件与视频链接有实际产物和核验记录",
-          "status": "unknown"
+          "label": "最终整段录像和提交包已核",
+          "status": "unknown",
+          "evidence": []
         }
       ],
       "target": {
@@ -2174,9 +2770,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-21",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
+      "state_basis": "11/26回读已归档v3–v5核验、正式120复核及录制讲稿；本次只同步当前进度，没有新模型运行或人工验收。",
       "evidence": [
         {
           "label": "组员续作核查与开发交接（脱敏）",
@@ -2189,6 +2785,10 @@
         {
           "label": "本人确认的两天版任务与验收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
+        },
+        {
+          "label": "11月26日当前交付与收尾事项",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
         }
       ],
       "history": [
@@ -2222,6 +2822,24 @@
             },
             "next_action": "另一位成员按最终要求核视频、PPT、声音、链接及版本；本人确认提交文件与入口。",
             "owner": "全组；本人统筹"
+          }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "planned",
+          "note": "本人授权更新线上；以当前成品和已归档证据修正旧待办。",
+          "previous": {
+            "status": "planned",
+            "summary": "由另一位成员检查视频可访问、字幕声音和 Slides 版本，确认提交代表。",
+            "next_action": "48小时内实际核PPT/PDF、演示来源、声音、可播放链接与未完成清单。",
+            "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
+            "acceptance": [
+              {
+                "id": "done",
+                "label": "核对最终文件与视频链接有实际产物和核验记录",
+                "status": "unknown"
+              }
+            ]
           }
         }
       ]
@@ -2330,43 +2948,69 @@
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。",
+      "summary": "v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演示已嵌入并核完整播放，15 页英文录制讲稿及中文对照已备。正式 120 次完整处理复核：B 37 通过／23 未过，C 45 通过／6 未过／9 政策待核。下一步为本人审稿、贡献措辞确认、彩排和最终录制。",
       "deliverable": "待填结果的PPT骨架、缺素材清单和准确提交要求核对。",
-      "next_action": "使用v5与现有录制讲稿彩排录制；其他待决和提交状态按原记录。",
+      "next_action": "使用v5及现有讲稿审稿、彩排和录制；确认贡献措辞与3元范围。",
       "my_next_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
         {
-          "id": "outline",
-          "label": "逐页内容框架和缺材料清单已形成（非PPT成品）",
-          "status": "pass",
-          "evidence": [
-            "owner-dispatch-ppt-framework-20261121"
-          ]
-        },
-        {
-          "id": "latest_requirements",
-          "label": "最新Canvas入口／截止时刻／视频限制已复核",
+          "id": "story",
+          "label": "本人已批准最终展示内容和贡献措辞",
           "status": "unknown",
-          "evidence": [
-            "owner-dispatch-ppt-framework-20261121"
-          ]
+          "evidence": []
         },
         {
-          "id": "deck",
-          "label": "可编辑DRAFT已制作并逐页核对，未标正式可提交",
+          "id": "video",
+          "label": "最终整段作业录像已完成并检查",
+          "status": "unknown",
+          "evidence": []
+        },
+        {
+          "id": "submit",
+          "label": "正式提交回执已核",
+          "status": "unknown",
+          "evidence": []
+        },
+        {
+          "id": "editable-pptx",
+          "label": "v5可编辑PPTX及PDF已核",
           "status": "pass",
           "evidence": [
-            "editable-presentation-draft-20261123"
+            "cover-roster-v5-20261126"
           ]
         },
         {
-          "id": "review-v3-delivered",
-          "label": "本地v3/PDF/中文讲稿已制作，15页已看、两段嵌入视频已完整播放",
+          "id": "roster",
+          "label": "六位成员封面信息已补齐",
+          "status": "pass",
+          "evidence": [
+            "cover-roster-v5-20261126"
+          ]
+        },
+        {
+          "id": "demos",
+          "label": "两段嵌入演示已完整播放核对",
           "status": "pass",
           "evidence": [
             "final-ppt-review-v3-20261124"
+          ]
+        },
+        {
+          "id": "script",
+          "label": "15页英文1478词及中文对照录制稿已备",
+          "status": "pass",
+          "evidence": [
+            "speaker-script-v4-20261125"
+          ]
+        },
+        {
+          "id": "canvas",
+          "label": "Canvas入口与显示截止已读取",
+          "status": "pass",
+          "evidence": [
+            "canvas-group-project-20261124"
           ]
         }
       ],
@@ -2379,7 +3023,7 @@
       "completed_on": null,
       "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "本批实际制作、全页PowerPoint渲染和两段嵌入视频播放；不代表本人已审或真实支付通过。",
+      "state_basis": "11/26回读已归档v3–v5核验、正式120复核及录制讲稿；本次只同步当前进度，没有新模型运行或人工验收。",
       "evidence": [
         {
           "label": "本人确认PPT与任务",
@@ -2416,6 +3060,10 @@
         {
           "label": "v5封面名单与核验",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/cover-roster-v5-20261126/README.md"
+        },
+        {
+          "label": "11月26日当前交付与收尾事项",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
         }
       ],
       "history": [
@@ -2513,6 +3161,51 @@
             "next_action": "本人查看v4网址与讲述文本，继续身份／贡献核对和彩排录制。",
             "my_next_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。"
           }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "本人授权更新线上；以当前成品和已归档证据修正旧待办。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。",
+            "next_action": "使用v5与现有录制讲稿彩排录制；其他待决和提交状态按原记录。",
+            "state_basis": "本批实际制作、全页PowerPoint渲染和两段嵌入视频播放；不代表本人已审或真实支付通过。",
+            "acceptance": [
+              {
+                "id": "outline",
+                "label": "逐页内容框架和缺材料清单已形成（非PPT成品）",
+                "status": "pass",
+                "evidence": [
+                  "owner-dispatch-ppt-framework-20261121"
+                ]
+              },
+              {
+                "id": "latest_requirements",
+                "label": "最新Canvas入口／截止时刻／视频限制已复核",
+                "status": "unknown",
+                "evidence": [
+                  "owner-dispatch-ppt-framework-20261121"
+                ]
+              },
+              {
+                "id": "deck",
+                "label": "可编辑DRAFT已制作并逐页核对，未标正式可提交",
+                "status": "pass",
+                "evidence": [
+                  "editable-presentation-draft-20261123"
+                ]
+              },
+              {
+                "id": "review-v3-delivered",
+                "label": "本地v3/PDF/中文讲稿已制作，15页已看、两段嵌入视频已完整播放",
+                "status": "pass",
+                "evidence": [
+                  "final-ppt-review-v3-20261124"
+                ]
+              }
+            ]
+          }
         }
       ]
     },
@@ -2523,19 +3216,37 @@
       "owner": "全组／李宾雄安排",
       "owner_role": "team",
       "scope": "team",
-      "summary": "v4英文1478词及中文对照、视频前中后提示、Word/PDF已备，参考计划14:15；未实际计时彩排或录制。",
+      "summary": "15页英文1478词和中文对照讲稿已备，v5封面更新后仍适用；参考计划14:15，尚未计时彩排或整段录制。",
       "deliverable": "基于已核PPT和稳定演示的录像候选，尚未录制。",
-      "next_action": "沿实际PPT和两段视频试读并核时长，再按本人确认的成员安排录制。",
+      "next_action": "按v5与两段片段试读计时，再依本人确认的发言安排录制。",
       "my_next_action": "先使用Word或纯英文稿试读一遍，实际计时并校准视频旁白；不将预计时间当已彩排。",
       "depends_on": [
         "slides-video"
       ],
-      "dependency_gates": [],
+      "dependency_gates": [
+        {
+          "task_id": "slides-video",
+          "check_ids": [
+            "editable-pptx",
+            "demos",
+            "script"
+          ]
+        }
+      ],
       "acceptance": [
         {
+          "id": "script",
+          "label": "15页中英文讲稿及时间计划已备",
+          "status": "pass",
+          "evidence": [
+            "speaker-script-v4-20261125"
+          ]
+        },
+        {
           "id": "recorded",
-          "label": "录像候选可播放并已核内容",
-          "status": "unknown"
+          "label": "整段汇报录像候选已核",
+          "status": "unknown",
+          "evidence": []
         }
       ],
       "target": {
@@ -2545,9 +3256,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-25",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
+      "state_basis": "11/26回读已归档v3–v5核验、正式120复核及录制讲稿；本次只同步当前进度，没有新模型运行或人工验收。",
       "evidence": [
         {
           "label": "末周任务与录制目标",
@@ -2560,6 +3271,10 @@
         {
           "label": "v4录制讲稿与时间表",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/recording-script-v4-20261125/README.md"
+        },
+        {
+          "label": "11月26日当前交付与收尾事项",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
         }
       ],
       "history": [
@@ -2591,27 +3306,49 @@
             "next_action": "本人在起始阶段约第二天录制时段，各人按已核事实讲述，48小时内录完候选后再核文件。",
             "my_next_action": null
           }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "planned",
+          "note": "本人授权更新线上；以当前成品和已归档证据修正旧待办。",
+          "previous": {
+            "status": "planned",
+            "summary": "v4英文1478词及中文对照、视频前中后提示、Word/PDF已备，参考计划14:15；未实际计时彩排或录制。",
+            "next_action": "沿实际PPT和两段视频试读并核时长，再按本人确认的成员安排录制。",
+            "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
+            "acceptance": [
+              {
+                "id": "recorded",
+                "label": "录像候选可播放并已核内容",
+                "status": "unknown"
+              }
+            ]
+          }
         }
       ]
     },
     {
       "id": "experiment-review",
       "title": "本人先核基础B合同与共同评分",
-      "status": "planned",
+      "status": "done",
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "本人已认可基本架构方向，细输入与评分需按合同落实；不再把旧单轮B当正式对照。",
+      "summary": "正式20题×B/C×3轮已完成并作完整处理复核；B37/23，C45/6/9。",
       "deliverable": "B/C信息与权限条件、模型调用及评分方法的核对表，仍待复核。",
-      "next_action": "按基础工具B合同先核共同条件和评分；旧单轮报告为辅助，不把它当新B成绩。",
+      "next_action": "审阅缺陷与3元待核口径，保持原始120份记录。",
       "my_next_action": "先读新报告与脚本，列公平性/评分/完整记录问题，再确认正式实验变量。",
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
         {
           "id": "method",
-          "label": "比较因素与评分方法已核并交本人确认",
-          "status": "unknown"
+          "label": "固定条件、原始记录与事后完整处理口径已核",
+          "status": "pass",
+          "evidence": [
+            "owner-ppt-evidence-complete-review-20261123",
+            "final-ppt-review-v3-20261124"
+          ]
         }
       ],
       "target": {
@@ -2620,10 +3357,10 @@
         "basis": "unknown"
       },
       "started_on": null,
-      "completed_on": null,
-      "observed_on": "2026-11-21",
+      "completed_on": "2026-11-23",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
+      "state_basis": "11/26回读已归档v3–v5核验、正式120复核及录制讲稿；本次只同步当前进度，没有新模型运行或人工验收。",
       "evidence": [
         {
           "label": "本人确认PPT与任务",
@@ -2632,6 +3369,10 @@
         {
           "label": "本人确认的两天版任务与验收",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md"
+        },
+        {
+          "label": "11月26日当前交付与收尾事项",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
         }
       ],
       "history": [
@@ -2653,6 +3394,24 @@
             "next_action": "本人/Agent核现有报告和每次记录，明确两边区别；正式控制变量带回本人确认后才跑正式对照。",
             "owner": "李宾雄／全组核事实"
           }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "done",
+          "note": "本人授权更新线上；以当前成品和已归档证据修正旧待办。",
+          "previous": {
+            "status": "planned",
+            "summary": "本人已认可基本架构方向，细输入与评分需按合同落实；不再把旧单轮B当正式对照。",
+            "next_action": "按基础工具B合同先核共同条件和评分；旧单轮报告为辅助，不把它当新B成绩。",
+            "state_basis": "本人已确认48小时窗口及本轮分工／范围；实际发群T0和成员承诺尚未核，绝对时刻留空，相对时限见行动。未记执行完成。",
+            "acceptance": [
+              {
+                "id": "method",
+                "label": "比较因素与评分方法已核并交本人确认",
+                "status": "unknown"
+              }
+            ]
+          }
         }
       ]
     },
@@ -2663,9 +3422,9 @@
       "owner": "李宗谦／Agent协作",
       "owner_role": "member",
       "scope": "team",
-      "summary": "176fbb0基础工具B候选、运行入口与一次完整在线B链路已交，独立架构验收未执行。",
+      "summary": "固定176fbb0基础工具B已实现并完成60次正式试跑；B37通过、23未过。",
       "deliverable": "符合基础B合同的实现、两模式运行方法及一条B查单—确认—人工审批记录。",
-      "next_action": "测试组核工具／多轮／确认／工单／人工审核与共享边界，再按本人20题120次范围执行，方法差异明示。",
+      "next_action": "在局限中说明14次误拦、6次继续路径问题、3次反意图弹卡。",
       "my_next_action": null,
       "depends_on": [
         "core"
@@ -2682,8 +3441,17 @@
         },
         {
           "id": "architecture",
-          "label": "工具／多轮／工单／审批基本架构实际可跑",
-          "status": "unknown"
+          "label": "基础B已完成正式60次试跑",
+          "status": "pass",
+          "evidence": [
+            "owner-ppt-evidence-complete-review-20261123"
+          ]
+        },
+        {
+          "id": "quality",
+          "label": "所有B业务处理缺陷已修复",
+          "status": "unknown",
+          "evidence": []
         }
       ],
       "target": {
@@ -2693,9 +3461,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-23",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
-      "state_basis": "本批实际核只读远端代码／文件／模型留档、两视频metadata和采样帧，未跑应用／模型；本人直接确认题量120。",
+      "state_basis": "11/26回读已归档v3–v5核验、正式120复核及录制讲稿；本次只同步当前进度，没有新模型运行或人工验收。",
       "evidence": [
         {
           "label": "课程当前进度记录及总监督管理复核；依据日期 2026-11-10",
@@ -2720,6 +3488,10 @@
         {
           "label": "176fbb0开发补齐交件与正式120次范围",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/developer-delivery-2026-11-23.md"
+        },
+        {
+          "label": "11月26日当前交付与收尾事项",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md"
         }
       ],
       "history": [
@@ -2758,11 +3530,37 @@
             "next_action": "基础工具B与规则C共用demo-v1＋human-review-v1执行边界，先交可测实现与配置，再做同条件对照。",
             "state_basis": "本人四项直接确认，规范与验收清单已形成；未改运行代码或执行测试。"
           }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "本人授权更新线上；以当前成品和已归档证据修正旧待办。",
+          "previous": {
+            "status": "needs_review",
+            "summary": "176fbb0基础工具B候选、运行入口与一次完整在线B链路已交，独立架构验收未执行。",
+            "next_action": "测试组核工具／多轮／确认／工单／人工审核与共享边界，再按本人20题120次范围执行，方法差异明示。",
+            "state_basis": "本批实际核只读远端代码／文件／模型留档、两视频metadata和采样帧，未跑应用／模型；本人直接确认题量120。",
+            "acceptance": [
+              {
+                "id": "handoff",
+                "label": "基础B代码和可测说明已交",
+                "status": "pass",
+                "evidence": [
+                  "developer-complete-delivery-20261123"
+                ]
+              },
+              {
+                "id": "architecture",
+                "label": "工具／多轮／工单／审批基本架构实际可跑",
+                "status": "unknown"
+              }
+            ]
+          }
         }
       ]
     }
   ],
-  "summary": "11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。",
+  "summary": "v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演示已嵌入并核完整播放，15 页英文录制讲稿及中文对照已备。正式 120 次完整处理复核：B 37 通过／23 未过，C 45 通过／6 未过／9 政策待核。下一步为本人审稿、贡献措辞确认、彩排和最终录制。",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "course": "IS5542"
 }

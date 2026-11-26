@@ -4,7 +4,7 @@
   "course": "IS5542",
   "as_of": "2026-11-26",
   "timezone": "Asia/Shanghai",
-  "source_revision": "f55466d354e3bf4ca86254de5f73fe4bd7f0dad1e293190aaf5f3c9ccd9f947b",
+  "source_revision": "865c1bbafa0f0f9b829db61095655fe81831c93334573b8418a1870c2a05d21e",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -16,11 +16,11 @@
   },
   "actions": [
     {
-      "id": "experiment-review",
-      "title": "本人先核基础B合同与共同评分",
-      "owner": "李宾雄／全组核事实",
-      "status": "planned",
-      "personal_action": "先读新报告与脚本，列公平性/评分/完整记录问题，再确认正式实验变量。",
+      "id": "core",
+      "title": "资格判定接口与演示规则",
+      "owner": "本人 · 工程与 baseline",
+      "status": "needs_review",
+      "personal_action": "沿固定版本和已确认边界解释结果。",
       "readiness": "ready",
       "target": {
         "value": null,
@@ -29,7 +29,41 @@
       },
       "blocked_by": [],
       "estimated_minutes": null,
-      "observed_on": "2026-11-21",
+      "observed_on": "2026-11-26",
+      "date_state": "unscheduled"
+    },
+    {
+      "id": "delivery",
+      "title": "Slides、录像与提交",
+      "owner": "李宾雄统一PPT／全组讲述与录制",
+      "status": "needs_review",
+      "personal_action": "本人核阅PPTX，按同版测试和录屏补终稿，核Canvas入口与回执。",
+      "readiness": "ready",
+      "target": {
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
+      },
+      "blocked_by": [],
+      "estimated_minutes": null,
+      "observed_on": "2026-11-26",
+      "date_state": "unscheduled"
+    },
+    {
+      "id": "group-recording",
+      "title": "全组录制与本人最终核对",
+      "owner": "全组／李宾雄安排",
+      "status": "planned",
+      "personal_action": "先使用Word或纯英文稿试读一遍，实际计时并校准视频旁白；不将预计时间当已彩排。",
+      "readiness": "ready",
+      "target": {
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
+      },
+      "blocked_by": [],
+      "estimated_minutes": null,
+      "observed_on": "2026-11-26",
       "date_state": "unscheduled"
     },
     {
@@ -50,11 +84,11 @@
       "date_state": "unscheduled"
     },
     {
-      "id": "p23",
-      "title": "测试组：真实模型对照与边界／安全",
-      "owner": "本人／本会话Agent执行；测试组后补复核",
+      "id": "ppt-outline",
+      "title": "本人先搭PPT骨架并核提交要求",
+      "owner": "李宾雄／全组核事实",
       "status": "needs_review",
-      "personal_action": "决定3元范围，审PPT新指标／比较／估算，确认后转发任务。",
+      "personal_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
       "readiness": "ready",
       "target": {
         "value": null,
@@ -63,12 +97,12 @@
       },
       "blocked_by": [],
       "estimated_minutes": null,
-      "observed_on": "2026-11-23",
+      "observed_on": "2026-11-26",
       "date_state": "unscheduled"
     },
     {
-      "id": "ppt-outline",
-      "title": "本人先搭PPT骨架并核提交要求",
+      "id": "slides-video",
+      "title": "本人整合PPT初稿与讲述核对",
       "owner": "李宾雄／全组核事实",
       "status": "needs_review",
       "personal_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
@@ -100,53 +134,15 @@
         "p23"
       ],
       "estimated_minutes": null,
-      "observed_on": "2026-11-23",
+      "observed_on": "2026-11-26",
       "date_state": "unscheduled"
     },
     {
-      "id": "delivery",
-      "title": "Slides、录像与提交",
-      "owner": "李宾雄统一PPT／全组讲述与录制",
-      "status": "unknown",
-      "personal_action": "本人核阅PPTX，按同版测试和录屏补终稿，核Canvas入口与回执。",
-      "readiness": "verify",
-      "target": {
-        "value": null,
-        "precision": "unknown",
-        "basis": "unknown"
-      },
-      "blocked_by": [
-        "acceptance"
-      ],
-      "estimated_minutes": null,
-      "observed_on": "2026-11-21",
-      "date_state": "unscheduled"
-    },
-    {
-      "id": "group-recording",
-      "title": "全组录制与本人最终核对",
-      "owner": "全组／李宾雄安排",
-      "status": "planned",
-      "personal_action": "先使用Word或纯英文稿试读一遍，实际计时并校准视频旁白；不将预计时间当已彩排。",
-      "readiness": "waiting_dependency",
-      "target": {
-        "value": null,
-        "precision": "unknown",
-        "basis": "unknown"
-      },
-      "blocked_by": [
-        "slides-video"
-      ],
-      "estimated_minutes": null,
-      "observed_on": "2026-11-25",
-      "date_state": "unscheduled"
-    },
-    {
-      "id": "slides-video",
-      "title": "本人整合PPT初稿与讲述核对",
-      "owner": "李宾雄／全组核事实",
+      "id": "p23",
+      "title": "测试组：真实模型对照与边界／安全",
+      "owner": "本人／本会话Agent执行；测试组后补复核",
       "status": "needs_review",
-      "personal_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
+      "personal_action": "决定3元范围，审PPT新指标／比较／估算，确认后转发任务。",
       "readiness": "waiting_dependency",
       "target": {
         "value": null,
@@ -154,7 +150,7 @@
         "basis": "unknown"
       },
       "blocked_by": [
-        "demo-record"
+        "web"
       ],
       "estimated_minutes": null,
       "observed_on": "2026-11-26",
