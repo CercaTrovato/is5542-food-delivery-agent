@@ -1,6 +1,6 @@
 {
   "board_scope": "active",
-  "updated_at": "2026-11-25T00:33:48+08:00",
+  "updated_at": "2026-11-26T15:11:56+08:00",
   "group": "Group 24",
   "schema_version": 1,
   "tasks": [
@@ -143,7 +143,7 @@
       "title": "Slides 与 Demo 叙事",
       "status": "in_progress",
       "owner": "本人",
-      "note": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
+      "note": "11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。",
       "evidence": [
         "owner-final-week-20261121",
         "final-week-task-pack",
@@ -158,7 +158,8 @@
         "supervision-20261123",
         "developer-complete-delivery-20261123",
         "final-ppt-review-v3-20261124",
-        "presentation-v4-links-copy-20261124"
+        "presentation-v4-links-copy-20261124",
+        "cover-roster-v5-20261126"
       ]
     },
     {
@@ -653,11 +654,19 @@
       "locator": "work/presentation/recording-script-v4-20261125/manifest.json",
       "observed_at": "2026-11-25",
       "sha256": "f6bbdb02d2da726f170cc9d1ce798cd484e53590a675a7bc2f59a7fc7b01281d"
+    },
+    {
+      "id": "cover-roster-v5-20261126",
+      "kind": "local",
+      "label": "本人提供的6人封面名单与v5核验",
+      "locator": "work/presentation/cover-roster-v5-20261126/manifest.json",
+      "observed_at": "2026-11-26",
+      "sha256": "be38462deaeeba4565c9adccfae9a5b905aaaf30a103c40d5d3292ebd04fca56"
     }
   ],
   "course": "IS5542",
-  "summary": "按最新v4完成15页录制讲稿：英文1478词、中文完整对照、两段视频前中后口播、页位时间表及Word/PDF。已核源PPT正文／备注／全页图，独立抽检7个重点页及两处措辞定向复核无阻塞；Word导出16页逐页检查，英文段落均在对应页。预计12:32–14:04，留缓冲计划14:15，未计时彩排；PPT、结果37/23与45/6/9及3元待决保持。",
-  "stage": "v4录制讲稿已备 · 待彩排、录制及提交",
+  "summary": "11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。",
+  "stage": "v5封面名单已补 · 录制讲稿沿用",
   "task_scope_complete": false,
   "submission": {
     "status": "unknown",
@@ -667,7 +676,7 @@
   "assignment_type": "group",
   "id": "IS5542-A01",
   "next_action": {
-    "title": "按15页讲稿彩排，核两段视频旁白节点和实际时长，再录制；身份／贡献、3元政策及最终提交前要求仍按原记录处理",
+    "title": "本人使用v5及11月25日录制讲稿继续彩排录制，贡献措辞和3元政策按既有状态核对",
     "owner": "本人／全组自行安排",
     "basis": "proposed"
   },
@@ -686,13 +695,13 @@
       ]
     }
   ],
-  "progress_as_of": "2026-11-25",
-  "reviewed_at": "2026-11-25",
+  "progress_as_of": "2026-11-26",
+  "reviewed_at": "2026-11-26",
   "title": "客服 Agent 与模拟评测",
   "blockers": [
     "额外3元暖心券范围仍待本人决定，C9次保留政策待核。",
     "已知B解释误拦／反意图弹卡和C未落实承诺等缺陷仍未修复；本批只制作和如实报告，不升级为全部业务验收。",
-    "正式姓名／学号、贡献措辞及本人审稿和最终课堂录像仍待确认。",
+    "封面名单和学号已由本人提供；贡献措辞、本人审稿和最终课堂录像仍待确认。",
     "北京图表27原始岗位数值未核，已从主稿排除；供应商报价不能替代真实净人工节省。",
     "Canvas入口与显示截止已核；硬性视频时长、独立rubric及互评实际表单在本次范围未见，提交前再核。",
     "CityU根Git与共享／线上看板交当前总监督统一收尾，本会话未改。"

@@ -1,8 +1,8 @@
 # IS5542 · 项目时间线
 
-按最新v4完成15页录制讲稿：英文1478词、中文完整对照、两段视频前中后口播、页位时间表及Word/PDF。已核源PPT正文／备注／全页图，独立抽检7个重点页及两处措辞定向复核无阻塞；Word导出16页逐页检查，英文段落均在对应页。预计12:32–14:04，留缓冲计划14:15，未计时彩排；PPT、结果37/23与45/6/9及3元待决保持。
+11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。
 
-进度依据截至 2026-11-25；时区 Asia/Shanghai。完成日期未知时只记录核实日期。
+进度依据截至 2026-11-26；时区 Asia/Shanghai。完成日期未知时只记录核实日期。
 
 [结构化时间线](progress/timeline.json) · [个人助手每日事项入口](progress/daily-plan.json) · [如何读取](ASSISTANT-README.md)
 
@@ -106,15 +106,15 @@ Jacky11/22业务说明、5项保障和3要点已收到并读完；条款定位�
 
 **待核阅或修订** · 负责人：本人 · 统筹 · 尚未安排 · 日期未定
 
-11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。
+11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。
 
 - 本环节交付：完成核对或交接，并将实际答复更新回任务记录。
-- 下一步：本人查看v4网址与讲述文本，继续身份／贡献核对和彩排录制。
+- 下一步：使用v5与现有录制讲稿彩排录制；其他待决和提交状态按原记录。
 - 前置依赖：无已登记前置
-- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-24
-- 总监督可做：使用本地v4及其中文讲稿，原数据和3元待决保持。
+- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-26
+- 总监督可做：核对v5首页，正文和录制讲稿无需因本次名单添加重做。
 - 验收：待核 已核对并登记实际结果或待回复内容；✓ 本地v3/PDF/中文讲稿已制作，15页已看、两段嵌入视频已完整播放
-- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)；[15页可编辑初稿及取材检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md)；[视觉改版v2与来源／检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/redesign-20261123/README.md)；[11月23日总监督复核及交件清单](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/supervision-2026-11-23.md)；[v3审稿候选与来源记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md)；[v4超链接与文本修订](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/revision-v4-20261124/README.md)
+- 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)；[15页可编辑初稿及取材检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md)；[视觉改版v2与来源／检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/redesign-20261123/README.md)；[11月23日总监督复核及交件清单](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/supervision-2026-11-23.md)；[v3审稿候选与来源记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md)；[v4超链接与文本修订](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/revision-v4-20261124/README.md)；[v5封面名单与核验](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/cover-roster-v5-20261126/README.md)
 
 ### 准备稳定版本的演示素材 · `demo-record`
 
@@ -133,29 +133,29 @@ Jacky11/22业务说明、5项保障和3要点已收到并读完；条款定位�
 
 **待核阅或修订** · 负责人：李宾雄／全组核事实 · 尚未安排 · 日期未定
 
-11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。
+11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。
 
 - 本环节交付：合并 Slides 与录制演示的可核版本或结果记录
-- 下一步：本人查看v4网址与讲述文本，继续身份／贡献核对和彩排录制。
+- 下一步：使用v5与现有录制讲稿彩排录制；其他待决和提交状态按原记录。
 - 前置依赖：demo-record
-- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-24
-- 总监督可做：使用本地v4及其中文讲稿，原数据和3元待决保持。
+- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-26
+- 总监督可做：核对v5首页，正文和录制讲稿无需因本次名单添加重做。
 - 验收：待核 合并 Slides 与录制演示有实际产物和核验记录；✓ 15页可编辑初稿已保存并逐页渲染核对（结果及录像仍待）；✓ 15页视觉改版已保存并逐页检查，待本人核阅；✓ 15页本地可编辑PPTX已导出并核实；✓ 本地v3/PDF/中文讲稿已制作，15页已看、两段嵌入视频已完整播放
-- 依据：组员续作核查与开发交接（脱敏）；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)；[11月22日群进度与交件接收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/progress-2026-11-22.md)；[本人确认的人工重审与改额四项规范](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/human-review-boundaries.md)；[15页可编辑初稿及取材检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md)；[视觉改版v2与来源／检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/redesign-20261123/README.md)；[11月23日总监督复核及交件清单](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/supervision-2026-11-23.md)；[176fbb0开发补齐交件与正式120次范围](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/developer-delivery-2026-11-23.md)；[v3审稿候选与来源记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md)；[v4超链接与文本修订](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/revision-v4-20261124/README.md)
+- 依据：组员续作核查与开发交接（脱敏）；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)；[11月22日群进度与交件接收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/progress-2026-11-22.md)；[本人确认的人工重审与改额四项规范](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/human-review-boundaries.md)；[15页可编辑初稿及取材检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md)；[视觉改版v2与来源／检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/redesign-20261123/README.md)；[11月23日总监督复核及交件清单](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/supervision-2026-11-23.md)；[176fbb0开发补齐交件与正式120次范围](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/developer-delivery-2026-11-23.md)；[v3审稿候选与来源记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md)；[v4超链接与文本修订](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/revision-v4-20261124/README.md)；[v5封面名单与核验](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/cover-roster-v5-20261126/README.md)
 
 ### 本人先搭PPT骨架并核提交要求 · `ppt-outline`
 
 **待核阅或修订** · 负责人：李宾雄／全组核事实 · 尚未安排 · 日期未定
 
-11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。
+11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。
 
 - 本环节交付：待填结果的PPT骨架、缺素材清单和准确提交要求核对。
-- 下一步：本人查看v4网址与讲述文本，继续身份／贡献核对和彩排录制。
+- 下一步：使用v5与现有录制讲稿彩排录制；其他待决和提交状态按原记录。
 - 前置依赖：无已登记前置
-- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-24
-- 总监督可做：使用本地v4及其中文讲稿，原数据和3元待决保持。
+- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-26
+- 总监督可做：核对v5首页，正文和录制讲稿无需因本次名单添加重做。
 - 验收：✓ 逐页内容框架和缺材料清单已形成（非PPT成品）；待核 最新Canvas入口／截止时刻／视频限制已复核；✓ 可编辑DRAFT已制作并逐页核对，未标正式可提交；✓ 本地v3/PDF/中文讲稿已制作，15页已看、两段嵌入视频已完整播放
-- 依据：[本人确认PPT与任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)；[15页可编辑初稿及取材检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md)；[视觉改版v2与来源／检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/redesign-20261123/README.md)；[最终PPT填充与验收清单](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-closeout-checklist-20261123.md)；[v3审稿候选与来源记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md)；[v4超链接与文本修订](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/revision-v4-20261124/README.md)
+- 依据：[本人确认PPT与任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)；[15页可编辑初稿及取材检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md)；[视觉改版v2与来源／检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/redesign-20261123/README.md)；[最终PPT填充与验收清单](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-closeout-checklist-20261123.md)；[v3审稿候选与来源记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md)；[v4超链接与文本修订](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/revision-v4-20261124/README.md)；[v5封面名单与核验](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/cover-roster-v5-20261126/README.md)
 
 ### 开发补有基本架构的工具型B · `basic-agent`
 

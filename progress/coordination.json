@@ -5,8 +5,8 @@
   "root_thread_id": "01a1b491-403e-7651-9aba-13e5b647af93",
   "model": "gpt-6.1-sol",
   "status": "ready_for_review",
-  "updated_at": "2026-11-24T21:31:58+08:00",
-  "summary": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
+  "updated_at": "2026-11-26T15:11:56+08:00",
+  "summary": "11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。",
   "report_path": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/supervision-report.md",
   "decisions": [
     {
@@ -291,8 +291,8 @@
     }
   ],
   "ppt_review_candidate": {
-    "version": "v4",
-    "manifest": "work/presentation/revision-v4-20261124/manifest.json",
+    "version": "v5",
+    "manifest": "work/presentation/cover-roster-v5-20261126/manifest.json",
     "owner_approved": false,
     "cross_thread_message_sent": false
   }

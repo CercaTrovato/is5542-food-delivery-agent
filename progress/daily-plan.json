@@ -2,9 +2,9 @@
   "schema_version": 1,
   "assignment_id": "IS5542-A01",
   "course": "IS5542",
-  "as_of": "2026-11-25",
+  "as_of": "2026-11-26",
   "timezone": "Asia/Shanghai",
-  "source_revision": "8bb3b72aa26e0dfb605ca03839afc4111e3c0d0bc7654f4db7dcb330b44b2cc0",
+  "source_revision": "f55466d354e3bf4ca86254de5f73fe4bd7f0dad1e293190aaf5f3c9ccd9f947b",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -37,7 +37,7 @@
       "title": "本人下一步：受测版本、评分口径与PPT",
       "owner": "本人 · 统筹",
       "status": "needs_review",
-      "personal_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。",
+      "personal_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
       "readiness": "ready",
       "target": {
         "value": null,
@@ -46,7 +46,7 @@
       },
       "blocked_by": [],
       "estimated_minutes": null,
-      "observed_on": "2026-11-24",
+      "observed_on": "2026-11-26",
       "date_state": "unscheduled"
     },
     {
@@ -71,7 +71,7 @@
       "title": "本人先搭PPT骨架并核提交要求",
       "owner": "李宾雄／全组核事实",
       "status": "needs_review",
-      "personal_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。",
+      "personal_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
       "readiness": "ready",
       "target": {
         "value": null,
@@ -80,7 +80,7 @@
       },
       "blocked_by": [],
       "estimated_minutes": null,
-      "observed_on": "2026-11-24",
+      "observed_on": "2026-11-26",
       "date_state": "unscheduled"
     },
     {
@@ -146,7 +146,7 @@
       "title": "本人整合PPT初稿与讲述核对",
       "owner": "李宾雄／全组核事实",
       "status": "needs_review",
-      "personal_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。",
+      "personal_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
       "readiness": "waiting_dependency",
       "target": {
         "value": null,
@@ -157,7 +157,7 @@
         "demo-record"
       ],
       "estimated_minutes": null,
-      "observed_on": "2026-11-24",
+      "observed_on": "2026-11-26",
       "date_state": "unscheduled"
     }
   ],

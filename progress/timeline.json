@@ -1,9 +1,9 @@
 {
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "timezone": "Asia/Shanghai",
-  "basis_revision": "d5082ce694c87cc9538b6b449de5ff1c5a912fb0e70fcdfa08b5737dc9a7a6d0",
+  "basis_revision": "46d8913338f28ab9fde13a3196abf6efc20b6cf382896c3a0eae00cf11c942cc",
   "basis_management_revision": "bb9cc46a554789ae5c130284994af6e4a12473b452243c8152135b206a2e64f2",
-  "as_of": "2026-11-25",
+  "as_of": "2026-11-26",
   "schema_version": 1,
   "assignment_id": "IS5542-A01",
   "items": [
@@ -1508,10 +1508,10 @@
       "owner": "本人 · 统筹",
       "owner_role": "me",
       "scope": "team",
-      "summary": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
+      "summary": "11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。",
       "deliverable": "完成核对或交接，并将实际答复更新回任务记录。",
-      "next_action": "本人查看v4网址与讲述文本，继续身份／贡献核对和彩排录制。",
-      "my_next_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。",
+      "next_action": "使用v5与现有录制讲稿彩排录制；其他待决和提交状态按原记录。",
+      "my_next_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
@@ -1536,7 +1536,7 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-24",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
       "state_basis": "本批实际制作、全页PowerPoint渲染和两段嵌入视频播放；不代表本人已审或真实支付通过。",
       "evidence": [
@@ -1575,6 +1575,10 @@
         {
           "label": "v4超链接与文本修订",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/revision-v4-20261124/README.md"
+        },
+        {
+          "label": "v5封面名单与核验",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/cover-roster-v5-20261126/README.md"
         }
       ],
       "history": [
@@ -1691,6 +1695,16 @@
             "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
             "next_action": "本人审稿v3、核身份与贡献、彩排并完成最终录像；3元政策仍待决定。",
             "my_next_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。"
+          }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "仅首页新增本人提供的6人名单与学号，其余页面和素材不变。",
+          "previous": {
+            "summary": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
+            "next_action": "本人查看v4网址与讲述文本，继续身份／贡献核对和彩排录制。",
+            "my_next_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。"
           }
         }
       ]
@@ -1883,10 +1897,10 @@
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
+      "summary": "11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。",
       "deliverable": "合并 Slides 与录制演示的可核版本或结果记录",
-      "next_action": "本人查看v4网址与讲述文本，继续身份／贡献核对和彩排录制。",
-      "my_next_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。",
+      "next_action": "使用v5与现有录制讲稿彩排录制；其他待决和提交状态按原记录。",
+      "my_next_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
       "depends_on": [
         "demo-record"
       ],
@@ -1937,7 +1951,7 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-24",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
       "state_basis": "本批实际制作、全页PowerPoint渲染和两段嵌入视频播放；不代表本人已审或真实支付通过。",
       "evidence": [
@@ -1988,6 +2002,10 @@
         {
           "label": "v4超链接与文本修订",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/revision-v4-20261124/README.md"
+        },
+        {
+          "label": "v5封面名单与核验",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/cover-roster-v5-20261126/README.md"
         }
       ],
       "history": [
@@ -2113,6 +2131,16 @@
             "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
             "next_action": "本人审稿v3、核身份与贡献、彩排并完成最终录像；3元政策仍待决定。",
             "my_next_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。"
+          }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "仅首页新增本人提供的6人名单与学号，其余页面和素材不变。",
+          "previous": {
+            "summary": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
+            "next_action": "本人查看v4网址与讲述文本，继续身份／贡献核对和彩排录制。",
+            "my_next_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。"
           }
         }
       ]
@@ -2302,10 +2330,10 @@
       "owner": "李宾雄／全组核事实",
       "owner_role": "me",
       "scope": "team",
-      "summary": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
+      "summary": "11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。",
       "deliverable": "待填结果的PPT骨架、缺素材清单和准确提交要求核对。",
-      "next_action": "本人查看v4网址与讲述文本，继续身份／贡献核对和彩排录制。",
-      "my_next_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。",
+      "next_action": "使用v5与现有录制讲稿彩排录制；其他待决和提交状态按原记录。",
+      "my_next_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
       "depends_on": [],
       "dependency_gates": [],
       "acceptance": [
@@ -2349,7 +2377,7 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-24",
+      "observed_on": "2026-11-26",
       "estimated_minutes": null,
       "state_basis": "本批实际制作、全页PowerPoint渲染和两段嵌入视频播放；不代表本人已审或真实支付通过。",
       "evidence": [
@@ -2384,6 +2412,10 @@
         {
           "label": "v4超链接与文本修订",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/revision-v4-20261124/README.md"
+        },
+        {
+          "label": "v5封面名单与核验",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/cover-roster-v5-20261126/README.md"
         }
       ],
       "history": [
@@ -2470,6 +2502,16 @@
             "summary": "11/24已在15页v2上完成本地REVIEW v3审稿候选、PDF与中文逐页讲稿；嵌入并在PowerPoint完整播放两段DeepSeek视频，正式结果采用GPT-5.6的B37/23、C45/6/9，9次3元政策待核保留。Jacky v1.6完整读取并核10条域链接，供应商出处已补；未核北京岗位数值未采用。Canvas项目入口与显示截止已核，仍待本人审稿、身份／贡献和最终录像。",
             "next_action": "本人审稿v3、核身份与贡献、彩排并完成最终录像；3元政策仍待决定。",
             "my_next_action": "打开v3 PPTX与PDF核稿，用中文逐页讲稿彩排，不重开正式实验。"
+          }
+        },
+        {
+          "observed_on": "2026-11-26",
+          "status": "needs_review",
+          "note": "仅首页新增本人提供的6人名单与学号，其余页面和素材不变。",
+          "previous": {
+            "summary": "11/24按本人明确要求完成v4：第7页顾客端、第8页审核端及第15页两入口均设可点击网址；删除正文／备注／讲稿中的制作声明与防御性套话，改为直接事实表述。15页已渲染实看，5表／19连接符／2段视频保留，视频字节不变；评测37/23与45/6/9和成本假设保持。",
+            "next_action": "本人查看v4网址与讲述文本，继续身份／贡献核对和彩排录制。",
+            "my_next_action": "使用本地v4及其中文讲稿，原数据和3元待决保持。"
           }
         }
       ]
@@ -2720,7 +2762,7 @@
       ]
     }
   ],
-  "summary": "按最新v4完成15页录制讲稿：英文1478词、中文完整对照、两段视频前中后口播、页位时间表及Word/PDF。已核源PPT正文／备注／全页图，独立抽检7个重点页及两处措辞定向复核无阻塞；Word导出16页逐页检查，英文段落均在对应页。预计12:32–14:04，留缓冲计划14:15，未计时彩排；PPT、结果37/23与45/6/9及3元待决保持。",
+  "summary": "11/26按本人提供名单完成v5封面：6位组员姓名拼音与学号两列排版，高鎧宏保留本人提供的Ko Anderson；已核逐行配对并在PowerPoint查看封面。除slide1.xml外，其余包内部件与v4逐字节一致，录制讲稿及两段视频继续沿用。",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "course": "IS5542"
 }

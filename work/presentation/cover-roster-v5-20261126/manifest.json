@@ -1,0 +1,38 @@
+{
+  "version": "v5",
+  "as_of": "2026-11-26",
+  "change": "Cover-only roster addition from the user message, six names and IDs",
+  "checks": {
+    "version": "v5",
+    "scope": "cover member names and student IDs",
+    "source_v4_sha256": "914088e104f6c4fd45a9f9076d90a5decd3b1783c44e5a4b355feca686b24a6a",
+    "member_count": 6,
+    "names_and_ids_once_each": true,
+    "changed_package_parts": [
+      "ppt/slides/slide1.xml"
+    ],
+    "slides_2_to_15_and_all_media_unchanged": true,
+    "media": {
+      "ppt/media/media1.mp4": "6ed8e2e321b2363e59d5cc69020a4543d074f85cd4c6c7f18393497e76464dda",
+      "ppt/media/media2.mp4": "2bcca47c8d72af26e15c858cf79f67eb134760ac8d573d64d0022365defb29f3"
+    },
+    "private_distribution": "Contains student IDs. Existing private collaboration repository only; CityU root repository not pushed.",
+    "cover_visual_checked": true,
+    "powerpoint_rendered_slides": 15,
+    "openxml_validation": "officecli pass"
+  },
+  "files": {
+    "IS5542-Group24-v5.pptx": {
+      "sha256": "8aace90a5b4e3870bb000d76474ed80e5af1715d8788ca82c37719de5d2b45d4",
+      "bytes": 6210357
+    },
+    "IS5542-Group24-v5.pdf": {
+      "sha256": "a69fec99313e73b103414411bdd94794de9282b010de27de0692c25a9f2b6fa4",
+      "bytes": 597743
+    }
+  },
+  "privacy": "Student IDs included in requested cover; retain private collaboration visibility. No CityU root Git or online board publish performed.",
+  "source_record": "members.json",
+  "scripts": "2026-11-25 recording script remains applicable; slides 2–15 are byte-identical to v4",
+  "owner_final_approval": false
+}
