@@ -2,7 +2,7 @@
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "timezone": "Asia/Shanghai",
   "basis_revision": "246ee7148e928e566ca9fa14ef7cd737b4bfbb62fe28b3f0ac337a88db149cd4",
-  "basis_management_revision": "0945c1b83bf0974ff17c79d0d445a86aa91f203501ce5612fecff9391c8529ea",
+  "basis_management_revision": "a4544f0bcf5a07181c672ab5583cd89b272546cb7b3d2cdf9e34dc3cb5b9a46f",
   "as_of": "2026-11-26",
   "schema_version": 1,
   "assignment_id": "IS5542-A01",
