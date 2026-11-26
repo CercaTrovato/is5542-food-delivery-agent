@@ -1,0 +1,70 @@
+{
+  "source": "D:\\xwechat_files\\wxid_p06yr7fb5xml22_816d\\temp\\RWTemp\\2026-11\\b72b7c1dbf672c3de4f1cf89cc11a602\\518b94bc17818432f331419fe7ec81e5.mp4",
+  "archived": "D:\\上课资料\\CityU\\IS5542_GenAI_in_Business\\assignment\\graded\\A01-genai-project\\submission\\IS5542-Group24-Presentation-20261126.mp4",
+  "source_and_copy_sha256": "e03626ce3c2eb6780de7adf737863f84c1432f516808efbdc85b112dad277c84",
+  "bytes": 149370665,
+  "decimal_mb": 149.370665,
+  "binary_mib": 142.45096683502197,
+  "duration_seconds": 937.583,
+  "syllabus_presentation_seconds": 900,
+  "over_requested_duration_seconds": 37.58299999999997,
+  "video_codec": "hevc",
+  "audio_codec": "aac",
+  "video_scan_exit_code": 0,
+  "video_decoder_error_log": "",
+  "audio_scan_exit_code": 0,
+  "mean_volume_db": [
+    "-26.8"
+  ],
+  "max_volume_db": [
+    "-4.9"
+  ],
+  "detected_silence_ends": [
+    [
+      "388.104562",
+      "4.750563"
+    ],
+    [
+      "465.656063",
+      "4.494875"
+    ]
+  ],
+  "uniform_sample_frames": 16,
+  "original_preserved": true,
+  "uploaded": false,
+  "submitted": false,
+  "visual_sampling": {
+    "reviewed_uniform_frames": 16,
+    "observed": "Slides matching v5 content and one presenter are visible; small table text was inspected only at sample resolution",
+    "limitations": "No full real-time watching or word-by-word audio review; slide7/14 not established solely by uniform sampling"
+  },
+  "requirements": {
+    "course_duration_source": "Canvas Syllabus file15948015 p3, directly read 2026-11-26",
+    "course_duration_wording": "Prepare a 15-minute presentation as a group.",
+    "explicit_overrun_penalty_observed": false,
+    "assignment_url": "https://canvas.cityu.edu.hk/courses/71410/assignments/340779",
+    "assignment_file_upload_form_observed": true,
+    "teacher_specific_size_limit_displayed": false,
+    "file_format_restriction_displayed": false,
+    "site_acceptance_with_this_file_tested": false,
+    "canvas_generic_file_upload_limit_bytes": 5000000000,
+    "canvas_generic_media_tool_limit_bytes": 500000000,
+    "generic_limit_scope": "Official Canvas guidance; not a teacher-specific or verified institution-specific cap",
+    "size_source": "https://community.instructure.com/en/instructure/kb/articles/661219-how-do-i-upload-a-file-as-an-assignment-submission-in-canvas",
+    "media_source": "https://community.instructure.com/en/instructure/kb/articles/662859-what-types-of-media-files-can-i-upload-in-canvas",
+    "codec_advice": "Canvas documents H.264 playback. Source HEVC is not declared prohibited; a separate H.264 version would improve browser compatibility. No conversion performed."
+  },
+  "browser_status": {
+    "after_interrupt": "Current iab session requires school authentication",
+    "authentication_page_preserved": true,
+    "uploaded": false,
+    "submitted": false,
+    "form_inputs_or_comments_filled": false
+  },
+  "readiness": "needs_duration_resolution_and_codec_compatibility_review; not prepared as a compliant final upload",
+  "peer_evaluation": {
+    "written": false,
+    "official_form": "Not seen in earlier same-day announcement/four-surface checks; latest post-interruption recheck blocked by login",
+    "owner_instruction": "Wait until all project work is complete; do not invent scores/contributions or a replacement official form"
+  }
+}

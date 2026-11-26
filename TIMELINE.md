@@ -1,6 +1,6 @@
 # IS5542 · 项目时间线
 
-最新最终 PPT 为 v5，成员信息本人已确认；gaga 计划 11/26 或 11/27 单人录制，本人负责录像和 Slides 提交。项目截止 11/28 23:59 HKT；反思 1–6 均已有 Submitted 回执，第 6 次于 11/26 16:16:34 HKT 完成。正式小组作业提交仍待核，互评等全部工作完成后按官方表单处理。
+本人提供本组录制视频，已原样归档重命名；15:37.583、149.37MB、HEVC/AAC，全程技术解码无报错。比大纲15分钟多37.583秒，时长与H.264兼容版本待处理；未上传或提交。v5 slides及讲稿保持，互评未写且继续后置；学校登录失效，最新站点限制／官方表需登录后核。
 
 进度依据截至 2026-11-26；时区 Asia/Shanghai。完成日期未知时只记录核实日期。
 
@@ -157,6 +157,19 @@ v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演�
 - 验收：待核 本人已批准最终展示内容和贡献措辞；待核 最终整段作业录像已完成并检查；待核 正式提交回执已核；✓ v5可编辑PPTX及PDF已核；✓ 六位成员封面信息已补齐；✓ 两段嵌入演示已完整播放核对；✓ 15页英文1478词及中文对照录制稿已备；✓ Canvas入口与显示截止已读取
 - 依据：[本人确认PPT与任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[13页逐页内容与材料框架](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/ppt-framework.md)；[15页可编辑初稿及取材检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/draft-20261123/README.md)；[视觉改版v2与来源／检查记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/redesign-20261123/README.md)；[最终PPT填充与验收清单](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-closeout-checklist-20261123.md)；[v3审稿候选与来源记录](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/final-review-20261124/README.md)；[v4超链接与文本修订](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/revision-v4-20261124/README.md)；[v5封面名单与核验](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/cover-roster-v5-20261126/README.md)；[11月26日当前交付与收尾事项](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md)；[11/26本人确认录制／提交及互评后置](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md)
 
+### 本组录制文件接收与成片检查 · `group-recording`
+
+**待核阅或修订** · 负责人：gaga（唯一录制人） · 尚未安排 · 日期未定
+
+本组录制文件已收、原样归档；15:37.583、149.37MB，待处理超出15分钟的约38秒及HEVC兼容性。
+
+- 本环节交付：基于已核PPT和稳定演示的录像候选，尚未录制。
+- 下一步：本人决定时长与编码处理，再核成片；未标录制交付验收通过。
+- 前置依赖：slides-video
+- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-26
+- 验收：✓ 15页中英文讲稿及时间计划已备；待核 整段汇报录像候选已核
+- 依据：[末周任务与录制目标](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[v4录制讲稿与时间表](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/recording-script-v4-20261125/README.md)；[11月26日当前交付与收尾事项](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md)；[11/26本人确认录制／提交及互评后置](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md)；[完整录像接收及技术核验](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/recording-intake-20261126.md)
+
 ### 开发补有基本架构的工具型B · `basic-agent`
 
 **待核阅或修订** · 负责人：李宗谦／Agent协作 · 尚未安排 · 日期未定
@@ -211,19 +224,6 @@ v5 可编辑 PPTX／PDF 已备，六位成员封面信息已补齐；两段演�
 - 开始／完成：未记录 ／ 未记录；核实日期：2026-11-26
 - 验收：✓ 当前v5及示例链接已核；待核 最终整段录像和提交包已核
 - 依据：组员续作核查与开发交接（脱敏）；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[11月26日当前交付与收尾事项](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md)；[11/26本人确认录制／提交及互评后置](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md)
-
-### gaga单人录制与本人收片检查 · `group-recording`
-
-**后续计划** · 负责人：gaga（唯一录制人） · 尚未安排 · 日期未定
-
-本人确认计划11/26或11/27由gaga一人录制；15页讲稿可用，完整录像未交，不要求全员上台／出镜。
-
-- 本环节交付：基于已核PPT和稳定演示的录像候选，尚未录制。
-- 下一步：gaga在已确认窗口录制并交成片给本人；本人核文件后自行提交。
-- 前置依赖：slides-video
-- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-26
-- 验收：✓ 15页中英文讲稿及时间计划已备；待核 整段汇报录像候选已核
-- 依据：[末周任务与录制目标](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[v4录制讲稿与时间表](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/presentation/recording-script-v4-20261125/README.md)；[11月26日当前交付与收尾事项](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md)；[11/26本人确认录制／提交及互评后置](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md)
 
 ### 本人提交最终录像与Slides · `owner-submit`
 
