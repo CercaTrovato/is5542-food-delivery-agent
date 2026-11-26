@@ -1,6 +1,6 @@
 {
   "board_scope": "active",
-  "updated_at": "2026-11-26T21:49:25+08:00",
+  "updated_at": "2026-11-26T22:10:59+08:00",
   "group": "Group 24",
   "schema_version": 1,
   "tasks": [
@@ -238,13 +238,14 @@
     },
     {
       "id": "peer-review-deferred",
-      "title": "本人互评内部草稿与官方填报",
+      "title": "六人互评模板与独立填报",
       "status": "in_progress",
-      "owner": "本人",
-      "note": "本人已明确可准备一页自拟互评；个人稿本地已备、贡献预填，数值评分和个人判断空白待本人确认。官方Google Form当前四入口未见，不把内部稿作官方替代。",
+      "owner": "各成员自行填写；本人分发模板",
+      "note": "本人授权六人各一份并由本人分发；六份一页Word/PDF及分发包已备，各评其余五人。评分评语等均留空，未实际分发或填报，个人模板不进入组员可见Git。",
       "evidence": [
         "supervision-update-20261126",
-        "peer-evaluation-preparation-20261126"
+        "peer-evaluation-preparation-20261126",
+        "peer-forms-batch-20261126"
       ]
     }
   ],
@@ -745,11 +746,19 @@
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/peer-evaluation-preparation-20261126.md",
       "observed_at": "2026-11-26",
       "sha256": "e9cd81a37a0211207d9ef81550669e2390d6dbfce6ff2bd445f061dec7ce2af3"
+    },
+    {
+      "id": "peer-forms-batch-20261126",
+      "kind": "local",
+      "label": "本人要求六份按名分发的个人互评空白评分模板，逐份一页验证完成，仅记录去个人内容状态",
+      "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/peer-forms-batch-20261126.md",
+      "observed_at": "2026-11-26",
+      "sha256": "ce9e52b4e7fa04301c819ea021ca4ded46aab624d331a71718e9833fbb2ac404"
     }
   ],
   "course": "IS5542",
-  "summary": "按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，互评个人内部一页草稿已备，评分和正式Google Form待本人确认。",
-  "stage": "v6待本人审阅上传 · 一页互评内部草稿已备，评分待确认",
+  "summary": "按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，六份按评价人命名的一页内部互评模板已备，评分留各人填写；官方Google Form待发布核实。",
+  "stage": "v6待本人审阅上传 · 六份一页互评模板已备，待各人填写",
   "task_scope_complete": false,
   "submission": {
     "status": "unknown",

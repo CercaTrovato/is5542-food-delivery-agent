@@ -4,7 +4,7 @@
   "course": "IS5542",
   "as_of": "2026-11-26",
   "timezone": "Asia/Shanghai",
-  "source_revision": "12beecda16573f0abaa2b21e939ba9be66213d8cc5ed025aa1fc2957d203bca6",
+  "source_revision": "7f2924f9510bfdd0f9fe0e004e555d30237bad340c3b3fa724a1bfb261e79061",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -197,10 +197,10 @@
     },
     {
       "id": "peer-review",
-      "title": "本人互评内部草稿与官方填报",
-      "owner": "本人",
+      "title": "六人互评模板与独立填报",
+      "owner": "各成员自行填写；本人分发模板",
       "status": "needs_review",
-      "personal_action": "可查看本地一页稿并给评分；正式官方填报仍按发布要求和本人确认执行。",
+      "personal_action": "将按姓名命名的对应空白评分Word分发给各成员；不代其他成员评分。",
       "readiness": "waiting_dependency",
       "target": {
         "value": null,
