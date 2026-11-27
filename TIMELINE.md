@@ -1,8 +1,8 @@
 # IS5542 · 项目时间线
 
-按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，六份按评价人命名的一页内部互评模板已备，评分留各人填写；官方Google Form待发布核实。
+按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，五份组员互评回表已收并本地归档，本人稿已填待本人签署；个人内容不进协作Git，官方互评未提交。
 
-进度依据截至 2026-11-26；时区 Asia/Shanghai。完成日期未知时只记录核实日期。
+进度依据截至 2026-11-27；时区 Asia/Shanghai。完成日期未知时只记录核实日期。
 
 [结构化时间线](progress/timeline.json) · [个人助手每日事项入口](progress/daily-plan.json) · [如何读取](ASSISTANT-README.md)
 
@@ -183,19 +183,19 @@ v6四项内容补充及四页预览已备，源v5保留；待本人按要求过�
 - 验收：✓ 基础B代码和可测说明已交；✓ 基础B已完成正式60次试跑；待核 所有B业务处理缺陷已修复
 - 依据：课程当前进度记录及总监督管理复核；依据日期 2026-11-10；[本人确认的本轮具体任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[本人确认的两天版任务与验收](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/final-week-tasks-2026-11-21.md)；[11/21晚三个试用问题收件与修复复测任务](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/test-feedback-2026-11-21.md)；[本人确认的人工重审与改额四项规范](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/spec/human-review-boundaries.md)；[176fbb0开发补齐交件与正式120次范围](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/work/eval/developer-delivery-2026-11-23.md)；[11月26日当前交付与收尾事项](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/team/board-sync-20261126.md)
 
-### 六人互评模板与独立填报 · `peer-review`
+### 互评回表已收与官方独立填报 · `peer-review`
 
-**待核阅或修订** · 负责人：各成员自行填写；本人分发模板 · 尚未安排 · 日期未定
+**待核阅或修订** · 负责人：本人审核及签署；各成员按官方要求填报 · 尚未安排 · 日期未定
 
-六份实名个人模板及分发包已备，六份均为一页、各评其余五人，所有评分评语空白。分发计划由本人执行，未记录已发送／填写／提交。
+五份成员已填PDF已收到并查看，本人一页稿亦已填写，签名栏留本人。原字节与个人内容仅保存在本地，未上传或正式提交。
 
 - 本环节交付：按已确认安排完成本事项并保留真实回执；当前不标完成。
-- 下一步：本人分别分发对应Word给成员，各人独立填写；正式官方Google Form发布后各人按其要求填报。
+- 下一步：本人查看并签署自己的稿件；官方表发布后各成员按其题目和量表独立填报。
 - 前置依赖：owner-submit
-- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-26
-- 总监督可做：将按姓名命名的对应空白评分Word分发给各成员；不代其他成员评分。
+- 开始／完成：未记录 ／ 未记录；核实日期：2026-11-27
+- 总监督可做：查看并签署本人已填的一页稿；按官方入口要求完成正式互评。
 - 验收：待核 实际交付／官方回执已取得并核对
-- 依据：[11/26监督更新](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md)；[11/26 Canvas实际回读](https://canvas.cityu.edu.hk/courses/71410/assignments)；[互评准备状态（不含个人评价内容）](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/peer-evaluation-preparation-20261126.md)；[六份模板准备状态（不含个人表格）](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/peer-forms-batch-20261126.md)
+- 依据：[11/26监督更新](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md)；[11/26 Canvas实际回读](https://canvas.cityu.edu.hk/courses/71410/assignments)；[互评准备状态（不含个人评价内容）](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/peer-evaluation-preparation-20261126.md)；[六份模板准备状态（不含个人表格）](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/peer-forms-batch-20261126.md)；[回表与本人稿状态（不含个人评价内容）](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/peer-forms-collection-20261127.md)
 
 ## 未来安排
 

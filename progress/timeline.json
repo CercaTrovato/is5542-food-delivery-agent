@@ -1,9 +1,9 @@
 {
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "timezone": "Asia/Shanghai",
-  "basis_revision": "70054f17117d53f354366100cfea09a0e46a8a81d73d35f71370e1f1fc37f99c",
+  "basis_revision": "55d9f7c6951b99597169060250ed0ad8180dcef452742a30ea20f064a6b0f2d3",
   "basis_management_revision": "71129ee5b35ca210ee30fadd8be7900730e6b3e074d7a20c0c7bb8f8b90ec6c0",
-  "as_of": "2026-11-26",
+  "as_of": "2026-11-27",
   "schema_version": 1,
   "assignment_id": "IS5542-A01",
   "items": [
@@ -3808,15 +3808,15 @@
     },
     {
       "id": "peer-review",
-      "title": "六人互评模板与独立填报",
+      "title": "互评回表已收与官方独立填报",
       "status": "needs_review",
-      "owner": "各成员自行填写；本人分发模板",
+      "owner": "本人审核及签署；各成员按官方要求填报",
       "owner_role": "team",
       "scope": "team",
-      "summary": "六份实名个人模板及分发包已备，六份均为一页、各评其余五人，所有评分评语空白。分发计划由本人执行，未记录已发送／填写／提交。",
+      "summary": "五份成员已填PDF已收到并查看，本人一页稿亦已填写，签名栏留本人。原字节与个人内容仅保存在本地，未上传或正式提交。",
       "deliverable": "按已确认安排完成本事项并保留真实回执；当前不标完成。",
-      "next_action": "本人分别分发对应Word给成员，各人独立填写；正式官方Google Form发布后各人按其要求填报。",
-      "my_next_action": "将按姓名命名的对应空白评分Word分发给各成员；不代其他成员评分。",
+      "next_action": "本人查看并签署自己的稿件；官方表发布后各成员按其题目和量表独立填报。",
+      "my_next_action": "查看并签署本人已填的一页稿；按官方入口要求完成正式互评。",
       "depends_on": [
         "owner-submit"
       ],
@@ -3835,9 +3835,9 @@
       },
       "started_on": null,
       "completed_on": null,
-      "observed_on": "2026-11-26",
+      "observed_on": "2026-11-27",
       "estimated_minutes": null,
-      "state_basis": "11/26总监督侧栏实读Canvas四入口、个人提交页及Hong Kong时区；没有上传或提交。",
+      "state_basis": "11/27本人直接提供五份回表并确认本人填写方案；实际查看五份回表及本人一页导出。官方表检查范围沿用11/26，未在本轮重查或提交。",
       "evidence": [
         {
           "label": "11/26监督更新",
@@ -3854,6 +3854,10 @@
         {
           "label": "六份模板准备状态（不含个人表格）",
           "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/peer-forms-batch-20261126.md"
+        },
+        {
+          "label": "回表与本人稿状态（不含个人评价内容）",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/peer-forms-collection-20261127.md"
         }
       ],
       "history": [
@@ -3901,11 +3905,25 @@
             "next_action": "本人确认个人评分／评价；官方Google Form发布后按其题目和量表填报，内部稿不作官方替代。",
             "my_next_action": "可查看本地一页稿并给评分；正式官方填报仍按发布要求和本人确认执行。"
           }
+        },
+        {
+          "observed_on": "2026-11-27",
+          "status": "needs_review",
+          "note": "五份回表实际收到，本人一页稿填写完成；个人原件只存本地，签名由本人确认，官方提交未完成。",
+          "previous": {
+            "title": "六人互评模板与独立填报",
+            "owner": "各成员自行填写；本人分发模板",
+            "owner_role": "team",
+            "summary": "六份实名个人模板及分发包已备，六份均为一页、各评其余五人，所有评分评语空白。分发计划由本人执行，未记录已发送／填写／提交。",
+            "next_action": "本人分别分发对应Word给成员，各人独立填写；正式官方Google Form发布后各人按其要求填报。",
+            "my_next_action": "将按姓名命名的对应空白评分Word分发给各成员；不代其他成员评分。",
+            "state_basis": "11/26总监督侧栏实读Canvas四入口、个人提交页及Hong Kong时区；没有上传或提交。"
+          }
         }
       ]
     }
   ],
-  "summary": "按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，六份按评价人命名的一页内部互评模板已备，评分留各人填写；官方Google Form待发布核实。",
+  "summary": "按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，五份组员互评回表已收并本地归档，本人稿已填待本人签署；个人内容不进协作Git，官方互评未提交。",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "course": "IS5542"
 }
