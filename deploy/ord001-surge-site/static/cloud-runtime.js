@@ -142,22 +142,21 @@
   const VALID_RECONSIDER_REASONS = new Set(["verifiable_relevant_new_information", "prior_processing_error"]);
   const DS_BASE = "https://api.deepseek.com";
   const DS_MODEL = "deepseek-flash";
-  const DS_TOKEN_B64 = "";
-  const MASK = "ord001-is5542-cityu-group24";
   const STORE_KEY = "ord001_cloud_state_176fbb0_v1";
   const SESSION_CUST_KEY = "ord001_cloud_customer_id";
   const SESSION_CUST_THREAD_KEY = "ord001_cloud_customer_thread";
   const SESSION_REV_KEY = "ord001_cloud_reviewer_id";
   const MAX_ATTACHMENTS_PER_HANDOFF = 3;
 
-  function decodeToken() {
-    const raw = atob(DS_TOKEN_B64);
-    const out = new Uint8Array(raw.length);
-    for (let i = 0; i < raw.length; i++) {
-      out[i] = raw.charCodeAt(i) ^ MASK.charCodeAt(i % MASK.length);
+  function modelApiKey() {
+    const value = globalThis.ORD001_DEEPSEEK_API_KEY;
+    if (typeof value !== "string" || !value.trim()) {
+      throw new Error("No DeepSeek API key is configured in this browser session.");
     }
-    return new TextDecoder().decode(out);
+    return value.trim();
   }
+
+
 
   const SYSTEM_PROMPT = (
     "你是「配送关怀」的 AI 智能客服助手 MJ（生成式人工智能，非真人坐席），帮助顾客查询配送进度、理解延误补偿、反馈餐品问题和查看申请进度。" +
@@ -1246,7 +1245,7 @@
     try {
       const resp = await fetch(`${DS_BASE}/chat/completions`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${decodeToken()}` },
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${modelApiKey()}` },
         body: JSON.stringify({
           model: DS_MODEL, messages: apiMessages, tools,
           temperature: 0.35, max_tokens: 800, thinking: { type: "disabled" },
@@ -1296,7 +1295,7 @@
     try {
       const resp = await fetch(`${DS_BASE}/chat/completions`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${decodeToken()}` },
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${modelApiKey()}` },
         body: JSON.stringify({
           model: DS_MODEL,
           messages: [
@@ -1596,7 +1595,7 @@
         data_version: DEMO_DATA.data_version,
         service_date: DEMO_DATA.service_date,
         model: `openai:${DS_MODEL}`,
-        model_mode: "live",
+        model_mode: typeof globalThis.ORD001_DEEPSEEK_API_KEY === "string" && globalThis.ORD001_DEEPSEEK_API_KEY.trim() ? "live" : "not_configured",
         customers: DEMO_DATA.customers,
         reviewers: DEMO_DATA.reviewers,
       };

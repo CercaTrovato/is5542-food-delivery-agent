@@ -35,5 +35,12 @@ python3 -m http.server 8642
 surge . ord001-group24.surge.sh
 ```
 
-> ⚠️ `cloud-runtime.js` 内嵌了课程演示用的 DeepSeek 调用凭证（与线上版一致，静态站点必然对外可见）。课程结束后请在 DeepSeek 控制台轮换或停用该 key。
-> The DeepSeek demo credential embedded in `cloud-runtime.js` is visible to anyone using the static site; rotate or revoke it after the course.
+## 模型凭证 / Model credentials
+
+公开源码不含内置 API 密钥。未配置密钥时，网页使用已有规则与固定回复，不向模型服务发送请求；演示说明中的对话模式显示为“固定脚本”。如需在自己的本地浏览器会话测试真实模型，可设置 `globalThis.ORD001_DEEPSEEK_API_KEY` 后再发起对话。该值只在当前页面会话中使用，不能写入或提交源码，也不要部署含密钥的静态配置文件。
+
+No API credential is bundled. Without a locally configured session key, existing deterministic replies and rules remain available and no model request is made. For local development, provide your own key through `globalThis.ORD001_DEEPSEEK_API_KEY` in your browser session. Never commit or deploy that value. A browser client cannot keep a shared provider key secret; a shared live-model deployment requires a server-side credential boundary.
+
+原演示凭证应由持有人撤销或轮换；删除源码中的值不能使旧副本失效。线上现有部署与本次无内置凭证源码的发布状态分别核验。
+
+The holder should revoke or rotate the previous demo credential. Removing a value from source does not invalidate old copies. Verify the live deployment separately from the credential-free source release.
