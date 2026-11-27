@@ -1,7 +1,7 @@
 {
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "timezone": "Asia/Shanghai",
-  "basis_revision": "650df0084714df20f4d72f5f317d90863514f996018fcab233b3da18fab43652",
+  "basis_revision": "c8da72fd4a49724bb1304bacebbbe5c3396e1eec85fb1ba1f35b481127a241dd",
   "basis_management_revision": "779c6ad8fd1830ab4849b575047e68b03101185e4b7f8501bc5396d3995f3633",
   "as_of": "2026-11-27",
   "schema_version": 1,
@@ -4186,9 +4186,9 @@
       "owner": "项目组网页维护；本轮只读核查",
       "owner_role": "team",
       "scope": "team",
-      "summary": "顾客／商家入口及中英切换已核，9个线上资源与最新网页源码字节一致。当前为浏览器本地演示数据；群稿已拟由本人发送。",
+      "summary": "顾客／商家入口及中英切换已核，9个线上资源与最新网页源码字节一致。当前为浏览器本地演示数据；群稿已拟由本人发送。 后续原仓库已公开并清理内置凭证；此9资源一致结论保留原版本地位，Surge清理版未部署。",
       "deliverable": "两端入口与双语切换实测、九资源来源对照及群说明。",
-      "next_action": "使用同一浏览器访问两端；演示凭证后续处理待负责人确认，正式互评另待官方入口。",
+      "next_action": "按此前已核版本查看演示；当前公开源码按README本地配置模型，正式互评另待官方入口。",
       "my_next_action": "可复制本批群说明给组员；按后续官方Google Form要求独立互评。",
       "depends_on": [],
       "dependency_gates": [],
@@ -4243,11 +4243,79 @@
           "observed_on": "2026-11-27",
           "status": "done",
           "note": "本轮仅核新版静态发布及可见入口／语言，不改源码、不发群、不新增模型业务测试。"
+        },
+        {
+          "observed_on": "2026-11-27",
+          "status": "done",
+          "note": "原仓库已公开；历史网页核验与新清理源码分列。",
+          "previous": {
+            "summary": "顾客／商家入口及中英切换已核，9个线上资源与最新网页源码字节一致。当前为浏览器本地演示数据；群稿已拟由本人发送。",
+            "next_action": "使用同一浏览器访问两端；演示凭证后续处理待负责人确认，正式互评另待官方入口。",
+            "state_basis": "侧栏实际查看两端并切换语言；九个线上资源HTTP 200且SHA-256与d629c19源码一致；未触发模型或审批动作。"
+          }
+        }
+      ]
+    },
+    {
+      "id": "github-publication-20261127",
+      "title": "原项目仓库已公开",
+      "status": "done",
+      "owner": "本人授权；本会话执行",
+      "owner_role": "me",
+      "scope": "team",
+      "summary": "原仓库已设PUBLIC，未登录API及源码读取均200；仅main清理历史，团队资料保留，其他分支不变。",
+      "deliverable": "原公开仓库及发布回执、历史映射。",
+      "next_action": "后续使用先重新克隆公开仓库，避免旧历史回流；正式互评等待官方入口。",
+      "my_next_action": "可分享公开仓库作为小组项目材料；后续更新使用新克隆。",
+      "depends_on": [],
+      "dependency_gates": [],
+      "acceptance": [
+        {
+          "id": "public",
+          "label": "原仓库PUBLIC且匿名读取200",
+          "status": "pass"
+        },
+        {
+          "id": "key",
+          "label": "已核范围中凭证清理完成且模型无密钥路径通过",
+          "status": "pass"
+        },
+        {
+          "id": "preserve",
+          "label": "团队材料保留且其他分支未变",
+          "status": "pass"
+        }
+      ],
+      "target": {
+        "value": null,
+        "precision": "unknown",
+        "basis": "unknown"
+      },
+      "started_on": null,
+      "completed_on": "2026-11-27",
+      "observed_on": "2026-11-27",
+      "estimated_minutes": null,
+      "state_basis": "本人明确确认旧密钥停用并批准公开，回应限定main历史替换方案；实际lease推送、visibility及匿名HTTP读取已核。",
+      "evidence": [
+        {
+          "label": "原公开仓库",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent"
+        },
+        {
+          "label": "公开回执与核查范围",
+          "url": "https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/github-publication-20261127.md"
+        }
+      ],
+      "history": [
+        {
+          "observed_on": "2026-11-27",
+          "status": "done",
+          "note": "本人在具体历史清理公开问题后确认旧密钥已停用并批准，原仓库已公开。"
         }
       ]
     }
   ],
-  "summary": "11/27 14:04 HKT，Canvas Group Project 已显示 Submitted!，原始录制MP4和去版本号的Slides两个附件均列出下载链接。提交PPT与v6字节一致；本人明确选择保留15:37.583原视频。五份成员互评回表及本人补签稿仅本地保存；老师安排由本人转述为提交后通过官方Google Form互评，正式互评仍待后续入口。 另已核11/27双语静态演示网页：顾客与商家入口、中英切换及跨页保留正常，9个线上资源与最新网页源码逐字节一致；演示凭证处理另待负责人确认。",
+  "summary": "11/27 14:04 HKT，Canvas Group Project 已显示 Submitted!，原始录制MP4和去版本号的Slides两个附件均列出下载链接。提交PPT与v6字节一致；本人明确选择保留15:37.583原视频。五份成员互评回表及本人补签稿仅本地保存；老师安排由本人转述为提交后通过官方Google Form互评，正式互评仍待后续入口。 另已核11/27双语静态演示网页：顾客与商家入口、中英切换及跨页保留正常，9个线上资源与最新网页源码逐字节一致。 16:04 HKT原项目仓库已设为PUBLIC并完成未登录读取核验；本人确认旧密钥已停用，仅main历史按本次授权清理，团队材料保留。公开清理版源码与尚未重部署的Surge分列，前述9资源一致为此前版本核验。",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "course": "IS5542"
 }

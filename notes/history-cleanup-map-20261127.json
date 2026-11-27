@@ -1,0 +1,36 @@
+{
+  "changed_commits": [
+    {
+      "old": "3e51a335d1c0b79398b6c6341e43e6c574efe9e7",
+      "new": "44634e20fe9b0bed509c0f0ea7ecefd8e6e222bb"
+    },
+    {
+      "old": "6fd7a2f311492775da66c03e930c8e6486be67ec",
+      "new": "df9fe2817c297ea846ff68cad02f520509efe6cc"
+    },
+    {
+      "old": "98952d1a34c112d9fffc75678fcd9ff1e3e27eba",
+      "new": "df4517dac03b26b4963ba29590557e647035266e"
+    },
+    {
+      "old": "a2af650870010e8cfb4350c36d25a6a5d55472e0",
+      "new": "840adf5f0a4ec8e7d2e4f87916b84651f794066a"
+    },
+    {
+      "old": "b06c1cce4949194e2e0cea84afede6d908aa2f59",
+      "new": "16704c6e54c2fa9a389eda7e2f7b2d43246332d2"
+    },
+    {
+      "old": "d629c191cfd36c5d3d18cfa8a6806c211f4d6c34",
+      "new": "72d44efe914219cf2885f8b8ea819aeb5bacbc06"
+    }
+  ],
+  "unchanged_feature_tip": "fe27ea3c3c72a51552e6423364d40056ef513600",
+  "rewrite_scope": [
+    "refs/heads/main",
+    "refs/pull/2/merge",
+    "^45731b283ddf390ccdb6b3b5fca6bb5dc69d7a21",
+    "^fe27ea3c3c72a51552e6423364d40056ef513600"
+  ],
+  "note": "Only main was pushed. The PR merge mapping is a local audit mapping, not a server PR-ref update."
+}

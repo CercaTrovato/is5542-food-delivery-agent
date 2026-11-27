@@ -1,6 +1,6 @@
 {
   "board_scope": "active",
-  "updated_at": "2026-11-27T14:26:29+08:00",
+  "updated_at": "2026-11-27T16:11:58+08:00",
   "group": "Group 24",
   "schema_version": 1,
   "tasks": [
@@ -261,10 +261,20 @@
       "title": "新版双语静态网页与来源核查",
       "status": "done",
       "owner": "项目组网页维护；本轮课程会话只读核查",
-      "note": "顾客端、商家／专员端及中英文切换实际核对；9个资源HTTP 200且与d629c19源码字节一致。群稿已拟由本人发送；模型对话／审批回归未重测，凭证处理待负责人确认。",
+      "note": "顾客端、商家／专员端及中英文切换实际核对；9个资源HTTP 200且与d629c19源码字节一致。群稿已拟由本人发送；模型对话／审批回归未重测，凭证处理待负责人确认。 后续公开清理版已移除内置凭证；本人确认旧密钥停用。旧9资源一致核验按原版本保留，Surge部署未在本次更新。",
       "evidence": [
         "web-update-20261127",
         "web-source-check-20261127"
+      ]
+    },
+    {
+      "id": "github-publication-20261127",
+      "title": "原仓库清理凭证并公开",
+      "status": "done",
+      "owner": "本人授权；本会话执行",
+      "note": "原仓库ID保留，已设PUBLIC；匿名API与源码均200。仅main一次带旧SHA校验的历史替换，其他分支不变；成员信息及PPT原样保留。旧密钥停用为本人确认，服务器缓存未purge，Surge未重部署。",
+      "evidence": [
+        "github-publication-20261127"
       ]
     }
   ],
@@ -805,11 +815,19 @@
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/web-source-check-20261127.json",
       "observed_at": "2026-11-27",
       "sha256": "2f652bad36e26057f15e87d79246182efc668bc0abdb05c1c8bf1ec6c6128919"
+    },
+    {
+      "id": "github-publication-20261127",
+      "kind": "local",
+      "label": "原GitHub仓库PUBLIC、匿名读取与限定main历史清理实际回读",
+      "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/github-publication-20261127.md",
+      "observed_at": "2026-11-27",
+      "sha256": "a1223284e31a5a106adec2a8c92788a424d9468a44e6d115fd8f53ae88de29a1"
     }
   ],
   "course": "IS5542",
-  "summary": "11/27 14:04 HKT，Canvas Group Project 已显示 Submitted!，原始录制MP4和去版本号的Slides两个附件均列出下载链接。提交PPT与v6字节一致；本人明确选择保留15:37.583原视频。五份成员互评回表及本人补签稿仅本地保存；老师安排由本人转述为提交后通过官方Google Form互评，正式互评仍待后续入口。 另已核11/27双语静态演示网页：顾客与商家入口、中英切换及跨页保留正常，9个线上资源与最新网页源码逐字节一致；演示凭证处理另待负责人确认。",
-  "stage": "视频与 Slides 已交 · 双语网页更新已核 · 等待官方互评",
+  "summary": "11/27 14:04 HKT，Canvas Group Project 已显示 Submitted!，原始录制MP4和去版本号的Slides两个附件均列出下载链接。提交PPT与v6字节一致；本人明确选择保留15:37.583原视频。五份成员互评回表及本人补签稿仅本地保存；老师安排由本人转述为提交后通过官方Google Form互评，正式互评仍待后续入口。 另已核11/27双语静态演示网页：顾客与商家入口、中英切换及跨页保留正常，9个线上资源与最新网页源码逐字节一致。 16:04 HKT原项目仓库已设为PUBLIC并完成未登录读取核验；本人确认旧密钥已停用，仅main历史按本次授权清理，团队材料保留。公开清理版源码与尚未重部署的Surge分列，前述9资源一致为此前版本核验。",
+  "stage": "视频与Slides已交 · 项目仓库已公开 · 等待官方互评",
   "task_scope_complete": false,
   "submission": {
     "status": "submitted",
@@ -846,7 +864,6 @@
   "reviewed_at": "2026-11-27",
   "title": "客服 Agent 与模拟评测",
   "blockers": [
-    "项目视频与Slides已交；正式同伴互评等待后续官方Google Form入口、题目及截止。既有内部表不替代官方填报。",
-    "静态网页源码README披露内嵌演示调用凭证；后续处理待负责人确认，未记录凭证值或擅自变更。"
+    "项目视频与Slides已交；正式同伴互评等待后续官方Google Form入口、题目及截止。既有内部表不替代官方填报。"
   ]
 }
