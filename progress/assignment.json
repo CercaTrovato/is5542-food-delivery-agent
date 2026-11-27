@@ -1,6 +1,6 @@
 {
   "board_scope": "active",
-  "updated_at": "2026-11-27T14:08:10+08:00",
+  "updated_at": "2026-11-27T14:22:10+08:00",
   "group": "Group 24",
   "schema_version": 1,
   "tasks": [
@@ -254,6 +254,17 @@
         "peer-forms-batch-20261126",
         "peer-forms-collection-20261127",
         "canvas-submission-20261127"
+      ]
+    },
+    {
+      "id": "web-update-20261127",
+      "title": "新版双语静态网页与来源核查",
+      "status": "done",
+      "owner": "项目组网页维护；本轮课程会话只读核查",
+      "note": "顾客端、商家／专员端及中英文切换实际核对；9个资源HTTP 200且与d629c19源码字节一致。群稿已拟由本人发送；模型对话／审批回归未重测，凭证处理待负责人确认。",
+      "evidence": [
+        "web-update-20261127",
+        "web-source-check-20261127"
       ]
     }
   ],
@@ -778,11 +789,27 @@
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/submission-receipt-20261127.md",
       "observed_at": "2026-11-27",
       "sha256": "c6ab01de6cd0fa5e6f13c7356ce9a94c86f726d814d7a97c2ae91ceea7e25558"
+    },
+    {
+      "id": "web-update-20261127",
+      "kind": "local",
+      "label": "双语网页两端与语言切换实际核查",
+      "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/web-update-20261127.md",
+      "observed_at": "2026-11-27",
+      "sha256": "ed6bd326687b25d3d8a1e6b04cdb9140056e603faf989674c19f24f6e070afc4"
+    },
+    {
+      "id": "web-source-check-20261127",
+      "kind": "local",
+      "label": "九个线上资源HTTP与源码SHA-256逐一对照",
+      "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/web-source-check-20261127.json",
+      "observed_at": "2026-11-27",
+      "sha256": "2f652bad36e26057f15e87d79246182efc668bc0abdb05c1c8bf1ec6c6128919"
     }
   ],
   "course": "IS5542",
-  "summary": "11/27 14:04 HKT，Canvas Group Project 已显示 Submitted!，原始录制MP4和去版本号的Slides两个附件均列出下载链接。提交PPT与v6字节一致；本人明确选择保留15:37.583原视频。五份成员互评回表及本人补签稿仅本地保存；老师安排由本人转述为提交后通过官方Google Form互评，正式互评仍待后续入口。",
-  "stage": "项目视频与 Slides 已正式提交 · 正式互评待后续 Google Form",
+  "summary": "11/27 14:04 HKT，Canvas Group Project 已显示 Submitted!，原始录制MP4和去版本号的Slides两个附件均列出下载链接。提交PPT与v6字节一致；本人明确选择保留15:37.583原视频。五份成员互评回表及本人补签稿仅本地保存；老师安排由本人转述为提交后通过官方Google Form互评，正式互评仍待后续入口。 另已核11/27双语静态演示网页：顾客与商家入口、中英切换及跨页保留正常，9个线上资源与最新网页源码逐字节一致；演示凭证处理另待负责人确认。",
+  "stage": "视频与 Slides 已交 · 双语网页更新已核 · 等待官方互评",
   "task_scope_complete": false,
   "submission": {
     "status": "submitted",
@@ -819,6 +846,7 @@
   "reviewed_at": "2026-11-27",
   "title": "客服 Agent 与模拟评测",
   "blockers": [
-    "项目视频与Slides已交；正式同伴互评等待后续官方Google Form入口、题目及截止。既有内部表不替代官方填报。"
+    "项目视频与Slides已交；正式同伴互评等待后续官方Google Form入口、题目及截止。既有内部表不替代官方填报。",
+    "静态网页源码README披露内嵌演示调用凭证；后续处理待负责人确认，未记录凭证值或擅自变更。"
   ]
 }

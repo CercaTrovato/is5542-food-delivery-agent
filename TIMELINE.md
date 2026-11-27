@@ -1,6 +1,6 @@
 # IS5542 · 项目时间线
 
-11/27 14:04 HKT，Canvas Group Project 已显示 Submitted!，原始录制MP4和去版本号的Slides两个附件均列出下载链接。提交PPT与v6字节一致；本人明确选择保留15:37.583原视频。五份成员互评回表及本人补签稿仅本地保存；老师安排由本人转述为提交后通过官方Google Form互评，正式互评仍待后续入口。
+11/27 14:04 HKT，Canvas Group Project 已显示 Submitted!，原始录制MP4和去版本号的Slides两个附件均列出下载链接。提交PPT与v6字节一致；本人明确选择保留15:37.583原视频。五份成员互评回表及本人补签稿仅本地保存；老师安排由本人转述为提交后通过官方Google Form互评，正式互评仍待后续入口。 另已核11/27双语静态演示网页：顾客与商家入口、中英切换及跨页保留正常，9个线上资源与最新网页源码逐字节一致；演示凭证处理另待负责人确认。
 
 进度依据截至 2026-11-27；时区 Asia/Shanghai。完成日期未知时只记录核实日期。
 
@@ -296,6 +296,20 @@ v6内容经本人明确确认用于提交；同字节无版本号PPT及原录像
 - 总监督可做：无需再次上传本项目视频或Slides；等待后续官方互评。
 - 验收：✓ 实际交付／官方回执已取得并核对
 - 依据：[11/26监督更新](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/supervision-update-20261126.md)；[11/26 Canvas实际回读](https://canvas.cityu.edu.hk/courses/71410/assignments)；[11/27正式提交回执及文件来源](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/submission-receipt-20261127.md)
+
+### 双语静态演示网页更新与来源核查 · `web-publication-20261127`
+
+**已完成所述交付** · 负责人：项目组网页维护；本轮只读核查 · 尚未安排 · 日期未定
+
+顾客／商家入口及中英切换已核，9个线上资源与最新网页源码字节一致。当前为浏览器本地演示数据；群稿已拟由本人发送。
+
+- 本环节交付：两端入口与双语切换实测、九资源来源对照及群说明。
+- 下一步：使用同一浏览器访问两端；演示凭证后续处理待负责人确认，正式互评另待官方入口。
+- 前置依赖：无已登记前置
+- 开始／完成：未记录 ／ 2026-11-27；核实日期：2026-11-27
+- 总监督可做：可复制本批群说明给组员；按后续官方Google Form要求独立互评。
+- 验收：✓ 九个线上资源与源码对应；✓ 顾客端入口及图片加载已核；✓ 商家／专员入口已核；✓ 中英切换及跨页保留已核
+- 依据：[双语网页核查与范围](https://github.com/CercaTrovato/is5542-food-delivery-agent/blob/main/notes/web-update-20261127.md)；[顾客端](https://ord001-group24.surge.sh/)；[商家／专员端](https://ord001-group24.surge.sh/review/)
 
 ## 维护约定
 
