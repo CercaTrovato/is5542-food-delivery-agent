@@ -1,8 +1,8 @@
 {
   "date_policy": "日期建议不等于承诺；未知实际开始、完成日期与工时保留 null。",
   "timezone": "Asia/Shanghai",
-  "basis_revision": "c8da72fd4a49724bb1304bacebbbe5c3396e1eec85fb1ba1f35b481127a241dd",
-  "basis_management_revision": "779c6ad8fd1830ab4849b575047e68b03101185e4b7f8501bc5396d3995f3633",
+  "basis_revision": "09db996b0f77c3c28ee9939f0a46c7680d0946826e4d973c16d2b761437c2be5",
+  "basis_management_revision": "6355620570eb0042c7229696ce61af9ab9fc5eaee9ea3a40c97859a333e50628",
   "as_of": "2026-11-27",
   "schema_version": 1,
   "assignment_id": "IS5542-A01",
