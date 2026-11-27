@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffd000">
+  <title>配送关怀 · 67餐厅核损工作台</title>
+  <link rel="stylesheet" href="/static/app.css?v=20261123-v18">
+  <script src="/static/app.js?v=20261123-v18" defer></script>
+  <script src="/static/review.js?v=20261123-v18" defer></script>
+</head>
+<body data-page="review">
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <div class="ambient" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="配送关怀首页"><span class="brand-symbol" data-icon="spidey"></span><span>配送关怀</span><span class="brand-badge" id="brand-badge">小丑</span></a>
+    <nav class="role-switch" aria-label="切换入口"><a href="/"><span data-icon="chat"></span>顾客</a><a class="active" href="/review" aria-current="page"><span data-icon="inbox"></span>商家</a></nav>
+    <div class="topbar-actions">
+      <button class="demo-chip" type="button" id="meta" data-open-demo aria-label="演示与合规说明">演示</button>
+      <span class="connection" id="connection" title="正在连接"><i></i><span>正在连接</span></span>
+      <button class="icon-button" type="button" id="theme-toggle" aria-label="切换深浅主题" title="切换深浅主题"><span data-icon="moon"></span></button>
+      <div class="who" id="who" hidden><span class="avatar avatar-small" aria-hidden="true">R</span><span id="who-name"></span><button type="button" class="icon-button" id="logout" aria-label="切换账号" title="切换账号"><span data-icon="logout"></span></button></div>
+    </div>
+  </header>
+  <main class="page-content review-page" id="main">
+    <section class="entry-stage" id="login" hidden aria-labelledby="login-title">
+      <div class="entry-art merchant-art" aria-hidden="true">
+        <div class="entry-orbit"></div>
+        <div class="glass-orb orb-peach"></div>
+        <div class="glass-orb orb-blue"></div>
+        <div class="glass-orb orb-pink"></div>
+        <div class="floating-receipt">
+          <span class="receipt-kicker">67餐厅</span>
+          <span class="receipt-symbol" data-icon="spidey"></span>
+          <span class="receipt-badge">小丑专席</span>
+          <span class="receipt-check" data-icon="check"></span>
+        </div>
+        <div class="floating-coupon"><span class="coupon-tag">准时保代偿</span><strong>¥0 自付</strong></div>
+        <div class="floating-pill pill-top">T1/T2 责任清分</div>
+        <div class="floating-pill pill-bottom">食安 P0 专席</div>
+        <div class="art-spark spark-one"></div>
+        <div class="art-spark spark-two"></div>
+      </div>
+      <div class="login-content">
+        <span class="login-brand">MERCHANT WORKBENCH · M_67REST</span>
+        <h1 id="login-title">67餐厅</h1>
+        <p class="login-subtitle">履约核损、准时保自动代偿清分与多轮人工专席工作台</p>
+        <div class="login-choices" id="login-choices"></div>
+        <label class="pics-consent-box" for="pics-consent">
+          <input type="checkbox" id="pics-consent" checked>
+          <span>已确认遵循香港 PDPO 顾客私隐保护及《证据条例》（Cap. 8 s.22A）电子审计链规范，不外泄顾客记录。</span>
+        </label>
+      </div>
+    </section>
+    <div id="app" hidden>
+      <div class="page-heading">
+        <div class="heading-with-icon">
+          <span class="service-avatar joker-avatar merchant-emblem" data-icon="spidey"></span>
+          <div>
+            <h1>67餐厅 · 小丑核损与客服专席</h1>
+            <span class="heading-caption">小丑专员 · T1 出餐 / T2 运力清分与一单一编号人工工作台</span>
+          </div>
+        </div>
+        <div class="inbox-tabs">
+          <button class="inbox-tab active" type="button" id="tab-pending" aria-pressed="true">待处理<span id="pending-count" class="tab-count">0</span></button>
+          <button class="inbox-tab" type="button" id="tab-decided" aria-pressed="false">已处理<span id="decided-count" class="tab-count">0</span></button>
+          <button class="inbox-tab" type="button" id="tab-handoffs" aria-pressed="false">人工咨询<span id="handoffs-count" class="tab-count">0</span></button>
+        </div>
+        <span class="sync-indicator" aria-label="后台常驻同步" title="后台切页保持同步"><span data-icon="refresh"></span></span>
+      </div>
+
+      <section class="stp-toolbar" aria-label="准时保直通秒赔与经营看板">
+        <div class="kpi-strip" id="review-kpis">
+          <div class="kpi-item"><span>平台准时保池代偿</span><strong id="kpi-platform-saved">¥0.0</strong></div>
+          <div class="kpi-item"><span>67餐厅净承担</span><strong id="kpi-merchant-cost">¥0.0</strong></div>
+          <div class="kpi-item"><span>绿灯直通单 / 风控拦截</span><strong id="kpi-stp-guard">0 单 / 0 次</strong></div>
+          <div class="kpi-item"><span>服务评分 / 审计链</span><strong id="kpi-csat-chain">暂无 / 完好</strong></div>
+        </div>
+        <div class="stp-controls">
+          <label class="stp-switch-label" for="stp-toggle">
+            <input type="checkbox" id="stp-toggle">
+            <span>绿灯准时保 0 人工秒赔（本店按时出餐单自动由平台池 100% 直赔）</span>
+          </label>
+          <button type="button" class="secondary small stp-batch-btn" id="stp-batch-btn" hidden>一键转准时保池直赔（本店¥0）</button>
+        </div>
+      </section>
+
+      <p class="status review-status" id="status" role="status"></p>
+      <div class="review-workspace">
+        <section class="review-list" id="pending-panel" aria-label="待处理申请"><div id="pending"></div></section>
+        <section class="review-list" id="decided-panel" aria-label="已处理申请" hidden><div id="decided"></div></section>
+        <section class="review-list" id="handoffs-panel" aria-label="人工咨询" hidden><div id="handoffs"></div></section>
+        <aside class="compensation-card">
+          <div class="coupon-art" aria-hidden="true"><span data-icon="spidey"></span></div>
+          <span class="compensation-label">小丑 · 赔付标准</span>
+          <strong class="compensation-amount" id="guide-amount"></strong>
+          <p id="guide-policy"></p>
+          <p class="subrogation-aside-note">按时出餐订单由平台准时保池 100% 代偿，本店 ¥0 承担且自动豁免骑手恶劣天气/压单扣款。</p>
+        </aside>
+      </div>
+    </div>
+    <footer class="page-footer"><span>配送关怀 · 67餐厅履约核损与专席工作台（SHA-256 不可篡改审计链守护）</span></footer>
+  </main>
+  <dialog class="dialog" id="demo-dialog" aria-labelledby="demo-title">
+    <div class="dialog-heading"><span class="dialog-kicker">商家工作台说明</span><button class="icon-button" type="button" data-close-dialog aria-label="关闭说明"><span data-icon="close"></span></button></div>
+    <h2 id="demo-title">核损清分与演示说明</h2>
+    <p>系统自动比对「T1 餐厅实际出餐」与「T2 骑手交接送达」时间戳，计算平台准时保池与餐厅的分摊金额，并对上传图片执行二进制魔数及 SHA-256 重复图哈希鉴伪。</p>
+    <dl class="facts" id="policy-details"></dl>
+    <p class="dialog-note">支持批量留在当前队列连续审单、人工咨询多轮追加回复；演示重置仅在非生产模式下清空工单，底层 SHA-256 审计链永久只追加保留。</p>
+    <button type="button" class="secondary" id="reset" hidden><span data-icon="reset"></span>重置演示数据</button>
+  </dialog>
+  <dialog class="dialog reset-dialog" id="reset-dialog" aria-labelledby="reset-title">
+    <div class="dialog-heading"><span class="round-icon coral" data-icon="reset"></span><button class="icon-button" type="button" data-close-dialog aria-label="取消重置"><span data-icon="close"></span></button></div>
+    <h2 id="reset-title">清空当前演示工单？</h2>
+    <p>待审工单、人工咨询与会话状态将恢复初始状态（底层防篡改 SHA-256 审计哈希链将继续追加保留记录）。</p>
+    <div class="actions"><button class="danger-solid" type="button" id="reset-confirm">确认清空</button><button class="secondary" type="button" data-close-dialog>取消</button></div>
+  </dialog>
+  <dialog class="dialog action-confirm-dialog" id="action-confirm-dialog" aria-labelledby="action-confirm-title">
+    <div class="dialog-heading"><span class="dialog-kicker">操作二次确认</span><button class="icon-button" type="button" id="action-confirm-close" aria-label="取消操作"><span data-icon="close"></span></button></div>
+    <h2 id="action-confirm-title">确认执行该业务动作？</h2>
+    <p class="action-confirm-desc" id="action-confirm-desc"></p>
+    <dl class="facts" id="action-confirm-facts"></dl>
+    <div class="actions">
+      <button class="primary" type="button" id="action-confirm-submit">确认执行</button>
+      <button class="secondary" type="button" id="action-confirm-cancel">取消</button>
+    </div>
+  </dialog>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffd000">
+  <title>配送关怀 · 订单服务</title>
+  <link rel="stylesheet" href="/static/app.css?v=20261123-v18">
+  <script src="/static/app.js?v=20261123-v18" defer></script>
+  <script src="/static/customer.js?v=20261123-v18" defer></script>
+</head>
+<body data-page="customer">
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <div class="ambient" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="配送关怀首页"><span class="brand-symbol" data-icon="spidey"></span><span>配送关怀</span><span class="brand-badge" id="brand-badge">MJ</span></a>
+    <nav class="role-switch" aria-label="切换入口"><a class="active" href="/" aria-current="page"><span data-icon="chat"></span>顾客</a><a href="/review"><span data-icon="inbox"></span>商家</a></nav>
+    <div class="topbar-actions">
+      <button class="demo-chip" type="button" id="meta" data-open-demo aria-label="演示与合规说明">演示</button>
+      <span class="connection" id="connection" title="正在连接"><i></i><span>正在连接</span></span>
+      <button class="icon-button" type="button" id="theme-toggle" aria-label="切换深浅主题" title="切换深浅主题"><span data-icon="moon"></span></button>
+      <div class="who" id="who" hidden><span class="avatar avatar-small" aria-hidden="true">U</span><span id="who-name"></span><button type="button" class="icon-button" id="logout" aria-label="切换账号" title="切换账号"><span data-icon="logout"></span></button></div>
+    </div>
+  </header>
+  <main class="page-content" id="main">
+    <section class="entry-stage" id="login" hidden aria-labelledby="login-title">
+      <div class="entry-art" aria-hidden="true">
+        <div class="entry-orbit"></div>
+        <div class="glass-orb orb-peach"></div>
+        <div class="glass-orb orb-blue"></div>
+        <div class="glass-orb orb-pink"></div>
+        <div class="floating-receipt" id="entry-mascot-card">
+          <span class="receipt-kicker">准时送达</span>
+          <span class="receipt-symbol" data-icon="spidey"></span>
+          <span class="receipt-badge">MJ</span>
+          <span class="receipt-check" data-icon="check"></span>
+        </div>
+        <div class="floating-coupon"><span class="coupon-tag">补偿券</span><strong>¥10</strong></div>
+        <div class="floating-pill pill-top">准时保守护</div>
+        <div class="floating-pill pill-bottom">食安绿色通道</div>
+        <div class="art-spark spark-one"></div>
+        <div class="art-spark spark-two"></div>
+      </div>
+      <div class="login-content">
+        <span class="login-brand">DELIVERY CARE · AI</span>
+        <h1 id="login-title">订单服务</h1>
+        <p class="login-subtitle">选择模拟账号进入对话，可查询配送进度、申请延误补偿或直连人工客服专席</p>
+        <div class="login-choices" id="login-choices"></div>
+        <label class="pics-consent-box" for="pics-consent">
+          <input type="checkbox" id="pics-consent" checked>
+          <span>已阅读《收集个人资料及 AI 辅助服务声明（PDPO PICS）》：知悉对话由生成式 AI 辅助识别订单（非真人承诺），系统已剥离敏感字段且切勿在自由对话中输入详细门牌号、电话或病历隐私。</span>
+        </label>
+      </div>
+    </section>
+    <div id="app" hidden>
+      <div class="page-heading">
+        <h1>订单服务</h1>
+        <ol class="journey" id="journey" aria-label="申请进度">
+          <li class="current"><span class="step-number">1</span><strong>核实订单</strong></li>
+          <li><span class="step-number">2</span><strong>确认申请</strong></li>
+          <li><span class="step-number">3</span><strong>人工审核</strong></li>
+          <li><span class="step-number">4</span><strong>查看结果</strong></li>
+        </ol>
+      </div>
+      <div class="customer-layout">
+        <section class="panel orders-panel" id="orders-panel" aria-labelledby="orders-title">
+          <div class="section-heading"><h2 id="orders-title">我的订单</h2><span class="round-icon violet" data-icon="bowl"></span></div>
+          <div class="mj-order-stage" id="mj-order-stage" title="点击或切换订单自动切换 MJ 头顶道具">
+            <span class="mj-stage-avatar" data-icon="spidey"></span>
+            <div class="mj-stage-copy">
+              <strong>MJ</strong>
+              <span class="mj-stage-sub">点选订单查看进度 · 头顶道具随单切换</span>
+            </div>
+            <div class="mj-dots" id="mj-dots" aria-hidden="true">
+              <i class="mj-dot active" data-mj-idx="0"></i>
+              <i class="mj-dot" data-mj-idx="1"></i>
+              <i class="mj-dot" data-mj-idx="2"></i>
+              <i class="mj-dot" data-mj-idx="3"></i>
+            </div>
+          </div>
+          <label class="order-search" for="order-search"><span data-icon="search"></span><input id="order-search" type="search" placeholder="搜索订单或餐厅" autocomplete="off"></label>
+          <div id="orders"></div>
+          <button type="button" class="show-more" id="more-orders" hidden>全部订单<span data-icon="chevron-down"></span></button>
+          <p class="order-disclosure">课堂教学演示订单，不产生真实扣款</p>
+        </section>
+        <section class="panel chat" aria-labelledby="chat-title">
+          <div class="panel-heading">
+            <div class="heading-with-icon">
+              <span class="service-avatar" data-icon="chat"></span>
+              <div class="chat-title">
+                <div class="chat-title-row"><h2 id="chat-title">67餐厅 · 订单客服</h2><span class="mj-head-pill" id="mj-head-pill">MJ</span></div>
+                <span class="chat-caption">在线客服 MJ · 随时为您处理订单问题</span>
+              </div>
+            </div>
+            <div class="chat-tools">
+              <button class="handoff-button" type="button" id="handoff" aria-describedby="handoff-help"><img class="joker-mini-avatar" src="/static/chubby-joker.png" alt=""><span id="handoff-label">转人工</span></button>
+              <button class="secondary small end-handoff-btn" type="button" id="end-handoff" hidden>结束人工</button>
+              <span class="sr-only" id="handoff-help">把这段对话交给人工客服，回复会出现在对话里</span>
+              <button class="icon-button" type="button" data-open-demo aria-label="查看服务与合规说明"><span data-icon="info"></span></button>
+            </div>
+          </div>
+          <div class="messages" id="messages" aria-live="polite" aria-label="客服对话"></div>
+          <div class="confirm" id="confirm" hidden>
+            <div class="confirm-heading">
+              <div>
+                <span class="confirm-kicker">请核对后确认</span>
+                <h3>确认申请</h3>
+              </div>
+              <div class="confirm-amount" id="confirm-amount"></div>
+            </div>
+            <dl class="facts" id="confirm-facts"></dl>
+            <p class="hint">无门槛补偿券 · 确认提交后进入审核（纯运力延误支持准时保直通兑付，预计 24 小时内出结果）；如需换单可点「暂不提交」，如需人工点右上角「转人工」</p>
+            <div class="actions">
+              <button type="button" class="primary" id="confirm-yes">确认提交<span data-icon="arrow-right"></span></button>
+              <button type="button" class="secondary" id="confirm-no">暂不提交</button>
+            </div>
+          </div>
+          <div class="order-picks" id="order-picks" hidden></div>
+          <div class="composer-wrap">
+            <div class="attachment-draft" id="attachment-draft" hidden></div>
+            <div class="im-input-row">
+              <button type="button" class="im-circle-btn" id="record" aria-label="录制语音" title="录制语音留言"><span data-icon="mic"></span><span id="record-label" class="sr-only">语音</span></button>
+              <form class="composer im-composer" id="composer">
+                <label class="sr-only" for="input">订单问题</label>
+                <textarea id="input" rows="1" maxlength="500" placeholder="输入订单号或问题（支持多单对比，如：对比 ORD001 和 ORD002）"></textarea>
+                <button type="submit" class="send-button" id="send" aria-label="发送"><span data-icon="arrow-up"></span></button>
+              </form>
+              <button type="button" class="im-circle-btn" id="attach" aria-label="相册上传凭证" title="上传餐损/异物图片凭证"><span data-icon="image"></span></button>
+              <button type="button" class="im-circle-btn im-plus-btn" id="plus-toggle" aria-expanded="false" aria-label="展开快捷工具箱" title="展开快捷工具箱"><span class="plus-glyph">+</span></button>
+            </div>
+            <input id="attachment-input" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+            <div class="im-plus-tray" id="plus-tray" hidden>
+              <button type="button" class="im-tray-tile" id="tray-photo">
+                <span class="im-tray-icon"><span class="im-dark-glyph" data-icon="camera"></span></span>
+                <span class="im-tray-label">相册凭证</span>
+              </button>
+              <button type="button" class="im-tray-tile" id="tray-record">
+                <span class="im-tray-icon"><span class="im-dark-glyph" data-icon="mic"></span></span>
+                <span class="im-tray-label">语音留言</span>
+              </button>
+              <button type="button" class="im-tray-tile im-tray-tile-featured" id="tray-orders">
+                <span class="im-tray-icon"><span class="im-dark-glyph" data-icon="order-list"></span></span>
+                <span class="im-tray-label">选择订单</span>
+              </button>
+              <button type="button" class="im-tray-tile im-tray-tile-featured" id="tray-tickets">
+                <span class="im-tray-icon"><span class="im-ticket-count" id="tray-ticket-badge" hidden>0</span><span class="im-dark-glyph" data-icon="pie"></span></span>
+                <span class="im-tray-label">工单进度</span>
+              </button>
+            </div>
+            <div class="composer-foot"><span>生成式 AI 辅助回复不构成人工承诺，补偿以系统核验与审核为准 · Enter 发送</span><span id="input-count">0 / 500</span></div>
+          </div>
+          <p class="status" id="status" role="status"></p>
+        </section>
+        <section class="panel ticket-panel" id="tickets-panel" aria-labelledby="tickets-title">
+          <div class="section-heading"><h2 id="tickets-title">申请进度</h2><span class="round-icon blue" data-icon="clock"></span></div>
+          <div id="tickets" aria-live="polite"></div>
+          <div class="ticket-others" id="ticket-others" hidden></div>
+        </section>
+      </div>
+    </div>
+    <footer class="page-footer"><span>配送关怀 · 香港城市大学 IS5542 非商业教学演示（遵循香港 PDPO 私隐保障及 Cap. 528 s.41A 教学公平处理原则）</span></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog class="dialog" id="demo-dialog" aria-labelledby="demo-title">
+    <div class="dialog-heading"><span class="dialog-kicker">服务与合规说明</span><button class="icon-button" type="button" data-close-dialog aria-label="关闭说明"><span data-icon="close"></span></button></div>
+    <h2 id="demo-title">服务说明与私隐声明</h2>
+    <p>本系统为香港城市大学 IS5542 课程非商业教学演示。对话由生成式 AI 辅助识别订单，送达超时精算与补偿资格由服务端确定性规则核实，不构成自动法律承诺。</p>
+    <dl class="facts" id="policy-details"></dl>
+    <details class="quick" id="quick-scenarios" open><summary>快捷提问 / 测试场景</summary><div class="choices" id="quick"></div></details>
+    <p class="dialog-note">《收集个人资料声明（PICS）》：系统仅向模型传递结构化订单状态，自动剥离补充说明自由文本；涉及餐损或异物可上传照片直连人工专席。</p>
+    <a class="secondary button-link" href="/review">商家与专员工作台<span data-icon="arrow-up-right"></span></a>
+  </dialog>
+  <dialog class="dialog order-dialog" id="order-dialog" aria-labelledby="order-dialog-title">
+    <div class="dialog-heading"><span class="dialog-kicker">演示订单详情</span><button class="icon-button" type="button" data-close-dialog aria-label="关闭订单详情"><span data-icon="close"></span></button></div>
+    <div id="order-detail"><h2 id="order-dialog-title" class="sr-only">订单详情</h2></div>
+  </dialog>
+  <dialog class="dialog order-sheet-dialog" id="order-sheet-dialog" aria-labelledby="order-sheet-title">
+    <div class="order-sheet-head">
+      <h2 id="order-sheet-title">请选择需要咨询的订单与诉求</h2>
+      <button class="icon-button" type="button" id="close-order-sheet" aria-label="关闭订单选择"><span data-icon="close"></span></button>
+    </div>
+    <div class="order-sheet-body" id="order-sheet-list"></div>
+  </dialog>
+  <dialog class="dialog order-sheet-dialog" id="ticket-sheet-dialog" aria-labelledby="ticket-sheet-title">
+    <div class="order-sheet-head">
+      <h2 id="ticket-sheet-title">售后工单与人工进度</h2>
+      <button class="icon-button" type="button" id="close-ticket-sheet" aria-label="关闭工单进度"><span data-icon="close"></span></button>
+    </div>
+    <div class="order-sheet-body" id="ticket-sheet-list"></div>
+  </dialog>
+</body>
+</html>
