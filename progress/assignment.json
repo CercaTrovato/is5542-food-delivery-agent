@@ -1,6 +1,6 @@
 {
   "board_scope": "active",
-  "updated_at": "2026-11-27T13:18:38+08:00",
+  "updated_at": "2026-11-27T14:08:10+08:00",
   "group": "Group 24",
   "schema_version": 1,
   "tasks": [
@@ -77,7 +77,7 @@
       "title": "领域工具与 Agent 最小可运行链路",
       "status": "in_progress",
       "owner": "李宗谦／开发",
-      "note": "固定176fbb0的基础工具B与规则版C、配置及演示已收；HR九组离线复跑9/9。正式120次已完成，已知解释和承诺缺陷见完整处理复核；当前部署同版与测试组人工签验仍单列。",
+      "note": "固定176fbb0的基础工具B与规则版C、配置及演示已收；HR九组离线复跑9/9。正式120次已完成，已知解释和承诺缺陷见完整处理复核；当前部署同版与测试组人工签验仍单列。 11/27已按本人确认的课程交付范围随最终材料正式提交；既有缺陷和政策待核作为已报告限制保留，未新增实验或产品开发。",
       "evidence": [
         "app",
         "handoff",
@@ -97,7 +97,8 @@
         "group-progress-20261122",
         "owner-human-review-four-boundaries-20261123",
         "developer-complete-delivery-20261123",
-        "board-sync-20261126"
+        "board-sync-20261126",
+        "canvas-submission-20261127"
       ]
     },
     {
@@ -105,7 +106,7 @@
       "title": "3 个剧本试跑与成本记录",
       "status": "in_progress",
       "owner": "测试组（A＋gaga老师）",
-      "note": "承接11/22历史8行试用表；固定176fbb0的HR九组由课程助手离线复跑9/9，正式模型120次另已完成。测试组真人界面意见与签验仍可后补。",
+      "note": "承接11/22历史8行试用表；固定176fbb0的HR九组由课程助手离线复跑9/9，正式模型120次另已完成。测试组真人界面意见与签验仍可后补。 11/27已按本人确认的课程交付范围随最终材料正式提交；既有缺陷和政策待核作为已报告限制保留，未新增实验或产品开发。",
       "evidence": [
         "handoff",
         "final-week-task-pack",
@@ -117,7 +118,8 @@
         "owner-human-review-four-boundaries-20261123",
         "developer-complete-delivery-20261123",
         "agent-offline-hr-replay-20261123",
-        "board-sync-20261126"
+        "board-sync-20261126",
+        "canvas-submission-20261127"
       ]
     },
     {
@@ -125,7 +127,7 @@
       "title": "基线比较与系统评测",
       "status": "in_progress",
       "owner": "本人／本会话Agent已执行；测试组可后补复核",
-      "note": "正式120次及完整处理复核已归档：B37/23，C45/6/9；12格市场比较、成本情景与缺陷分析已纳入当前PPT。3元范围待决定，不扩新实验。",
+      "note": "正式120次及完整处理复核已归档：B37/23，C45/6/9；12格市场比较、成本情景与缺陷分析已纳入当前PPT。3元范围待决定，不扩新实验。 11/27已按本人确认的课程交付范围随最终材料正式提交；既有缺陷和政策待核作为已报告限制保留，未新增实验或产品开发。",
       "evidence": [
         "brief",
         "handoff",
@@ -138,15 +140,16 @@
         "agent-offline-hr-replay-20261123",
         "owner-gpt56-live120-20261123",
         "owner-ppt-evidence-complete-review-20261123",
-        "board-sync-20261126"
+        "board-sync-20261126",
+        "canvas-submission-20261127"
       ]
     },
     {
       "id": "slides",
       "title": "Slides 与 Demo 叙事",
-      "status": "in_progress",
+      "status": "done",
       "owner": "本人",
-      "note": "按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，互评未写。",
+      "note": "本人明确确认以v6内容提交，已另存无版本号同字节PPT；11/27 14:04 HKT Canvas回执列出IS5542-Group24-Slides.pptx。四页修改、实名映射及来源沿既有核验记录。",
       "evidence": [
         "owner-final-week-20261121",
         "final-week-task-pack",
@@ -163,20 +166,22 @@
         "final-ppt-review-v3-20261124",
         "presentation-v4-links-copy-20261124",
         "cover-roster-v5-20261126",
-        "board-sync-20261126"
+        "board-sync-20261126",
+        "canvas-submission-20261127"
       ]
     },
     {
       "id": "recording",
       "title": "录制文件接收及最终检查",
-      "status": "in_progress",
+      "status": "done",
       "owner": "录制文件已交；本人终检",
-      "note": "本人已提供本组录制MP4；本地原样保存，15:37.583、149.37MB，视频与音轨全程技术解码无报错。超过15分钟要求约38秒，源HEVC兼容性待处理，尚未取得可提交成片。",
+      "note": "原始录制MP4已按本人明确选择原样提交；15:37.583、149,370,665字节、HEVC均保持。既有完整技术解码无报错，本轮核Submitted及视频下载链接，不记录教师已豁免超时。",
       "evidence": [
         "final-week-task-pack",
         "owner-two-day-plan-20261121",
         "supervision-update-20261126",
-        "recording-intake-20261126"
+        "recording-intake-20261126",
+        "canvas-submission-20261127"
       ]
     },
     {
@@ -229,24 +234,26 @@
     {
       "id": "owner-submit",
       "title": "本人提交最终录像与Slides",
-      "status": "todo",
+      "status": "done",
       "owner": "本人",
-      "note": "本人已确认负责提交；等待gaga录像及最终文件检查，不标已提交。",
+      "note": "本人明确授权助手提交并由本人手动选择两附件；助手点击一次Submit Assignment。11/27 14:04 HKT实际回读Submitted!及原视频、Slides两个下载链接。",
       "evidence": [
-        "supervision-update-20261126"
+        "supervision-update-20261126",
+        "canvas-submission-20261127"
       ]
     },
     {
       "id": "peer-review-deferred",
-      "title": "互评回表已收与官方独立填报",
+      "title": "等待后续官方 Google Form 互评",
       "status": "in_progress",
       "owner": "本人审核；各成员按官方要求填报",
-      "note": "五份组员已填PDF实际收到并逐页核对，原字节本地归档；本人稿已按直接确认方案填写并导出一页PDF，签名已按本人明确授权填入本人英文姓名，未签名原稿保留。六份个人内容不进协作Git。未上传、未正式提交，官方表状态沿用11/26四入口检查范围，本轮没有再浏览。",
+      "note": "本人转述老师确认项目提交后再通过Google Form互评，Canvas项目页亦明确后续Google Forms。五份回表及本人补签内部稿只存本地，未作官方互评提交；正式入口、题目及截止待后续。",
       "evidence": [
         "supervision-update-20261126",
         "peer-evaluation-preparation-20261126",
         "peer-forms-batch-20261126",
-        "peer-forms-collection-20261127"
+        "peer-forms-collection-20261127",
+        "canvas-submission-20261127"
       ]
     }
   ],
@@ -763,22 +770,32 @@
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/peer-forms-collection-20261127.md",
       "observed_at": "2026-11-27",
       "sha256": "4b37488588844f184f777e71bfd4f6cf05a6c60246dac5781a68c36108fbdb38"
+    },
+    {
+      "id": "canvas-submission-20261127",
+      "kind": "local",
+      "label": "Canvas正式Submitted回执与原视频／无版本号Slides两个下载链接实际回读",
+      "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/submission-receipt-20261127.md",
+      "observed_at": "2026-11-27",
+      "sha256": "c6ab01de6cd0fa5e6f13c7356ce9a94c86f726d814d7a97c2ae91ceea7e25558"
     }
   ],
   "course": "IS5542",
-  "summary": "按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，五份组员互评回表已收并本地归档，本人稿已填写并按本人授权补签；个人内容不进协作Git，官方互评未提交。",
-  "stage": "v6待本人审阅上传 · 五份互评回表已收、本人稿已补签；官方填报未完成",
+  "summary": "11/27 14:04 HKT，Canvas Group Project 已显示 Submitted!，原始录制MP4和去版本号的Slides两个附件均列出下载链接。提交PPT与v6字节一致；本人明确选择保留15:37.583原视频。五份成员互评回表及本人补签稿仅本地保存；老师安排由本人转述为提交后通过官方Google Form互评，正式互评仍待后续入口。",
+  "stage": "项目视频与 Slides 已正式提交 · 正式互评待后续 Google Form",
   "task_scope_complete": false,
   "submission": {
-    "status": "unknown",
-    "note": "11/24已核Canvas项目入口和显示截止；本次未见最终录像或正式提交回执，保持原未知状态。",
-    "evidence": []
+    "status": "submitted",
+    "note": "Canvas实际显示Submitted!，2026-11-27 14:04 HKT（页面分钟精度）；原始MP4与无版本号Slides两附件链接均已核。正式互评另待后续Google Form。",
+    "evidence": [
+      "canvas-submission-20261127"
+    ]
   },
   "assignment_type": "group",
   "id": "IS5542-A01",
   "next_action": {
-    "title": "本人先审核v6第2/6/13/15页修改点，确认后继续上传准备；原视频时长与编码问题保留，正式提交仍由本人执行",
-    "owner": "本人审核；Agent可准备上传",
+    "title": "保留本次正式提交回执；等待官方 Google Form 的互评入口、题目和截止后各成员独立填报",
+    "owner": "各成员；本人跟进官方入口",
     "basis": "agreed"
   },
   "milestones": [
@@ -788,25 +805,20 @@
       "due": "2026-11-28T23:59:00+08:00",
       "precision": "datetime",
       "kind": "submission",
-      "status": "unknown",
+      "status": "submitted",
       "channel": "Canvas Group Project340779；视频和slides两个文件，各组一次；账户时区Hong Kong已核",
       "evidence": [
         "deadline-chat",
         "canvas-group-project-20261124",
-        "canvas-readback-20261126"
+        "canvas-readback-20261126",
+        "canvas-submission-20261127"
       ]
     }
   ],
-  "progress_as_of": "2026-11-26",
-  "reviewed_at": "2026-11-26",
+  "progress_as_of": "2026-11-27",
+  "reviewed_at": "2026-11-27",
   "title": "客服 Agent 与模拟评测",
   "blockers": [
-    "额外3元暖心券范围仍待本人决定，C9次保留政策待核。",
-    "已知B解释误拦／反意图弹卡和C未落实承诺等缺陷仍未修复；本批只制作和如实报告，不升级为全部业务验收。",
-    "北京图表27原始岗位数值未核，已从主稿排除；供应商报价不能替代真实净人工节省。",
-    "官方互评表在本次四入口检查范围内未见；按公告等待后续Google Form，不把内部草稿当官方表。",
-    "完整录制已收：15:37.583，比大纲15分钟多37.583秒；本轮未见超时容差规定，未擅自裁剪或判定全部符合。",
-    "v6已改四页，但本人要求先过目修改点；当前审核未完成，不上传或提交。",
-    "视频保留原样15:37.583及HEVC编码；本次PPT补充不自动同步到既有录像。Canvas已登录并查看空表单，未见额外大小/格式限制，未实测文件上传接收。"
+    "项目视频与Slides已交；正式同伴互评等待后续官方Google Form入口、题目及截止。既有内部表不替代官方填报。"
   ]
 }

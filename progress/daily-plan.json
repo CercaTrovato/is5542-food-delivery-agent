@@ -4,7 +4,7 @@
   "course": "IS5542",
   "as_of": "2026-11-27",
   "timezone": "Asia/Shanghai",
-  "source_revision": "8300ef8f4bbf12f4796898c536a45f853c76310e9f383e45a833be1d74b804eb",
+  "source_revision": "640a134b02e690c7aff0d2d10827b00b2eb311102794c27b232443a0db2692c8",
   "repository_url": "https://github.com/CercaTrovato/is5542-food-delivery-agent",
   "stale": false,
   "scheduling_policy": {
@@ -15,23 +15,6 @@
     "recheck_current_date_and_latest_revision": true
   },
   "actions": [
-    {
-      "id": "date-project",
-      "title": "录像与 Slides",
-      "owner": "本人（提交视频与Slides）",
-      "status": "planned",
-      "personal_action": "本人收取并核最终成片与v5后提交，凭回执登记；没有本轮已交证据。",
-      "readiness": "ready",
-      "target": {
-        "value": "2026-11-28T23:59:00+08:00",
-        "precision": "datetime",
-        "basis": "official"
-      },
-      "blocked_by": [],
-      "estimated_minutes": null,
-      "observed_on": "2026-11-26",
-      "date_state": "next_7_days"
-    },
     {
       "id": "core",
       "title": "资格判定接口与演示规则",
@@ -84,11 +67,11 @@
       "date_state": "unscheduled"
     },
     {
-      "id": "ppt-outline",
-      "title": "本人先搭PPT骨架并核提交要求",
-      "owner": "李宾雄／全组核事实",
-      "status": "needs_review",
-      "personal_action": "先审v6修改点；当前未获上传放行，录像时长／编码问题保留。",
+      "id": "peer-review",
+      "title": "等待后续官方 Google Form 互评",
+      "owner": "本人审核；各成员按官方要求填报",
+      "status": "waiting",
+      "personal_action": "等待并核官方Google Form入口及截止，按正式题目填写。",
       "readiness": "ready",
       "target": {
         "value": null,
@@ -97,15 +80,15 @@
       },
       "blocked_by": [],
       "estimated_minutes": null,
-      "observed_on": "2026-11-26",
+      "observed_on": "2026-11-27",
       "date_state": "unscheduled"
     },
     {
-      "id": "slides-video",
-      "title": "本人整合PPT初稿与讲述核对",
+      "id": "ppt-outline",
+      "title": "本人先搭PPT骨架并核提交要求",
       "owner": "李宾雄／全组核事实",
       "status": "needs_review",
-      "personal_action": "核对v5首页，正文和录制讲稿无需因本次名单添加重做。",
+      "personal_action": "先审v6修改点；当前未获上传放行，录像时长／编码问题保留。",
       "readiness": "ready",
       "target": {
         "value": null,
@@ -138,45 +121,6 @@
       "date_state": "unscheduled"
     },
     {
-      "id": "delivery-check",
-      "title": "核对最终文件与视频链接",
-      "owner": "本人",
-      "status": "planned",
-      "personal_action": "本人检查完整播放、声音、画面／讲述对应及最终附件，再本人提交。",
-      "readiness": "waiting_dependency",
-      "target": {
-        "value": null,
-        "precision": "unknown",
-        "basis": "unknown"
-      },
-      "blocked_by": [
-        "group-recording"
-      ],
-      "estimated_minutes": null,
-      "observed_on": "2026-11-26",
-      "date_state": "unscheduled"
-    },
-    {
-      "id": "owner-submit",
-      "title": "本人提交最终录像与Slides",
-      "owner": "本人",
-      "status": "planned",
-      "personal_action": "取得并检查录像与v5后由本人提交，保留Canvas回执。",
-      "readiness": "waiting_dependency",
-      "target": {
-        "value": null,
-        "precision": "unknown",
-        "basis": "unknown"
-      },
-      "blocked_by": [
-        "group-recording",
-        "delivery-check"
-      ],
-      "estimated_minutes": null,
-      "observed_on": "2026-11-26",
-      "date_state": "unscheduled"
-    },
-    {
       "id": "p23",
       "title": "测试组：真实模型对照与边界／安全",
       "owner": "本人／本会话Agent执行；测试组后补复核",
@@ -194,37 +138,18 @@
       "estimated_minutes": null,
       "observed_on": "2026-11-26",
       "date_state": "unscheduled"
-    },
-    {
-      "id": "peer-review",
-      "title": "互评回表已收与官方独立填报",
-      "owner": "本人审核；各成员按官方要求填报",
-      "status": "needs_review",
-      "personal_action": "查看已补签的本人一页稿；按官方入口要求完成正式互评。",
-      "readiness": "waiting_dependency",
-      "target": {
-        "value": null,
-        "precision": "unknown",
-        "basis": "unknown"
-      },
-      "blocked_by": [
-        "owner-submit"
-      ],
-      "estimated_minutes": null,
-      "observed_on": "2026-11-27",
-      "date_state": "unscheduled"
     }
   ],
   "deadlines": [
     {
       "id": "date-project",
-      "title": "录像与 Slides",
+      "title": "录像与 Slides 正式提交",
       "target": {
         "value": "2026-11-28T23:59:00+08:00",
         "precision": "datetime",
         "basis": "official"
       },
-      "status": "planned"
+      "status": "done"
     }
   ]
 }
