@@ -1,6 +1,6 @@
 {
   "board_scope": "active",
-  "updated_at": "2026-11-27T13:05:53+08:00",
+  "updated_at": "2026-11-27T13:18:38+08:00",
   "group": "Group 24",
   "schema_version": 1,
   "tasks": [
@@ -240,8 +240,8 @@
       "id": "peer-review-deferred",
       "title": "互评回表已收与官方独立填报",
       "status": "in_progress",
-      "owner": "本人审核及签署；各成员按官方要求填报",
-      "note": "五份组员已填PDF实际收到并逐页核对，原字节本地归档；本人稿已按直接确认方案填写并导出一页PDF，签名栏留本人。六份个人内容不进协作Git。未上传、未正式提交，官方表状态沿用11/26四入口检查范围，本轮没有再浏览。",
+      "owner": "本人审核；各成员按官方要求填报",
+      "note": "五份组员已填PDF实际收到并逐页核对，原字节本地归档；本人稿已按直接确认方案填写并导出一页PDF，签名已按本人明确授权填入本人英文姓名，未签名原稿保留。六份个人内容不进协作Git。未上传、未正式提交，官方表状态沿用11/26四入口检查范围，本轮没有再浏览。",
       "evidence": [
         "supervision-update-20261126",
         "peer-evaluation-preparation-20261126",
@@ -762,12 +762,12 @@
       "label": "五份回表已收与本人一页互评稿填写完成，仅登记去个人内容状态",
       "locator": "IS5542_GenAI_in_Business/assignment/graded/A01-genai-project/notes/peer-forms-collection-20261127.md",
       "observed_at": "2026-11-27",
-      "sha256": "a57974c022fabe6dd42771554a441548537fc79cfb37bb59f475c3a84adb3041"
+      "sha256": "4b37488588844f184f777e71bfd4f6cf05a6c60246dac5781a68c36108fbdb38"
     }
   ],
   "course": "IS5542",
-  "summary": "按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，五份组员互评回表已收并本地归档，本人稿已填待本人签署；个人内容不进协作Git，官方互评未提交。",
-  "stage": "v6待本人审阅上传 · 五份互评回表已收、本人稿已填；官方填报未完成",
+  "summary": "按本人截图完成v6四项补充：历史延误数据、模型选择理由、带放量条件的三阶段rollout和六人实名分工。本人纠正映射Jacky=PAN Pan、gaga=Ko Anderson、A=WU Yang；源v5与视频保持，核心结果不变。可编辑PPT及4页/15页PDF已备，待本人过目修改点；未上传或提交。Canvas已恢复登录，实际File Upload表单未显示额外大小/扩展名限制；录像15:37.583及HEVC兼容问题仍待处理，五份组员互评回表已收并本地归档，本人稿已填写并按本人授权补签；个人内容不进协作Git，官方互评未提交。",
+  "stage": "v6待本人审阅上传 · 五份互评回表已收、本人稿已补签；官方填报未完成",
   "task_scope_complete": false,
   "submission": {
     "status": "unknown",
